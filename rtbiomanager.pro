@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = clamp_cli_test1
+TARGET = rtbiomanager
 TEMPLATE = app
 QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
 QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
