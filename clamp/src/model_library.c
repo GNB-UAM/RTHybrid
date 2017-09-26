@@ -5,7 +5,7 @@
 /* INTEGRATION FUNCTIONS */
 
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn) {
-    double apoyo[dim], retorno[dim], variables_hat[dim];
+    double apoyo[dim], retorno[dim];
     double k[6][dim];
     int j;
 
@@ -157,9 +157,7 @@ void izhikevich (int dim, double dt, double * vars, double * params, double syn)
 	return;
 }
 
-void ini_iz (double * vars, double *min, double *minABS, double *max){
-    vars[0]=30.240263;
-    vars[1]=-5.544592;
+void ini_iz (double *min, double *minABS, double *max){
     *min=-50.000000;
     *minABS=-74.235106;
     *max=30.240470;
@@ -183,10 +181,7 @@ void hindmarsh_rose (int dim, double dt, double * vars, double * params, double 
 	return;
 }
 
-void ini_hr (double * vars, double *min, double *minABS, double *max){
-    vars[0]=-0.712841;
-    vars[1]=-1.936878;
-    vars[2]=3.165682;
+void ini_hr (double *min, double *minABS, double *max){
     *min=-1.608734;
     *minABS=-1.608734;
     *max=1.797032;
@@ -241,9 +236,7 @@ void rulkov_map (int dim, double dt, double * vars, double * params, double syn)
     return;
 }
 
-void ini_rlk (double * vars, double *min, double *minABS, double *max){
-    vars[0]=-1.701747;
-    vars[1]=-4.919226;
+void ini_rlk (double *min, double *minABS, double *max){
     *min=-1.18;
     *minABS=-1.977;
     *max=2.111;

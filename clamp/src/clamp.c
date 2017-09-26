@@ -2,8 +2,6 @@
 
 
 /* Global variables */
-double * params = NULL;
-double * vars = NULL;
 void * msqid = NULL;
 pthread_t writer, rt;
 
@@ -43,7 +41,7 @@ void parse_channels (char * str, int ** channels, int * n_chan) {
 
 
 
-int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, int anti, int imp, char * input, char * output) {
+int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal, int anti, int imp, char * input, char * output, double * vars, double * params, double * g_virtual_to_real, double * g_real_to_virtual) {
 	key_t key_q;
 	pthread_attr_t attr_rt, attr_wr;
 	int err;
@@ -70,7 +68,7 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 	int synapse = 0;
 	double freq = 10000.0;
 	int time_var = 0;*/
-	int ret = 0;
+    int ret = 0;
 	//int mode_auto_cal = 0;
 	int c_a = FALSE;
 
@@ -80,15 +78,11 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 	r_args.n_out_chan = 0;
 	r_args.in_channels = NULL;
 	r_args.out_channels = NULL;
+    r_args.g_real_to_virtual = g_real_to_virtual;
+    r_args.g_virtual_to_real = g_virtual_to_real;
 	r_args.anti=-1;
 	w_args.anti=-1;
-	w_args.important=0;
-
-
-
 	w_args.important = imp;
-
-    freq *= 1000;
 
 	parse_channels(input, &(r_args.in_channels), &(r_args.n_in_chan));
 
@@ -148,18 +142,9 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 	w_args.calibration = mode_auto_cal;
 
 	switch (model){
-		case IZHIKEVICH:
-			vars = (double*) malloc (sizeof(double) * 2);
-			params = (double*) malloc (sizeof(double) * 5);
-
+        case IZHIKEVICH:
 			r_args.rafaga_modelo_pts = 59324.0;
 			r_args.dt = 0.001;
-
-			params[I_IZ] = 10.0;
-			params[A_IZ] = 0.02;
-			params[B_IZ] = 0.2;
-			params[C_IZ] = -50.0;
-			params[D_IZ] = 2.0;
 
 			r_args.params = params;
 			r_args.vars = vars;
@@ -172,17 +157,11 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 
 			break;
 		case HR:
-			vars = (double*) malloc (sizeof(double) * 3);
-			params = (double*) malloc (sizeof(double) * 3);
-
 			r_args.rafaga_modelo_pts = 260166.0;
 			r_args.dt = 0.001;
 
-			params[I_HR] = 3.0;
-			params[R_HR] = 0.0021;
-			if(mode_auto_cal==6)
-				params[R_HR] = 0.0011;
-			params[S_HR] = 4.0;
+            /*if(mode_auto_cal==6)
+                params[R_HR] = 0.0011;*/
 
 			r_args.params = params;
 			r_args.vars = vars;
@@ -195,20 +174,8 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 
 			break;
 		case RLK:
-			vars = (double*) malloc (sizeof(double) * 2);
-			params = (double*) malloc (sizeof(double) * 8);
-
 			r_args.rafaga_modelo_pts = freq;
 			r_args.dt = 0.003;
-
-			params[I_RLK] = 1.0;
-			params[ALPHA_RLK] = 6.0;
-			params[SIGMA_RLK] = 0.1;
-			params[MU_RLK] = 0.001;
-			params[OLD_RLK] = 0.0;
-			params[PTS_RLK] = freq;
-			params[J_RLK] = ((params[PTS_RLK] - 400) / 400) + 1;
-			params[INTER_RLK] = 0.0;
 
 			r_args.params = params;
 			r_args.vars = vars;
@@ -250,7 +217,11 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 
 	struct stat st = {0};
 
-	if (stat(path, &st) == -1) {
+    if (stat("data", &st) == -1) {
+        mkdir("data", 0777);
+    }
+
+    if (stat(path, &st) == -1) {
 		mkdir(path, 0777);
 	}
 
@@ -278,7 +249,7 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
 
     r_args.msqid = msqid;
     r_args.points = time_var * freq;
-    r_args.period = NSEC_PER_SEC / freq; // (1 / freq) * NSEC_PER_SEC;
+    r_args.period =  (1 / freq) * NSEC_PER_SEC;
     r_args.type_syn = synapse;
     r_args.freq = freq;
     r_args.filename = filename;
@@ -318,8 +289,8 @@ int clamp (int freq, int time_var, int model, int synapse, int mode_auto_cal, in
         if (close_queue(&msqid) != OK) syslog(LOG_INFO, "Error closing queue.\n");
     }
 
-    free(vars);
-    free(params);
+    /*free(vars);
+    free(params);*/
 
     syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp_cli finished." PRINT_RESET "\n");
 	return 1;

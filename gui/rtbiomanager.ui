@@ -52,7 +52,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="pageSynElec">
       <widget class="QLabel" name="label_27">
@@ -83,6 +83,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>0.02</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_28">
        <property name="geometry">
@@ -111,6 +114,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.2</string>
        </property>
       </widget>
      </widget>
@@ -143,6 +149,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>0.1</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textSynGrad_gMtoE_fast">
        <property name="geometry">
@@ -158,6 +167,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.0</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_31">
@@ -188,6 +200,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>0.3</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textSynGrad_gEtoM_fast">
        <property name="geometry">
@@ -203,6 +218,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.0</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_30">
@@ -295,6 +313,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="plainText">
+     <string>10</string>
+    </property>
    </widget>
    <widget class="QPlainTextEdit" name="textTime">
     <property name="geometry">
@@ -304,6 +325,9 @@
       <width>104</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="plainText">
+     <string>5</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -526,6 +550,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>0.02</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzB">
        <property name="geometry">
@@ -541,6 +568,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.2</string>
        </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzC">
@@ -558,6 +588,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>-50.0</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzD">
        <property name="geometry">
@@ -573,6 +606,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>2.0</string>
        </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzI">
@@ -590,6 +626,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>10.0</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzUIni">
        <property name="geometry">
@@ -606,6 +645,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>-5.544592</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textIzVIni">
        <property name="geometry">
@@ -621,6 +663,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>30.240263</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_8">
@@ -744,6 +789,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>-1.936878</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textHrI">
        <property name="geometry">
@@ -759,6 +807,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>3.0</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_19">
@@ -802,6 +853,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>-0.712841</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_9">
        <property name="geometry">
@@ -831,6 +885,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>0.0021</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textHrS">
        <property name="geometry">
@@ -846,6 +903,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>4.0</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_17">
@@ -889,6 +949,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>3.165682</string>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="pageRlk">
@@ -920,6 +983,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>1.0</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textRlkXIni">
        <property name="geometry">
@@ -935,6 +1001,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>-4.919226</string>
        </property>
       </widget>
       <widget class="QPlainTextEdit" name="textRlkAlpha">
@@ -952,6 +1021,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>6.0</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textRlkSigma">
        <property name="geometry">
@@ -967,6 +1039,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.1</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_24">
@@ -1036,6 +1111,9 @@
          <pointsize>6</pointsize>
         </font>
        </property>
+       <property name="plainText">
+        <string>-1.701747</string>
+       </property>
       </widget>
       <widget class="QPlainTextEdit" name="textRlkMu">
        <property name="geometry">
@@ -1051,6 +1129,9 @@
          <family>DejaVu Sans</family>
          <pointsize>6</pointsize>
         </font>
+       </property>
+       <property name="plainText">
+        <string>0.001</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_26">

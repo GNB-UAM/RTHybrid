@@ -24,89 +24,25 @@ void RTBiomanager::on_simulate_clicked()
     int neuronIndex = 0, synapseIndex = 0;
 
     /* Common neuron models params */
-    double x_ini, y_ini, z_ini, e;
-    int calib = 0, anti = 0, freq = 0, dur = 0;
+    double freq = 0;
+    int calib = 0, anti = 0, dur = 0;
     char * inputChannels, * outputChannels;
     std::string aux_in, aux_out;
-
-    /* Izhikevich params */
-    double a, b, c, d;
-
-    /* Hindmarsh-Rose params */
-    double r, s;
-
-    /* Rulkov params */
-    double alpha, sigma, mu;
+    double * vars, * params;
 
     /* Synapse params */
     double * modelToReal;
     double * externalToModel;
+    double * gVirtualToReal;
+    double * gRealToVirtual;
 
     neuronIndex = ui->neuronModelPages->currentIndex();
     synapseIndex = ui->synapseModelPages->currentIndex();
 
-    switch (neuronIndex) {
-        case 0: //Izhikevich
-            x_ini = ui->textIzVIni->toPlainText().toDouble();
-            y_ini = ui->textIzUIni->toPlainText().toDouble();
-
-            a = ui->textIzA->toPlainText().toDouble();
-            b = ui->textIzB->toPlainText().toDouble();
-            c = ui->textIzC->toPlainText().toDouble();
-            d = ui->textIzD->toPlainText().toDouble();
-
-            e = ui->textIzI->toPlainText().toDouble();
-            break;
-        case 1: //Hindmarsh-Rose
-            x_ini = ui->textHrXIni->toPlainText().toDouble();
-            y_ini = ui->textHrYIni->toPlainText().toDouble();
-            z_ini = ui->textHrZIni->toPlainText().toDouble();
-
-            r = ui->textHrR->toPlainText().toDouble();
-            s = ui->textHrS->toPlainText().toDouble();
-
-            e = ui->textHrI->toPlainText().toDouble();
-            break;
-        case 2: //Rulkov
-            x_ini = ui->textRlkXIni->toPlainText().toDouble();
-            y_ini = ui->textRlkYIni->toPlainText().toDouble();
-
-            alpha = ui->textRlkAlpha->toPlainText().toDouble();
-            sigma = ui->textRlkSigma->toPlainText().toDouble();
-            mu = ui->textRlkMu->toPlainText().toDouble();
-
-            e = ui->textRlkI->toPlainText().toDouble();
-            break;
-        default:
-            break;
-    }
-
-    switch (synapseIndex) {
-        case 0: //Electrical
-            modelToReal = (double *) malloc (sizeof(double));
-            modelToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
-
-            externalToModel = (double *) malloc (sizeof(double));
-            externalToModel[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
-            break;
-        case 1: //Gradual chemical
-            modelToReal = (double *) malloc (sizeof(double) * 2);
-            modelToReal[0] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
-            modelToReal[1] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
-
-            externalToModel = (double *) malloc (sizeof(double) * 2);
-            externalToModel[0] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
-            externalToModel[1] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
-            break;
-
-        default:
-            break;
-    }
-
 
     calib = ui->checkCalib->isChecked();
     anti = ui->checkAnti->isChecked();
-    freq = ui->textFreq->toPlainText().toInt();
+    freq = ui->textFreq->toPlainText().toDouble() * 1000;
     dur = ui->textTime->toPlainText().toInt();
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
@@ -117,7 +53,96 @@ void RTBiomanager::on_simulate_clicked()
     strcpy(inputChannels, aux_in.c_str());
     strcpy(outputChannels, aux_out.c_str());
 
-    int ret = clamp(freq, dur, neuronIndex, synapseIndex,calib, anti, 0, inputChannels, outputChannels);
+    switch (neuronIndex) {
+        case IZHIKEVICH: //Izhikevich
+            vars = (double*) malloc (sizeof(double) * 2);
+            params = (double *) malloc (sizeof(double) * 5);
+
+            vars[X] = ui->textIzVIni->toPlainText().toDouble();
+            vars[Y] = ui->textIzUIni->toPlainText().toDouble();
+
+            params[A_IZ] = ui->textIzA->toPlainText().toDouble();
+            params[B_IZ] = ui->textIzB->toPlainText().toDouble();
+            params[C_IZ] = ui->textIzC->toPlainText().toDouble();
+            params[D_IZ] = ui->textIzD->toPlainText().toDouble();
+            params[I_IZ] = ui->textIzI->toPlainText().toDouble();
+
+            break;
+        case HR: //Hindmarsh-Rose
+            vars = (double*) malloc (sizeof(double) * 3);
+            params = (double *) malloc (sizeof(double) * 3);
+
+            vars[X] = ui->textHrXIni->toPlainText().toDouble();
+            vars[Y] = ui->textHrYIni->toPlainText().toDouble();
+            vars[Z] = ui->textHrZIni->toPlainText().toDouble();
+
+            params[R_HR] = ui->textHrR->toPlainText().toDouble();
+            params[S_HR] = ui->textHrS->toPlainText().toDouble();
+            params[I_HR] = ui->textHrI->toPlainText().toDouble();
+
+            break;
+        case RLK: //Rulkov
+            vars = (double*) malloc (sizeof(double) * 2);
+            params = (double *) malloc (sizeof(double) * 8);
+
+            vars[X] = ui->textRlkXIni->toPlainText().toDouble();
+            vars[Y] = ui->textRlkYIni->toPlainText().toDouble();
+
+            params[ALPHA_RLK] = ui->textRlkAlpha->toPlainText().toDouble();
+            params[SIGMA_RLK] = ui->textRlkSigma->toPlainText().toDouble();
+            params[MU_RLK] = ui->textRlkMu->toPlainText().toDouble();
+            params[I_RLK] = ui->textRlkI->toPlainText().toDouble();
+            params[OLD_RLK] = 0.0;
+            params[PTS_RLK] = freq;
+            params[J_RLK] = ((params[PTS_RLK] - 400) / 400) + 1;
+            params[INTER_RLK] = 0.0;
+
+            break;
+        default:
+            break;
+    }
+
+    switch (synapseIndex) {
+        case ELECTRIC: //Electrical
+            modelToReal = (double *) malloc (sizeof(double));
+            modelToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
+
+            externalToModel = (double *) malloc (sizeof(double));
+            externalToModel[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+
+
+            gVirtualToReal = (double *) malloc (sizeof(double) * 1);
+            gRealToVirtual = (double *) malloc (sizeof(double) * 1);
+            gVirtualToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
+            gRealToVirtual[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+
+            break;
+        case CHEMICAL: //Gradual chemical
+            modelToReal = (double *) malloc (sizeof(double) * 2);
+            modelToReal[0] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
+            modelToReal[1] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
+
+            externalToModel = (double *) malloc (sizeof(double) * 2);
+            externalToModel[0] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
+            externalToModel[1] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+
+            gVirtualToReal = (double *) malloc (sizeof(double) * 2);
+            gRealToVirtual = (double *) malloc (sizeof(double) * 2);
+
+            gVirtualToReal[G_FAST] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
+            gVirtualToReal[G_SLOW] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
+            gRealToVirtual[G_FAST] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
+            gRealToVirtual[G_SLOW] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+
+            break;
+
+        default:
+            break;
+    }
+
+
+
+    int ret = clamp(freq, dur, neuronIndex, synapseIndex,calib, anti, 0, inputChannels, outputChannels, vars, params, gVirtualToReal, gRealToVirtual);
 
     QMessageBox msgBox;
     msgBox.setText("Clamp finished");

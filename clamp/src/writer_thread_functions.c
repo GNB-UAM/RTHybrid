@@ -67,6 +67,13 @@ void * writer_thread(void * arg) {
     f2 = fopen(filename_2, "w");
     f3 = fopen(filename_3, "a");
 
+    if (f1 == NULL || f2 == NULL || f3 == NULL) {
+        free_pointers(3, &filename_1, &filename_2, &filename_3);
+
+        printf("\n" PRINT_CYAN "writer_thread terminated: No data folder." PRINT_RESET "\n");
+        pthread_exit(NULL);
+    }
+
     syslog(LOG_INFO, "WRITER_THREAD: Files opened");
     
     if (args->important==1){

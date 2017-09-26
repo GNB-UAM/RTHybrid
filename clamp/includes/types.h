@@ -24,6 +24,8 @@ typedef struct {
     void (*syn)(double, double, double*, double*, double*);
     double * vars;
     double * params;
+    double * g_virtual_to_real;
+    double * g_real_to_virtual;
     int dim;
     double dt;
     int type_syn;

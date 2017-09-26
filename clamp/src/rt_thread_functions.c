@@ -9,8 +9,6 @@ rt_args * args;
 calibration_args * cal_struct = NULL;
 message msg;
 double * syn_aux_params = NULL;
-double * g_virtual_to_real = NULL;
-double * g_real_to_virtual = NULL;
 double * lectura_a = NULL;
 double * lectura_b = NULL;
 double * lectura_t = NULL;
@@ -39,7 +37,7 @@ void rt_cleanup () {
         close_device_comedi(d);
     }
 
-    free_pointers(14, &syn_aux_params, &g_virtual_to_real, &g_real_to_virtual, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
+    free_pointers(12, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
 
     printf("\n" PRINT_CYAN "rt_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
@@ -230,13 +228,9 @@ void * rt_thread(void * arg) {
 		case ELECTRIC:
 			syn_aux_params = NULL;
 
-			g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-    		g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
-			g_virtual_to_real[0] = 0.02;
-    		g_real_to_virtual[0] = 0.2;
             if(args->calibration != 0 && args->calibration != 6){
-                g_virtual_to_real[0] = 0.0;
-                g_real_to_virtual[0] = 0.0;
+                args->g_virtual_to_real[0] = 0.0;
+                args->g_real_to_virtual[0] = 0.0;
             }
     		msg.n_g = 1;
 
@@ -249,26 +243,20 @@ void * rt_thread(void * arg) {
             syn_aux_params[SC_MS_K1] = 1;//1;
             syn_aux_params[SC_MS_K2] = 0.03;//0.03;
 
-			g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-    		g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
-			if (args->model==0){
+
+            /*if (args->model==0){
                 g_virtual_to_real[G_FAST] = 0.0;
                 g_virtual_to_real[G_SLOW] = 0.02;
                 g_real_to_virtual[G_FAST] = 0.0;
                 g_real_to_virtual[G_SLOW] = 0.04;
 
-            }else {
-                g_virtual_to_real[G_FAST] = 0.0;
-                g_virtual_to_real[G_SLOW] = 0.1;
-                g_real_to_virtual[G_FAST] = 0.3;
-                g_real_to_virtual[G_SLOW] = 0.0;
-            }
+            }*/
 
             if(args->calibration == 7){
-                g_virtual_to_real[G_FAST] = 0.0;
-                g_virtual_to_real[G_SLOW] = 0.0;
-                g_real_to_virtual[G_FAST] = 0.0;
-                g_real_to_virtual[G_SLOW] = 0.0;
+                args->g_virtual_to_real[G_FAST] = 0.0;
+                args->g_virtual_to_real[G_SLOW] = 0.0;
+                args->g_real_to_virtual[G_FAST] = 0.0;
+                args->g_real_to_virtual[G_SLOW] = 0.0;
             }
 
         
@@ -370,8 +358,8 @@ void * rt_thread(void * arg) {
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
 
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(args->g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(args->g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
 
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 
@@ -380,7 +368,7 @@ void * rt_thread(void * arg) {
             if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(2, &session, &cal_struct);
                 close_device_comedi(d);
-                free_pointers(10, &syn_aux_params, &g_virtual_to_real, &g_real_to_virtual, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
         }
@@ -412,7 +400,7 @@ void * rt_thread(void * arg) {
     INTERACTION
     ************************/
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %d", args->points);
+    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %li", args->points);
 
     for (i = 0; i < args->points * args->s_points; i++) {
         /*TOCA INTERACCION*/
@@ -435,7 +423,7 @@ void * rt_thread(void * arg) {
             /*SINAPSIS Y CORRIENTE EN VIRTUAL TO REAL*/
             if (args->type_syn==CHEMICAL)
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
-            args->syn(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], g_virtual_to_real, &c_model, syn_aux_params);
+            args->syn(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_virtual_to_real, &c_model, syn_aux_params);
             msg.c_model=c_model;
 
             /*GUARDAR INFO*/
@@ -457,8 +445,8 @@ void * rt_thread(void * arg) {
 
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(args->g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(args->g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
 
             /*ENVIO POR LA TARJETA*/
             write_comedi(session, args->n_out_chan, args->out_channels, out_values);
@@ -466,7 +454,7 @@ void * rt_thread(void * arg) {
             /*CALIBRACION*/
             auto_calibration(
                             args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result, 
-                            &msg, g_virtual_to_real, g_real_to_virtual, 
+                            &msg, args->g_virtual_to_real, args->g_real_to_virtual,
                             lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
                             syn_aux_params, ini_k1, ini_k2
                             );
@@ -486,7 +474,7 @@ void * rt_thread(void * arg) {
                 write_comedi(session, args->n_out_chan, args->out_channels, out_values);
                 free_pointers(2, &session, &cal_struct);
                 close_device_comedi(d);
-                free_pointers(10, &syn_aux_params, &g_virtual_to_real, &g_real_to_virtual, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
         }
@@ -494,10 +482,10 @@ void * rt_thread(void * arg) {
         /*CALCULO CORRIENTE E INTEGRACIÓN DEL MODELO*/
         if (args->type_syn==CHEMICAL)
             syn_aux_params[SC_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
-        args->syn(ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->vars[0], g_real_to_virtual, &c_real, syn_aux_params);
+        args->syn(ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->vars[0], args->g_real_to_virtual, &c_real, syn_aux_params);
         if (args->type_syn==CHEMICAL)
             syn_aux_params[SC_MIN] = min_abs_real;
-        args->syn(ret_values[0], args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, g_real_to_virtual, &(msg.c_real), syn_aux_params);
+        args->syn(ret_values[0], args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
         args->func(args->dim, args->dt, args->vars, args->params, args->anti*c_real);
     }
 
@@ -513,7 +501,7 @@ void * rt_thread(void * arg) {
         perror("Closing message not sent");
     }
 
-    free_pointers(10, &syn_aux_params, &g_virtual_to_real, &g_real_to_virtual, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+    free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
 
     printf("End of rt_thread. Not sent messages: %d\n", lost_msg);
     pthread_exit(NULL);

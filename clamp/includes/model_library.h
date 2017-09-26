@@ -11,6 +11,10 @@
 #define ELECTRIC 0
 #define CHEMICAL 1
 
+#define X 0
+#define Y 1
+#define Z 2
+
 /*Izhikevich*/
 #define I_IZ 0
 #define A_IZ 1
@@ -62,7 +66,7 @@ void izh_f (double * vars, double * ret, double * params, double syn);
 
 void izhikevich (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_iz (double * vars, double *min, double *minABS, double *max);
+void ini_iz (double *min, double *minABS, double *max);
 
 
 /* HINDMARSH-ROSE */
@@ -70,11 +74,11 @@ void hr_f (double * vars, double * ret, double * params, double syn);
 
 void hindmarsh_rose (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_hr (double * vars, double *min, double *minABS, double *max);
+void ini_hr (double *min, double *minABS, double *max);
 
 /* HINDMARSH-ROSE */
 void rlk_f (double * vars, double * ret, double * params, double syn);
 
 void rulkov_map (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_rlk (double * vars, double *min, double *minABS, double *max);
+void ini_rlk (double *min, double *minABS, double *max);
