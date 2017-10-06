@@ -9,8 +9,7 @@ rt_args * args;
 calibration_args * cal_struct = NULL;
 message msg;
 double * syn_aux_params = NULL;
-double * g_virtual_to_real = NULL;      
-double * g_real_to_virtual = NULL;
+
 double * lectura_a = NULL;
 double * lectura_b = NULL;
 double * lectura_t = NULL;
@@ -39,7 +38,7 @@ void rt_cleanup () {
         close_device_comedi(d);
     }
 
-    free_pointers(12, &syn_aux_params, &g_virtual_to_real, &g_real_to_virtual, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
+    free_pointers(12, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
 
     printf("\n" PRINT_CYAN "rt_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
