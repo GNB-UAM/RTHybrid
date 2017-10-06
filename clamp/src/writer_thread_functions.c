@@ -133,33 +133,48 @@ void * writer_thread(void * arg) {
 
     syslog(LOG_INFO, "WRITER_THREAD: F3 closed");
 
-    /*****************/
+    /****************/
+    /* WRITING DATA */      
+    /****************/
 
     syslog(LOG_INFO, "WRITER_THREAD: Before loop");
 
 
     while(1) {
+        //Receive
         receive_from_queue(args->msqid, &msg);
 
-        if (msg.id == 2) break;
+        //Stop
+        if (msg.id == 2) {
+            free(msg.data_in);
+            free(msg.data_out);
+            free(msg.g_virtual_to_real);
+            free(msg.g_real_to_virtual);
+            break;
+        }
 
+        //Headers
         if (i == 0) {
             fprintf(f1, "%d %d\n", msg.n_in_chan, msg.n_out_chan);
+            //if(msg.autocal==1){
+            fprintf(f2, "%d %d\n", msg.autocal, 2+msg.n_g);
+            //}
+
             i++;
         }
 
+        //Write file 1
         fprintf(f1, "%f %f %d %ld %f %f %f %f", msg.t_unix, msg.t_absol, msg.i, msg.lat, msg.v_model, msg.v_model_scaled, msg.c_model, msg.c_real);
-        fprintf(f2, "%f %d", msg.t_absol, msg.i);
-
         for (j = 0; j < msg.n_in_chan; ++j) {
             fprintf(f1, " %f", msg.data_in[j]);
         }
-
         for (j = 0; j < msg.n_out_chan; ++j) {
             fprintf(f1, " %f", msg.data_out[j]);
         }
         fprintf(f1, "\n");
 
+        //Write file 2
+        fprintf(f2, "%f %d", msg.t_absol, msg.i);
         fprintf(f2, " %f", msg.ecm);
         fprintf(f2, " %f", msg.extra);
         for (j = 0; j < msg.n_g; ++j) {
@@ -167,7 +182,8 @@ void * writer_thread(void * arg) {
             fprintf(f2, " %f", msg.g_virtual_to_real[j]);
         }
         fprintf(f2, "\n");
-        
+
+        //Free
         free(msg.data_in);
         free(msg.data_out);
         free(msg.g_virtual_to_real);

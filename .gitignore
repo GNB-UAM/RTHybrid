@@ -2,6 +2,7 @@
 *.dat
 *.pdf
 *.txt
+*.pyc
 !about.txt
 figures/*.png
 main

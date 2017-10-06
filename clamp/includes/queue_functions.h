@@ -31,6 +31,7 @@ typedef struct {
     double * data_in;
     double * data_out;
     /* File 2*/
+    int autocal;
     double * g_real_to_virtual;
     double * g_virtual_to_real;
     int n_g;
