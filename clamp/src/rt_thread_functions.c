@@ -121,6 +121,8 @@ void * rt_thread(void * arg) {
     double period_disp_real;
     double rafaga_viva_pts;
 
+    double loop_points;
+
     double retval = 0;
     double c_real = 0, c_model = 0;
 
@@ -255,13 +257,17 @@ void * rt_thread(void * arg) {
             }*/
 
             if(args->calibration == 7){
+                args->g_virtual_to_real= (double *) malloc (sizeof(double) * 2);
+                args->g_real_to_virtual= (double *) malloc (sizeof(double) * 2);
+                copy_1d_array(args->g_virtual_to_real, cal_struct->g_virtual_to_real, 2);
+                copy_1d_array(args->g_real_to_virtual, cal_struct->g_real_to_virtual, 2);
+
                 args->g_virtual_to_real[G_FAST] = 0.0;
                 args->g_virtual_to_real[G_SLOW] = 0.0;
                 args->g_real_to_virtual[G_FAST] = 0.0;
                 args->g_real_to_virtual[G_SLOW] = 0.0;
             }
 
-        
             if(args->calibration == 8){
                 syn_aux_params[SC_MS_K1] = ini_k1;//1;
                 syn_aux_params[SC_MS_K2] = ini_k2;//0.03;
@@ -403,7 +409,14 @@ void * rt_thread(void * arg) {
 
     if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %li", args->points);
 
-    for (i = 0; i < args->points * args->s_points; i++) {
+    if (args->calibration == 7){
+        loop_points = INFINITY;
+    }else{
+        loop_points = args->points * args->s_points;
+    }
+
+
+    for (i = 0; i < loop_points; i++) {
         /*TOCA INTERACCION*/
         if (i % args->s_points == 0) {
             
@@ -453,18 +466,22 @@ void * rt_thread(void * arg) {
             write_comedi(session, args->n_out_chan, args->out_channels, out_values);
 
             /*CALIBRACION*/
-            auto_calibration(
-                            args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result, 
-                            &msg, args->g_virtual_to_real, args->g_real_to_virtual,
-                            lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
-                            syn_aux_params, ini_k1, ini_k2
-                            );
-            
+            int ret_auto_cal = auto_calibration(
+                                args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
+                                &msg, args->g_virtual_to_real, args->g_real_to_virtual,
+                                lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
+                                syn_aux_params, ini_k1, ini_k2
+                                );
+
             /*GUARDAR INFO*/
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 
             /*TIEMPO*/
             ts_add_time(&ts_target, 0, args->period);
+
+            /*END*/
+            if(ret_auto_cal==1)
+                break;
 
             /*LECTURA DE LA TARJETA*/
             if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {

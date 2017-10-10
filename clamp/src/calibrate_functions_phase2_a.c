@@ -94,25 +94,42 @@ int auto_calibration(
         
     }else if(args->calibration==7){
         if (cal_on==TRUE){
-            double paso_fast = 0.2;//0.2; //0.3
-            double max_fast = 1.8;//1.8; //2.7
-            double paso_slow = 0.01;
-            double max_slow = 0.11;
+            int tiempo_por_punto=10;
+            // Identificamos que se quiere cambiar
+            // Tenemos variables para cada sentido sin importar si es lenta o rapida
+            double g_max_r_to_v, g_max_v_to_r;
+            double *g_r_to_v, *g_v_to_r;
 
-            //Mapa de conductancia 
+            if (cs->g_real_to_virtual[G_FAST]!=0){
+                g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
+                g_r_to_v = &g_virtual_to_real[G_FAST];
+            }else{
+                g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
+                g_r_to_v = &g_virtual_to_real[G_SLOW];
+            }
+
+            if (cs->g_virtual_to_real[G_FAST]!=0){
+                g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
+                g_v_to_r = &g_virtual_to_real[G_FAST];
+            }else{
+                g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
+                g_v_to_r = &g_virtual_to_real[G_SLOW];
+            }
+
+            //Mapa de conductancia
             aux_counter++;
-            if (aux_counter>=10000*10){ //Cada 10s hay cambio
+            if (aux_counter >= args->freq*tiempo_por_punto){
                 aux_counter=0;
-                g_virtual_to_real[G_SLOW] += paso_slow;
-                if (g_virtual_to_real[G_SLOW]>max_slow){
-                    g_virtual_to_real[G_SLOW] = 0;
-                    g_real_to_virtual[G_FAST] += paso_fast;
-                    if(g_real_to_virtual[G_FAST]>=max_fast){
+                *g_v_to_r += args->step_v_to_r;
+                if (*g_v_to_r > g_max_v_to_r){
+                    *g_v_to_r = 0;
+                    *g_r_to_v += args->step_r_to_v;
+                    if(*g_r_to_v >= g_max_r_to_v){
                         printf("FIN\n");
-                        printf("Apuntar: %d\n", cont_send);
-                        g_virtual_to_real[G_SLOW] = 0;
-                        g_real_to_virtual[G_FAST] = 0;
+                        g_v_to_r = 0;
+                        g_r_to_v = 0;
                         cal_on=FALSE;
+                        return 1;
                     }
                 }
             }

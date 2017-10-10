@@ -43,6 +43,8 @@ typedef struct {
     int calibration;
     int anti;
     int model;
+    double step_v_to_r;
+    double step_r_to_v;
 } rt_args;
 
 typedef struct {
@@ -72,6 +74,8 @@ typedef struct {
     double offset_real_to_virtual;
     double max_real_relativo;
     double min_real;
+    double * g_virtual_to_real;
+    double * g_real_to_virtual;
 } calibration_args;
 
 #endif

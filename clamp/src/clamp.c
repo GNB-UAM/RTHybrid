@@ -41,7 +41,7 @@ void parse_channels (char * str, int ** channels, int * n_chan) {
 
 
 
-int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal, int anti, int imp, char * input, char * output, double * vars, double * params, double * g_virtual_to_real, double * g_real_to_virtual) {
+int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal, int anti, int imp, char * input, char * output, double * vars, double * params, double * g_virtual_to_real, double * g_real_to_virtual, double step_v_to_r, double step_r_to_v) {
 	key_t key_q;
 	pthread_attr_t attr_rt, attr_wr;
 	int err;
@@ -125,11 +125,17 @@ int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal,
 		model=1;
 		r_args.anti=-1;
 		w_args.anti=-1;
-	}else if(mode_auto_cal == 7 || mode_auto_cal == 8){
+    }else if(mode_auto_cal == 7){
 		model=2;
 		r_args.anti=-1;
 		w_args.anti=-1;
-	}
+        r_args.step_v_to_r=step_v_to_r;
+        r_args.step_r_to_v=step_r_to_v;
+    }else if(mode_auto_cal == 8){
+        model=2;
+        r_args.anti=-1;
+        w_args.anti=-1;
+    }
 
 	if(!c_a){
 		c_a=TRUE;

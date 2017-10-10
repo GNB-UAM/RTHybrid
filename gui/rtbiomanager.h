@@ -22,6 +22,8 @@ private slots:
 
     void on_synapseModelCombo_activated(int index);
 
+    void on_autocalCombo_activated(int index);
+
 private:
     Ui::RTBiomanager *ui;
 };

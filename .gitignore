@@ -4,9 +4,13 @@
 *.txt
 *.pyc
 !about.txt
+!rtbiomanager.pro
 figures/*.png
+*.pro.*
+
 main
 clamp-cli_preempt
+rtbiomanager
 
 # Prerequisites
 *.d

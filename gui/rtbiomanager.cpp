@@ -21,11 +21,11 @@ RTBiomanager::~RTBiomanager()
 
 void RTBiomanager::on_simulate_clicked()
 {
-    int neuronIndex = 0, synapseIndex = 0;
+    int neuronIndex = 0, synapseIndex = 0, autocalIndex=0;
 
     /* Common neuron models params */
     double freq = 0;
-    int calib = 0, anti = 0, dur = 0;
+    int calib = 0, anti = 0, dur = 0, imp=0;
     char * inputChannels, * outputChannels;
     std::string aux_in, aux_out;
     double * vars, * params;
@@ -35,12 +35,13 @@ void RTBiomanager::on_simulate_clicked()
     double * externalToModel;
     double * gVirtualToReal;
     double * gRealToVirtual;
+    double step_v_to_r=0, step_r_to_v=0;
 
     neuronIndex = ui->neuronModelPages->currentIndex();
     synapseIndex = ui->synapseModelPages->currentIndex();
+    autocalIndex = ui->autocalPages->currentIndex();
 
-
-    calib = ui->checkCalib->isChecked();
+    imp = ui->checkImp->isChecked();
     anti = ui->checkAnti->isChecked();
     freq = ui->textFreq->toPlainText().toDouble() * 1000;
     dur = ui->textTime->toPlainText().toInt();
@@ -102,39 +103,74 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
-    switch (synapseIndex) {
-        case ELECTRIC: //Electrical
-            modelToReal = (double *) malloc (sizeof(double));
-            modelToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
+    if (autocalIndex!=0){
+        switch (synapseIndex) {
+            case ELECTRIC: //Electrical
+                modelToReal = (double *) malloc (sizeof(double));
+                modelToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
 
-            externalToModel = (double *) malloc (sizeof(double));
-            externalToModel[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+                externalToModel = (double *) malloc (sizeof(double));
+                externalToModel[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
 
+                gVirtualToReal = (double *) malloc (sizeof(double) * 1);
+                gRealToVirtual = (double *) malloc (sizeof(double) * 1);
+                gVirtualToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
+                gRealToVirtual[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
 
-            gVirtualToReal = (double *) malloc (sizeof(double) * 1);
-            gRealToVirtual = (double *) malloc (sizeof(double) * 1);
-            gVirtualToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
-            gRealToVirtual[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+                break;
+            case CHEMICAL: //Gradual chemical
+                modelToReal = (double *) malloc (sizeof(double) * 2);
+                modelToReal[0] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
+                modelToReal[1] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
 
-            break;
-        case CHEMICAL: //Gradual chemical
-            modelToReal = (double *) malloc (sizeof(double) * 2);
-            modelToReal[0] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
-            modelToReal[1] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
+                externalToModel = (double *) malloc (sizeof(double) * 2);
+                externalToModel[0] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
+                externalToModel[1] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
 
-            externalToModel = (double *) malloc (sizeof(double) * 2);
-            externalToModel[0] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
-            externalToModel[1] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+                gVirtualToReal = (double *) malloc (sizeof(double) * 2);
+                gRealToVirtual = (double *) malloc (sizeof(double) * 2);
+
+                gVirtualToReal[G_FAST] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
+                gVirtualToReal[G_SLOW] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
+                gRealToVirtual[G_FAST] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
+                gRealToVirtual[G_SLOW] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    switch (autocalIndex) {
+        case 1: //Electric conductance MSE
+            calib = 1;
+
+        case 2: //Gradual MAP
+
+            calib = 7;
 
             gVirtualToReal = (double *) malloc (sizeof(double) * 2);
             gRealToVirtual = (double *) malloc (sizeof(double) * 2);
 
-            gVirtualToReal[G_FAST] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
-            gVirtualToReal[G_SLOW] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
-            gRealToVirtual[G_FAST] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
-            gRealToVirtual[G_SLOW] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+            if (ui->gradualModelToExternalSelect->currentIndex() == G_FAST){
+                gVirtualToReal[G_FAST] = ui->chemMap_MaxToExternal->value();
+                gVirtualToReal[G_SLOW] = 0;
+            }else{
+                gVirtualToReal[G_SLOW] = ui->chemMap_MaxToExternal->value();
+                gVirtualToReal[G_FAST] = 0;
+            }
 
-            break;
+            if (ui->gradualExternalToModelSelect->currentIndex() == G_FAST){
+                gRealToVirtual[G_FAST] = ui->chemMap_MaxToModel->value();
+                gRealToVirtual[G_SLOW] = 0;
+            }else{
+                gRealToVirtual[G_SLOW] = ui->chemMap_MaxToModel->value();
+                gRealToVirtual[G_FAST] = 0;
+            }
+
+            step_v_to_r = ui->chemMap_StepToExternal->value();
+            step_r_to_v = ui->chemMap_StepToModel->value();
 
         default:
             break;
@@ -142,7 +178,9 @@ void RTBiomanager::on_simulate_clicked()
 
 
 
-    int ret = clamp(freq, dur, neuronIndex, synapseIndex,calib, anti, 0, inputChannels, outputChannels, vars, params, gVirtualToReal, gRealToVirtual);
+
+
+    int ret = clamp(freq, dur, neuronIndex, synapseIndex, calib, anti, imp, inputChannels, outputChannels, vars, params, gVirtualToReal, gRealToVirtual, step_v_to_r, step_r_to_v);
 
     QMessageBox msgBox;
     msgBox.setText("Clamp finished");
@@ -170,4 +208,16 @@ void RTBiomanager::on_neuronModelCombo_activated(int index)
 void RTBiomanager::on_synapseModelCombo_activated(int index)
 {
     ui->synapseModelPages->setCurrentIndex(index);
+}
+
+void RTBiomanager::on_autocalCombo_activated(int index)
+{
+    ui->autocalPages->setCurrentIndex(index);
+    if(index!=0){
+        ui->synapseModelCombo->setEnabled(false);
+        ui->frameSynapse->setEnabled(false);
+    }else{
+        ui->synapseModelCombo->setEnabled(true);
+        ui->frameSynapse->setEnabled(true);
+    }
 }
