@@ -15,7 +15,6 @@ double * lectura_b = NULL;
 double * lectura_t = NULL;
 double * ret_values = NULL;
 double * out_values = NULL;
-int debug = 1;
 
 /************************
 RT CLEANUP
@@ -103,7 +102,7 @@ void * rt_thread(void * arg) {
     START
     ************************/
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Start");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Start");
 
     //Declarations
     int i, cont_send = 0, lost_msg = 0;
@@ -121,7 +120,8 @@ void * rt_thread(void * arg) {
     double period_disp_real;
     double rafaga_viva_pts;
 
-    double loop_points;
+    unsigned long loop_points = 0;
+    int infinite_loop = FALSE;
 
     double retval = 0;
     double c_real = 0, c_model = 0;
@@ -136,7 +136,7 @@ void * rt_thread(void * arg) {
 
     if (signal(SIGUSR1, rt_cleanup) == SIG_ERR) printf("Error catching SIGUSR1 at rt_thread.\n");
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: After signal");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After signal");
 
     msg.n_in_chan = args->n_in_chan;
     msg.n_out_chan = args->n_out_chan;
@@ -146,26 +146,28 @@ void * rt_thread(void * arg) {
     msg.g_virtual_to_real = NULL;
     msg.g_real_to_virtual = NULL;
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Before Comedi");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before Comedi");
 
     //Comedi & RT
     d = open_device_comedi("/dev/comedi0");
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Comedi device opened");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Comedi device opened");
 
     if (create_session_comedi(d, AREF_GROUND, &session) != OK) {
         close_device_comedi(d);
         pthread_exit(NULL);
     }
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Comedi started");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Comedi started");
 
 
     prepare_real_time(id);
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Real-time prepared");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Real-time prepared");
 
-    args->ini(args->vars, &min_model, &min_abs_model, &max_model);
+    args->ini(&min_model, &min_abs_model, &max_model);
+
+    //printf("min %f    min_abs %f   max %f\n", min_model, min_abs_model, max_model);
 
 
     /************************
@@ -180,6 +182,11 @@ void * rt_thread(void * arg) {
 		//printf("Periodo disparo = %f\n", period_disp_real);
         //period_disp_real = 0.27;
 	    calcula_escala (min_abs_model, max_model, min_abs_real, max_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
+        /*printf("min_abs_model=%f\n", min_abs_model);
+        printf("max_model=%f\n", max_model);
+        printf("min_abs_real=%f\n", min_abs_real);
+        printf("max_real=%f\n", max_real);*/
+
         rafaga_viva_pts = args->freq * period_disp_real;
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
     } else {
@@ -191,6 +198,10 @@ void * rt_thread(void * arg) {
         args->s_points = 1;
         period_disp_real = 0;
     }
+
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Create calibration struct");
 
     /*CALIBRATION STRUCT*/
     cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
@@ -204,6 +215,9 @@ void * rt_thread(void * arg) {
     cal_struct->scale_real_to_virtual=scale_real_to_virtual;
     cal_struct->offset_virtual_to_real=offset_virtual_to_real;
     cal_struct->offset_real_to_virtual=offset_real_to_virtual;
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
 
     /*CALIBRADO TEMPORAL*/
     msg2.i = args->s_points;
@@ -256,16 +270,25 @@ void * rt_thread(void * arg) {
 
             }*/
 
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration mode = %i", args->calibration);
+
             if(args->calibration == 7){
-                args->g_virtual_to_real= (double *) malloc (sizeof(double) * 2);
-                args->g_real_to_virtual= (double *) malloc (sizeof(double) * 2);
+                cal_struct->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
+                cal_struct->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
                 copy_1d_array(args->g_virtual_to_real, cal_struct->g_virtual_to_real, 2);
                 copy_1d_array(args->g_real_to_virtual, cal_struct->g_real_to_virtual, 2);
+
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", args->g_virtual_to_real[G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", args->g_virtual_to_real[G_SLOW]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", args->g_real_to_virtual[G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", args->g_real_to_virtual[G_SLOW]);
 
                 args->g_virtual_to_real[G_FAST] = 0.0;
                 args->g_virtual_to_real[G_SLOW] = 0.0;
                 args->g_real_to_virtual[G_FAST] = 0.0;
                 args->g_real_to_virtual[G_SLOW] = 0.0;
+
+                infinite_loop = TRUE;
             }
 
             if(args->calibration == 8){
@@ -281,6 +304,9 @@ void * rt_thread(void * arg) {
 			close_device_comedi(d);
         	pthread_exit(NULL);
 	}
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Preparation done");
 
     //VARIABLES
 
@@ -302,7 +328,7 @@ void * rt_thread(void * arg) {
     INITIAL INTERACTION
     ************************/
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Initial interaction");
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Initial interaction");
 
     clock_gettime(CLOCK_MONOTONIC, &ts_target);
     ts_assign (&ts_start,  ts_target);
@@ -393,43 +419,48 @@ void * rt_thread(void * arg) {
 
 
     /*PULSOS DE SINCRONIZACION*/
-    if (args->n_out_chan >= 1) out_values[0] = 0;
-    if (args->n_out_chan >= 2) out_values[1] = -10;
-    write_comedi(session, args->n_out_chan, args->out_channels, out_values);
-    clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
-    ts_add_time(&ts_target, 0, args->period);
-    
-    if (args->n_out_chan >= 2) out_values[1] = 10;
-    
-    write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+    if (SYNC == TRUE) {
+        if (args->n_out_chan >= 1) out_values[0] = 0;
+        if (args->n_out_chan >= 2) out_values[1] = -10;
+        write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
+        ts_add_time(&ts_target, 0, args->period);
+
+        if (args->n_out_chan >= 2) out_values[1] = 10;
+
+        write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+    }
+
 
     /************************
     INTERACTION
     ************************/
 
-    if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %li", args->points);
+    loop_points = args->points * args->s_points;
 
-    if (args->calibration == 7){
-        loop_points = INFINITY;
-    }else{
-        loop_points = args->points * args->s_points;
-    }
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %f", loop_points);
 
-
-    for (i = 0; i < loop_points; i++) {
+    for (i = 0; i < loop_points || infinite_loop == TRUE; i++) {
         /*TOCA INTERACCION*/
+        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop = %d\n", i);
+
+
         if (i % args->s_points == 0) {
-            
             /*ESPERA HASTA EL MOMENTO DETERMINADO*/
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
             ts_substraction(&ts_target, &ts_iter, &ts_result);
+
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop and the if = %d\n", i);
 
             /*GUARDAR INFO*/
             msg.id = 1;
             msg.extra = 0;
             msg.i = cont_send;
             cont_send++;
+
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing stuff at the loop");
+
             msg.v_model_scaled = args->vars[0] * scale_virtual_to_real + offset_virtual_to_real;
             msg.v_model = args->vars[0];
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
@@ -439,6 +470,8 @@ void * rt_thread(void * arg) {
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
             args->syn(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_virtual_to_real, &c_model, syn_aux_params);
             msg.c_model=c_model;
+
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
 
             /*GUARDAR INFO*/
             ts_substraction(&ts_start, &ts_iter, &ts_result);
@@ -462,6 +495,8 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
 
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before writing to device");
+
             /*ENVIO POR LA TARJETA*/
             write_comedi(session, args->n_out_chan, args->out_channels, out_values);
 
@@ -472,6 +507,8 @@ void * rt_thread(void * arg) {
                                 lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
                                 syn_aux_params, ini_k1, ini_k2
                                 );
+
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");
 
             /*GUARDAR INFO*/
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
@@ -504,23 +541,31 @@ void * rt_thread(void * arg) {
         if (args->type_syn==CHEMICAL)
             syn_aux_params[SC_MIN] = min_abs_real;
         args->syn(ret_values[0], args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
+
+
         args->func(args->dim, args->dt, args->vars, args->params, args->anti*c_real);
     }
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: loop end");
 
     for (i = 0; i < args->n_out_chan; i++) {
     	out_values[i] = 0;
     }
     write_comedi(session, args->n_out_chan, args->out_channels, out_values);
-    free_pointers(2, &session, &cal_struct);
+    free_pointers(4, &session, &cal_struct->g_real_to_virtual, &cal_struct->g_virtual_to_real, &cal_struct);
     close_device_comedi(d);
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
 
     msg.id = 2;
     if (send_to_queue(args->msqid, &msg) == ERR) {
         perror("Closing message not sent");
     }
 
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Closing message sent");
+
     free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
 
-    printf("End of rt_thread. Not sent messages: %d\n", lost_msg);
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: End. Not sent messages: %d\n", lost_msg);
     pthread_exit(NULL);
 }

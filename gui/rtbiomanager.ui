@@ -538,7 +538,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageIz">
       <widget class="QPlainTextEdit" name="textIzA">
@@ -1225,7 +1225,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageOff"/>
      <widget class="QWidget" name="pageElectricalConductanceMSE">
@@ -1423,29 +1423,6 @@ Step</string>
      </widget>
     </widget>
    </widget>
-   <zorder>simulate</zorder>
-   <zorder>frameSynapse</zorder>
-   <zorder>label</zorder>
-   <zorder>textFreq</zorder>
-   <zorder>textTime</zorder>
-   <zorder>label_2</zorder>
-   <zorder>checkImp</zorder>
-   <zorder>checkAnti</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>textChannelInput</zorder>
-   <zorder>textChannelOutput</zorder>
-   <zorder>label_6</zorder>
-   <zorder>neuronModelCombo</zorder>
-   <zorder>label_7</zorder>
-   <zorder>synapseModelCombo</zorder>
-   <zorder>frameNeuron</zorder>
-   <zorder>frameSynapse_3</zorder>
-   <zorder>label_29</zorder>
-   <zorder>label_43</zorder>
-   <zorder>autocalCombo</zorder>
-   <zorder>frameAutocal</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

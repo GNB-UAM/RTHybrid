@@ -35,11 +35,11 @@ void * writer_thread(void * arg) {
     args = arg;
     id = pthread_self();
 
-    syslog(LOG_INFO, "WRITER_THREAD: Start");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Start");
 
     if (signal(SIGUSR2, writer_cleanup) == SIG_ERR) printf("Error catching SIGUSR2 at writer_thread.\n");
 
-    syslog(LOG_INFO, "WRITER_THREAD: After signal");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After signal");
 
     filename_1 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
     filename_2 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
@@ -60,7 +60,7 @@ void * writer_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    syslog(LOG_INFO, "WRITER_THREAD: Before umask");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before umask");
 
     umask(1);
     f1 = fopen(filename_1, "w");
@@ -74,15 +74,15 @@ void * writer_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    syslog(LOG_INFO, "WRITER_THREAD: Files opened");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Files opened");
     
     if (args->important==1){
         fprintf(f3, "*********IMPORTANT RECORD********\n");
     }
 
-    syslog(LOG_INFO, "WRITER_THREAD: Before first write to f3");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first write to f3");
     fprintf(f3, "%s\nModel: ", args->filename);
-    syslog(LOG_INFO, "WRITER_THREAD: After first write to f3");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first write to f3");
     if(args->model==1){
         fprintf(f3, "Hindmarsh Rose\n");
     }else if(args->model==0){
@@ -111,11 +111,11 @@ void * writer_thread(void * arg) {
 
     fprintf(f3, "Calibration mode = %d\n", args->calibration);
 
-    syslog(LOG_INFO, "WRITER_THREAD: Before first rcv");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first rcv");
 
     receive_from_queue(args->msqid, &msg2);
 
-    syslog(LOG_INFO, "WRITER_THREAD: After first rcv");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first rcv");
     
     s_points = msg2.i;
 
@@ -131,13 +131,13 @@ void * writer_thread(void * arg) {
     fclose(f3);
     f3 = NULL;
 
-    syslog(LOG_INFO, "WRITER_THREAD: F3 closed");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: F3 closed");
 
     /****************/
     /* WRITING DATA */      
     /****************/
 
-    syslog(LOG_INFO, "WRITER_THREAD: Before loop");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before loop");
 
 
     while(1) {
@@ -146,10 +146,8 @@ void * writer_thread(void * arg) {
 
         //Stop
         if (msg.id == 2) {
-            free(msg.data_in);
-            free(msg.data_out);
-            free(msg.g_virtual_to_real);
-            free(msg.g_real_to_virtual);
+            //free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
+            if (DEBUG == 1) if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Closing message received");
             break;
         }
 
@@ -184,16 +182,16 @@ void * writer_thread(void * arg) {
         fprintf(f2, "\n");
 
         //Free
-        free(msg.data_in);
-        free(msg.data_out);
-        free(msg.g_virtual_to_real);
-        free(msg.g_real_to_virtual);
+        free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
+
     }
+
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before closing f1 and f2.\n");
     
     fclose(f1);
     fclose(f2);
     free_pointers(3, &filename_1, &filename_2, &filename_3);
 
-    printf("End writer_thread.\n");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: End.\n");
     pthread_exit(NULL);
 }

@@ -103,7 +103,7 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
-    if (autocalIndex!=0){
+    if (autocalIndex == 0){
         switch (synapseIndex) {
             case ELECTRIC: //Electrical
                 modelToReal = (double *) malloc (sizeof(double));
@@ -116,6 +116,7 @@ void RTBiomanager::on_simulate_clicked()
                 gRealToVirtual = (double *) malloc (sizeof(double) * 1);
                 gVirtualToReal[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
                 gRealToVirtual[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+
 
                 break;
             case CHEMICAL: //Gradual chemical
@@ -149,6 +150,7 @@ void RTBiomanager::on_simulate_clicked()
         case 2: //Gradual MAP
 
             calib = 7;
+            synapseIndex = CHEMICAL;
 
             gVirtualToReal = (double *) malloc (sizeof(double) * 2);
             gRealToVirtual = (double *) malloc (sizeof(double) * 2);

@@ -94,19 +94,26 @@ int auto_calibration(
         
     }else if(args->calibration==7){
         if (cal_on==TRUE){
+            int debug = 1;
             int tiempo_por_punto=10;
             // Identificamos que se quiere cambiar
             // Tenemos variables para cada sentido sin importar si es lenta o rapida
             double g_max_r_to_v, g_max_v_to_r;
             double *g_r_to_v, *g_v_to_r;
 
+            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
+
             if (cs->g_real_to_virtual[G_FAST]!=0){
+                if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
                 g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
+                if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
                 g_r_to_v = &g_virtual_to_real[G_FAST];
             }else{
                 g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
                 g_r_to_v = &g_virtual_to_real[G_SLOW];
             }
+
+            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 2");
 
             if (cs->g_virtual_to_real[G_FAST]!=0){
                 g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
@@ -115,6 +122,8 @@ int auto_calibration(
                 g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
                 g_v_to_r = &g_virtual_to_real[G_SLOW];
             }
+
+            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 3");
 
             //Mapa de conductancia
             aux_counter++;
@@ -125,7 +134,6 @@ int auto_calibration(
                     *g_v_to_r = 0;
                     *g_r_to_v += args->step_r_to_v;
                     if(*g_r_to_v >= g_max_r_to_v){
-                        printf("FIN\n");
                         g_v_to_r = 0;
                         g_r_to_v = 0;
                         cal_on=FALSE;

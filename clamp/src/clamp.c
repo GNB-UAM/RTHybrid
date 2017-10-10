@@ -163,8 +163,8 @@ int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal,
 
 			break;
 		case HR:
-			r_args.rafaga_modelo_pts = 260166.0;
-			r_args.dt = 0.001;
+            r_args.rafaga_modelo_pts = 260166.0;
+            r_args.dt = 0.001;
 
             /*if(mode_auto_cal==6)
                 params[R_HR] = 0.0011;*/
@@ -289,6 +289,8 @@ int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal,
 
     pthread_join(writer, NULL);
     pthread_join(rt, NULL);
+
+    syslog(LOG_INFO, "CLAMP: Threads joined");
     
 
     if (msqid != NULL) {

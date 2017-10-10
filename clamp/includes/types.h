@@ -1,10 +1,14 @@
 #ifndef TYPES_H__
 #define TYPES_H__
 
+#include <syslog.h>
+
 #define ERR -1
 #define OK 0
 #define TRUE 1
 #define FALSE 0
+#define DEBUG 0
+#define SYNC 0
 
 
 /* Print colors */
@@ -20,7 +24,7 @@
 
 typedef struct {
     void (*func)(int, double, double*, double*, double);
-    void (*ini)(double*, double*, double*, double*);
+    void (*ini)(double*, double*, double*);
     void (*syn)(double, double, double*, double*, double*);
     double * vars;
     double * params;
