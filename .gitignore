@@ -6,7 +6,6 @@
 *.pro.*
 !rtbiomanager.pro
 !about.txt
-!rtbiomanager.pro
 figures/*.png
 *.pro.*
 
