@@ -3,6 +3,8 @@
 *.pdf
 *.txt
 *.pyc
+*.pro.*
+!rtbiomanager.pro
 !about.txt
 !rtbiomanager.pro
 figures/*.png
