@@ -105,7 +105,7 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Start");
 
     //Declarations
-    int i, cont_send = 0, lost_msg = 0;
+    unsigned int i, cont_send = 0, lost_msg = 0;
     
     struct timespec ts_target, ts_iter, ts_result, ts_start;
     message msg2;
@@ -118,7 +118,8 @@ void * rt_thread(void * arg) {
     double offset_virtual_to_real;
     double offset_real_to_virtual;
     double period_disp_real;
-    double rafaga_viva_pts;
+    double rafaga_viva_pts = 0;
+    int end_loop = FALSE;
 
     unsigned long loop_points = 0;
     int infinite_loop = FALSE;
@@ -501,7 +502,7 @@ void * rt_thread(void * arg) {
             write_comedi(session, args->n_out_chan, args->out_channels, out_values);
 
             /*CALIBRACION*/
-            int ret_auto_cal = auto_calibration(
+            end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
                                 &msg, args->g_virtual_to_real, args->g_real_to_virtual,
                                 lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
@@ -517,7 +518,7 @@ void * rt_thread(void * arg) {
             ts_add_time(&ts_target, 0, args->period);
 
             /*END*/
-            if(ret_auto_cal==1)
+            if(end_loop==TRUE)
                 break;
 
             /*LECTURA DE LA TARJETA*/

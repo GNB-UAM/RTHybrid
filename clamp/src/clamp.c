@@ -13,7 +13,7 @@ void clamp_cleanup () {
 
 
 
-void parse_channels (char * str, int ** channels, int * n_chan) {
+void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 	int n_chan_aux = 0;
 	int chan_aux[32];
 	char * token = NULL;
@@ -126,13 +126,11 @@ int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal,
 		r_args.anti=-1;
 		w_args.anti=-1;
     }else if(mode_auto_cal == 7){
-		model=2;
 		r_args.anti=-1;
 		w_args.anti=-1;
         r_args.step_v_to_r=step_v_to_r;
         r_args.step_r_to_v=step_r_to_v;
     }else if(mode_auto_cal == 8){
-        model=2;
         r_args.anti=-1;
         w_args.anti=-1;
     }
@@ -146,6 +144,8 @@ int clamp (double freq, int time_var, int model, int synapse, int mode_auto_cal,
 
 	r_args.calibration = mode_auto_cal;
 	w_args.calibration = mode_auto_cal;
+
+	printf("Model index=%d\n",model);
 
 	switch (model){
         case IZHIKEVICH:

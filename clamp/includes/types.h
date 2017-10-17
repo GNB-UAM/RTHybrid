@@ -37,8 +37,8 @@ typedef struct {
     int s_points;
     void * msqid;
     int period;
-    int n_in_chan;
-    int n_out_chan;
+    unsigned int n_in_chan;
+    unsigned int n_out_chan;
     int * in_channels;
     int * out_channels;
     int freq;

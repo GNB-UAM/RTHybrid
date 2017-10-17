@@ -3,6 +3,11 @@
 double res_phase = 0;
 int cal_on = TRUE;
 int aux_counter = 0;
+int aux_counter2 = TRUE;
+
+/*Case 7 - Auto map*/
+double g_max_r_to_v, g_max_v_to_r;
+double *g_r_to_v, *g_v_to_r;
 
 int auto_calibration(
 					rt_args * args,
@@ -24,13 +29,14 @@ int auto_calibration(
 					){
 
 	if(args->calibration==1 || args->calibration==2 || args->calibration==3){
+
 		
         //Electrica en fase - ecm
 		int ret_ecm = calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
         msg->ecm = *ecm_result;
 
         if(cal_on && ret_ecm==1){
-        	int is_syn;
+        	int is_syn=FALSE;
             if (args->calibration == 1){
                 //Porcentaje
                 is_syn = is_syn_by_percentage(*ecm_result);
@@ -88,42 +94,39 @@ int auto_calibration(
             printf("%f\n", args->params[R_HR]);
             aux_counter=0;
         }
-        int ret_ecm = calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
+        calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
         msg->ecm = *ecm_result;
         msg->extra = args->params[R_HR];
         
     }else if(args->calibration==7){
+        /*Primero vez seleccionamos que queremos*/
+        // Identificamos que se quiere cambiar
+        // Tenemos variables para cada sentido sin importar si es lenta o rapida
+        if (aux_counter2==TRUE){
+                aux_counter2=FALSE;
+
+                if (cs->g_real_to_virtual[G_FAST]!=0){
+                    g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
+                    g_r_to_v = &g_real_to_virtual[G_FAST];
+                }else{
+                    g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
+                    g_r_to_v = &g_real_to_virtual[G_SLOW];
+                }
+
+                if (cs->g_virtual_to_real[G_FAST]!=0){
+                    g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
+                    g_v_to_r = &g_virtual_to_real[G_FAST];
+                }else{
+                    g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
+                    g_v_to_r = &g_virtual_to_real[G_SLOW];
+                }
+        }
+
         if (cal_on==TRUE){
-            int debug = 1;
+            int debug = 0;
             int tiempo_por_punto=10;
-            // Identificamos que se quiere cambiar
-            // Tenemos variables para cada sentido sin importar si es lenta o rapida
-            double g_max_r_to_v, g_max_v_to_r;
-            double *g_r_to_v, *g_v_to_r;
 
-            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
-
-            if (cs->g_real_to_virtual[G_FAST]!=0){
-                if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
-                g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
-                if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 1");
-                g_r_to_v = &g_virtual_to_real[G_FAST];
-            }else{
-                g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
-                g_r_to_v = &g_virtual_to_real[G_SLOW];
-            }
-
-            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 2");
-
-            if (cs->g_virtual_to_real[G_FAST]!=0){
-                g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
-                g_v_to_r = &g_virtual_to_real[G_FAST];
-            }else{
-                g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
-                g_v_to_r = &g_virtual_to_real[G_SLOW];
-            }
-
-            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7 - 3");
+            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7");
 
             //Mapa de conductancia
             aux_counter++;
@@ -133,14 +136,18 @@ int auto_calibration(
                 if (*g_v_to_r > g_max_v_to_r){
                     *g_v_to_r = 0;
                     *g_r_to_v += args->step_r_to_v;
-                    if(*g_r_to_v >= g_max_r_to_v){
+                    if(*g_r_to_v > g_max_r_to_v){
                         g_v_to_r = 0;
                         g_r_to_v = 0;
                         cal_on=FALSE;
-                        return 1;
+                        return TRUE;
                     }
                 }
+                printf("v_r = %f\n", *g_r_to_v);
+                printf("r_v = %f\n", *g_v_to_r);
             }
+
+
         }
 
     }else if(args->calibration==8){
@@ -173,5 +180,6 @@ int auto_calibration(
                 msg->extra=syn_aux_params[SC_MS_K2];
 
             }
+    return FALSE;
 
 }
