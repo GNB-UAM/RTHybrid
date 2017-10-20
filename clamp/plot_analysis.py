@@ -7,8 +7,8 @@ import math
 
 def periodo(array):
 	freq=10000
-	porcentaje_mini = 0.1
-	porcentaje_maxi = 0.4
+	porcentaje_mini = 0.05
+	porcentaje_maxi = 0.3
 
 	#Linear search max & min
 	min_ped=99999
@@ -81,14 +81,21 @@ def analisis_para_mapa(v1, v2, g1, g2):
 		if i>0:
 			if g1[i-1]!=g1[i] or g2[i-1]!=g2[i]:
 				print("Big trouble - Tamaño malo")
-				print(i)
+				print(g1)
+				print(g2)
 
 	#Tiempos de disparo de cada señal
-	times_a = periodo(v1)[0]
-	times_b = periodo(v2)[0]
+	times_a, res_a, asd1, asd2 = periodo(v1)
+	times_b, res_b, asd3, asd4 = periodo(v2)
+
+	plt.figure(figsize=(7,4))
+	plt.plot(times_a, res_a, 'o', label="a")
+	plt.plot(times_b, res_b, 'o', label="b")
+	plt.show()
 
 	#Diferencia entre disparos muy tocha, parece no haber sincro
 	if abs(len(times_a)-len(times_b))>2:
+		print("Size so different")
 		return 0
 
 	#Ajustamos el inicio para que siempre sea de la misma neurona
@@ -101,11 +108,13 @@ def analisis_para_mapa(v1, v2, g1, g2):
 		if len(times_b)<=len(times_a):
 			for i in range(len(times_b)):
 				if times_a[i]<times_b[i]:
+					print("No ording at firing")
 					return 0
 				res.append(times_a[i]-times_b[i])
 		else:
 			for i in range(len(times_a)):
 				if times_a[i]<times_b[i]:
+					print("No ording at firing")
 					return 0
 				res.append(times_a[i]-times_b[i])
 	
@@ -113,11 +122,13 @@ def analisis_para_mapa(v1, v2, g1, g2):
 		if len(times_b)<=len(times_a):
 			for i in range(len(times_b)):
 				if times_a[i]>times_b[i]:
+					print("No ording at firing")
 					return 0
 				res.append(times_b[i]-times_a[i])
 		else:
 			for i in range(len(times_a)):
 				if times_a[i]>times_b[i]:
+					print("No ording at firing")
 					return 0 
 				res.append(times_b[i]-times_a[i])
 
@@ -127,7 +138,7 @@ def analisis_para_mapa(v1, v2, g1, g2):
 		suma+=ele
 	suma=suma/len(res)
 	
-	#print(str(g2[0])+" - "+str(g1[0])+" = "+str(suma))
+	print(str(g2[0])+" - "+str(g1[0])+" = "+str(suma))
 
 	return suma
 

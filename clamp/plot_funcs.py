@@ -10,16 +10,45 @@ import math
 #########
 def plot_voltage(data):
 	plt.figure(figsize=(12,6))
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.4)
-	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.4)
-	plt.plot(data.time, data.c_model, label="Current model", linewidth=0.1)
-	plt.plot(data.time, data.c_viva, label="Current real", linewidth=0.1)
+	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
+	plt.plot(data.time, data.c_model, label="Current model", linewidth=0.4)
+	plt.plot(data.time, data.c_viva, label="Current real", linewidth=0.4)
 	plt.legend()
 	plt.xlabel("Time (s)")
 	plt.ylabel("Voltage")
 	plt.title("Model scale to extern signal")
 	plt.tight_layout()
 	plt.show()
+
+def plot_voltage_events(data, data2):
+	plt.figure(figsize=(12,8))
+
+	ax1 = plt.subplot(3, 1, 1)
+	plt.title("Hybrid connection")
+	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
+	plt.ylabel("Voltage")
+	plt.legend()
+
+	ax2 = plt.subplot(3, 1, 2, sharex=ax1)
+	plt.plot(data.time, data2.data_extra[0], label="Real to Model - Fast", linewidth=0.8)
+	plt.plot(data.time, data2.data_extra[1], label="Real to Model - Slow", linewidth=0.8)
+	plt.plot(data.time, data2.data_extra[2], label="Model to Real - Fast", linewidth=0.8)
+	plt.plot(data.time, data2.data_extra[3], label="Model to Real - Slow", linewidth=0.8)
+	plt.ylabel("Conductance")
+	plt.legend()
+
+	ax3 = plt.subplot(3, 1, 3, sharex=ax1)
+	plt.plot(data.time, data.c_model, label="Current model", linewidth=0.8)
+	plt.plot(data.time, data.c_viva, label="Current real", linewidth=0.8)
+	plt.ylabel("Current")
+	plt.legend()
+	
+	plt.xlabel("Time (s)")
+	plt.tight_layout()
+	plt.show()
+
 
 #########
 # Latencies

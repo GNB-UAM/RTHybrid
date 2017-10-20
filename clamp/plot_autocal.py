@@ -104,33 +104,43 @@ def auto_plot_7(data1, data2):
 	plt.show()
 
 def auto_plot_7_mapa(data1, data2):
+	print("No preparado si la g no empieza de 0 y revisa para no g0 y g3")
 	print("Plotting")
-	g0 = data2.data_extra[2]
-	g1 = data2.data_extra[3]
-	g2 = data2.data_extra[4]
-	g3 = data2.data_extra[5]
+	g0 = data2.data_extra[0]
+	g1 = data2.data_extra[1]
+	g2 = data2.data_extra[2]
+	g3 = data2.data_extra[3]
+
+	names_y=[]
+	names_x=[]
 
 	#En esta lista se encuentra el primer indice que cambia de valor
 	g0s = []
 	g0s.append(0)
+	names_y.append(g0[0])
 	for i in range(len(g0)-1):
 		if g0[i]!=g0[i+1]:
 			g0s.append(i+1)
+			names_y.append(g0[i+1])
 
-	#En esta lista se encuentra el primer indice que cambia de valor
+	#En esta lista se encuentra el segundo indice que cambia de valor
 	g3s = []
 	g3s.append(0)
+	names_x.append(g3[0])
 	for i in range(len(g3)-1):
 		if g3[i]!=g3[i+1]:
 			g3s.append(i+1)
+			names_x.append(g3[i+1])
 
 	#Tamaño de los ejes
 	eje_x = len(g0s)
 	eje_y = 1
 	for elem in g3s[1:]:
-		if g3[elem]==0:
+		if g3[elem]==0: ##!!!peligro cuando no empiece en cero
 			break
 		eje_y+=1
+
+	names_x = names_x[0:eje_y]
 
 	#Analisis de cada trozo por separado
 	result=[]
@@ -139,10 +149,15 @@ def auto_plot_7_mapa(data1, data2):
 		new=g3s[i+1]-1
 		result.append( analysis.analisis_para_mapa( data1.v_model_scaled[old:new], data1.v_live[old:new], g3[old:new], g0[old:new] ) )
 
+	result.append( analysis.analisis_para_mapa( data1.v_model_scaled[new+1:], data1.v_live[new+1:], g3[new+1:], g0[new+1:] ) )
+
 	#Colocamos con la forma de matriz necesaria
 	print("Plotting.")
 	result = np.array(result)
+	for i in range(len(result)):
+		result[i]*=1000 #De segundos a ms.
 	matrix = result.reshape((eje_x, eje_y))
+	print(matrix)
 
 	#Belleza para el plot, los ceros seran min-1
 	min_a=999
@@ -154,6 +169,42 @@ def auto_plot_7_mapa(data1, data2):
 		for j in range(eje_y):
 			if matrix[i][j]==0 :
 				matrix[i][j]=min_a-1
+
+	print("Plotting..")
+	#####Mapa
+	fig, ax = plt.subplots()
+	cMap = ListedColormap(['white', 'green', 'blue','red'])
+
+	# define the colormap
+	cmap = plt.cm.jet
+	# extract all colors from the .jet map
+	cmaplist = [cmap(i) for i in range(cmap.N)]
+	# force the first color entry to be grey
+	cmaplist[0] = (.5,.5,.5,1.0)
+	# create the new map
+	cmap = cmap.from_list('Custom cmap', cmaplist, cmap.N)
+
+
+	#heatmap = ax.pcolor(matrix, cmap=plt.get_cmap('Blues'))
+	heatmap = ax.pcolor(matrix, cmap=cmap)
+	cbar = plt.colorbar(heatmap)
+	cbar.ax.set_ylabel('Distancia entre disparos (ms)')
+
+	#h
+	my_yticks = names_y# ['0', '0.2', '0.4', '0.6', '0.8']
+	my_xticks = names_x#['0', '0.01', '0.02', '0.03', '0.04', '0.05', '0.06', '0.07', '0.08', '0.09', '0.10', '0.11']
+
+	ax.set_yticks(np.arange(len(my_yticks))+0.5)
+	ax.set_yticklabels(my_yticks)
+
+	ax.set_xticks(np.arange(len(my_xticks))+0.5)
+	ax.set_xticklabels(my_xticks)
+	
+
+	plt.xlabel("Conductancia sinapsis lenta")
+	plt.ylabel("Conductancia sinapsis rápida")
+	plt.title("Mapa de conductancias - Sinapsis química")
+	plt.show()
 
 
 def auto_plot_7_mapa_old(data1, data2):
