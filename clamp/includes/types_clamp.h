@@ -71,7 +71,9 @@ typedef struct {
 
 typedef struct {
     double freq;
+    int after;
     int time_var;
+    int before;
     int model;
     int synapse;
     int mode_auto_cal;

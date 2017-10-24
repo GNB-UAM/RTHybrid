@@ -10,8 +10,7 @@ int parse_int (xmlDocPtr doc, xmlNodePtr cur, int * num, const xmlChar * label) 
      
     if(val == NULL) return ERR;
      
-    //sscanf((char*)valor, "%ld", id);
-    *num = strtol(val, NULL, 10);
+    *num = (int) strtol(val, NULL, 10);
     xmlFree(val);
      
     return OK;
@@ -27,7 +26,6 @@ int parse_double (xmlDocPtr doc, xmlNodePtr cur, double * num, const xmlChar * l
      
     if(val == NULL) return ERR;
      
-    //sscanf((char*)valor, "%ld", id);
     *num = strtof(val, NULL);
     xmlFree(val);
      
@@ -35,7 +33,7 @@ int parse_double (xmlDocPtr doc, xmlNodePtr cur, double * num, const xmlChar * l
 }
 
 
-int parse_string (xmlDocPtr doc, xmlNodePtr cur, char * str, const xmlChar * label) {
+int parse_string (xmlDocPtr doc, xmlNodePtr cur, char ** str, const xmlChar * label) {
 	xmlChar * val = NULL;
      
     if ((!doc) || (!cur) || (!str)) return ERR;
@@ -44,8 +42,8 @@ int parse_string (xmlDocPtr doc, xmlNodePtr cur, char * str, const xmlChar * lab
      
     if(val == NULL) return ERR;
     
-    str = (char *) malloc (xmlStrlen(val) + 1);
-    strcpy(str, (char *) val);
+    *str = (char *) malloc (xmlStrlen(val) + 1);
+    strcpy(*str, (char *) val);
     xmlFree(val);
      
     return OK;

@@ -6,7 +6,10 @@
 #define MODEL "model"
 #define SYNAPSE "synapse"
 #define FREQ "freq"
-#define TIME_VAR "time_war"
+#define TIMES "times"
+#define BEFORE "before"
+#define DURATION "duration"
+#define AFTER "after"
 #define ANTI "anti"
 #define IMP "imp"
 #define CALIB "calib"
@@ -29,6 +32,14 @@
 #define MU "mu"
 #define I "i"
 
+#define G_VIRTUAL_TO_REAL "g_virtual_to_real"
+#define G_VIRTUAL_TO_REAL_SLOW "g_virtual_to_real_slow"
+#define G_VIRTUAL_TO_REAL_FAST "g_virtual_to_real_fast"
+#define G_REAL_TO_VIRTUAL "g_real_to_virtual"
+#define G_REAL_TO_VIRTUAL_SLOW "g_real_to_virtual_slow"
+#define G_REAL_TO_VIRTUAL_FAST "g_real_to_virtual_fast"
+
+
 #define VALUE "val"
 #define TYPE "type"
 
@@ -42,6 +53,8 @@ static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_synapse (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_syn_elec (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_syn_chem (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
@@ -92,7 +105,7 @@ int xml_clamp_parser (char * file, clamp_args * args) {
         else if (xmlStrcmp(cur->name, (const xmlChar*) FREQ) == 0) {
         	ret = parse_clamp_freq(doc, cur, args);
         }
-        else if (xmlStrcmp(cur->name, (const xmlChar*) TIME_VAR) == 0) {
+        else if (xmlStrcmp(cur->name, (const xmlChar*) TIMES) == 0) {
             ret = parse_clamp_time(doc, cur, args);
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) ANTI) == 0) {
@@ -115,6 +128,7 @@ int xml_clamp_parser (char * file, clamp_args * args) {
 
         cur = cur->next;
     }
+
 
     xmlFreeDoc(doc);
     return ret;
@@ -282,38 +296,136 @@ static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) 
 	return ret;
 }
 
+
+static int parse_clamp_syn_elec (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	xmlNodePtr child =  NULL;
+	int ret = OK;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	args->g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+    args->g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
+
+
+    while (cur != NULL) {
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL) == 0) ret = parse_double(doc, cur, &args->g_virtual_to_real[0], (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL) == 0) ret = parse_double(doc, cur, &args->g_real_to_virtual[0], (const xmlChar*) VALUE);
+
+		if (ret != OK) return ret;
+
+
+		cur = cur->next;
+	}
+
+	return OK;
+
+}
+
+
+static int parse_clamp_syn_chem (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	xmlNodePtr child =  NULL;
+	int ret = OK;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	args->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
+    args->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
+
+
+    while (cur != NULL) {
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL_SLOW) == 0) ret = parse_double(doc, cur, &args->g_virtual_to_real[G_SLOW], (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL_FAST) == 0) ret = parse_double(doc, cur, &args->g_virtual_to_real[G_FAST], (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL_SLOW) == 0) ret = parse_double(doc, cur, &args->g_real_to_virtual[G_SLOW], (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL_FAST) == 0) ret = parse_double(doc, cur, &args->g_real_to_virtual[G_FAST], (const xmlChar*) VALUE);
+
+		if (ret != OK) return ret;
+
+
+		cur = cur->next;
+	}
+
+	return OK;
+}
+
 static int parse_clamp_synapse (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	if (parse_int(doc, cur, &args->synapse, (const xmlChar*) TYPE) != OK) return ERR;
+
+
+	switch(args->synapse) {
+		case ELECTRIC:
+			ret = parse_clamp_syn_elec(doc, cur->xmlChildrenNode, args);
+			break;
+		case CHEMICAL:
+			ret = parse_clamp_syn_chem(doc, cur->xmlChildrenNode, args);
+			break;
+		default:
+			return ERR;
+	}
+
+	return ret;
 }
 
 static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_double(doc, cur, &args->freq, (const xmlChar*) VALUE);
+
+	return ret;
 }
 
 static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
-	int ret = ERR;
+	int ret = OK;
+	xmlNodePtr child;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	child = cur->xmlChildrenNode;
+
+	while (child != NULL) {
+		if (xmlStrcmp(child->name, (const xmlChar *) BEFORE) == 0) ret = parse_int(doc, child, &args->before, (const xmlChar*) VALUE);
+		if (xmlStrcmp(child->name, (const xmlChar *) DURATION) == 0) ret = parse_int(doc, child, &args->time_var, (const xmlChar*) VALUE);
+		if (xmlStrcmp(child->name, (const xmlChar *) AFTER) == 0) ret = parse_int(doc, child, &args->after, (const xmlChar*) VALUE);
+
+		if (ret != OK) return ret;
+
+		child = child->next;
+	}
+
+	return ret;
 }
 
 static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_int(doc, cur, &args->anti, (const xmlChar*) VALUE);
+
+	return ret;
 }
 
 static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_int(doc, cur, &args->imp, (const xmlChar*) VALUE);
+
+	return ret;
 }
 
 static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	args->mode_auto_cal = 0;
 
 	return OK;
 }
@@ -321,11 +433,19 @@ static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * 
 static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_string(doc, cur, &args->input, (const xmlChar*) VALUE);
+
+	return ret;
 }
 
 static int parse_clamp_output (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
-	return OK;
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_string(doc, cur, &args->output, (const xmlChar*) VALUE);
+
+	return ret;
 }
