@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "types.h"
+#include "types_clamp.h"
 
 int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result);
 

@@ -21,13 +21,13 @@ RTBiomanager::~RTBiomanager()
 
 void RTBiomanager::on_simulate_clicked()
 {
-    Clamp_args * args;
+    clamp_args * args;
 
     int autocalIndex=0;
     std::string aux_in, aux_out;
 
 
-    args = (Clamp_args*) malloc (sizeof(Clamp_args));
+    args = (clamp_args*) malloc (sizeof(clamp_args));
     args->input = NULL;
     args->output = NULL;
     args->vars = NULL;

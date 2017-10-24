@@ -3,7 +3,7 @@
 #include <comedilib.h>
 #include <ctype.h>
 #include <math.h>
-#include "types.h"
+#include "types_clamp.h"
 
 typedef struct {
 	comedi_t * device;

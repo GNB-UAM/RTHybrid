@@ -1,0 +1,29 @@
+<clamp>
+	<model type="0">
+		<vars>
+			<x val="30.24"/>
+			<y val="-5.5"/>
+		</vars>
+		<params>
+			<a val="0.02"/>
+			<b val="0.2"/>
+			<c val="-50.0"/>
+			<d val="2.0"/>
+			<i val="10.0"/>
+		</params>
+	</model>
+	<synapse type="1">
+		<g_virtual_to_real_slow val="0.1"/>
+		<g_virtual_to_real_fast val="0.0"/>
+		<g_real_to_virtual_slow val="0.3"/>
+		<g_real_to_virtual_fast val="0.0"/>
+	</synapse>
+	<calib type="0">
+	</calib>
+	<freq val="10"/>
+	<time_var val="5"/>
+	<input val="0"/>
+	<output val="0,1"/>
+	<imp val="0"/>
+	<anti val="0"/>
+</clamp>

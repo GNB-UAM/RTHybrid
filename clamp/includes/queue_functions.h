@@ -11,7 +11,7 @@
 #include <signal.h>
 #include <stdarg.h>
 #include <syslog.h>
-#include "types.h"
+#include "types_clamp.h"
 
 
 typedef struct {
