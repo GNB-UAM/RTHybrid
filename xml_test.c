@@ -2,7 +2,7 @@
 
 int main () {
 	clamp_args args;
-	char file[] = "clamp_args.xml";
+	char file[] = "xml/clamp_args_2.xml";
 
 	xml_clamp_parser(file, &args);
 
@@ -57,6 +57,18 @@ int main () {
 			printf("G_R_V_S = %f\n", args.g_real_to_virtual[G_SLOW]);
 			printf("G_R_V_F = %f\n", args.g_real_to_virtual[G_FAST]);
 
+			break;
+		default:
+			break;
+	}
+
+
+	switch (args.mode_auto_cal) {
+		case 1:
+			printf("Electric conductance MSE.\n");
+			break;
+		case 7:
+			printf("Gradual Map.  Step V to R: %f   Step R to V: %f\n", args.step_v_to_r, args.step_r_to_v);
 			break;
 		default:
 			break;

@@ -38,7 +38,8 @@
 #define G_REAL_TO_VIRTUAL "g_real_to_virtual"
 #define G_REAL_TO_VIRTUAL_SLOW "g_real_to_virtual_slow"
 #define G_REAL_TO_VIRTUAL_FAST "g_real_to_virtual_fast"
-
+#define STEP_V_TO_R "step_v_to_r"
+#define STEP_R_TO_V "step_r_to_v"
 
 #define VALUE "val"
 #define TYPE "type"
@@ -253,8 +254,8 @@ static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 
 			while (child != NULL) {
 				if (xmlStrcmp(child->name, (const xmlChar *) ALPHA) == 0) ret = parse_double(doc, child, &args->params[ALPHA_RLK], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) SIGMA) == 0) ret = parse_double(doc, child, &args->params[MU_RLK], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) MU) == 0) ret = parse_double(doc, child, &args->params[SIGMA_RLK], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) MU) == 0) ret = parse_double(doc, child, &args->params[MU_RLK], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) SIGMA) == 0) ret = parse_double(doc, child, &args->params[SIGMA_RLK], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) I) == 0) ret = parse_double(doc, child, &args->params[I_RLK], (const xmlChar*) VALUE);
 
 				if (ret != OK) return ret;
@@ -421,13 +422,35 @@ static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 }
 
 static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
-	int ret = ERR;
+	int ret = OK;
+	xmlNodePtr child;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	args->mode_auto_cal = 0;
+	ret = parse_int(doc, cur, &args->mode_auto_cal, (const xmlChar*) TYPE);
 
-	return OK;
+	child = cur->xmlChildrenNode;
+
+	switch(args->mode_auto_cal) {
+		case 1:
+			break;
+		case 7:
+			while (child != NULL) {
+				if (xmlStrcmp(child->name, (const xmlChar*) SYNAPSE) == 0) ret = parse_clamp_synapse(doc, child, args);
+				if (xmlStrcmp(child->name, (const xmlChar*) STEP_V_TO_R) == 0) ret = parse_double(doc, child, &args->step_v_to_r, (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar*) STEP_R_TO_V) == 0) ret = parse_double(doc, child, &args->step_r_to_v, (const xmlChar*) VALUE);
+
+				if (ret != OK) return ret;
+
+				child = child->next;
+			}
+
+			break;
+		default:
+			break;
+	}
+
+	return ret;
 }
 
 static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
