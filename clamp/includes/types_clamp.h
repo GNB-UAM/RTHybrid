@@ -19,7 +19,9 @@ typedef struct {
     int dim;
     double dt;
     int type_syn;
-    long points;
+    long time_var;
+    int before;
+    int after;
     int s_points;
     void * msqid;
     int period;
