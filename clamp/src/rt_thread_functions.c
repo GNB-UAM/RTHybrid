@@ -328,6 +328,14 @@ void * rt_thread(void * arg) {
     out_values = (double *) malloc (sizeof(double) * args->n_out_chan);
 
 
+    clock_gettime(CLOCK_MONOTONIC, &ts_target);
+    ts_assign (&ts_start,  ts_target);
+    ts_add_time(&ts_target, 0, args->period);
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before control record");
+
+
     /************************
     BEFORE CONTROL RECORD
     ************************/
@@ -371,6 +379,13 @@ void * rt_thread(void * arg) {
 
             ts_add_time(&ts_target, 0, args->period);
 
+            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                close_device_comedi(d);
+                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                pthread_exit(NULL);
+            }
+
         }
         msg.c_real = 0;
         args->func(args->dim, args->dt, args->vars, args->params, c_real);
@@ -384,11 +399,6 @@ void * rt_thread(void * arg) {
     INITIAL INTERACTION
     ************************/
 
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Initial interaction");
-
-    clock_gettime(CLOCK_MONOTONIC, &ts_target);
-    ts_assign (&ts_start,  ts_target);
-    ts_add_time(&ts_target, 0, args->period);
 
     for (i = 0; i < t_obs * args->freq * args->s_points; i++) {
         if (i % args->s_points == 0) {
@@ -650,6 +660,13 @@ void * rt_thread(void * arg) {
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
+
+            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                close_device_comedi(d);
+                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                pthread_exit(NULL);
+            }
 
         }
         msg.c_real = 0;
