@@ -327,6 +327,59 @@ void * rt_thread(void * arg) {
     ret_values = (double *) malloc (sizeof(double) * args->n_in_chan);
     out_values = (double *) malloc (sizeof(double) * args->n_out_chan);
 
+
+    /************************
+    BEFORE CONTROL RECORD
+    ************************/
+
+    for (i = 0; i < args->before * args->freq * args->s_points; i++) {
+        if (i % args->s_points == 0) {
+            clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &ts_iter);
+
+            ts_substraction(&ts_target, &ts_iter, &ts_result);
+            msg.id = 1;
+            msg.extra = 0;
+            msg.i = cont_send;
+            cont_send++;
+            msg.v_model_scaled = args->vars[0] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model = args->vars[0];
+            msg.c_model = 0;
+            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
+            ts_substraction(&ts_start, &ts_iter, &ts_result);
+            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+
+            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
+            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+
+            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
+            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
+
+            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
+            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
+
+
+            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
+            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
+
+            copy_1d_array(args->g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(args->g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+
+            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+
+            ts_add_time(&ts_target, 0, args->period);
+
+        }
+        msg.c_real = 0;
+        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+    }
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: before loop end");
+
+
+
     /************************
     INITIAL INTERACTION
     ************************/
@@ -412,6 +465,8 @@ void * rt_thread(void * arg) {
         args->func(args->dim, args->dt, args->vars, args->params, c_real);
     }
 
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: initial interaction loop end");
+
     if(args->calibration == 1){
         sum_ecm = sum_ecm / sum_ecm_cont;
         set_is_syn_by_percentage(sum_ecm);
@@ -439,7 +494,7 @@ void * rt_thread(void * arg) {
     INTERACTION
     ************************/
 
-    loop_points = args->points * args->s_points;
+    loop_points = args->time_var * args->freq * args->s_points;
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %f", loop_points);
 
@@ -549,7 +604,59 @@ void * rt_thread(void * arg) {
         args->func(args->dim, args->dt, args->vars, args->params, args->anti*c_real);
     }
 
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: loop end");
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: main loop end");
+
+
+    /************************
+    AFTER CONTROL RECORD
+    ************************/
+
+    for (i = 0; i < args->before * args->freq * args->s_points; i++) {
+        if (i % args->s_points == 0) {
+            clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &ts_iter);
+
+            ts_substraction(&ts_target, &ts_iter, &ts_result);
+            msg.id = 1;
+            msg.extra = 0;
+            msg.i = cont_send;
+            cont_send++;
+            msg.v_model_scaled = args->vars[0] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model = args->vars[0];
+            msg.c_model = 0;
+            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
+            ts_substraction(&ts_start, &ts_iter, &ts_result);
+            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+
+            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
+            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+
+            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
+            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
+
+            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
+            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
+
+
+            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
+            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
+
+            copy_1d_array(args->g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(args->g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+
+            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+
+            ts_add_time(&ts_target, 0, args->period);
+
+        }
+        msg.c_real = 0;
+        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+    }
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: after loop end");
 
     for (i = 0; i < args->n_out_chan; i++) {
     	out_values[i] = 0;

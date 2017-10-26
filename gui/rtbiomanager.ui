@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>290</y>
+      <y>440</y>
       <width>82</width>
       <height>23</height>
      </rect>
@@ -201,7 +201,7 @@
         </font>
        </property>
        <property name="plainText">
-        <string>0.3</string>
+        <string>0.1</string>
        </property>
       </widget>
       <widget class="QPlainTextEdit" name="textSynGrad_gEtoM_fast">
@@ -347,7 +347,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>250</y>
+      <y>400</y>
       <width>88</width>
       <height>21</height>
      </rect>
@@ -360,7 +360,7 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>250</y>
+      <y>400</y>
       <width>88</width>
       <height>21</height>
      </rect>
@@ -373,7 +373,7 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>140</y>
+      <y>290</y>
       <width>241</width>
       <height>16</height>
      </rect>
@@ -394,7 +394,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>170</y>
+      <y>320</y>
       <width>61</width>
       <height>15</height>
      </rect>
@@ -407,7 +407,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>210</y>
+      <y>360</y>
       <width>61</width>
       <height>15</height>
      </rect>
@@ -420,20 +420,26 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>160</y>
+      <y>310</y>
       <width>104</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="plainText">
+     <string>0</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="textChannelOutput">
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>200</y>
+      <y>350</y>
       <width>104</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="plainText">
+     <string>0,1</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -1290,6 +1296,9 @@
          <height>31</height>
         </rect>
        </property>
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
        <item>
         <property name="text">
          <string>Fast</string>
@@ -1380,6 +1389,9 @@ Step</string>
        <property name="singleStep">
         <double>0.100000000000000</double>
        </property>
+       <property name="value">
+        <double>0.400000000000000</double>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="chemMap_MaxToModel">
        <property name="geometry">
@@ -1393,6 +1405,9 @@ Step</string>
        <property name="singleStep">
         <double>0.100000000000000</double>
        </property>
+       <property name="value">
+        <double>0.060000000000000</double>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="chemMap_StepToExternal">
        <property name="geometry">
@@ -1404,6 +1419,9 @@ Step</string>
         </rect>
        </property>
        <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
         <double>0.100000000000000</double>
        </property>
       </widget>
@@ -1419,9 +1437,64 @@ Step</string>
        <property name="singleStep">
         <double>0.100000000000000</double>
        </property>
+       <property name="value">
+        <double>0.010000000000000</double>
+       </property>
       </widget>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPlainTextEdit" name="textTimeBefore">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>120</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="textTimeAfter">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>160</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>5</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_35">
+    <property name="geometry">
+     <rect>
+      <x>808</x>
+      <y>125</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Before control (s)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_36">
+    <property name="geometry">
+     <rect>
+      <x>813</x>
+      <y>163</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>After control (s)</string>
+    </property>
    </widget>
   </widget>
  </widget>

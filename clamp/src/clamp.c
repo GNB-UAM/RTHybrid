@@ -242,7 +242,9 @@ int clamp (clamp_args * args) {
     syslog(LOG_INFO, "CLAMP: Queue opened");
 
     r_args.msqid = msqid;
-    r_args.points = args->time_var * args->freq;
+    r_args.time_var = args->time_var;
+    r_args.before = args->before;
+    r_args.after = args->after;
     r_args.period =  (1 / args->freq) * NSEC_PER_SEC;
     r_args.type_syn = args->synapse;
     r_args.freq = args->freq;
@@ -256,7 +258,6 @@ int clamp (clamp_args * args) {
 
     w_args.path = path;
     w_args.filename = filename;
-    w_args.points = r_args.points;
     w_args.s_points = r_args.s_points;
     w_args.msqid = msqid;
     w_args.type_syn = args->synapse;
