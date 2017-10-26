@@ -5,8 +5,8 @@ extern "C" {
 #ifndef CLAMP_H
 #define CLAMP_H
 
-#include "clamp/includes/rt_thread_functions.h"
-#include "clamp/includes/writer_thread_functions.h"
+#include "rt_thread_functions.h"
+#include "writer_thread_functions.h"
 
 int clamp (clamp_args * args);
 

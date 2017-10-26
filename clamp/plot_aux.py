@@ -61,7 +61,7 @@ class DataStruct1():
 		self.v_model_scaled = data[:,5]
 		self.c_model = data[:,6]
 		self.c_viva = data[:,7]
-		self.v_live = data[:, 8]
+		#self.v_live = data[:, 8]
 
 		self.data_in = []
 		for j in range(8, 8 + self.n_in_chan):

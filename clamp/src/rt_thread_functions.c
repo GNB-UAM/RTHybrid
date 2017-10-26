@@ -216,6 +216,8 @@ void * rt_thread(void * arg) {
     cal_struct->scale_real_to_virtual=scale_real_to_virtual;
     cal_struct->offset_virtual_to_real=offset_virtual_to_real;
     cal_struct->offset_real_to_virtual=offset_real_to_virtual;
+    cal_struct->g_real_to_virtual = NULL;
+    cal_struct->g_virtual_to_real = NULL;
 
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
@@ -301,7 +303,7 @@ void * rt_thread(void * arg) {
 
 			break;
 		default:
-            free_pointers(2, &session, &cal_struct);
+            free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
 			close_device_comedi(d);
         	pthread_exit(NULL);
 	}
@@ -400,7 +402,7 @@ void * rt_thread(void * arg) {
             ts_add_time(&ts_target, 0, args->period);
 
             if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
-                free_pointers(2, &session, &cal_struct);
+                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 close_device_comedi(d);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
@@ -528,7 +530,7 @@ void * rt_thread(void * arg) {
                     out_values[i] = 0;
                 }
                 write_comedi(session, args->n_out_chan, args->out_channels, out_values);
-                free_pointers(2, &session, &cal_struct);
+                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 close_device_comedi(d);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
@@ -552,6 +554,7 @@ void * rt_thread(void * arg) {
     for (i = 0; i < args->n_out_chan; i++) {
     	out_values[i] = 0;
     }
+
     write_comedi(session, args->n_out_chan, args->out_channels, out_values);
     free_pointers(4, &session, &cal_struct->g_real_to_virtual, &cal_struct->g_virtual_to_real, &cal_struct);
     close_device_comedi(d);
@@ -568,5 +571,6 @@ void * rt_thread(void * arg) {
     free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: End. Not sent messages: %d\n", lost_msg);
+
     pthread_exit(NULL);
 }

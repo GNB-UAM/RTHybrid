@@ -94,6 +94,10 @@ int xml_clamp_parser (char * file, clamp_args * args) {
         return ERR;
     }
 
+
+    args->input = NULL;
+    args->output = NULL;
+
     cur = cur->xmlChildrenNode;
 
     while(cur != NULL) {
@@ -376,6 +380,7 @@ static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_double(doc, cur, &args->freq, (const xmlChar*) VALUE);
+	args->freq *= 1000;
 
 	return ret;
 }

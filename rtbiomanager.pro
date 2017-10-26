@@ -49,7 +49,7 @@ HEADERS += \
     clamp/includes/queue_functions.h \
     clamp/includes/rt_thread_functions.h \
     clamp/includes/time_functions.h \
-    clamp/includes/types.h \
+    common/includes/types.h \
     clamp/includes/writer_thread_functions.h \
     clamp/includes/clamp.h
 

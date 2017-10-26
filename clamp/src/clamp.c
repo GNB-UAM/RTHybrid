@@ -1,4 +1,4 @@
-#include "clamp/includes/clamp.h"
+#include "../includes/clamp.h"
 
 
 /* Global variables */
@@ -41,7 +41,7 @@ void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 
 
 
-int clamp (Clamp_args * args) {
+int clamp (clamp_args * args) {
 	key_t key_q;
 	pthread_attr_t attr_rt, attr_wr;
 	int err;
@@ -78,61 +78,48 @@ int clamp (Clamp_args * args) {
 	r_args.n_out_chan = 0;
 	r_args.in_channels = NULL;
 	r_args.out_channels = NULL;
-    r_args.g_real_to_virtual = args->g_real_to_virtual;
-    r_args.g_virtual_to_real = args->g_virtual_to_real;
-	r_args.anti=-1;
-	w_args.anti=-1;
-    w_args.important = args->imp;
 
-    parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
+    
 
-    parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
+    if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
+    if (args->output != NULL)parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
-    if (args->anti == 1) {
-		r_args.anti=1;
-		w_args.anti=1;
+    if (args->anti != 1) {
+		args->anti = -1;
 	}
 
 
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %
         args->synapse=0;
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
     }else if(args->mode_auto_cal == 2){
 		//Electrica en fase - ecm y slope
         args->synapse=0;
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
     }else if(args->mode_auto_cal == 3){
 		//Electrica en fase - ecm y var
         args->synapse=0;
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
     }else if(args->mode_auto_cal == 4){
 		//Electrica en fase - fase y var
         args->synapse=0;
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
     }else if(args->mode_auto_cal == 5){
 		//Electrica en anti - fase y var
         args->synapse=0;
-		r_args.anti=1;
-		w_args.anti=1;
+		args->anti = 1;
         args->mode_auto_cal = 4;
     }else if(args->mode_auto_cal == 6){
 		//variar mu de hr
         args->model=1;
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
     }else if(args->mode_auto_cal == 7){
-		r_args.anti=-1;
-		w_args.anti=-1;
+		args->anti=-1;
         r_args.step_v_to_r = args->step_v_to_r;
         r_args.step_r_to_v = args->step_r_to_v;
     }else if(args->mode_auto_cal == 8){
-        r_args.anti=-1;
-        w_args.anti=-1;
+        args->anti=-1;
     }
 
 	if(!c_a){
@@ -141,9 +128,6 @@ int clamp (Clamp_args * args) {
 		printf("DON'T USE -a AND -c AT THE SAME TIME\n");
 	}
 
-
-    r_args.calibration = args->mode_auto_cal;
-    w_args.calibration = args->mode_auto_cal;
 
 
     switch (args->model){
@@ -181,6 +165,11 @@ int clamp (Clamp_args * args) {
 		case RLK:
             r_args.rafaga_modelo_pts = args->freq;
 			r_args.dt = 0.003;
+
+			args->params[OLD_RLK] = 0.0;
+			args->params[PTS_RLK] = args->freq;
+			args->params[J_RLK] = ((args->params[PTS_RLK] - 400) / 400) + 1;
+			args->params[INTER_RLK] = 0.0;
 
             r_args.params = args->params;
             r_args.vars = args->vars;
@@ -259,6 +248,11 @@ int clamp (Clamp_args * args) {
     r_args.freq = args->freq;
     r_args.filename = filename;
     r_args.model = args->model;
+    r_args.calibration = args->mode_auto_cal;
+    r_args.anti = args->anti;
+    r_args.g_real_to_virtual = args->g_real_to_virtual;
+    r_args.g_virtual_to_real = args->g_virtual_to_real;
+    
 
     w_args.path = path;
     w_args.filename = filename;
@@ -269,6 +263,9 @@ int clamp (Clamp_args * args) {
     w_args.model = args->model;
     w_args.freq = args->freq;
     w_args.time_var = args->time_var;
+    w_args.important = args->imp;
+    w_args.anti = args->anti;
+    w_args.calibration = args->mode_auto_cal;
 
     err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)
@@ -296,8 +293,8 @@ int clamp (Clamp_args * args) {
         if (close_queue(&msqid) != OK) syslog(LOG_INFO, "Error closing queue.\n");
     }
 
-    /*free(vars);
-    free(params);*/
+    free_pointers(6 , &args->input, &args->output, &args->vars, &args->params, &args->g_real_to_virtual, &args->g_virtual_to_real);
+
 
     syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp_cli finished." PRINT_RESET "\n");
 	return 1;

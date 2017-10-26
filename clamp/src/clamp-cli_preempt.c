@@ -20,7 +20,6 @@ void clamp_cli_cleanup () {
     	if (close_queue(&msqid) != OK) printf("Error closing queue.\n");
     }
     
-
     free_pointers(2, &vars, &params);*/
 
     return 1;
@@ -313,7 +312,6 @@ int main (int argc, char * argv[]) {
         perror("Error obtaining message queue key.");
         exit(EXIT_FAILURE);
     }
-
     msqid = msgget (key_q, 0600 | IPC_CREAT);
     if (msqid == -1) {
         perror("Error obtaining message queue ID.");

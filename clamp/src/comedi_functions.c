@@ -128,17 +128,17 @@ int write_comedi (Comedi_session * session, int n_channels, int * channels, doub
     	range_info = get_range_info_comedi(session, COMEDI_OUTPUT, channels[i]);
     	maxdata = get_maxdata_comedi(session, COMEDI_OUTPUT, channels[i]);
 
-        if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Writing value[%d] %f", i, values[i]);
+        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Writing value[%d] %f", i, values[i]);
 
     	if (write_single_data_comedi (session, range_info, maxdata, channels[i], values[i]) != 1) {
     		printf("Error writing from channel %d at iter %d\n", channels[i], i);
     		return -1;
     	}
 
-        if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Wrote value[%d] %f", i, values[i]);
+        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Wrote value[%d] %f", i, values[i]);
     }
 
-    if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Ending");
+    //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Ending");
     
     return 0;
 }

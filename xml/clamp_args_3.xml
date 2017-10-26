@@ -27,7 +27,6 @@
 		<duration val="5"/>
 		<after val="5"/>
 	</times>
-	<time_var val="5"/>
 	<input val="0"/>
 	<output val="0,1"/>
 	<imp val="0"/>

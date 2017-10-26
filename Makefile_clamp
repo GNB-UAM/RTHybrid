@@ -1,18 +1,28 @@
 CC = gcc
 CCFLAGS = -Wall --pedantic -g -w
-CFLAGS_XML = `xml2-config --cflags`
+CFLAGS_XML = -I/usr/include/libxml2
 LIBS_COMEDI = -lcomedi -lm
 LIBS_RT = -lpthread -D_GNU_SOURCE -lrt
-LIBS_XML =`xml2-config --libs` -lxml2
+LIBS_XML = -lxml2
 
-clamp/clamp-cli_preempt: clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/clamp-cli_preempt clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
-	@echo "\n\t\033[32mCompiled and created clamp-cli_preempt\033[00m\n"
+#clamp/clamp-cli_preempt: clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
+#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/clamp-cli_preempt clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
+#	@echo "\n\t\033[32mCompiled and created clamp-cli_preempt\033[00m\n"
+#
+#clamp/obj/clamp-cli_preempt.o: clamp/src/clamp-cli_preempt.c
+#	@echo "\n\t\033[31mCompiling and creating clamp-cli_preempt\033[00m\n"
+#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) clamp/src/clamp-cli_preempt.c -o clamp/obj/clamp-cli_preempt.o
 
-#obj/clamp-cli_preempt.o: clamp/src/clamp-cli_preempt.c clamp/src/model_library.c clamp/includes/model_library.h clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h clamp/src/comedi_functions.c clamp/includes/comedi_functions.h clamp/includes/queue_functions.h clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h
-clamp/obj/clamp-cli_preempt.o: clamp/src/clamp-cli_preempt.c
-	@echo "\n\t\033[31mCompiling and creating clamp-cli_preempt\033[00m\n"
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) clamp/src/clamp-cli_preempt.c -o clamp/obj/clamp-cli_preempt.o
+clamp/stand_alone_clamp: clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/stand_alone_clamp clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
+	@echo "\n\t\033[32mCompiled and created stand_alone_clamp\033[00m\n"
+
+clamp/obj/stand_alone_clamp.o: clamp/src/stand_alone_clamp.c
+	@echo "\n\t\033[31mCompiling and creating stand_alone_clamp\033[00m\n"
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) clamp/src/stand_alone_clamp.c -o clamp/obj/stand_alone_clamp.o
+
+clamp/obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) clamp/src/clamp.c -o clamp/obj/clamp.o
 
 clamp/obj/model_library.o: clamp/src/model_library.c clamp/includes/model_library.h
 	$(CC) $(CCFLAGS) -c clamp/src/model_library.c -o clamp/obj/model_library.o
@@ -48,8 +58,8 @@ common/obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/incl
 	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o common/obj/xml_parser_functions.o
 
 clean:
-	rm -f clamp/clamp-cli_preempt clamp/obj/*.o common/obj/*
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
 
 mclan:
-	rm -f clamp/clamp-cli_preempt clamp/obj/*.o common/obj/*
-	make
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
+	make -f Makefile_clamp
