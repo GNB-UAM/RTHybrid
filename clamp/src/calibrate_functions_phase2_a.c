@@ -123,10 +123,9 @@ int auto_calibration(
         }
 
         if (cal_on==TRUE){
-            int debug = 0;
             int tiempo_por_punto=10;
 
-            if (debug == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7");
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Autocal - Chem Map 7");
 
             //Mapa de conductancia
             aux_counter++;
@@ -143,8 +142,8 @@ int auto_calibration(
                         return TRUE;
                     }
                 }
-                printf("v_r = %f\n", *g_r_to_v);
-                printf("r_v = %f\n", *g_v_to_r);
+                /*printf("v_r = %f\n", *g_r_to_v);
+                printf("r_v = %f\n", *g_v_to_r);*/
             }
 
 

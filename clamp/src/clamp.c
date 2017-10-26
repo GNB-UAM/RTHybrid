@@ -222,7 +222,7 @@ int clamp (clamp_args * args) {
 	sprintf(hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
 	strcat(filename, hour);  
 
-    syslog(LOG_INFO, " - File: %s%s", filename, "_1.txt");
+    printf(" - File: %s\n", filename);
 
 
     pthread_attr_init(&attr_rt);

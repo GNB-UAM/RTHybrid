@@ -123,7 +123,7 @@ void * writer_thread(void * arg) {
 
     fprintf(f3, "Burst duration = %f s\n", msg2.t_unix);
 
-    printf("Periodo disparo = %f\n", msg2.t_unix);
+    printf("Firing rate = %f s/burst\n", msg2.t_unix);
 
     fprintf(f3, "\n=================================\n\n");
 

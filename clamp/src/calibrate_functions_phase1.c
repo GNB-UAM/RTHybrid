@@ -173,7 +173,7 @@ double signal_period_2(int seg_observacion, double * signal, int size, double th
         }
 
     }
-    printf("CHANGES = %f\n", changes);
+    //printf("CHANGES = %f\n", changes);
     double period = 1.0 / (changes/seg_observacion);
     return period;
 }
