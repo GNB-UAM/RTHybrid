@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <getopt.h>
-#include "comedi_functions.h"
+#include "device_functions.h"
 #include "time_functions.h"
 
 int ini_recibido (double *min, double *min_abs, double *max, double *max_relativo, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename);
