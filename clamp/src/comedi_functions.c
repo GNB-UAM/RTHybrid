@@ -1,4 +1,5 @@
 #include "../includes/device_functions.h"
+#include <comedilib.h>
 
 struct _Daq_session{
 	comedi_t * device;
