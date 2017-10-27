@@ -254,6 +254,7 @@ int clamp (clamp_args * args) {
     r_args.anti = args->anti;
     r_args.g_real_to_virtual = args->g_real_to_virtual;
     r_args.g_virtual_to_real = args->g_virtual_to_real;
+    r_args.firing_rate = args->firing_rate;
     
 
     w_args.path = path;

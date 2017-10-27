@@ -37,6 +37,7 @@ typedef struct {
     int model;
     double step_v_to_r;
     double step_r_to_v;
+    double firing_rate;
 } rt_args;
 
 typedef struct {
@@ -89,6 +90,7 @@ typedef struct {
     double * g_real_to_virtual;
     double step_v_to_r;
     double step_r_to_v;
+    double firing_rate;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__
