@@ -1530,6 +1530,19 @@ Step</string>
      <string>Burst/s</string>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="cosa_tmp">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>230</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>5</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

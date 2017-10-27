@@ -5,16 +5,16 @@ LIBS_COMEDI = -lcomedi -lm
 LIBS_RT = -lpthread -D_GNU_SOURCE -lrt
 LIBS_XML = -lxml2
 
-#clamp/clamp-cli_preempt: clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
-#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/clamp-cli_preempt clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
+#clamp/clamp-cli_preempt: clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
+#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/clamp-cli_preempt clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
 #	@echo "\n\t\033[32mCompiled and created clamp-cli_preempt\033[00m\n"
 #
 #clamp/obj/clamp-cli_preempt.o: clamp/src/clamp-cli_preempt.c
 #	@echo "\n\t\033[31mCompiling and creating clamp-cli_preempt\033[00m\n"
 #	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) clamp/src/clamp-cli_preempt.c -o clamp/obj/clamp-cli_preempt.o
 
-clamp/stand_alone_clamp: clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/stand_alone_clamp clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/comedi_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
+clamp/stand_alone_clamp: clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/stand_alone_clamp clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
 	@echo "\n\t\033[32mCompiled and created stand_alone_clamp\033[00m\n"
 
 clamp/obj/stand_alone_clamp.o: clamp/src/stand_alone_clamp.c
@@ -33,8 +33,8 @@ clamp/obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/
 clamp/obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h clamp/includes/queue_functions.h
 	$(CC) $(CCFLAGS) -c clamp/src/writer_thread_functions.c -o clamp/obj/writer_thread_functions.o
 
-clamp/obj/comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/comedi_functions.h clamp/includes/types_clamp.h common/includes/types.h
-	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) clamp/src/comedi_functions.c -o clamp/obj/comedi_functions.o
+clamp/obj/device_functions.o: clamp/src/comedi_functions.c clamp/includes/device_functions.h clamp/includes/types_clamp.h common/includes/types.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) clamp/src/comedi_functions.c -o clamp/obj/device_functions.o
 
 clamp/obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h clamp/includes/types_clamp.h common/includes/types.h
 	$(CC) $(CCFLAGS) -c clamp/src/calibrate_functions_phase2_a.c -o clamp/obj/calibrate_functions_phase2_a.o
@@ -58,8 +58,8 @@ common/obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/incl
 	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o common/obj/xml_parser_functions.o
 
 clean:
-	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
 
 mclan:
-	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
 	make -f Makefile_clamp

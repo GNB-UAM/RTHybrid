@@ -1,6 +1,6 @@
 #include "../includes/calibrate_functions_phase1.h"
 
-int ini_recibido (double *min, double *min_abs, double *max, double *max_relativo, double *period_signal, Comedi_session * session, int chan, int period, int freq, char* filename){
+int ini_recibido (double *min, double *min_abs, double *max, double *max_relativo, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename){
     
     /*TIEMPO OBSERVACION*/
     int segs_observo = 10; 
@@ -35,7 +35,7 @@ int ini_recibido (double *min, double *min_abs, double *max, double *max_relativ
 
     	/*LECTURA DE DATOS*/
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
-        if (read_comedi(session, n_channels, in_channels, ret_values) != 0) {
+        if (daq_read(session, n_channels, in_channels, ret_values) != 0) {
             return -1;
         }
         retval = ret_values[0];

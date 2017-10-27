@@ -3,8 +3,8 @@
 /************************
 GLOBAL VARIABLES
 ************************/
-comedi_t * d = NULL;
-Comedi_session * session = NULL;
+void * dsc = NULL;
+Daq_session * session = NULL;
 rt_args * args;
 calibration_args * cal_struct = NULL;
 message msg;
@@ -29,12 +29,14 @@ void rt_cleanup () {
             out_values[i] = 0;
         }
         
-        write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+       if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+            fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+        }
     }
 
-    if (d != NULL) {
+    if (dsc != NULL) {
         free_pointers(1, &session);
-        close_device_comedi(d);
+        daq_close_device ((void**) &dsc);
     }
 
     free_pointers(12, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
@@ -150,12 +152,16 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before Comedi");
 
     //Comedi & RT
-    d = open_device_comedi("/dev/comedi0");
+    if (daq_open_device((void**) &dsc) != OK) {
+        fprintf(stderr, "RT_THREAD: error opening device.\n");
+        pthread_exit(NULL);
+    }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Comedi device opened");
 
-    if (create_session_comedi(d, AREF_GROUND, &session) != OK) {
-        close_device_comedi(d);
+    if (daq_create_session ((void**) &dsc, &session) != OK) {
+        fprintf(stderr, "RT_THREAD: error creating DAQ session.\n");
+        daq_close_device ((void**) &dsc);
         pthread_exit(NULL);
     }
 
@@ -177,7 +183,7 @@ void * rt_thread(void * arg) {
     if (args->n_in_chan > 0) {
 	    if ( ini_recibido (&min_real, &min_abs_real, &max_real, &max_real_relativo, &period_disp_real, session, calib_chan, args->period, args->freq, args->filename) == -1 ) {
 			free_pointers(1, &session);
-            close_device_comedi(d);
+            daq_close_device ((void**) &dsc);
 	        pthread_exit(NULL);
 		}
 		//printf("Periodo disparo = %f\n", period_disp_real);
@@ -304,7 +310,7 @@ void * rt_thread(void * arg) {
 			break;
 		default:
             free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
-			close_device_comedi(d);
+			daq_close_device ((void**) &dsc);
         	pthread_exit(NULL);
 	}
 
@@ -379,9 +385,9 @@ void * rt_thread(void * arg) {
 
             ts_add_time(&ts_target, 0, args->period);
 
-            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+            if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
-                close_device_comedi(d);
+                daq_close_device ((void**) &dsc);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
@@ -428,7 +434,11 @@ void * rt_thread(void * arg) {
             copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
             copy_1d_array(out_values, msg.data_out, args->n_out_chan);
 
-            write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+            if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+                fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+                daq_close_device ((void**) &dsc);
+                pthread_exit(NULL);
+            }
 
             /*CALIBRACION*/
             if(args->calibration == 1){
@@ -464,9 +474,9 @@ void * rt_thread(void * arg) {
 
             ts_add_time(&ts_target, 0, args->period);
 
-            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+            if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
-                close_device_comedi(d);
+                daq_close_device ((void**) &dsc);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
@@ -490,13 +500,23 @@ void * rt_thread(void * arg) {
     if (SYNC == TRUE) {
         if (args->n_out_chan >= 1) out_values[0] = 0;
         if (args->n_out_chan >= 2) out_values[1] = -10;
-        write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+
+        if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+            fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+            daq_close_device ((void**) &dsc);
+            pthread_exit(NULL);
+        }
+
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
         ts_add_time(&ts_target, 0, args->period);
 
         if (args->n_out_chan >= 2) out_values[1] = 10;
 
-        write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+        if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+            fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+            daq_close_device ((void**) &dsc);
+            pthread_exit(NULL);
+        }
     }
 
 
@@ -566,7 +586,11 @@ void * rt_thread(void * arg) {
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before writing to device");
 
             /*ENVIO POR LA TARJETA*/
-            write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+            if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+                fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+                daq_close_device ((void**) &dsc);
+                pthread_exit(NULL);
+            }
 
             /*CALIBRACION*/
             end_loop = auto_calibration(
@@ -589,14 +613,21 @@ void * rt_thread(void * arg) {
                 break;
 
             /*LECTURA DE LA TARJETA*/
-            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+            if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+                
                 /*ALGO FALLO*/
                 for (i = 0; i < args->n_out_chan; i++) {
                     out_values[i] = 0;
                 }
-                write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+                
+                if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+                    fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+                    daq_close_device ((void**) &dsc);
+                    pthread_exit(NULL);
+                }
+
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
-                close_device_comedi(d);
+                daq_close_device ((void**) &dsc);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
@@ -661,9 +692,9 @@ void * rt_thread(void * arg) {
 
             ts_add_time(&ts_target, 0, args->period);
 
-            if (read_comedi(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
+            if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
-                close_device_comedi(d);
+                daq_close_device ((void**) &dsc);
                 free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 pthread_exit(NULL);
             }
@@ -679,9 +710,14 @@ void * rt_thread(void * arg) {
     	out_values[i] = 0;
     }
 
-    write_comedi(session, args->n_out_chan, args->out_channels, out_values);
+    if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
+        fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+        daq_close_device ((void**) &dsc);
+        pthread_exit(NULL);
+    }
+
     free_pointers(4, &session, &cal_struct->g_real_to_virtual, &cal_struct->g_virtual_to_real, &cal_struct);
-    close_device_comedi(d);
+    daq_close_device ((void**) &dsc);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
 

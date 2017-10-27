@@ -1,39 +1,59 @@
-#include "../includes/comedi_functions.h"
+#include "../includes/device_functions.h"
 
-comedi_t * open_device_comedi (char * dev_name) {
+struct _Daq_session{
 	comedi_t * device;
+	int in_subdev;		/*input subdevice */
+	int out_subdev;		/*output subdevice */
+	int range;			
+	int aref;		
+};
 
-	device = comedi_open(dev_name);
-	if(device == NULL)
+comedi_range * get_range_info_comedi (Daq_session * session, int direction, int chan);
+lsampl_t get_maxdata_comedi (Daq_session * session, int direction, int chan);
+int read_single_data_comedi (Daq_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double * ret);
+int write_single_data_comedi (Daq_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double data);
+
+int daq_open_device (void ** device) {
+	comedi_t * dsc;
+
+	/**device = (comedi_t *) malloc (sizeof(comedi_t));
+	dsc = *device;*/
+
+	dsc = comedi_open("/dev/comedi0");
+	if(dsc == NULL)
 	{
-		comedi_perror(dev_name);
-		return NULL;
+		comedi_perror("/dev/comedi0");
+		return ERR;
 	}
 
-	return device;
+	*device = dsc;
+
+	return OK;
 }
 
-int close_device_comedi (comedi_t * device) {
-	if (comedi_close(device) == -1) {
+int daq_close_device (void ** device) {
+	comedi_t * dsc = *device;
+
+	if (comedi_close(dsc) == -1) {
 		comedi_perror("Error with comedi_close");
-		return -1;
+		return ERR;
 	}
 
-	return 0;
+	return OK;
 }
 
 
-int create_session_comedi (comedi_t * device, int aref, Comedi_session ** session_ptr) {
-	Comedi_session * session;
-	*session_ptr = (Comedi_session *) malloc (sizeof(Comedi_session));
+int daq_create_session (void  ** device, Daq_session ** session_ptr) {
+	Daq_session * session;
+	*session_ptr = (Daq_session *) malloc (sizeof(Daq_session));
 	session = *session_ptr;
 	
-	session->device = device;
+	session->device = (comedi_t *) *device;
 	session->range = 0; //get_range_comedi(device, subdev, chan, unit, min, max);
-	session->aref = aref;
+	session->aref = AREF_GROUND;
 
 
-	session->in_subdev = comedi_find_subdevice_by_type(device, COMEDI_SUBD_AI, 0);
+	session->in_subdev = comedi_find_subdevice_by_type(session->device, COMEDI_SUBD_AI, 0);
 	if (session->in_subdev == -1) {
 		comedi_perror("Error finding input subdevice");
 
@@ -41,7 +61,7 @@ int create_session_comedi (comedi_t * device, int aref, Comedi_session ** sessio
 		return ERR;
 	}
 
-	session->out_subdev = comedi_find_subdevice_by_type(device, COMEDI_SUBD_AO, 0);
+	session->out_subdev = comedi_find_subdevice_by_type(session->device, COMEDI_SUBD_AO, 0);
 	if (session->out_subdev == -1) {
 		comedi_perror("Error finding output subdevice");
 
@@ -63,7 +83,7 @@ int create_session_comedi (comedi_t * device, int aref, Comedi_session ** sessio
 	return range;
 }*/
 
-comedi_range * get_range_info_comedi (Comedi_session * session, int direction, int chan) {
+comedi_range * get_range_info_comedi (Daq_session * session, int direction, int chan) {
 	comedi_range * range_info;
 	int subdev;
 
@@ -80,7 +100,7 @@ comedi_range * get_range_info_comedi (Comedi_session * session, int direction, i
 	return range_info;
 }
 
-lsampl_t get_maxdata_comedi (Comedi_session * session, int direction, int chan) {
+lsampl_t get_maxdata_comedi (Daq_session * session, int direction, int chan) {
 	lsampl_t maxdata;
 	int subdev;
 
@@ -96,55 +116,8 @@ lsampl_t get_maxdata_comedi (Comedi_session * session, int direction, int chan) 
 	return maxdata;
 }
 
-int read_comedi (Comedi_session * session, int n_channels, int * channels, double * ret) {
-	int i;
-	double aux;
-	comedi_range * range_info;
-	lsampl_t maxdata;
 
-    for (i = 0; i < n_channels; ++i) {
-    	range_info = get_range_info_comedi(session, COMEDI_INPUT, channels[i]);
-    	maxdata = get_maxdata_comedi(session, COMEDI_INPUT, channels[i]);
-
-    	if (read_single_data_comedi (session, range_info, maxdata, channels[i], &aux) == 0) {
-    		ret[i] = aux;
-    	} else {
-    		printf("Error reading from channel %d at iter %d\n", channels[i], i);
-    		return -1;
-    	}
-    }
-    
-    return 0;
-}
-
-
-int write_comedi (Comedi_session * session, int n_channels, int * channels, double * values) {
-	int i;
-	double aux;
-	comedi_range * range_info;
-	lsampl_t maxdata;
-
-    for (i = 0; i < n_channels; ++i) {
-    	range_info = get_range_info_comedi(session, COMEDI_OUTPUT, channels[i]);
-    	maxdata = get_maxdata_comedi(session, COMEDI_OUTPUT, channels[i]);
-
-        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Writing value[%d] %f", i, values[i]);
-
-    	if (write_single_data_comedi (session, range_info, maxdata, channels[i], values[i]) != 1) {
-    		printf("Error writing from channel %d at iter %d\n", channels[i], i);
-    		return -1;
-    	}
-
-        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Wrote value[%d] %f", i, values[i]);
-    }
-
-    //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Ending");
-    
-    return 0;
-}
-
-
-int read_single_data_comedi (Comedi_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double * ret) {
+int read_single_data_comedi (Daq_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double * ret) {
 	lsampl_t data;
 	double physical_value;
 	int retval;
@@ -169,7 +142,7 @@ int read_single_data_comedi (Comedi_session * session, comedi_range * range_info
 }
 
 
-int write_single_data_comedi (Comedi_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double data) {
+int write_single_data_comedi (Daq_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double data) {
 	lsampl_t comedi_value;
 
 	comedi_value = comedi_from_phys(data, range_info, maxdata);
@@ -179,4 +152,51 @@ int write_single_data_comedi (Comedi_session * session, comedi_range * range_inf
 	}
 
 	return comedi_data_write(session->device, session->out_subdev, chan, session->range, session->aref, comedi_value);
+}
+
+int daq_read (Daq_session * session, int n_channels, int * channels, double * ret) {
+	int i;
+	double aux;
+	comedi_range * range_info;
+	lsampl_t maxdata;
+
+    for (i = 0; i < n_channels; ++i) {
+    	range_info = get_range_info_comedi(session, COMEDI_INPUT, channels[i]);
+    	maxdata = get_maxdata_comedi(session, COMEDI_INPUT, channels[i]);
+
+    	if (read_single_data_comedi (session, range_info, maxdata, channels[i], &aux) == 0) {
+    		ret[i] = aux;
+    	} else {
+    		printf("Error reading from channel %d at iter %d\n", channels[i], i);
+    		return -1;
+    	}
+    }
+    
+    return 0;
+}
+
+
+int daq_write (Daq_session * session, int n_channels, int * channels, double * values) {
+	int i;
+	double aux;
+	comedi_range * range_info;
+	lsampl_t maxdata;
+
+    for (i = 0; i < n_channels; ++i) {
+    	range_info = get_range_info_comedi(session, COMEDI_OUTPUT, channels[i]);
+    	maxdata = get_maxdata_comedi(session, COMEDI_OUTPUT, channels[i]);
+
+        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Writing value[%d] %f", i, values[i]);
+
+    	if (write_single_data_comedi (session, range_info, maxdata, channels[i], values[i]) != 1) {
+    		printf("Error writing from channel %d at iter %d\n", channels[i], i);
+    		return -1;
+    	}
+
+        //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Wrote value[%d] %f", i, values[i]);
+    }
+
+    //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Ending");
+    
+    return 0;
 }
