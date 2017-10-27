@@ -41,7 +41,7 @@ void RTBiomanager::on_simulate_clicked()
     args.imp = ui->checkImp->isChecked();
     args.anti = ui->checkAnti->isChecked();
 
-    args.freq = ui->intFreq->value() * 1000.0;
+    args.freq = ui->intFreq->value() * 1.0 * 1000;
     args.time_var = ui->intTime->value();
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();

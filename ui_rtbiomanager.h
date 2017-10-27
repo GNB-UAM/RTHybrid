@@ -133,6 +133,7 @@ public:
     QSpinBox *intTime;
     QSpinBox *intTimeBefore;
     QSpinBox *intTimeAfter;
+    QLabel *label_37;
 
     void setupUi(QMainWindow *RTBiomanager)
     {
@@ -143,7 +144,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         simulate = new QPushButton(centralWidget);
         simulate->setObjectName(QStringLiteral("simulate"));
-        simulate->setGeometry(QRect(1107, 430, 82, 23));
+        simulate->setGeometry(QRect(1100, 490, 82, 23));
         frameSynapse = new QFrame(centralWidget);
         frameSynapse->setObjectName(QStringLiteral("frameSynapse"));
         frameSynapse->setGeometry(QRect(230, 180, 761, 231));
@@ -224,19 +225,19 @@ public:
         synapseModelPages->addWidget(pageSynGrad);
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(1027, 22, 111, 31));
+        label->setGeometry(QRect(1027, 32, 111, 31));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(1037, 67, 81, 21));
+        label_2->setGeometry(QRect(1037, 77, 81, 21));
         checkImp = new QCheckBox(centralWidget);
         checkImp->setObjectName(QStringLiteral("checkImp"));
-        checkImp->setGeometry(QRect(1037, 390, 88, 21));
+        checkImp->setGeometry(QRect(1030, 350, 88, 21));
         checkAnti = new QCheckBox(centralWidget);
         checkAnti->setObjectName(QStringLiteral("checkAnti"));
-        checkAnti->setGeometry(QRect(1157, 390, 88, 21));
+        checkAnti->setGeometry(QRect(1150, 350, 88, 21));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(1027, 280, 241, 16));
+        label_3->setGeometry(QRect(1020, 210, 261, 20));
         QFont font1;
         font1.setFamily(QStringLiteral("DejaVu Sans Mono"));
         font1.setBold(true);
@@ -245,16 +246,16 @@ public:
         label_3->setFont(font1);
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(1037, 310, 61, 15));
+        label_4->setGeometry(QRect(1030, 250, 61, 31));
         label_5 = new QLabel(centralWidget);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(1037, 350, 61, 15));
+        label_5->setGeometry(QRect(1030, 300, 61, 31));
         textChannelInput = new QPlainTextEdit(centralWidget);
         textChannelInput->setObjectName(QStringLiteral("textChannelInput"));
-        textChannelInput->setGeometry(QRect(1157, 300, 104, 31));
+        textChannelInput->setGeometry(QRect(1150, 250, 104, 31));
         textChannelOutput = new QPlainTextEdit(centralWidget);
         textChannelOutput->setObjectName(QStringLiteral("textChannelOutput"));
-        textChannelOutput->setGeometry(QRect(1157, 340, 104, 31));
+        textChannelOutput->setGeometry(QRect(1150, 300, 104, 31));
         label_6 = new QLabel(centralWidget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(20, 40, 171, 31));
@@ -538,35 +539,38 @@ public:
         autocalPages->addWidget(pageGradualMap);
         label_35 = new QLabel(centralWidget);
         label_35->setObjectName(QStringLiteral("label_35"));
-        label_35->setGeometry(QRect(1025, 101, 121, 31));
+        label_35->setGeometry(QRect(1025, 111, 121, 31));
         label_36 = new QLabel(centralWidget);
         label_36->setObjectName(QStringLiteral("label_36"));
-        label_36->setGeometry(QRect(1030, 140, 111, 31));
+        label_36->setGeometry(QRect(1030, 150, 111, 31));
         intFreq = new QSpinBox(centralWidget);
         intFreq->setObjectName(QStringLiteral("intFreq"));
-        intFreq->setGeometry(QRect(1160, 20, 81, 31));
+        intFreq->setGeometry(QRect(1160, 30, 81, 31));
         intFreq->setSingleStep(10);
         intFreq->setValue(10);
         intTime = new QSpinBox(centralWidget);
         intTime->setObjectName(QStringLiteral("intTime"));
-        intTime->setGeometry(QRect(1160, 60, 81, 31));
+        intTime->setGeometry(QRect(1160, 70, 81, 31));
         intTime->setSingleStep(1);
         intTime->setValue(5);
         intTimeBefore = new QSpinBox(centralWidget);
         intTimeBefore->setObjectName(QStringLiteral("intTimeBefore"));
-        intTimeBefore->setGeometry(QRect(1160, 100, 81, 31));
+        intTimeBefore->setGeometry(QRect(1160, 110, 81, 31));
         intTimeBefore->setSingleStep(1);
         intTimeBefore->setValue(5);
         intTimeAfter = new QSpinBox(centralWidget);
         intTimeAfter->setObjectName(QStringLiteral("intTimeAfter"));
-        intTimeAfter->setGeometry(QRect(1160, 140, 81, 31));
+        intTimeAfter->setGeometry(QRect(1160, 150, 81, 31));
         intTimeAfter->setSingleStep(1);
         intTimeAfter->setValue(5);
+        label_37 = new QLabel(centralWidget);
+        label_37->setObjectName(QStringLiteral("label_37"));
+        label_37->setGeometry(QRect(1040, 420, 61, 15));
         RTBiomanager->setCentralWidget(centralWidget);
 
         retranslateUi(RTBiomanager);
 
-        synapseModelPages->setCurrentIndex(0);
+        synapseModelPages->setCurrentIndex(1);
         neuronModelPages->setCurrentIndex(0);
         autocalPages->setCurrentIndex(2);
         gradualExternalToModelSelect->setCurrentIndex(1);
@@ -582,7 +586,7 @@ public:
         label_27->setText(QApplication::translate("RTBiomanager", "Model to external neuron conductance: ", Q_NULLPTR));
         label_28->setText(QApplication::translate("RTBiomanager", "External neuron to model conductance:", Q_NULLPTR));
         label_29->setText(QApplication::translate("RTBiomanager", "To external neuron conductances:", Q_NULLPTR));
-        label_31->setText(QApplication::translate("RTBiomanager", "To model conductances:", Q_NULLPTR));
+        label_31->setText(QApplication::translate("RTBiomanager", "To model neuron conductances:", Q_NULLPTR));
         label_30->setText(QApplication::translate("RTBiomanager", "Slow", Q_NULLPTR));
         label_32->setText(QApplication::translate("RTBiomanager", "Fast", Q_NULLPTR));
         label_33->setText(QApplication::translate("RTBiomanager", "Slow", Q_NULLPTR));
@@ -591,7 +595,7 @@ public:
         label_2->setText(QApplication::translate("RTBiomanager", "Duration (s)", Q_NULLPTR));
         checkImp->setText(QApplication::translate("RTBiomanager", "Important", Q_NULLPTR));
         checkAnti->setText(QApplication::translate("RTBiomanager", "Antiphase", Q_NULLPTR));
-        label_3->setText(QApplication::translate("RTBiomanager", "Channels (separated by commas)", Q_NULLPTR));
+        label_3->setText(QApplication::translate("RTBiomanager", "Channels (separated by commas):", Q_NULLPTR));
         label_4->setText(QApplication::translate("RTBiomanager", "Input", Q_NULLPTR));
         label_5->setText(QApplication::translate("RTBiomanager", "Output", Q_NULLPTR));
         textChannelInput->setPlainText(QApplication::translate("RTBiomanager", "0", Q_NULLPTR));
@@ -657,6 +661,7 @@ public:
 "Step", Q_NULLPTR));
         label_35->setText(QApplication::translate("RTBiomanager", "Before control (s)", Q_NULLPTR));
         label_36->setText(QApplication::translate("RTBiomanager", "After control (s)", Q_NULLPTR));
+        label_37->setText(QApplication::translate("RTBiomanager", "Burst/s", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -259,7 +259,7 @@ DIST          = ../../Qt/5.9.2/gcc_64/mkspecs/features/spec_pre.prf \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/comedi_functions.h \
+		clamp/includes/device_functions.h \
 		clamp/includes/model_library.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/rt_thread_functions.h \
@@ -673,7 +673,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.9.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/rtbiomanager.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/comedi_functions.h clamp/includes/model_library.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/rtbiomanager.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/model_library.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h $(DISTDIR)/
 	$(COPY_FILE) --parents gui/main.cpp gui/rtbiomanager.cpp clamp/src/model_library.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/comedi_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/queue_functions.c clamp/src/clamp.c $(DISTDIR)/
 	$(COPY_FILE) --parents gui/rtbiomanager.ui $(DISTDIR)/
 
@@ -1110,6 +1110,7 @@ rtbiomanager.o: gui/rtbiomanager.cpp gui/rtbiomanager.h \
 		../../Qt/5.9.2/gcc_64/include/QtGui/qfontdatabase.h \
 		../../Qt/5.9.2/gcc_64/include/QtWidgets/QPushButton \
 		../../Qt/5.9.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../Qt/5.9.2/gcc_64/include/QtWidgets/QSpinBox \
 		../../Qt/5.9.2/gcc_64/include/QtWidgets/QStackedWidget \
 		../../Qt/5.9.2/gcc_64/include/QtWidgets/qstackedwidget.h \
 		../../Qt/5.9.2/gcc_64/include/QtWidgets/QWidget \
@@ -1124,7 +1125,7 @@ rtbiomanager.o: gui/rtbiomanager.cpp gui/rtbiomanager.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/comedi_functions.h \
+		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/writer_thread_functions.h
@@ -1140,7 +1141,7 @@ rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/comedi_functions.h \
+		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o rt_thread_functions.o clamp/src/rt_thread_functions.c
@@ -1151,7 +1152,7 @@ writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/wr
 		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o writer_thread_functions.o clamp/src/writer_thread_functions.c
 
-comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/comedi_functions.h \
+comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o comedi_functions.o clamp/src/comedi_functions.c
@@ -1165,7 +1166,7 @@ calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/i
 	$(CC) -c $(CFLAGS) $(INCPATH) -o calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
 
 calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/comedi_functions.h \
+		clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/time_functions.h
@@ -1192,7 +1193,7 @@ clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/comedi_functions.h \
+		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/writer_thread_functions.h

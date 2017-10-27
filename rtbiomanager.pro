@@ -44,7 +44,7 @@ HEADERS += \
     clamp/includes/calibrate_functions_phase1.h \
     clamp/includes/calibrate_functions_phase2.h \
     clamp/includes/calibrate_functions_phase2_a.h \
-    clamp/includes/comedi_functions.h \
+    clamp/includes/device_functions.h \
     clamp/includes/model_library.h \
     clamp/includes/queue_functions.h \
     clamp/includes/rt_thread_functions.h \
