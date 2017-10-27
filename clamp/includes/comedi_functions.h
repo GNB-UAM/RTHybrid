@@ -5,31 +5,15 @@
 #include <math.h>
 #include "types_clamp.h"
 
-typedef struct {
-	comedi_t * device;
-	int in_subdev;		/*input subdevice */
-	int out_subdev;		/*output subdevice */
-	int range;			
-	int aref;		
-} Comedi_session;
 
+typedef struct _Daq_session Daq_session;
 
-comedi_t * open_device_comedi (char * dev_name);
+int daq_open_device (void ** device);
 
-int close_device_comedi (comedi_t * device);
+int daq_create_session (void  ** device, Daq_session ** session_ptr);
 
-int create_session_comedi (comedi_t * device, int aref, Comedi_session ** session_ptr);
+int daq_close_device (void ** device);
 
-//int get_range_comedi (comedi_t * device, int subdev, int chan, double min, double max, int unit);
+int daq_read (Daq_session * session, int n_channels, int * channels, double * ret);
 
-comedi_range * get_range_info_comedi (Comedi_session * session, int direction, int chan);
-
-lsampl_t get_maxdata_comedi (Comedi_session * session, int direction, int chan);
-
-int read_comedi (Comedi_session * session, int n_channels, int * channels, double * ret);
-
-int write_comedi (Comedi_session * session, int n_channels, int * channels, double * values);
-
-int read_single_data_comedi (Comedi_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double * ret);
-
-int write_single_data_comedi (Comedi_session * session, comedi_range * range_info, lsampl_t maxdata, int chan, double data);
+int daq_write (Daq_session * session, int n_channels, int * channels, double * values);

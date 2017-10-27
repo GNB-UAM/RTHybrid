@@ -58,8 +58,8 @@ common/obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/incl
 	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o common/obj/xml_parser_functions.o
 
 clean:
-	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
 
 mclan:
-	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
 	make -f Makefile_clamp
