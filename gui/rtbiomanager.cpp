@@ -40,10 +40,12 @@ void RTBiomanager::on_simulate_clicked()
 
     args.imp = ui->checkImp->isChecked();
     args.anti = ui->checkAnti->isChecked();
-    args.freq = ui->textFreq->toPlainText().toDouble() * 1000;
-    args.time_var = ui->textTime->toPlainText().toInt();
-    args.before = ui->textTimeBefore->toPlainText().toInt();
-    args.after = ui->textTimeAfter->toPlainText().toInt();
+
+    args.freq = ui->intFreq->value() * 1.0 * 1000;
+    args.time_var = ui->intTime->value();
+    args.before = ui->intTimeBefore->value();
+    args.after = ui->intTimeAfter->value();
+
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
 
@@ -58,40 +60,40 @@ void RTBiomanager::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 5);
 
-            args.vars[X] = ui->textIzVIni->toPlainText().toDouble();
-            args.vars[Y] = ui->textIzUIni->toPlainText().toDouble();
+            args.vars[X] = ui->doubleIzVini->value();
+            args.vars[Y] = ui->doubleIzUini->value();
 
-            args.params[A_IZ] = ui->textIzA->toPlainText().toDouble();
-            args.params[B_IZ] = ui->textIzB->toPlainText().toDouble();
-            args.params[C_IZ] = ui->textIzC->toPlainText().toDouble();
-            args.params[D_IZ] = ui->textIzD->toPlainText().toDouble();
-            args.params[I_IZ] = ui->textIzI->toPlainText().toDouble();
+            args.params[A_IZ] = ui->doubleIzA->value();
+            args.params[B_IZ] = ui->doubleIzB->value();
+            args.params[C_IZ] = ui->doubleIzC->value();
+            args.params[D_IZ] = ui->doubleIzD->value();
+            args.params[I_IZ] = ui->doubleIzI->value();
 
             break;
         case HR: //Hindmarsh-Rose
             args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 3);
 
-            args.vars[X] = ui->textHrXIni->toPlainText().toDouble();
-            args.vars[Y] = ui->textHrYIni->toPlainText().toDouble();
-            args.vars[Z] = ui->textHrZIni->toPlainText().toDouble();
+            args.vars[X] = ui->doubleHrXIni->value();
+            args.vars[Y] = ui->doubleHrYIni->value();
+            args.vars[Z] = ui->doubleHrZIni->value();
 
-            args.params[R_HR] = ui->textHrR->toPlainText().toDouble();
-            args.params[S_HR] = ui->textHrS->toPlainText().toDouble();
-            args.params[I_HR] = ui->textHrI->toPlainText().toDouble();
+            args.params[R_HR] = ui->doubleHrR->value();
+            args.params[S_HR] = ui->doubleHrS->value();
+            args.params[I_HR] = ui->doubleHrI->value();
 
             break;
         case RLK: //Rulkov
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 8);
 
-            args.vars[X] = ui->textRlkXIni->toPlainText().toDouble();
-            args.vars[Y] = ui->textRlkYIni->toPlainText().toDouble();
+            args.vars[X] = ui->doubleRlkXIni->value();
+            args.vars[Y] = ui->doubleRlkYIni->value();
 
-            args.params[ALPHA_RLK] = ui->textRlkAlpha->toPlainText().toDouble();
-            args.params[SIGMA_RLK] = ui->textRlkSigma->toPlainText().toDouble();
-            args.params[MU_RLK] = ui->textRlkMu->toPlainText().toDouble();
-            args.params[I_RLK] = ui->textRlkI->toPlainText().toDouble();
+            args.params[ALPHA_RLK] = ui->doubleRlkAlpha->value();
+            args.params[SIGMA_RLK] = ui->doubleRlkSigma->value();
+            args.params[MU_RLK] = ui->doubleRlkMu->value();
+            args.params[I_RLK] = ui->doubleRlkI->value();
 
             break;
         default:
@@ -103,8 +105,8 @@ void RTBiomanager::on_simulate_clicked()
             case ELECTRIC: //Electrical
                 args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
                 args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
-                args.g_virtual_to_real[0] = ui->textSynElec_gMtoE->toPlainText().toDouble();
-                args.g_real_to_virtual[0] = ui->textSynElec_gEtoM->toPlainText().toDouble();
+                args.g_virtual_to_real[0] = ui->doubleSynElec_gMtoE->value();
+                args.g_real_to_virtual[0] = ui->doubleSynElec_gEtoM->value();
 
 
                 break;
@@ -112,10 +114,10 @@ void RTBiomanager::on_simulate_clicked()
                 args.g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
                 args.g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
 
-                args.g_virtual_to_real[G_FAST] = ui->textSynGrad_gMtoE_fast->toPlainText().toDouble();
-                args.g_virtual_to_real[G_SLOW] = ui->textSynGrad_gMtoE_slow->toPlainText().toDouble();
-                args.g_real_to_virtual[G_FAST] = ui->textSynGrad_gEtoM_fast->toPlainText().toDouble();
-                args.g_real_to_virtual[G_SLOW] = ui->textSynGrad_gEtoM_slow->toPlainText().toDouble();
+                args.g_virtual_to_real[G_FAST] = ui->doubleSynGrad_gMtoE_fast->value();
+                args.g_virtual_to_real[G_SLOW] = ui->doubleSynGrad_gMtoE_slow->value();
+                args.g_real_to_virtual[G_FAST] = ui->doubleSynGrad_gEtoM_fast->value();
+                args.g_real_to_virtual[G_SLOW] = ui->doubleSynGrad_gEtoM_slow->value();
 
                 break;
 
@@ -197,10 +199,19 @@ void RTBiomanager::on_autocalCombo_activated(int index)
 {
     ui->autocalPages->setCurrentIndex(index);
     if(index!=0){
+        //General stuff for all autocals
         ui->synapseModelCombo->setEnabled(false);
         ui->frameSynapse->setEnabled(false);
+        //Particular behaviors
+        if(index==2){
+            ui->intTime->setEnabled(false);
+        }else{
+            ui->intTime->setEnabled(true);
+        }
     }else{
+        //Autocal modes off
         ui->synapseModelCombo->setEnabled(true);
         ui->frameSynapse->setEnabled(true);
+        ui->intTime->setEnabled(true);
     }
 }

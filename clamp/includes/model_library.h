@@ -40,15 +40,16 @@
 /*Synapses*/
 #define G_FAST 0
 #define G_SLOW 1
+
 #define MS_K1 0
 #define MS_K2 1
 #define MS_SS 2
 #define MS_VS 3
+
 #define SC_DT 0
 #define SC_MIN 1
 #define SC_OLD 2
 #define SC_BT 3
-
 #define SC_MS_K1 4
 #define SC_MS_K2 5
 
