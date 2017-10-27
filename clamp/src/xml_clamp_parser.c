@@ -15,6 +15,7 @@
 #define CALIB "calib"
 #define INPUT "input"
 #define OUTPUT "output"
+#define FIRING "firing_rate"
 
 #define VARS "vars"
 #define X_VAR "x"
@@ -59,6 +60,7 @@ static int parse_clamp_syn_chem (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_firing_rate (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
@@ -127,6 +129,9 @@ int xml_clamp_parser (char * file, clamp_args * args) {
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT) == 0) {
             ret = parse_clamp_output(doc, cur, args);
+        }
+        else if (xmlStrcmp(cur->name, (const xmlChar*) FIRING) == 0) {
+            ret = parse_clamp_firing_rate(doc, cur, args);
         }
 
         if (ret != OK) break;
@@ -412,6 +417,17 @@ static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_int(doc, cur, &args->anti, (const xmlChar*) VALUE);
+
+	return ret;
+}
+
+
+static int parse_clamp_firing_rate (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	int ret = ERR;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_double(doc, cur, &args->firing_rate, (const xmlChar*) VALUE);
 
 	return ret;
 }
