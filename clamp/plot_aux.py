@@ -14,6 +14,8 @@ class DataStruct1():
 		ap.add_argument("-s", "--start", required=False, help="First data", default=0)
 		ap.add_argument("-e", "--end", required=False, help="Last data")
 		ap.add_argument("-fr", "--freq", required=False, help="Freq. for start and end")
+		ap.add_argument("-j", "--jump", required=False, help="Plot less points", default=0)
+
 
 		args = vars(ap.parse_args())
 
@@ -71,6 +73,46 @@ class DataStruct1():
 		for j in range(8 + self.n_in_chan, 8 + self.n_in_chan + self.n_out_chan):
 			self.data_out.append(data[:, j])
 
+		if (int(args["jump"])>0):
+			new_t_unix = []
+			new_time = []
+			new_i = []
+			new_lat = []
+			new_v_model = []
+			new_v_model_scaled = []
+			new_c_model = []
+			new_c_viva = []
+			new_data_in = []
+			new_data_out = []
+			for j in range(len(self.time)):
+				if (j%int(args["jump"])) == 0:
+					new_t_unix.append(self.t_unix[j])
+					new_time.append(self.time[j])
+					new_i.append(self.i[j])
+					new_lat.append(self.lat[j])
+					new_v_model.append(self.v_model[j])
+					new_v_model_scaled.append(self.v_model_scaled[j])
+					new_c_model.append(self.c_model[j])
+					new_c_viva.append(self.c_viva[j])
+
+			self.t_unix = new_t_unix 
+			self.time = new_time
+			self.i = new_i 
+			self.lat = new_lat 
+			self.v_model = new_v_model 
+			self.v_model_scaled = new_v_model_scaled 
+			self.c_model = new_c_model 
+			self.c_viva = new_c_viva 	
+
+			np_data_in = np.matrix(self.data_in)
+			np_data_in = np_data_in[:,::int(args["jump"])]
+			self.data_in = np_data_in.tolist()
+
+			np_data_out = np.matrix(self.data_out)
+			np_data_out = np_data_out[:,::int(args["jump"])]
+			self.data_out = np_data_out.tolist()
+
+
 class DataStruct2():
 	def __init__(self, ap):
 
@@ -112,3 +154,25 @@ class DataStruct2():
 		self.data_extra = []
 		for j in range(4, 4+self.n_extra_data):
 			self.data_extra.append(data[:, j])
+
+		if (int(args["jump"])>0):
+			new_time = []
+			new_index  = []
+			new_ecm = []
+			new_extra = []
+			data_extra = []
+			for j in range(len(self.time)):
+				if (j%int(args["jump"])) == 0:
+					new_time.append(self.time[j])
+					new_index.append(self.index[j])
+					new_ecm.append(self.ecm[j])
+					new_extra.append(self.extra[j])
+
+			self.time = new_time
+			self.index = new_index
+			self.ecm = new_ecm
+			self.extra = new_extra
+
+			np_extra = np.matrix(self.extra)
+			np_extra = np_extra[:,::int(args["jump"])]
+			self.extra = list(np_extra)
