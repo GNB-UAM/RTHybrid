@@ -24,6 +24,8 @@ private slots:
 
     void on_autocalCombo_activated(int index);
 
+    void on_autoDetect_clicked();
+
 private:
     Ui::RTBiomanager *ui;
 };

@@ -45,6 +45,11 @@ void RTBiomanager::on_simulate_clicked()
     args.time_var = ui->intTime->value();
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();
+    if (!ui->autoDetect->isChecked()) {
+        args.firing_rate = ui->doubleSecPerBurst->value();
+    } else {
+        args.firing_rate = -1;
+    }
 
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
@@ -213,5 +218,14 @@ void RTBiomanager::on_autocalCombo_activated(int index)
         ui->synapseModelCombo->setEnabled(true);
         ui->frameSynapse->setEnabled(true);
         ui->intTime->setEnabled(true);
+    }
+}
+
+void RTBiomanager::on_autoDetect_clicked()
+{
+    if (ui->autoDetect->isChecked()) {
+        ui->doubleSecPerBurst->setEnabled(false);
+    } else {
+        ui->doubleSecPerBurst->setEnabled(true);
     }
 }

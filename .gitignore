@@ -12,6 +12,8 @@ figures/*.png
 main
 clamp-cli_preempt
 rtbiomanager
+stand_alone_clamp
+xml_test
 
 # Prerequisites
 *.d

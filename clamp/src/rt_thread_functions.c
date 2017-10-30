@@ -187,7 +187,7 @@ void * rt_thread(void * arg) {
 	        pthread_exit(NULL);
 		}
 		//printf("Periodo disparo = %f\n", period_disp_real);
-        //period_disp_real = 0.27;
+        if (args->firing_rate != -1) period_disp_real = args->firing_rate;
 	    calcula_escala (min_abs_model, max_model, min_abs_real, max_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
         /*printf("min_abs_model=%f\n", min_abs_model);
         printf("max_model=%f\n", max_model);

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <comedilib.h>
 #include <ctype.h>
 #include <math.h>
 #include "types_clamp.h"

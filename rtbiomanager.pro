@@ -51,7 +51,8 @@ HEADERS += \
     clamp/includes/time_functions.h \
     common/includes/types.h \
     clamp/includes/writer_thread_functions.h \
-    clamp/includes/clamp.h
+    clamp/includes/clamp.h \
+    clamp/includes/types_clamp.h
 
 FORMS += \
         gui/rtbiomanager.ui

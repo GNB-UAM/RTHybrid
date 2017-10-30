@@ -1,0 +1,70 @@
+CC = gcc
+CCFLAGS = -Wall --pedantic -g -w
+CFLAGS_XML = -I/usr/include/libxml2
+LIBS_COMEDI = -lanalogy -lrtdm
+LIBS_RT = -lpthread -D_GNU_SOURCE -lrt -lm
+LIBS_XML = -lxml2
+skin = posix
+XENO_CONFIG := /usr/xenomai/bin/xeno-config
+CC := $(shell $(XENO_CONFIG) --cc)
+CFLAGS := $(shell $(XENO_CONFIG) --skin=$(skin) --cflags)
+LDFLAGS := $(shell $(XENO_CONFIG) --skin=$(skin) --ldflags)
+
+#clamp/clamp-cli_preempt: clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
+#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/clamp-cli_preempt clamp/obj/clamp-cli_preempt.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML)
+#	@echo "\n\t\033[32mCompiled and created clamp-cli_preempt\033[00m\n"
+#
+#clamp/obj/clamp-cli_preempt.o: clamp/src/clamp-cli_preempt.c
+#	@echo "\n\t\033[31mCompiling and creating clamp-cli_preempt\033[00m\n"
+#	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) clamp/src/clamp-cli_preempt.c -o clamp/obj/clamp-cli_preempt.o
+
+clamp/stand_alone_clamp: clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o  clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o clamp/stand_alone_clamp clamp/obj/stand_alone_clamp.o clamp/obj/model_library.o clamp/obj/rt_thread_functions.o clamp/obj/writer_thread_functions.o clamp/obj/device_functions.o clamp/obj/calibrate_functions_phase1.o clamp/obj/calibrate_functions_phase2.o clamp/obj/calibrate_functions_phase2_a.o clamp/obj/time_functions.o clamp/obj/queue_functions.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o clamp/obj/clamp.o $(LIBS_COMEDI) $(LIBS_RT) $(LIBS_XML) $(CFLAGS) $(LDFLAGS)
+	@echo "\n\t\033[32mCompiled and created stand_alone_clamp\033[00m\n"
+
+clamp/obj/stand_alone_clamp.o: clamp/src/stand_alone_clamp.c
+	@echo "\n\t\033[31mCompiling and creating stand_alone_clamp\033[00m\n"
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c $(LIBS_COMEDI) $(CFLAGS) $(LDFLAGS) clamp/src/stand_alone_clamp.c -o clamp/obj/stand_alone_clamp.o
+
+clamp/obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) $(CFLAGS) $(LDFLAGS) clamp/src/clamp.c -o clamp/obj/clamp.o
+
+clamp/obj/model_library.o: clamp/src/model_library.c clamp/includes/model_library.h
+	$(CC) $(CCFLAGS) -c clamp/src/model_library.c -o clamp/obj/model_library.o
+
+clamp/obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h clamp/includes/queue_functions.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) $(LIBS_RT) $(CFLAGS) $(LDFLAGS) clamp/src/rt_thread_functions.c -o clamp/obj/rt_thread_functions.o
+
+clamp/obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h clamp/includes/queue_functions.h
+	$(CC) $(CCFLAGS) -c clamp/src/writer_thread_functions.c -o clamp/obj/writer_thread_functions.o
+
+clamp/obj/device_functions.o: clamp/src/comedi_functions.c clamp/includes/device_functions.h clamp/includes/types_clamp.h common/includes/types.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) $(CFLAGS) $(LDFLAGS) clamp/src/analogy_functions.c -o clamp/obj/device_functions.o
+
+clamp/obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h clamp/includes/types_clamp.h common/includes/types.h
+	$(CC) $(CCFLAGS) -c clamp/src/calibrate_functions_phase2_a.c -o clamp/obj/calibrate_functions_phase2_a.o
+
+clamp/obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h
+	$(CC) $(CCFLAGS) -c $(LIBS_COMEDI) $(CFLAGS) $(LDFLAGS) clamp/src/calibrate_functions_phase1.c -o clamp/obj/calibrate_functions_phase1.o
+
+clamp/obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h
+	$(CC) $(CCFLAGS) -c clamp/src/calibrate_functions_phase2.c -o clamp/obj/calibrate_functions_phase2.o
+
+clamp/obj/time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
+	$(CC) $(CCFLAGS) -c clamp/src/time_functions.c -o clamp/obj/time_functions.o
+
+clamp/obj/queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_functions.h clamp/includes/types_clamp.h common/includes/types.h common/includes/types.h
+	$(CC) $(CCFLAGS) -c clamp/src/queue_functions.c -o clamp/obj/queue_functions.o
+
+clamp/obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h clamp/includes/model_library.h clamp/includes/types_clamp.h common/includes/types.h
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c clamp/src/xml_clamp_parser.c -o clamp/obj/xml_clamp_parser.o
+
+common/obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/includes/xml_parser_functions.h common/includes/types.h
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o common/obj/xml_parser_functions.o
+
+clean:
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
+
+mclan:
+	rm -f clamp/stand_alone_clamp clamp/obj/*.o common/obj/*.o
+	make -f Makefile_clamp

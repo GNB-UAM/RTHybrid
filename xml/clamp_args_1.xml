@@ -29,5 +29,6 @@
 	<output val="0,1"/>
 	<input val="0"/>
 	<imp val="0"/>
+	<firing_rate val="0.25"/>
 	<anti val="0"/>
 </clamp>
