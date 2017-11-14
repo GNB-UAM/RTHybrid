@@ -20,7 +20,7 @@ double * out_values = NULL;
 RT CLEANUP
 ************************/
 void rt_cleanup () {
-    int i = 0;
+    unsigned int i = 0;
 
     printf("\n" PRINT_RED "SIGUSR1 termination to rt_thread." PRINT_RESET "\n");
 
@@ -107,7 +107,7 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Start");
 
     //Declarations
-    unsigned int i, cont_send = 0, lost_msg = 0;
+    unsigned int cont_send = 0, lost_msg = 0;
     
     struct timespec ts_target, ts_iter, ts_result, ts_start;
     message msg2;
@@ -123,10 +123,9 @@ void * rt_thread(void * arg) {
     double rafaga_viva_pts = 0;
     int end_loop = FALSE;
 
-    unsigned long loop_points = 0;
+    unsigned long loop_points = 0, i=0;
     int infinite_loop = FALSE;
 
-    double retval = 0;
     double c_real = 0, c_model = 0;
 
     double ecm_result = 0;
@@ -345,7 +344,8 @@ void * rt_thread(void * arg) {
     BEFORE CONTROL RECORD
     ************************/
 
-    for (i = 0; i < args->before * args->freq * args->s_points; i++) {
+    loop_points = args->before * args->freq * args->s_points;
+    for (i = 0; i < loop_points; i++) {
         if (i % args->s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
@@ -404,8 +404,8 @@ void * rt_thread(void * arg) {
     INITIAL INTERACTION
     ************************/
 
-
-    for (i = 0; i < t_obs * args->freq * args->s_points; i++) {
+    loop_points = t_obs * args->freq * args->s_points;
+    for (i = 0; i < loop_points; i++) {
         if (i % args->s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
@@ -443,7 +443,7 @@ void * rt_thread(void * arg) {
             if(args->calibration == 1){
                 //Electrica en fase
                 double ecm_old=ecm_result;
-                int ret_ecm = calc_ecm(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], rafaga_viva_pts, &ecm_result);
+                calc_ecm(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], rafaga_viva_pts, &ecm_result);
                 msg.ecm = ecm_result;
                 if(ecm_result!=0 && ecm_old!=ecm_result){
                     sum_ecm+=ecm_result;
@@ -457,7 +457,7 @@ void * rt_thread(void * arg) {
                     lectura_t[cont_lectura]=msg.t_absol;
                     cont_lectura++;
                 }else{
-                    int is_syn = calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, args->anti);
+                    calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, args->anti);
                     msg.ecm = res_phase;
                     cont_lectura=0;
                 }
@@ -490,10 +490,6 @@ void * rt_thread(void * arg) {
         sum_ecm = sum_ecm / sum_ecm_cont;
         set_is_syn_by_percentage(sum_ecm);
     }
-    int cont_6=0;
-    int counter_mapa=0;
-    int cal_7=TRUE;
-
 
     /*PULSOS DE SINCRONIZACION*/
     if (SYNC == TRUE) {
@@ -525,11 +521,11 @@ void * rt_thread(void * arg) {
 
     loop_points = args->time_var * args->freq * args->s_points;
 
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %f", loop_points);
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %ld", loop_points);
 
     for (i = 0; i < loop_points || infinite_loop == TRUE; i++) {
         /*TOCA INTERACCION*/
-        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop = %d\n", i);
+        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop = %ld\n", i);
 
 
         if (i % args->s_points == 0) {
@@ -538,7 +534,7 @@ void * rt_thread(void * arg) {
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
             ts_substraction(&ts_target, &ts_iter, &ts_result);
 
-            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop and the if = %d\n", i);
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop and the if = %ld\n", i);
 
             /*GUARDAR INFO*/
             msg.id = 1;
@@ -652,7 +648,8 @@ void * rt_thread(void * arg) {
     AFTER CONTROL RECORD
     ************************/
 
-    for (i = 0; i < args->before * args->freq * args->s_points; i++) {
+    loop_points = args->before * args->freq * args->s_points;
+    for (i = 0; i < loop_points; i++) {
         if (i % args->s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
