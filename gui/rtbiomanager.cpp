@@ -124,6 +124,9 @@ void RTBiomanager::on_simulate_clicked()
                 args.g_real_to_virtual[G_FAST] = ui->doubleSynGrad_gEtoM_fast->value();
                 args.g_real_to_virtual[G_SLOW] = ui->doubleSynGrad_gEtoM_slow->value();
 
+                args.syn_gradual_k1 = ui->doubleSynGrad_k1->value();
+                args.syn_gradual_k2 = ui->doubleSynGrad_k2->value();
+
                 break;
 
             default:

@@ -255,6 +255,8 @@ int clamp (clamp_args * args) {
     r_args.g_real_to_virtual = args->g_real_to_virtual;
     r_args.g_virtual_to_real = args->g_virtual_to_real;
     r_args.firing_rate = args->firing_rate;
+    r_args.syn_gradual_k1 = args->syn_gradual_k1;
+    r_args.syn_gradual_k2 = args->syn_gradual_k2;
     
 
     w_args.path = path;
@@ -268,6 +270,8 @@ int clamp (clamp_args * args) {
     w_args.important = args->imp;
     w_args.anti = args->anti;
     w_args.calibration = args->mode_auto_cal;
+    w_args.syn_gradual_k1 = args->syn_gradual_k1;
+    w_args.syn_gradual_k2 = args->syn_gradual_k2;
 
     err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)
