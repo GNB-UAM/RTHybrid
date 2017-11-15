@@ -84,8 +84,10 @@ int clamp (clamp_args * args) {
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
     if (args->output != NULL)parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
-    if (args->anti != 1) {
+    if (args->anti == TRUE) {
 		args->anti = -1;
+	} else {
+		args->anti = 1;
 	}
 
 

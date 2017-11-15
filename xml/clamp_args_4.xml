@@ -12,13 +12,9 @@
 			<i val="10.0"/>
 		</params>
 	</model>
-	<synapse type="1">
-		<g_virtual_to_real_slow val="0.1"/>
-		<g_virtual_to_real_fast val="0.0"/>
-		<g_real_to_virtual_slow val="0.0"/>
-		<g_real_to_virtual_fast val="0.5"/>
-		<syn_gradual_k1 val="1"/>
-		<syn_gradual_k2 val="0.03"/>
+	<synapse type="0">
+		<g_virtual_to_real val="0.08"/>
+		<g_real_to_virtual val="0.08"/>
 	</synapse>
 	<calib type="0">
 	</calib>

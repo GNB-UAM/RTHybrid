@@ -67,7 +67,15 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
 }
 
 
-/* SYNAPSES */
+/* SYNAPSES
+ 
+ * Synapses are calculated and sign change is NOT applied. 
+ * The neuron model function performs a substraction with this current.
+ * The synaptic current is sent to the external neuron after changing its sign.
+ * Synaptic currents sent to the queue have their sign changed.
+ * Antiphase is applied to both synaptic currents.
+
+ */
 
 void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
     *ret = g[0] * (v_post - v_pre);
@@ -129,7 +137,7 @@ double chem_slow (double v_post, double * g, double * aux) {
 }
 
 void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-    *ret = -(chem_fast(v_post, v_pre, &(g[G_FAST]), aux) + chem_slow(v_post, &(g[G_SLOW]), aux));
+    *ret = chem_fast(v_post, v_pre, &(g[G_FAST]), aux) + chem_slow(v_post, &(g[G_SLOW]), aux);
     return;
 }
 

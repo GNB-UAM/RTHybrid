@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS = -Wall --pedantic -g -w
+CCFLAGS = -Wall --pedantic -O2 -w
 CFLAGS_XML = -I/usr/include/libxml2
 LIBS_COMEDI = -lcomedi -lm
 LIBS_RT = -lpthread -D_GNU_SOURCE -lrt

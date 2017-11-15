@@ -551,8 +551,8 @@ void * rt_thread(void * arg) {
             /*SINAPSIS Y CORRIENTE EN VIRTUAL TO REAL*/
             if (args->type_syn==CHEMICAL)
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
-            args->syn(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_virtual_to_real, &c_model, syn_aux_params);
-            msg.c_model=c_model;
+            args->syn(ret_values[0], args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, args->g_virtual_to_real, &c_model, syn_aux_params);
+            msg.c_model = -(args->anti * c_model);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
 
@@ -562,7 +562,7 @@ void * rt_thread(void * arg) {
             msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
 
             /*ENVIO POR LA TARJETA*/
-            if (args->n_out_chan >= 1) out_values[0] = c_model;
+            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
             if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
 
             /*GUARDAR INFO*/
@@ -629,15 +629,20 @@ void * rt_thread(void * arg) {
         }
 
         /*CALCULO CORRIENTE E INTEGRACIÓN DEL MODELO*/
-        if (args->type_syn==CHEMICAL)
-            syn_aux_params[SC_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
-        args->syn(ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->vars[0], args->g_real_to_virtual, &c_real, syn_aux_params);
-        if (args->type_syn==CHEMICAL)
-            syn_aux_params[SC_MIN] = min_abs_real;
-        args->syn(ret_values[0], args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
+        if (args->type_syn == CHEMICAL) {
+        	syn_aux_params[SC_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
+        	args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);
+        	
+        	syn_aux_params[SC_MIN] = min_abs_real;
+        	args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
+    	} else {
+    		args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);
+    		args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
+    	}
 
-
-        args->func(args->dim, args->dt, args->vars, args->params, args->anti*c_real);
+    	msg.c_real = -(args->anti * msg.c_real);
+        
+        args->func(args->dim, args->dt, args->vars, args->params, args->anti * c_real);
     }
 
 
