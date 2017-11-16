@@ -166,6 +166,7 @@ void RTBiomanager::on_simulate_clicked()
             args.step_r_to_v = ui->chemMap_StepToModel->value();
 
         default:
+            args.mode_auto_cal = 0;
             break;
     }
 
