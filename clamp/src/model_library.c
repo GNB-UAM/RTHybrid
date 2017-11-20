@@ -98,6 +98,8 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 	double e_syn;
 	double v_f;
 	double s_f;
+
+
 	
 	if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
@@ -108,6 +110,8 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 	}
 	
     s_f = aux[SC_BT] * 0.2;
+
+    //printf("esyn %f vf %f sf %f g %f vpre %f vpost %f", e_syn, v_f, s_f, (*g), v_pre, v_post);
 
     return ((*g) * (v_post - e_syn)) / (1.0 + exp(s_f * (v_f - v_pre)));
 }
@@ -133,11 +137,17 @@ double chem_slow (double v_post, double * g, double * aux) {
     runge_kutta_6(&ms_f, 1, aux[SC_DT], vars, params, 0);
     aux[SC_OLD] = vars[0];
 
+
+    //printf("v_post %f esyn %f old %f ", v_post, e_syn, aux[SC_OLD]);
+
     return (*g) * aux[SC_OLD] * (v_post - e_syn);
 }
 
 void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
     *ret = chem_fast(v_post, v_pre, &(g[G_FAST]), aux) + chem_slow(v_post, &(g[G_SLOW]), aux);
+
+    //printf(" v_fast %f\n", chem_fast(v_post, v_pre, &(g[G_FAST]), aux));
+    //printf("v_slow %f\n", chem_slow(v_post, &(g[G_SLOW]), aux));
     return;
 }
 

@@ -13,7 +13,7 @@
 		</params>
 	</model>
 	<synapse type="1">
-		<g_virtual_to_real_slow val="0.1"/>
+		<g_virtual_to_real_slow val="0.04"/>
 		<g_virtual_to_real_fast val="0.0"/>
 		<g_real_to_virtual_slow val="0.0"/>
 		<g_real_to_virtual_fast val="0.5"/>
