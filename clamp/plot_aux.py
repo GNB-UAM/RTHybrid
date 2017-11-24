@@ -152,15 +152,24 @@ class DataStruct2():
 		self.extra = data[:,3]	
 
 		self.data_extra = []
-		for j in range(4, 4+self.n_extra_data):
-			self.data_extra.append(data[:, j])
+		
+		if (int(args["jump"])==0):
+			for j in range(4, 4+self.n_extra_data):
+				self.data_extra.append(data[:, j])
 
-		if (int(args["jump"])>0):
+		else:
+			for j in range(4, 4+self.n_extra_data):
+				tmp=[]
+				for i in range(len(self.time)):
+					if (i%int(args["jump"])) == 0:
+						tmp.append(data[:, j][i])
+				self.data_extra.append(tmp)
+
 			new_time = []
 			new_index  = []
 			new_ecm = []
 			new_extra = []
-			data_extra = []
+
 			for j in range(len(self.time)):
 				if (j%int(args["jump"])) == 0:
 					new_time.append(self.time[j])
