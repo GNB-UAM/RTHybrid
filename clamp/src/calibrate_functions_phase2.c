@@ -170,15 +170,14 @@ int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, 
 double first_val_is_syn_by_percentage = -1;
 int count_is_syn_by_percentage = 0; 
 
-void set_is_syn_by_percentage(double val_sin){
+void set_is_syn_by_percentage(double val_sin, double percentage){
 	printf("ECM_inicial = %f\n", val_sin);
 	first_val_is_syn_by_percentage = val_sin;
-	printf("ECM_objetivo = %f\n", val_sin*0.4);
+    printf("ECM_objetivo = %f\n", val_sin*percentage);
 	count_is_syn_by_percentage = 0;
 }
 
-int is_syn_by_percentage(double val_sin){
-	double percentage = 0.6;
+int is_syn_by_percentage(double val_sin, double percentage){
 	int times_correct = 2;
 	
 	/*FIRST TIME*/

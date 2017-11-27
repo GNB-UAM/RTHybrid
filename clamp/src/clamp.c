@@ -1,6 +1,5 @@
 #include "../includes/clamp.h"
 
-
 /* Global variables */
 void * msqid = NULL;
 pthread_t writer, rt;
@@ -10,8 +9,6 @@ void clamp_cleanup () {
 	if (pthread_kill(writer, SIGUSR2) != 0) perror("Error sending SIGUSR2 at main");
 	if (pthread_kill(rt, SIGUSR1) != 0) perror("Error sending SIGUSR1 at main");
 }
-
-
 
 void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 	int n_chan_aux = 0;
@@ -38,8 +35,6 @@ void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 
 	return;
 }
-
-
 
 int clamp (clamp_args * args) {
 	key_t key_q;
@@ -79,8 +74,6 @@ int clamp (clamp_args * args) {
 	r_args.in_channels = NULL;
 	r_args.out_channels = NULL;
 
-    
-
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
     if (args->output != NULL)parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
@@ -89,7 +82,6 @@ int clamp (clamp_args * args) {
 	} else {
 		args->anti = 1;
 	}
-
 
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %
@@ -129,8 +121,6 @@ int clamp (clamp_args * args) {
 	}else{
 		printf("DON'T USE -a AND -c AT THE SAME TIME\n");
 	}
-
-
 
     switch (args->model){
         case IZHIKEVICH:
@@ -186,7 +176,6 @@ int clamp (clamp_args * args) {
 		default:
 			return -1;
 	}
-
 
     switch (args->synapse) {
 		case ELECTRIC:
@@ -259,7 +248,7 @@ int clamp (clamp_args * args) {
     r_args.firing_rate = args->firing_rate;
     r_args.syn_gradual_k1 = args->syn_gradual_k1;
     r_args.syn_gradual_k2 = args->syn_gradual_k2;
-    
+    r_args.auto_cal_val_1 = args->auto_cal_val_1;
 
     w_args.path = path;
     w_args.filename = filename;

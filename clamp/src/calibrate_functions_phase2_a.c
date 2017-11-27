@@ -39,7 +39,7 @@ int auto_calibration(
         	int is_syn=FALSE;
             if (args->calibration == 1){
                 //Porcentaje
-                is_syn = is_syn_by_percentage(*ecm_result);
+                is_syn = is_syn_by_percentage(*ecm_result, args->auto_cal_val_1);
             }else if (args->calibration == 2){
                 //Pendiente
                 is_syn = is_syn_by_slope(*ecm_result);

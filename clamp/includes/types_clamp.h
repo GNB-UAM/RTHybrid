@@ -40,6 +40,7 @@ typedef struct {
     double firing_rate;
     double syn_gradual_k1;
     double syn_gradual_k2;
+    double auto_cal_val_1;
 } rt_args;
 
 typedef struct {
@@ -99,6 +100,7 @@ typedef struct {
     double firing_rate;
     double syn_gradual_k1;
     double syn_gradual_k2;
+    double auto_cal_val_1;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

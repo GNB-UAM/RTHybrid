@@ -17,8 +17,6 @@ RTBiomanager::~RTBiomanager()
     delete ui;
 }
 
-
-
 void RTBiomanager::on_simulate_clicked()
 {
     clamp_args args;
@@ -135,8 +133,16 @@ void RTBiomanager::on_simulate_clicked()
     }
 
     switch (autocalIndex) {
+
         case 1: //Electric conductance MSE
-            args.mode_auto_cal = 1;
+            if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
+                args.mode_auto_cal = 1;
+                args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
+
+            }else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
+                args.mode_auto_cal = 2;
+                args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
+            }
 
         case 2: //Gradual MAP
 
@@ -170,10 +176,6 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
-
-
-
-
     int ret = clamp(&args);
 
     QMessageBox msgBox;
@@ -186,17 +188,11 @@ void RTBiomanager::on_simulate_clicked()
     }
 
     msgBox.exec();
-
-
 }
-
-
 
 void RTBiomanager::on_neuronModelCombo_activated(int index)
 {
     ui->neuronModelPages->setCurrentIndex(index);
-
-
 }
 
 void RTBiomanager::on_synapseModelCombo_activated(int index)

@@ -16,6 +16,7 @@
 #define INPUT "input"
 #define OUTPUT "output"
 #define FIRING "firing_rate"
+#define AUTOCAL_VAL_1 "autocal_val_1"
 
 #define VARS "vars"
 #define X_VAR "x"
@@ -46,10 +47,6 @@
 
 #define VALUE "val"
 #define TYPE "type"
-
-
-
-
 
 /*CLAMP PARSER FUNCTIONS */
 static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
@@ -459,6 +456,12 @@ static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * 
 
 	switch(args->mode_auto_cal) {
 		case 1:
+            while (child != NULL) {
+                if (xmlStrcmp(child->name, (const xmlChar*) AUTOCAL_VAL_1) == 0) ret = parse_double(doc, child, &args->auto_cal_val_1, (const xmlChar*) VALUE);
+
+                if (ret != OK) return ret;
+                child = child->next;
+            }
 			break;
 		case 7:
 			while (child != NULL) {
@@ -467,7 +470,6 @@ static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * 
 				if (xmlStrcmp(child->name, (const xmlChar*) STEP_R_TO_V) == 0) ret = parse_double(doc, child, &args->step_r_to_v, (const xmlChar*) VALUE);
 
 				if (ret != OK) return ret;
-
 				child = child->next;
 			}
 

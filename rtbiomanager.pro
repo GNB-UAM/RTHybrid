@@ -37,7 +37,7 @@ SOURCES += \
     clamp/src/calibrate_functions_phase2.c \
     clamp/src/time_functions.c \
     clamp/src/queue_functions.c \
-    clamp/src/clamp.c
+    clamp/src/clamp.c \
 
 HEADERS += \
     gui/rtbiomanager.h \

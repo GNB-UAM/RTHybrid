@@ -488,7 +488,7 @@ void * rt_thread(void * arg) {
 
     if(args->calibration == 1){
         sum_ecm = sum_ecm / sum_ecm_cont;
-        set_is_syn_by_percentage(sum_ecm);
+        set_is_syn_by_percentage(sum_ecm, args->auto_cal_val_1);
     }
 
     /*PULSOS DE SINCRONIZACION*/
