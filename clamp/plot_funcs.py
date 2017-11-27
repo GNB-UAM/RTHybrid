@@ -18,7 +18,6 @@ def plot_voltage(data):
 	plt.ylabel("Voltage")
 	plt.legend()
 
-
 	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
 	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
 	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)

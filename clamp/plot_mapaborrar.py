@@ -28,51 +28,6 @@ g1 = array[:,5]
 g2 = array[:,6]
 g3 = array[:,7]#####
 
-
-
-def num_disp(array):
-	min=99999
-	max=-99999
-
-	for elem in array:
-		if elem>max:
-			max=elem
-		elif elem<min:
-			min=elem
-
-	porcentaje_mini = 0.10
-	porcentaje_maxi = 0.4
-	if min>0:
-		min = min + min*porcentaje_mini;
-	else:
-		min = min - min*porcentaje_mini;
-	
-	if max>0:
-		max = max - max*porcentaje_maxi;
-	else:
-		max = max + max*porcentaje_maxi;
-
-	up = False
-	if array[0]>max:
-		up = True
-
-	changes=0
-	times=[]
-	res=[]
-
-	for i in range(len(array)):
-		if up==False and array[i]>max:
-			changes+=1
-			times.append(i/10000)
-			res.append(max)
-			up = True
-		elif up==True and array[i]<min:
-			up = False
-
-	return len(res)
-
-
-
 def analisis(v1, v2, g1, g2):
 	for i in range(len(g1)):
 		if i>0:
