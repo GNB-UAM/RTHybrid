@@ -1,5 +1,5 @@
 #include "../includes/rt_thread_functions.h"
-
+#define DEBUG 1
 /************************
 GLOBAL VARIABLES
 ************************/
@@ -247,20 +247,24 @@ void * rt_thread(void * arg) {
     /************************
     PREPARATION
     ************************/
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn model: %d", args->type_syn);
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn calibration: %d", args->calibration);
 
     //Synapse type
-
     switch (args->type_syn) {
 		case ELECTRIC:
 			syn_aux_params = NULL; 
 
             if(args->calibration != 0 && args->calibration != 6){
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside autocal");
+                ////////// RESERVAR MEMORIA - POSIBLE PUNTO DE FALLO
                 args->g_virtual_to_real[0] = 0.0;
                 args->g_real_to_virtual[0] = 0.0;
             }
-    		msg.n_g = 1;
-
+    		msg.n_g = 2;
+            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Elec set finalized");
 			break;
+
 		case CHEMICAL:
 			syn_aux_params = (double *) malloc (sizeof(double) * 6);
 			syn_aux_params[SC_DT] = args->dt;
@@ -303,15 +307,14 @@ void * rt_thread(void * arg) {
                 syn_aux_params[SC_MS_K2] = ini_k2;//0.03;
             }
     		
-    		msg.n_g = 2;
-
+    		msg.n_g = 4;
 			break;
+
 		default:
             free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
 			daq_close_device ((void**) &dsc);
         	pthread_exit(NULL);
 	}
-
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Preparation done");
 
@@ -397,8 +400,6 @@ void * rt_thread(void * arg) {
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: before loop end");
-
-
 
     /************************
     INITIAL INTERACTION

@@ -139,7 +139,6 @@ void * writer_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before loop");
 
-
     while(1) {
         //Receive
         receive_from_queue(args->msqid, &msg);
@@ -155,7 +154,7 @@ void * writer_thread(void * arg) {
         if (i == 0) {
             fprintf(f1, "%d %d\n", msg.n_in_chan, msg.n_out_chan);
             //if(msg.autocal==1){
-            fprintf(f2, "%d %d\n", msg.autocal, 2+msg.n_g);
+            fprintf(f2, "%d %d\n", msg.autocal, msg.n_g);
             //}
 
             i++;

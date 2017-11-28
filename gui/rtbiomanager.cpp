@@ -130,18 +130,25 @@ void RTBiomanager::on_simulate_clicked()
                 break;
         }
     }
-
+    
     switch (autocalIndex) {
 
         case 1: //Electric conductance MSE
             if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
                 args.mode_auto_cal = 1;
                 args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
+                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
+                args.g_virtual_to_real[0] = 0;
+                args.g_real_to_virtual[0] = 0;
 
             }else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
                 args.mode_auto_cal = 2;
                 args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
+                args.g_virtual_to_real[0] = 0;
+                args.g_real_to_virtual[0] = 0; 
             }
+            break;
 
         case 2: //Gradual MAP
 
@@ -169,6 +176,7 @@ void RTBiomanager::on_simulate_clicked()
 
             args.step_v_to_r = ui->chemMap_StepToExternal->value();
             args.step_r_to_v = ui->chemMap_StepToModel->value();
+            break;
 
         default:
             args.mode_auto_cal = 0;

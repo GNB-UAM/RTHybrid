@@ -83,6 +83,7 @@ int clamp (clamp_args * args) {
 		args->anti = 1;
 	}
 
+//Probar a borrar esto con cuidado
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %
         args->synapse=0;
