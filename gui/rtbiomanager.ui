@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1311</width>
+    <width>1341</width>
     <height>716</height>
    </rect>
   </property>
@@ -30,13 +30,16 @@
 </string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
    <widget class="QPushButton" name="simulate">
     <property name="geometry">
      <rect>
-      <x>1120</x>
+      <x>1150</x>
       <y>470</y>
       <width>82</width>
       <height>23</height>
@@ -49,7 +52,7 @@
    <widget class="QFrame" name="frameSynapse">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>270</x>
       <y>180</y>
       <width>761</width>
       <height>271</height>
@@ -396,7 +399,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1070</x>
       <y>40</y>
       <width>111</width>
       <height>31</height>
@@ -409,7 +412,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>1050</x>
+      <x>1080</x>
       <y>85</y>
       <width>81</width>
       <height>21</height>
@@ -422,8 +425,8 @@
    <widget class="QCheckBox" name="checkImp">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>350</y>
+      <x>1080</x>
+      <y>360</y>
       <width>88</width>
       <height>21</height>
      </rect>
@@ -435,8 +438,8 @@
    <widget class="QCheckBox" name="checkAnti">
     <property name="geometry">
      <rect>
-      <x>1160</x>
-      <y>350</y>
+      <x>1200</x>
+      <y>360</y>
       <width>88</width>
       <height>21</height>
      </rect>
@@ -448,7 +451,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>1030</x>
+      <x>1060</x>
       <y>210</y>
       <width>261</width>
       <height>20</height>
@@ -469,7 +472,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1070</x>
       <y>250</y>
       <width>61</width>
       <height>31</height>
@@ -482,7 +485,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1070</x>
       <y>300</y>
       <width>61</width>
       <height>31</height>
@@ -495,7 +498,7 @@
    <widget class="QPlainTextEdit" name="textChannelInput">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1190</x>
       <y>250</y>
       <width>104</width>
       <height>31</height>
@@ -508,7 +511,7 @@
    <widget class="QPlainTextEdit" name="textChannelOutput">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1190</x>
       <y>300</y>
       <width>104</width>
       <height>31</height>
@@ -523,7 +526,7 @@
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>181</width>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -539,7 +542,7 @@
      <rect>
       <x>40</x>
       <y>70</y>
-      <width>161</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -564,7 +567,7 @@
      <rect>
       <x>30</x>
       <y>190</y>
-      <width>181</width>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -580,7 +583,7 @@
      <rect>
       <x>40</x>
       <y>230</y>
-      <width>161</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -598,7 +601,7 @@
    <widget class="QFrame" name="frameNeuron">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>270</x>
       <y>20</y>
       <width>761</width>
       <height>141</height>
@@ -1258,7 +1261,7 @@
      <rect>
       <x>30</x>
       <y>480</y>
-      <width>181</width>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -1277,7 +1280,7 @@
      <rect>
       <x>40</x>
       <y>520</y>
-      <width>161</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -1300,7 +1303,7 @@
    <widget class="QFrame" name="frameAutocal">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>270</x>
       <y>470</y>
       <width>761</width>
       <height>221</height>
@@ -1665,7 +1668,7 @@ Step</string>
    <widget class="QLabel" name="label_35">
     <property name="geometry">
      <rect>
-      <x>1038</x>
+      <x>1068</x>
       <y>119</y>
       <width>121</width>
       <height>31</height>
@@ -1678,7 +1681,7 @@ Step</string>
    <widget class="QLabel" name="label_36">
     <property name="geometry">
      <rect>
-      <x>1043</x>
+      <x>1073</x>
       <y>158</y>
       <width>111</width>
       <height>31</height>
@@ -1691,7 +1694,7 @@ Step</string>
    <widget class="QSpinBox" name="intFreq">
     <property name="geometry">
      <rect>
-      <x>1173</x>
+      <x>1203</x>
       <y>38</y>
       <width>81</width>
       <height>31</height>
@@ -1707,7 +1710,7 @@ Step</string>
    <widget class="QSpinBox" name="intTime">
     <property name="geometry">
      <rect>
-      <x>1173</x>
+      <x>1203</x>
       <y>78</y>
       <width>81</width>
       <height>31</height>
@@ -1723,7 +1726,7 @@ Step</string>
    <widget class="QSpinBox" name="intTimeBefore">
     <property name="geometry">
      <rect>
-      <x>1173</x>
+      <x>1203</x>
       <y>118</y>
       <width>81</width>
       <height>31</height>
@@ -1739,7 +1742,7 @@ Step</string>
    <widget class="QSpinBox" name="intTimeAfter">
     <property name="geometry">
      <rect>
-      <x>1173</x>
+      <x>1203</x>
       <y>158</y>
       <width>81</width>
       <height>31</height>
@@ -1755,7 +1758,7 @@ Step</string>
    <widget class="QLabel" name="label_37">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1070</x>
       <y>420</y>
       <width>61</width>
       <height>15</height>
@@ -1768,7 +1771,7 @@ Step</string>
    <widget class="QCheckBox" name="autoDetect">
     <property name="geometry">
      <rect>
-      <x>1186</x>
+      <x>1216</x>
       <y>416</y>
       <width>101</width>
       <height>21</height>
@@ -1787,7 +1790,7 @@ Step</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>1110</x>
+      <x>1140</x>
       <y>415</y>
       <width>68</width>
       <height>24</height>
@@ -1805,7 +1808,7 @@ Step</string>
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>201</width>
+      <width>231</width>
       <height>101</height>
      </rect>
     </property>
@@ -1821,7 +1824,7 @@ Step</string>
      <rect>
       <x>20</x>
       <y>180</y>
-      <width>201</width>
+      <width>231</width>
       <height>101</height>
      </rect>
     </property>
@@ -1837,7 +1840,7 @@ Step</string>
      <rect>
       <x>20</x>
       <y>470</y>
-      <width>201</width>
+      <width>231</width>
       <height>101</height>
      </rect>
     </property>
@@ -1851,7 +1854,7 @@ Step</string>
    <widget class="QFrame" name="frameAux4">
     <property name="geometry">
      <rect>
-      <x>1020</x>
+      <x>1050</x>
       <y>20</y>
       <width>271</width>
       <height>501</height>

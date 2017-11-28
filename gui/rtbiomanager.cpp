@@ -9,7 +9,7 @@ RTBiomanager::RTBiomanager(QWidget *parent) :
     ui(new Ui::RTBiomanager)
 {
     ui->setupUi(this);
-
+    this->setFixedSize(this->width(),this->height());
 }
 
 RTBiomanager::~RTBiomanager()
@@ -23,7 +23,6 @@ void RTBiomanager::on_simulate_clicked()
 
     int autocalIndex=0;
     std::string aux_in, aux_out;
-
 
     args.input = NULL;
     args.output = NULL;
