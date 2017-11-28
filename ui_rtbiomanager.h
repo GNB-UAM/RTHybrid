@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'rtbiomanager.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.1
+** Created by: Qt User Interface Compiler version 5.9.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -243,8 +243,8 @@ public:
         doubleSynGrad_gMtoE_slow = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gMtoE_slow->setObjectName(QStringLiteral("doubleSynGrad_gMtoE_slow"));
         doubleSynGrad_gMtoE_slow->setGeometry(QRect(100, 70, 91, 24));
-        doubleSynGrad_gMtoE_slow->setSingleStep(0.05);
-        doubleSynGrad_gMtoE_slow->setValue(0.1);
+        doubleSynGrad_gMtoE_slow->setSingleStep(0.01);
+        doubleSynGrad_gMtoE_slow->setValue(0.02);
         doubleSynGrad_gMtoE_fast = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gMtoE_fast->setObjectName(QStringLiteral("doubleSynGrad_gMtoE_fast"));
         doubleSynGrad_gMtoE_fast->setGeometry(QRect(220, 70, 91, 24));
@@ -259,7 +259,7 @@ public:
         doubleSynGrad_gEtoM_fast->setObjectName(QStringLiteral("doubleSynGrad_gEtoM_fast"));
         doubleSynGrad_gEtoM_fast->setGeometry(QRect(570, 70, 91, 24));
         doubleSynGrad_gEtoM_fast->setSingleStep(0.05);
-        doubleSynGrad_gEtoM_fast->setValue(0.1);
+        doubleSynGrad_gEtoM_fast->setValue(0.2);
         line = new QFrame(pageSynGrad);
         line->setObjectName(QStringLiteral("line"));
         line->setGeometry(QRect(140, 120, 481, 20));
@@ -689,16 +689,19 @@ public:
         intTime = new QSpinBox(centralWidget);
         intTime->setObjectName(QStringLiteral("intTime"));
         intTime->setGeometry(QRect(1203, 78, 81, 31));
-        intTime->setSingleStep(1);
-        intTime->setValue(5);
+        intTime->setMaximum(99999);
+        intTime->setSingleStep(10);
+        intTime->setValue(10);
         intTimeBefore = new QSpinBox(centralWidget);
         intTimeBefore->setObjectName(QStringLiteral("intTimeBefore"));
         intTimeBefore->setGeometry(QRect(1203, 118, 81, 31));
+        intTimeBefore->setMaximum(99999);
         intTimeBefore->setSingleStep(1);
         intTimeBefore->setValue(5);
         intTimeAfter = new QSpinBox(centralWidget);
         intTimeAfter->setObjectName(QStringLiteral("intTimeAfter"));
         intTimeAfter->setGeometry(QRect(1203, 158, 81, 31));
+        intTimeAfter->setMaximum(99999);
         intTimeAfter->setSingleStep(1);
         intTimeAfter->setValue(5);
         label_37 = new QLabel(centralWidget);
@@ -801,7 +804,7 @@ public:
         label_3->setText(QApplication::translate("RTBiomanager", "Channels (separated by commas):", Q_NULLPTR));
         label_4->setText(QApplication::translate("RTBiomanager", "Input", Q_NULLPTR));
         label_5->setText(QApplication::translate("RTBiomanager", "Output", Q_NULLPTR));
-        textChannelInput->setPlainText(QApplication::translate("RTBiomanager", "0", Q_NULLPTR));
+        textChannelInput->setPlainText(QApplication::translate("RTBiomanager", "0,1", Q_NULLPTR));
         textChannelOutput->setPlainText(QApplication::translate("RTBiomanager", "0,1", Q_NULLPTR));
         label_6->setText(QApplication::translate("RTBiomanager", "Neuron model", Q_NULLPTR));
         neuronModelCombo->clear();
