@@ -117,3 +117,16 @@ def plot_lat_dist(data):
 	plt.tight_layout()
 	plt.subplots_adjust(left=0.06, right=0.98, top=0.93, bottom=0.1)
 	plt.show()
+
+
+def plot_lat(data):
+	lats = [int(math.modf(x/1000)[1]) for x in data.lat]
+	
+	plt.figure(figsize=(12,6))
+	plt.plot(data.time, lats, label="Latencies", linewidth=0.8)
+	plt.legend()
+	plt.xlabel("Time (s)")
+	plt.ylabel("Latency (us)")
+	plt.title("Latency values")
+	plt.tight_layout()
+	plt.show()

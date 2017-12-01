@@ -13,10 +13,10 @@
 		</params>
 	</model>
 	<synapse type="1">
-		<g_virtual_to_real_slow val="0.04"/>
+		<g_virtual_to_real_slow val="0.02"/>
 		<g_virtual_to_real_fast val="0.0"/>
 		<g_real_to_virtual_slow val="0.0"/>
-		<g_real_to_virtual_fast val="0.5"/>
+		<g_real_to_virtual_fast val="0.15"/>
 		<syn_gradual_k1 val="1"/>
 		<syn_gradual_k2 val="0.03"/>
 	</synapse>
@@ -24,13 +24,13 @@
 	</calib>
 	<freq val="10"/>
 	<times>
-		<before val="1"/>
-		<duration val="5"/>
-		<after val="1"/>
+		<before val="10"/>
+		<duration val="60"/>
+		<after val="10"/>
 	</times>
 	<output val="0,1"/>
 	<input val="0"/>
 	<imp val="0"/>
-	<firing_rate val="0.2"/>
+	<firing_rate val="1"/>
 	<anti val="0"/>
 </clamp>
