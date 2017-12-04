@@ -13,20 +13,20 @@
 		</params>
 	</model>
 	<synapse type="0">
-		<g_virtual_to_real val="0.08"/>
-		<g_real_to_virtual val="0.08"/>
+		<g_virtual_to_real val="0.05"/>
+		<g_real_to_virtual val="0.05"/>
 	</synapse>
 	<calib type="0">
 	</calib>
 	<freq val="10"/>
 	<times>
-		<before val="1"/>
-		<duration val="5"/>
+		<before val="10"/>
+		<duration val="600"/>
 		<after val="1"/>
 	</times>
 	<output val="0,1"/>
-	<input val="0"/>
+	<input val="0,2"/>
 	<imp val="0"/>
-	<firing_rate val="0.2"/>
-	<anti val="0"/>
+	<firing_rate val="1"/>
+	<anti val="1"/>
 </clamp>
