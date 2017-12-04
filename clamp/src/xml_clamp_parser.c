@@ -42,6 +42,8 @@
 #define G_REAL_TO_VIRTUAL_FAST "g_real_to_virtual_fast"
 #define SYN_GRADUAL_K1 "syn_gradual_k1"
 #define SYN_GRADUAL_K2 "syn_gradual_k2"
+#define SYN_GRADUAL_VFAST "syn_gradual_vfast"
+#define SYN_GRADUAL_KSLOW "syn_gradual_vslow"
 #define STEP_V_TO_R "step_v_to_r"
 #define STEP_R_TO_V "step_r_to_v"
 
@@ -349,10 +351,10 @@ static int parse_clamp_syn_chem (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 
 		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K1) == 0) ret = parse_double(doc, cur, &args->syn_gradual_k1, (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K2) == 0) ret = parse_double(doc, cur, &args->syn_gradual_k2, (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_VFAST) == 0) ret = parse_double(doc, cur, &args->syn_gradual_vfast, (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_VSLOW) == 0) ret = parse_double(doc, cur, &args->syn_gradual_vslow, (const xmlChar*) VALUE);
 
 		if (ret != OK) return ret;
-
-
 		cur = cur->next;
 	}
 

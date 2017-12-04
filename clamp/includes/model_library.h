@@ -52,6 +52,8 @@
 #define SC_BT 3
 #define SC_MS_K1 4
 #define SC_MS_K2 5
+#define SC_VSLOW 6
+#define SC_VFAST 7
 
 
 /* INTEGRATION FUNCTIONS */

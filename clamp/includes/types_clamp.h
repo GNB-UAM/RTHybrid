@@ -40,6 +40,8 @@ typedef struct {
     double firing_rate;
     double syn_gradual_k1;
     double syn_gradual_k2;
+    double syn_gradual_vfast;
+    double syn_gradual_vslow;
     double auto_cal_val_1;
 } rt_args;
 
@@ -59,6 +61,8 @@ typedef struct {
     int important;
     double syn_gradual_k1;
     double syn_gradual_k2;
+    double syn_gradual_vfast;
+    double syn_gradual_vslow;
 } writer_args;
 
 typedef struct {
@@ -76,6 +80,7 @@ typedef struct {
     double * g_real_to_virtual;
     double syn_gradual_k1;
     double syn_gradual_k2;
+
 } calibration_args;
 
 
@@ -101,6 +106,8 @@ typedef struct {
     double syn_gradual_k1;
     double syn_gradual_k2;
     double auto_cal_val_1;
+    double syn_gradual_vfast;
+    double syn_gradual_vslow;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

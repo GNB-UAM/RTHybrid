@@ -97,6 +97,10 @@ void * writer_thread(void * arg) {
         fprintf(f3, "Electric\n");
     }else if(args->type_syn==1){
         fprintf(f3, "Chemical\n");
+        fprintf(f3, "k1 = %f\n", args->syn_gradual_k1);
+        fprintf(f3, "k2 = %f\n", args->syn_gradual_k2);
+        fprintf(f3, "V fast = %f\n", args->syn_gradual_vfast);
+        fprintf(f3, "V slow = %f\n", args->syn_gradual_vslow);
     }
 
     fprintf(f3, "Freq = %d Hz\n", args->freq);

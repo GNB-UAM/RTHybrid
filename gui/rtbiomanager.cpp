@@ -123,6 +123,8 @@ void RTBiomanager::on_simulate_clicked()
 
                 args.syn_gradual_k1 = ui->doubleSynGrad_k1->value();
                 args.syn_gradual_k2 = ui->doubleSynGrad_k2->value();
+                args.syn_gradual_vfast = ui->doubleSynGrad_vfast->value();
+                args.syn_gradual_vslow = ui->doubleSynGrad_vslow->value();
 
                 break;
 

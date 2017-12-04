@@ -61,6 +61,16 @@ public:
     QDoubleSpinBox *doubleSynGrad_k1;
     QLabel *label_40;
     QDoubleSpinBox *doubleSynGrad_k2;
+    QLabel *label_44;
+    QLabel *label_45;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_3;
+    QDoubleSpinBox *doubleSynGrad_vslow;
+    QLabel *label_46;
+    QWidget *widget1;
+    QHBoxLayout *horizontalLayout_4;
+    QDoubleSpinBox *doubleSynGrad_vfast;
+    QLabel *label_47;
     QLabel *label;
     QLabel *label_2;
     QCheckBox *checkImp;
@@ -289,6 +299,57 @@ public:
         doubleSynGrad_k2->setMinimum(-99);
         doubleSynGrad_k2->setSingleStep(0.005);
         doubleSynGrad_k2->setValue(0.03);
+        label_44 = new QLabel(pageSynGrad);
+        label_44->setObjectName(QStringLiteral("label_44"));
+        label_44->setGeometry(QRect(450, 180, 61, 15));
+        label_45 = new QLabel(pageSynGrad);
+        label_45->setObjectName(QStringLiteral("label_45"));
+        label_45->setGeometry(QRect(590, 180, 61, 15));
+        widget = new QWidget(pageSynGrad);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(570, 210, 72, 25));
+        horizontalLayout_3 = new QHBoxLayout(widget);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
+        doubleSynGrad_vslow = new QDoubleSpinBox(widget);
+        doubleSynGrad_vslow->setObjectName(QStringLiteral("doubleSynGrad_vslow"));
+        doubleSynGrad_vslow->setDecimals(0);
+        doubleSynGrad_vslow->setMinimum(0);
+        doubleSynGrad_vslow->setSingleStep(1);
+        doubleSynGrad_vslow->setValue(50);
+
+        horizontalLayout_3->addWidget(doubleSynGrad_vslow);
+
+        label_46 = new QLabel(widget);
+        label_46->setObjectName(QStringLiteral("label_46"));
+
+        horizontalLayout_3->addWidget(label_46);
+
+        widget1 = new QWidget(pageSynGrad);
+        widget1->setObjectName(QStringLiteral("widget1"));
+        widget1->setGeometry(QRect(430, 210, 72, 25));
+        horizontalLayout_4 = new QHBoxLayout(widget1);
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        doubleSynGrad_vfast = new QDoubleSpinBox(widget1);
+        doubleSynGrad_vfast->setObjectName(QStringLiteral("doubleSynGrad_vfast"));
+        doubleSynGrad_vfast->setDecimals(0);
+        doubleSynGrad_vfast->setMinimum(0);
+        doubleSynGrad_vfast->setMaximum(100);
+        doubleSynGrad_vfast->setSingleStep(1);
+        doubleSynGrad_vfast->setValue(25);
+
+        horizontalLayout_4->addWidget(doubleSynGrad_vfast);
+
+        label_47 = new QLabel(widget1);
+        label_47->setObjectName(QStringLiteral("label_47"));
+
+        horizontalLayout_4->addWidget(label_47);
+
         synapseModelPages->addWidget(pageSynGrad);
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
@@ -770,6 +831,7 @@ public:
         label_37->raise();
         autoDetect->raise();
         doubleSecPerBurst->raise();
+        doubleSynGrad_k1->raise();
 
         retranslateUi(RTBiomanager);
 
@@ -797,6 +859,10 @@ public:
         label_38->setText(QApplication::translate("RTBiomanager", "Synapse parameters:", Q_NULLPTR));
         label_39->setText(QApplication::translate("RTBiomanager", "k1", Q_NULLPTR));
         label_40->setText(QApplication::translate("RTBiomanager", "k2", Q_NULLPTR));
+        label_44->setText(QApplication::translate("RTBiomanager", "V fast", Q_NULLPTR));
+        label_45->setText(QApplication::translate("RTBiomanager", "V slow", Q_NULLPTR));
+        label_46->setText(QApplication::translate("RTBiomanager", "%", Q_NULLPTR));
+        label_47->setText(QApplication::translate("RTBiomanager", "%", Q_NULLPTR));
         label->setText(QApplication::translate("RTBiomanager", "Frequency (kHz)", Q_NULLPTR));
         label_2->setText(QApplication::translate("RTBiomanager", "Duration (s)", Q_NULLPTR));
         checkImp->setText(QApplication::translate("RTBiomanager", "Important", Q_NULLPTR));

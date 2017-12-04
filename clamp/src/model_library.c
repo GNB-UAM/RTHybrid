@@ -99,14 +99,12 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 	double v_f;
 	double s_f;
 
-
-	
 	if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
-		v_f = aux[SC_MIN] + aux[SC_MIN] * 0.240;
+		v_f = aux[SC_MIN] + aux[SC_MIN] * aux[SC_VFAST];
 	} else {
 		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
-		v_f = aux[SC_MIN] - aux[SC_MIN] * 0.240;
+		v_f = aux[SC_MIN] - aux[SC_MIN] * aux[SC_VFAST];
 	}
 	
     s_f = aux[SC_BT] * 0.2;
@@ -123,20 +121,18 @@ double chem_slow (double v_post, double * g, double * aux) {
 	
 	if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
-		params[MS_VS] = aux[SC_MIN] + aux[SC_MIN] * 0.16;
+		params[MS_VS] = aux[SC_MIN] + aux[SC_MIN] * aux[SC_VSLOW];
 	} else {
 		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
-		params[MS_VS] = aux[SC_MIN] - aux[SC_MIN] * 0.16;
+		params[MS_VS] = aux[SC_MIN] - aux[SC_MIN] * aux[SC_VSLOW];
 	}
 	
-
     params[MS_K1] = aux[SC_MS_K1];//1;
     params[MS_K2] = aux[SC_MS_K2];//0.03;
     params[MS_SS] = aux[SC_BT];
 
     runge_kutta_6(&ms_f, 1, aux[SC_DT], vars, params, 0);
     aux[SC_OLD] = vars[0];
-
 
     //printf("v_post %f esyn %f old %f ", v_post, e_syn, aux[SC_OLD]);
 
