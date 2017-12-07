@@ -8,6 +8,9 @@
 !about.txt
 figures/*.png
 *.pro.*
+ui_rtbiomanager.h
+moc_rtbiomanager.cpp
+gui/rtbiomanager.ui.autosave
 
 main
 clamp-cli_preempt
