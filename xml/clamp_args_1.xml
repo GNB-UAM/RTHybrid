@@ -19,18 +19,20 @@
 		<g_real_to_virtual_fast val="0.15"/>
 		<syn_gradual_k1 val="1"/>
 		<syn_gradual_k2 val="0.03"/>
+		<syn_gradual_vslow val="50"/>
+		<syn_gradual_vfast val="25"/>
 	</synapse>
 	<calib type="0">
 	</calib>
 	<freq val="10"/>
 	<times>
-		<before val="10"/>
-		<duration val="60"/>
+		<before val="2"/>
+		<duration val="10"/>
 		<after val="10"/>
 	</times>
 	<output val="0,1"/>
 	<input val="0"/>
 	<imp val="0"/>
-	<firing_rate val="1"/>
+	<firing_rate val="-1"/>
 	<anti val="0"/>
 </clamp>

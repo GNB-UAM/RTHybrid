@@ -266,14 +266,14 @@ void * rt_thread(void * arg) {
 			break;
 
 		case CHEMICAL:
-			syn_aux_params = (double *) malloc (sizeof(double) * 6);
+			syn_aux_params = (double *) malloc (sizeof(double) * 8);
 			syn_aux_params[SC_DT] = args->dt;
 			syn_aux_params[SC_OLD] = 0;
             syn_aux_params[SC_BT] = period_disp_real;
             syn_aux_params[SC_MS_K1] = args->syn_gradual_k1;//1;
             syn_aux_params[SC_MS_K2] = args->syn_gradual_k2;//0.03;
-            syn_aux_params[SC_VFAST] = args->syn_gradual_vfast;
-            syn_aux_params[SC_VSLOW] = args->syn_gradual_vslow;
+            syn_aux_params[SC_VFAST] = args->syn_gradual_vfast/100;
+            syn_aux_params[SC_VSLOW] = args->syn_gradual_vslow/100;
 
             /*if (args->model==0){
                 g_virtual_to_real[G_FAST] = 0.0;

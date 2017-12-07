@@ -131,11 +131,11 @@ int auto_calibration(
             aux_counter++;
             if (aux_counter >= args->freq*tiempo_por_punto){
                 aux_counter=0;
-                *g_v_to_r += args->step_v_to_r;
-                if (*g_v_to_r > g_max_v_to_r){
+                *g_v_to_r -= args->step_v_to_r;
+                if (*g_v_to_r < -g_max_v_to_r){
                     *g_v_to_r = 0;
-                    *g_r_to_v += args->step_r_to_v;
-                    if(*g_r_to_v > g_max_r_to_v){
+                    *g_r_to_v -= args->step_r_to_v;
+                    if(*g_r_to_v < -g_max_r_to_v){
                         g_v_to_r = 0;
                         g_r_to_v = 0;
                         cal_on=FALSE;

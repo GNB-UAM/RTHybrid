@@ -43,7 +43,7 @@
 #define SYN_GRADUAL_K1 "syn_gradual_k1"
 #define SYN_GRADUAL_K2 "syn_gradual_k2"
 #define SYN_GRADUAL_VFAST "syn_gradual_vfast"
-#define SYN_GRADUAL_KSLOW "syn_gradual_vslow"
+#define SYN_GRADUAL_VSLOW "syn_gradual_vslow"
 #define STEP_V_TO_R "step_v_to_r"
 #define STEP_R_TO_V "step_r_to_v"
 

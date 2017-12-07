@@ -106,7 +106,6 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
 		v_f = aux[SC_MIN] - aux[SC_MIN] * aux[SC_VFAST];
 	}
-	
     s_f = aux[SC_BT] * 0.2;
 
     //printf("esyn %f vf %f sf %f g %f vpre %f vpost %f", e_syn, v_f, s_f, (*g), v_pre, v_post);
@@ -118,7 +117,7 @@ double chem_slow (double v_post, double * g, double * aux) {
     double vars[1] = {aux[SC_OLD]};
     double params[4];
     double e_syn;
-	
+
 	if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
 		params[MS_VS] = aux[SC_MIN] + aux[SC_MIN] * aux[SC_VSLOW];
@@ -126,7 +125,6 @@ double chem_slow (double v_post, double * g, double * aux) {
 		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
 		params[MS_VS] = aux[SC_MIN] - aux[SC_MIN] * aux[SC_VSLOW];
 	}
-	
     params[MS_K1] = aux[SC_MS_K1];//1;
     params[MS_K2] = aux[SC_MS_K2];//0.03;
     params[MS_SS] = aux[SC_BT];
