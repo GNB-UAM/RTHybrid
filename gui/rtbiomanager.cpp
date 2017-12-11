@@ -36,7 +36,6 @@ void RTBiomanager::on_simulate_clicked()
     autocalIndex = ui->autocalPages->currentIndex();
 
     args.imp = ui->checkImp->isChecked();
-    args.anti = ui->checkAnti->isChecked();
 
     args.freq = ui->intFreq->value() * 1000.0;
     args.time_var = ui->intTime->value();
@@ -102,6 +101,8 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
+    args.anti = false;
+
     if (autocalIndex == 0){
         switch (args.synapse) {
             case ELECTRIC: //Electrical
@@ -109,6 +110,7 @@ void RTBiomanager::on_simulate_clicked()
                 args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
                 args.g_virtual_to_real[0] = ui->doubleSynElec_gMtoE->value();
                 args.g_real_to_virtual[0] = ui->doubleSynElec_gEtoM->value();
+                args.anti = ui->checkAnti->isChecked();
 
 
                 break;

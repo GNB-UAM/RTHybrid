@@ -36,19 +36,6 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QPushButton" name="simulate">
-    <property name="geometry">
-     <rect>
-      <x>1150</x>
-      <y>470</y>
-      <width>82</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
    <widget class="QFrame" name="frameSynapse">
     <property name="geometry">
      <rect>
@@ -81,7 +68,7 @@
        <property name="geometry">
         <rect>
          <x>170</x>
-         <y>70</y>
+         <y>40</y>
          <width>261</width>
          <height>21</height>
         </rect>
@@ -94,7 +81,7 @@
        <property name="geometry">
         <rect>
          <x>170</x>
-         <y>150</y>
+         <y>120</y>
          <width>261</width>
          <height>21</height>
         </rect>
@@ -107,10 +94,13 @@
        <property name="geometry">
         <rect>
          <x>480</x>
-         <y>70</y>
+         <y>40</y>
          <width>91</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
@@ -123,16 +113,35 @@
        <property name="geometry">
         <rect>
          <x>480</x>
-         <y>150</y>
+         <y>120</y>
          <width>91</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
        </property>
        <property name="value">
         <double>0.200000000000000</double>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkAnti">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>190</y>
+         <width>88</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Antiphase</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -236,6 +245,9 @@
          <height>24</height>
         </rect>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="singleStep">
         <double>0.010000000000000</double>
        </property>
@@ -251,6 +263,9 @@
          <width>91</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
@@ -268,6 +283,9 @@
          <height>24</height>
         </rect>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
        </property>
@@ -283,6 +301,9 @@
          <width>91</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
@@ -347,6 +368,9 @@
          <width>91</width>
          <height>24</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-99.000000000000000</double>
@@ -419,7 +443,7 @@
         <string>V slow</string>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>570</x>
@@ -454,7 +478,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>430</x>
@@ -521,37 +545,11 @@
      <string>Duration (s)</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkImp">
-    <property name="geometry">
-     <rect>
-      <x>1080</x>
-      <y>360</y>
-      <width>88</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Important</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkAnti">
-    <property name="geometry">
-     <rect>
-      <x>1200</x>
-      <y>360</y>
-      <width>88</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Antiphase</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>210</y>
+      <y>220</y>
       <width>261</width>
       <height>20</height>
      </rect>
@@ -572,7 +570,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>250</y>
+      <y>260</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -585,7 +583,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>300</y>
+      <y>310</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -598,7 +596,7 @@
     <property name="geometry">
      <rect>
       <x>1190</x>
-      <y>250</y>
+      <y>260</y>
       <width>104</width>
       <height>31</height>
      </rect>
@@ -611,7 +609,7 @@
     <property name="geometry">
      <rect>
       <x>1190</x>
-      <y>300</y>
+      <y>310</y>
       <width>104</width>
       <height>31</height>
      </rect>
@@ -1596,6 +1594,9 @@ p, li { white-space: pre-wrap; }
          <height>31</height>
         </rect>
        </property>
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
        <item>
         <property name="text">
          <string>Fast</string>
@@ -1617,7 +1618,7 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <item>
         <property name="text">
@@ -1706,11 +1707,14 @@ Step</string>
          <height>31</height>
         </rect>
        </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
        <property name="singleStep">
-        <double>0.100000000000000</double>
+        <double>0.010000000000000</double>
        </property>
        <property name="value">
-        <double>0.400000000000000</double>
+        <double>0.060000000000000</double>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="chemMap_MaxToModel">
@@ -1722,11 +1726,14 @@ Step</string>
          <height>31</height>
         </rect>
        </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
        <property name="singleStep">
-        <double>0.010000000000000</double>
+        <double>0.100000000000000</double>
        </property>
        <property name="value">
-        <double>0.060000000000000</double>
+        <double>0.400000000000000</double>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="chemMap_StepToExternal">
@@ -1738,11 +1745,14 @@ Step</string>
          <height>31</height>
         </rect>
        </property>
+       <property name="decimals">
+        <number>3</number>
+       </property>
        <property name="singleStep">
-        <double>0.100000000000000</double>
+        <double>0.010000000000000</double>
        </property>
        <property name="value">
-        <double>0.100000000000000</double>
+        <double>0.010000000000000</double>
        </property>
       </widget>
       <widget class="QDoubleSpinBox" name="chemMap_StepToModel">
@@ -1753,6 +1763,9 @@ Step</string>
          <width>68</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="decimals">
+        <number>3</number>
        </property>
        <property name="singleStep">
         <double>0.010000000000000</double>
@@ -1867,7 +1880,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>420</y>
+      <y>380</y>
       <width>61</width>
       <height>15</height>
      </rect>
@@ -1880,7 +1893,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1216</x>
-      <y>416</y>
+      <y>376</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -1899,10 +1912,13 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>415</y>
+      <y>375</y>
       <width>68</width>
       <height>24</height>
      </rect>
+    </property>
+    <property name="decimals">
+     <number>3</number>
     </property>
     <property name="singleStep">
      <double>0.100000000000000</double>
@@ -1965,7 +1981,7 @@ Step</string>
       <x>1050</x>
       <y>20</y>
       <width>271</width>
-      <height>501</height>
+      <height>461</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1974,17 +1990,40 @@ Step</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QPushButton" name="simulate">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>410</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Start</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkImp">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>410</y>
+       <width>88</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Important</string>
+     </property>
+    </widget>
    </widget>
    <zorder>frameAux4</zorder>
    <zorder>frameAux</zorder>
    <zorder>frameAux2</zorder>
    <zorder>frameAux3</zorder>
-   <zorder>simulate</zorder>
    <zorder>frameSynapse</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
-   <zorder>checkImp</zorder>
-   <zorder>checkAnti</zorder>
    <zorder>label_3</zorder>
    <zorder>label_4</zorder>
    <zorder>label_5</zorder>
@@ -2007,7 +2046,6 @@ Step</string>
    <zorder>label_37</zorder>
    <zorder>autoDetect</zorder>
    <zorder>doubleSecPerBurst</zorder>
-   <zorder>doubleSynGrad_k1</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

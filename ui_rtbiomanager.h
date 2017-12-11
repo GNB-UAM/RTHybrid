@@ -36,7 +36,6 @@ class Ui_RTBiomanager
 {
 public:
     QWidget *centralWidget;
-    QPushButton *simulate;
     QFrame *frameSynapse;
     QStackedWidget *synapseModelPages;
     QWidget *pageSynElec;
@@ -44,6 +43,7 @@ public:
     QLabel *label_28;
     QDoubleSpinBox *doubleSynElec_gMtoE;
     QDoubleSpinBox *doubleSynElec_gEtoM;
+    QCheckBox *checkAnti;
     QWidget *pageSynGrad;
     QLabel *label_29;
     QLabel *label_31;
@@ -63,18 +63,16 @@ public:
     QDoubleSpinBox *doubleSynGrad_k2;
     QLabel *label_44;
     QLabel *label_45;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout_3;
     QDoubleSpinBox *doubleSynGrad_vslow;
     QLabel *label_46;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QHBoxLayout *horizontalLayout_4;
     QDoubleSpinBox *doubleSynGrad_vfast;
     QLabel *label_47;
     QLabel *label;
     QLabel *label_2;
-    QCheckBox *checkImp;
-    QCheckBox *checkAnti;
     QLabel *label_3;
     QLabel *label_4;
     QLabel *label_5;
@@ -134,15 +132,15 @@ public:
     QWidget *pageOff;
     QTextBrowser *textBrowser;
     QWidget *pageElectricalConductanceMSE;
-    QWidget *layoutWidget;
+    QWidget *layoutWidget2;
     QHBoxLayout *horizontalLayout_2;
     QDoubleSpinBox *doubleMSE_slopereduction;
     QLabel *label_42;
-    QWidget *layoutWidget1;
+    QWidget *layoutWidget3;
     QVBoxLayout *verticalLayout;
     QRadioButton *radioButtonMSE_percentagereduction;
     QRadioButton *radioButtonMSE_slopereduction;
-    QWidget *layoutWidget2;
+    QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayout;
     QDoubleSpinBox *doubleMSE_percentagereduction;
     QLabel *label_41;
@@ -171,6 +169,8 @@ public:
     QFrame *frameAux2;
     QFrame *frameAux3;
     QFrame *frameAux4;
+    QPushButton *simulate;
+    QCheckBox *checkImp;
 
     void setupUi(QMainWindow *RTBiomanager)
     {
@@ -195,9 +195,6 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setLayoutDirection(Qt::LeftToRight);
         centralWidget->setStyleSheet(QStringLiteral(""));
-        simulate = new QPushButton(centralWidget);
-        simulate->setObjectName(QStringLiteral("simulate"));
-        simulate->setGeometry(QRect(1150, 470, 82, 23));
         frameSynapse = new QFrame(centralWidget);
         frameSynapse->setObjectName(QStringLiteral("frameSynapse"));
         frameSynapse->setGeometry(QRect(270, 180, 761, 271));
@@ -210,20 +207,26 @@ public:
         pageSynElec->setObjectName(QStringLiteral("pageSynElec"));
         label_27 = new QLabel(pageSynElec);
         label_27->setObjectName(QStringLiteral("label_27"));
-        label_27->setGeometry(QRect(170, 70, 261, 21));
+        label_27->setGeometry(QRect(170, 40, 261, 21));
         label_28 = new QLabel(pageSynElec);
         label_28->setObjectName(QStringLiteral("label_28"));
-        label_28->setGeometry(QRect(170, 150, 261, 21));
+        label_28->setGeometry(QRect(170, 120, 261, 21));
         doubleSynElec_gMtoE = new QDoubleSpinBox(pageSynElec);
         doubleSynElec_gMtoE->setObjectName(QStringLiteral("doubleSynElec_gMtoE"));
-        doubleSynElec_gMtoE->setGeometry(QRect(480, 70, 91, 24));
+        doubleSynElec_gMtoE->setGeometry(QRect(480, 40, 91, 24));
+        doubleSynElec_gMtoE->setDecimals(4);
         doubleSynElec_gMtoE->setSingleStep(0.05);
         doubleSynElec_gMtoE->setValue(0.2);
         doubleSynElec_gEtoM = new QDoubleSpinBox(pageSynElec);
         doubleSynElec_gEtoM->setObjectName(QStringLiteral("doubleSynElec_gEtoM"));
-        doubleSynElec_gEtoM->setGeometry(QRect(480, 150, 91, 24));
+        doubleSynElec_gEtoM->setGeometry(QRect(480, 120, 91, 24));
+        doubleSynElec_gEtoM->setDecimals(4);
         doubleSynElec_gEtoM->setSingleStep(0.05);
         doubleSynElec_gEtoM->setValue(0.2);
+        checkAnti = new QCheckBox(pageSynElec);
+        checkAnti->setObjectName(QStringLiteral("checkAnti"));
+        checkAnti->setGeometry(QRect(330, 190, 88, 21));
+        checkAnti->setChecked(true);
         synapseModelPages->addWidget(pageSynElec);
         pageSynGrad = new QWidget();
         pageSynGrad->setObjectName(QStringLiteral("pageSynGrad"));
@@ -253,21 +256,25 @@ public:
         doubleSynGrad_gMtoE_slow = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gMtoE_slow->setObjectName(QStringLiteral("doubleSynGrad_gMtoE_slow"));
         doubleSynGrad_gMtoE_slow->setGeometry(QRect(100, 70, 91, 24));
+        doubleSynGrad_gMtoE_slow->setDecimals(4);
         doubleSynGrad_gMtoE_slow->setSingleStep(0.01);
         doubleSynGrad_gMtoE_slow->setValue(0.02);
         doubleSynGrad_gMtoE_fast = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gMtoE_fast->setObjectName(QStringLiteral("doubleSynGrad_gMtoE_fast"));
         doubleSynGrad_gMtoE_fast->setGeometry(QRect(220, 70, 91, 24));
+        doubleSynGrad_gMtoE_fast->setDecimals(4);
         doubleSynGrad_gMtoE_fast->setSingleStep(0.05);
         doubleSynGrad_gMtoE_fast->setValue(0);
         doubleSynGrad_gEtoM_slow = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gEtoM_slow->setObjectName(QStringLiteral("doubleSynGrad_gEtoM_slow"));
         doubleSynGrad_gEtoM_slow->setGeometry(QRect(450, 70, 91, 24));
+        doubleSynGrad_gEtoM_slow->setDecimals(4);
         doubleSynGrad_gEtoM_slow->setSingleStep(0.05);
         doubleSynGrad_gEtoM_slow->setValue(0);
         doubleSynGrad_gEtoM_fast = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_gEtoM_fast->setObjectName(QStringLiteral("doubleSynGrad_gEtoM_fast"));
         doubleSynGrad_gEtoM_fast->setGeometry(QRect(570, 70, 91, 24));
+        doubleSynGrad_gEtoM_fast->setDecimals(4);
         doubleSynGrad_gEtoM_fast->setSingleStep(0.05);
         doubleSynGrad_gEtoM_fast->setValue(0.2);
         line = new QFrame(pageSynGrad);
@@ -286,6 +293,7 @@ public:
         doubleSynGrad_k1 = new QDoubleSpinBox(pageSynGrad);
         doubleSynGrad_k1->setObjectName(QStringLiteral("doubleSynGrad_k1"));
         doubleSynGrad_k1->setGeometry(QRect(100, 210, 91, 24));
+        doubleSynGrad_k1->setDecimals(4);
         doubleSynGrad_k1->setMinimum(-99);
         doubleSynGrad_k1->setSingleStep(0.05);
         doubleSynGrad_k1->setValue(1);
@@ -305,15 +313,15 @@ public:
         label_45 = new QLabel(pageSynGrad);
         label_45->setObjectName(QStringLiteral("label_45"));
         label_45->setGeometry(QRect(590, 180, 61, 15));
-        widget = new QWidget(pageSynGrad);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(570, 210, 72, 25));
-        horizontalLayout_3 = new QHBoxLayout(widget);
+        layoutWidget = new QWidget(pageSynGrad);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(570, 210, 72, 25));
+        horizontalLayout_3 = new QHBoxLayout(layoutWidget);
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
-        doubleSynGrad_vslow = new QDoubleSpinBox(widget);
+        doubleSynGrad_vslow = new QDoubleSpinBox(layoutWidget);
         doubleSynGrad_vslow->setObjectName(QStringLiteral("doubleSynGrad_vslow"));
         doubleSynGrad_vslow->setDecimals(0);
         doubleSynGrad_vslow->setMinimum(0);
@@ -322,20 +330,20 @@ public:
 
         horizontalLayout_3->addWidget(doubleSynGrad_vslow);
 
-        label_46 = new QLabel(widget);
+        label_46 = new QLabel(layoutWidget);
         label_46->setObjectName(QStringLiteral("label_46"));
 
         horizontalLayout_3->addWidget(label_46);
 
-        widget1 = new QWidget(pageSynGrad);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(430, 210, 72, 25));
-        horizontalLayout_4 = new QHBoxLayout(widget1);
+        layoutWidget1 = new QWidget(pageSynGrad);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(430, 210, 72, 25));
+        horizontalLayout_4 = new QHBoxLayout(layoutWidget1);
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        doubleSynGrad_vfast = new QDoubleSpinBox(widget1);
+        doubleSynGrad_vfast = new QDoubleSpinBox(layoutWidget1);
         doubleSynGrad_vfast->setObjectName(QStringLiteral("doubleSynGrad_vfast"));
         doubleSynGrad_vfast->setDecimals(0);
         doubleSynGrad_vfast->setMinimum(0);
@@ -345,7 +353,7 @@ public:
 
         horizontalLayout_4->addWidget(doubleSynGrad_vfast);
 
-        label_47 = new QLabel(widget1);
+        label_47 = new QLabel(layoutWidget1);
         label_47->setObjectName(QStringLiteral("label_47"));
 
         horizontalLayout_4->addWidget(label_47);
@@ -357,15 +365,9 @@ public:
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(1080, 85, 81, 21));
-        checkImp = new QCheckBox(centralWidget);
-        checkImp->setObjectName(QStringLiteral("checkImp"));
-        checkImp->setGeometry(QRect(1080, 360, 88, 21));
-        checkAnti = new QCheckBox(centralWidget);
-        checkAnti->setObjectName(QStringLiteral("checkAnti"));
-        checkAnti->setGeometry(QRect(1200, 360, 88, 21));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(1060, 210, 261, 20));
+        label_3->setGeometry(QRect(1060, 220, 261, 20));
         QFont font1;
         font1.setFamily(QStringLiteral("DejaVu Sans Mono"));
         font1.setBold(true);
@@ -374,16 +376,16 @@ public:
         label_3->setFont(font1);
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(1070, 250, 61, 31));
+        label_4->setGeometry(QRect(1070, 260, 61, 31));
         label_5 = new QLabel(centralWidget);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(1070, 300, 61, 31));
+        label_5->setGeometry(QRect(1070, 310, 61, 31));
         textChannelInput = new QPlainTextEdit(centralWidget);
         textChannelInput->setObjectName(QStringLiteral("textChannelInput"));
-        textChannelInput->setGeometry(QRect(1190, 250, 104, 31));
+        textChannelInput->setGeometry(QRect(1190, 260, 104, 31));
         textChannelOutput = new QPlainTextEdit(centralWidget);
         textChannelOutput->setObjectName(QStringLiteral("textChannelOutput"));
-        textChannelOutput->setGeometry(QRect(1190, 300, 104, 31));
+        textChannelOutput->setGeometry(QRect(1190, 310, 104, 31));
         label_6 = new QLabel(centralWidget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(30, 30, 211, 31));
@@ -620,15 +622,15 @@ public:
         autocalPages->addWidget(pageOff);
         pageElectricalConductanceMSE = new QWidget();
         pageElectricalConductanceMSE->setObjectName(QStringLiteral("pageElectricalConductanceMSE"));
-        layoutWidget = new QWidget(pageElectricalConductanceMSE);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(530, 120, 72, 41));
-        horizontalLayout_2 = new QHBoxLayout(layoutWidget);
+        layoutWidget2 = new QWidget(pageElectricalConductanceMSE);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(530, 120, 72, 41));
+        horizontalLayout_2 = new QHBoxLayout(layoutWidget2);
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        doubleMSE_slopereduction = new QDoubleSpinBox(layoutWidget);
+        doubleMSE_slopereduction = new QDoubleSpinBox(layoutWidget2);
         doubleMSE_slopereduction->setObjectName(QStringLiteral("doubleMSE_slopereduction"));
         doubleMSE_slopereduction->setDecimals(0);
         doubleMSE_slopereduction->setSingleStep(1);
@@ -636,26 +638,26 @@ public:
 
         horizontalLayout_2->addWidget(doubleMSE_slopereduction);
 
-        label_42 = new QLabel(layoutWidget);
+        label_42 = new QLabel(layoutWidget2);
         label_42->setObjectName(QStringLiteral("label_42"));
 
         horizontalLayout_2->addWidget(label_42);
 
-        layoutWidget1 = new QWidget(pageElectricalConductanceMSE);
-        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(150, 0, 378, 201));
-        verticalLayout = new QVBoxLayout(layoutWidget1);
+        layoutWidget3 = new QWidget(pageElectricalConductanceMSE);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(150, 0, 378, 201));
+        verticalLayout = new QVBoxLayout(layoutWidget3);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        radioButtonMSE_percentagereduction = new QRadioButton(layoutWidget1);
+        radioButtonMSE_percentagereduction = new QRadioButton(layoutWidget3);
         radioButtonMSE_percentagereduction->setObjectName(QStringLiteral("radioButtonMSE_percentagereduction"));
         radioButtonMSE_percentagereduction->setChecked(true);
 
         verticalLayout->addWidget(radioButtonMSE_percentagereduction);
 
-        radioButtonMSE_slopereduction = new QRadioButton(layoutWidget1);
+        radioButtonMSE_slopereduction = new QRadioButton(layoutWidget3);
         radioButtonMSE_slopereduction->setObjectName(QStringLiteral("radioButtonMSE_slopereduction"));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -665,15 +667,15 @@ public:
 
         verticalLayout->addWidget(radioButtonMSE_slopereduction);
 
-        layoutWidget2 = new QWidget(pageElectricalConductanceMSE);
-        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(530, 40, 72, 41));
-        horizontalLayout = new QHBoxLayout(layoutWidget2);
+        layoutWidget4 = new QWidget(pageElectricalConductanceMSE);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(530, 40, 72, 41));
+        horizontalLayout = new QHBoxLayout(layoutWidget4);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        doubleMSE_percentagereduction = new QDoubleSpinBox(layoutWidget2);
+        doubleMSE_percentagereduction = new QDoubleSpinBox(layoutWidget4);
         doubleMSE_percentagereduction->setObjectName(QStringLiteral("doubleMSE_percentagereduction"));
         doubleMSE_percentagereduction->setDecimals(0);
         doubleMSE_percentagereduction->setSingleStep(1);
@@ -681,7 +683,7 @@ public:
 
         horizontalLayout->addWidget(doubleMSE_percentagereduction);
 
-        label_41 = new QLabel(layoutWidget2);
+        label_41 = new QLabel(layoutWidget4);
         label_41->setObjectName(QStringLiteral("label_41"));
 
         horizontalLayout->addWidget(label_41);
@@ -718,21 +720,25 @@ public:
         chemMap_MaxToExternal = new QDoubleSpinBox(pageGradualMap);
         chemMap_MaxToExternal->setObjectName(QStringLiteral("chemMap_MaxToExternal"));
         chemMap_MaxToExternal->setGeometry(QRect(430, 80, 68, 31));
-        chemMap_MaxToExternal->setSingleStep(0.1);
-        chemMap_MaxToExternal->setValue(0.4);
+        chemMap_MaxToExternal->setDecimals(3);
+        chemMap_MaxToExternal->setSingleStep(0.01);
+        chemMap_MaxToExternal->setValue(0.06);
         chemMap_MaxToModel = new QDoubleSpinBox(pageGradualMap);
         chemMap_MaxToModel->setObjectName(QStringLiteral("chemMap_MaxToModel"));
         chemMap_MaxToModel->setGeometry(QRect(430, 130, 68, 31));
-        chemMap_MaxToModel->setSingleStep(0.01);
-        chemMap_MaxToModel->setValue(0.06);
+        chemMap_MaxToModel->setDecimals(3);
+        chemMap_MaxToModel->setSingleStep(0.1);
+        chemMap_MaxToModel->setValue(0.4);
         chemMap_StepToExternal = new QDoubleSpinBox(pageGradualMap);
         chemMap_StepToExternal->setObjectName(QStringLiteral("chemMap_StepToExternal"));
         chemMap_StepToExternal->setGeometry(QRect(540, 80, 68, 31));
-        chemMap_StepToExternal->setSingleStep(0.1);
-        chemMap_StepToExternal->setValue(0.1);
+        chemMap_StepToExternal->setDecimals(3);
+        chemMap_StepToExternal->setSingleStep(0.01);
+        chemMap_StepToExternal->setValue(0.01);
         chemMap_StepToModel = new QDoubleSpinBox(pageGradualMap);
         chemMap_StepToModel->setObjectName(QStringLiteral("chemMap_StepToModel"));
         chemMap_StepToModel->setGeometry(QRect(540, 130, 68, 31));
+        chemMap_StepToModel->setDecimals(3);
         chemMap_StepToModel->setSingleStep(0.01);
         chemMap_StepToModel->setValue(0.01);
         autocalPages->addWidget(pageGradualMap);
@@ -767,15 +773,16 @@ public:
         intTimeAfter->setValue(5);
         label_37 = new QLabel(centralWidget);
         label_37->setObjectName(QStringLiteral("label_37"));
-        label_37->setGeometry(QRect(1070, 420, 61, 15));
+        label_37->setGeometry(QRect(1070, 380, 61, 15));
         autoDetect = new QCheckBox(centralWidget);
         autoDetect->setObjectName(QStringLiteral("autoDetect"));
-        autoDetect->setGeometry(QRect(1216, 416, 101, 21));
+        autoDetect->setGeometry(QRect(1216, 376, 101, 21));
         autoDetect->setChecked(true);
         doubleSecPerBurst = new QDoubleSpinBox(centralWidget);
         doubleSecPerBurst->setObjectName(QStringLiteral("doubleSecPerBurst"));
         doubleSecPerBurst->setEnabled(false);
-        doubleSecPerBurst->setGeometry(QRect(1140, 415, 68, 24));
+        doubleSecPerBurst->setGeometry(QRect(1140, 375, 68, 24));
+        doubleSecPerBurst->setDecimals(3);
         doubleSecPerBurst->setSingleStep(0.1);
         doubleSecPerBurst->setValue(0.25);
         frameAux = new QFrame(centralWidget);
@@ -795,20 +802,23 @@ public:
         frameAux3->setFrameShadow(QFrame::Raised);
         frameAux4 = new QFrame(centralWidget);
         frameAux4->setObjectName(QStringLiteral("frameAux4"));
-        frameAux4->setGeometry(QRect(1050, 20, 271, 501));
+        frameAux4->setGeometry(QRect(1050, 20, 271, 461));
         frameAux4->setFrameShape(QFrame::StyledPanel);
         frameAux4->setFrameShadow(QFrame::Raised);
+        simulate = new QPushButton(frameAux4);
+        simulate->setObjectName(QStringLiteral("simulate"));
+        simulate->setGeometry(QRect(160, 410, 82, 23));
+        checkImp = new QCheckBox(frameAux4);
+        checkImp->setObjectName(QStringLiteral("checkImp"));
+        checkImp->setGeometry(QRect(30, 410, 88, 21));
         RTBiomanager->setCentralWidget(centralWidget);
         frameAux4->raise();
         frameAux->raise();
         frameAux2->raise();
         frameAux3->raise();
-        simulate->raise();
         frameSynapse->raise();
         label->raise();
         label_2->raise();
-        checkImp->raise();
-        checkAnti->raise();
         label_3->raise();
         label_4->raise();
         label_5->raise();
@@ -831,14 +841,14 @@ public:
         label_37->raise();
         autoDetect->raise();
         doubleSecPerBurst->raise();
-        doubleSynGrad_k1->raise();
 
         retranslateUi(RTBiomanager);
 
         synapseModelPages->setCurrentIndex(0);
         neuronModelPages->setCurrentIndex(0);
         autocalPages->setCurrentIndex(0);
-        gradualExternalToModelSelect->setCurrentIndex(1);
+        gradualModelToExternalSelect->setCurrentIndex(1);
+        gradualExternalToModelSelect->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(RTBiomanager);
@@ -847,9 +857,9 @@ public:
     void retranslateUi(QMainWindow *RTBiomanager)
     {
         RTBiomanager->setWindowTitle(QApplication::translate("RTBiomanager", "RTBiomanager", Q_NULLPTR));
-        simulate->setText(QApplication::translate("RTBiomanager", "Start", Q_NULLPTR));
         label_27->setText(QApplication::translate("RTBiomanager", "Model to external neuron conductance: ", Q_NULLPTR));
         label_28->setText(QApplication::translate("RTBiomanager", "External neuron to model conductance:", Q_NULLPTR));
+        checkAnti->setText(QApplication::translate("RTBiomanager", "Antiphase", Q_NULLPTR));
         label_29->setText(QApplication::translate("RTBiomanager", "To external neuron conductances:", Q_NULLPTR));
         label_31->setText(QApplication::translate("RTBiomanager", "To model neuron conductances:", Q_NULLPTR));
         label_30->setText(QApplication::translate("RTBiomanager", "Slow", Q_NULLPTR));
@@ -865,8 +875,6 @@ public:
         label_47->setText(QApplication::translate("RTBiomanager", "%", Q_NULLPTR));
         label->setText(QApplication::translate("RTBiomanager", "Frequency (kHz)", Q_NULLPTR));
         label_2->setText(QApplication::translate("RTBiomanager", "Duration (s)", Q_NULLPTR));
-        checkImp->setText(QApplication::translate("RTBiomanager", "Important", Q_NULLPTR));
-        checkAnti->setText(QApplication::translate("RTBiomanager", "Antiphase", Q_NULLPTR));
         label_3->setText(QApplication::translate("RTBiomanager", "Channels (separated by commas):", Q_NULLPTR));
         label_4->setText(QApplication::translate("RTBiomanager", "Input", Q_NULLPTR));
         label_5->setText(QApplication::translate("RTBiomanager", "Output", Q_NULLPTR));
@@ -953,6 +961,8 @@ public:
         label_36->setText(QApplication::translate("RTBiomanager", "After control (s)", Q_NULLPTR));
         label_37->setText(QApplication::translate("RTBiomanager", "s/Burst", Q_NULLPTR));
         autoDetect->setText(QApplication::translate("RTBiomanager", "Auto detect", Q_NULLPTR));
+        simulate->setText(QApplication::translate("RTBiomanager", "Start", Q_NULLPTR));
+        checkImp->setText(QApplication::translate("RTBiomanager", "Important", Q_NULLPTR));
     } // retranslateUi
 
 };
