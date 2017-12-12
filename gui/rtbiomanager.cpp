@@ -180,6 +180,13 @@ void RTBiomanager::on_simulate_clicked()
 
             args.step_v_to_r = ui->chemMap_StepToExternal->value();
             args.step_r_to_v = ui->chemMap_StepToModel->value();
+
+            args.syn_gradual_k1 = 1.0;
+            args.syn_gradual_k2 = 0.03;
+            args.syn_gradual_vfast = 25;
+            args.syn_gradual_vslow = 50;
+
+
             break;
 
         default:

@@ -157,7 +157,7 @@ void * rt_thread(void * arg) {
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Comedi device opened");
-    /*Send zero*/
+    /*Send zero
     for (i = 0; i < args->n_out_chan; i++) {
         out_values[i] = 0;
     }
@@ -165,7 +165,7 @@ void * rt_thread(void * arg) {
         fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
         daq_close_device ((void**) &dsc);
         pthread_exit(NULL);
-    }
+    }*/
 
     if (daq_create_session ((void**) &dsc, &session) != OK) {
         fprintf(stderr, "RT_THREAD: error creating DAQ session.\n");
@@ -266,7 +266,6 @@ void * rt_thread(void * arg) {
 
             if(args->calibration != 0 && args->calibration != 6){
                 if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside autocal");
-                ////////// RESERVAR MEMORIA - POSIBLE PUNTO DE FALLO
                 args->g_virtual_to_real[0] = 0.0;
                 args->g_real_to_virtual[0] = 0.0;
             }
@@ -283,6 +282,11 @@ void * rt_thread(void * arg) {
             syn_aux_params[SC_MS_K2] = args->syn_gradual_k2;//0.03;
             syn_aux_params[SC_VFAST] = args->syn_gradual_vfast/100;
             syn_aux_params[SC_VSLOW] = args->syn_gradual_vslow/100;
+
+            /*printf("Antes rvf%p\n", &args->g_real_to_virtual[G_FAST]);
+            printf("Antes rvs%p\n", &args->g_real_to_virtual[G_SLOW]);
+            printf("Antes vrf%p\n", &args->g_virtual_to_real[G_FAST]);
+            printf("Antes vrs%p\n", &args->g_virtual_to_real[G_SLOW]);*/
 
             /*if (args->model==0){
                 g_virtual_to_real[G_FAST] = 0.0;
@@ -345,11 +349,9 @@ void * rt_thread(void * arg) {
     ret_values = (double *) malloc (sizeof(double) * args->n_in_chan);
     out_values = (double *) malloc (sizeof(double) * args->n_out_chan);
 
-
     clock_gettime(CLOCK_MONOTONIC, &ts_target);
     ts_assign (&ts_start,  ts_target);
     ts_add_time(&ts_target, 0, args->period);
-
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before control record");
     /*Send zero*/
@@ -362,11 +364,9 @@ void * rt_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-
     /************************
     BEFORE CONTROL RECORD
     ************************/
-
     loop_points = args->before * args->freq * args->s_points;
     for (i = 0; i < loop_points; i++) {
         if (i % args->s_points == 0) {
@@ -570,10 +570,13 @@ void * rt_thread(void * arg) {
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
             /*SINAPSIS Y CORRIENTE EN VIRTUAL TO REAL*/
+            //printf("g_f = %f // g_s = %f\n", args->g_virtual_to_real[G_FAST], args->g_virtual_to_real[G_SLOW]);
+
             if (args->type_syn==CHEMICAL)
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
             args->syn(ret_values[0], args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, args->g_virtual_to_real, &c_model, syn_aux_params);
             msg.c_model = -(args->anti * c_model);
+            //printf("c_model = %f\n", msg.c_model);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
 

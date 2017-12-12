@@ -106,19 +106,28 @@ int auto_calibration(
                 aux_counter2=FALSE;
 
                 if (cs->g_real_to_virtual[G_FAST]!=0){
+                	//printf("Hacia modelo es rapida\n");
                     g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
                     g_r_to_v = &g_real_to_virtual[G_FAST];
+                    //printf("Después rvf%p\n", g_r_to_v);
+
                 }else{
+                	//printf("Hacia modelo es lenta\n");
                     g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
                     g_r_to_v = &g_real_to_virtual[G_SLOW];
+                    //printf("Después rvs%p\n", g_r_to_v);
                 }
 
                 if (cs->g_virtual_to_real[G_FAST]!=0){
+                    //printf("Hacia viva es rapida\n");
                     g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
                     g_v_to_r = &g_virtual_to_real[G_FAST];
+                    //printf("Después vrf%p\n", g_v_to_r);
                 }else{
+                	//printf("Hacia viva es lenta\n");
                     g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
                     g_v_to_r = &g_virtual_to_real[G_SLOW];
+                    //printf("Después vrs%p\n", g_v_to_r);
                 }
         }
 
@@ -131,19 +140,21 @@ int auto_calibration(
             aux_counter++;
             if (aux_counter >= args->freq*tiempo_por_punto){
                 aux_counter=0;
-                *g_v_to_r -= args->step_v_to_r;
-                if (*g_v_to_r < -g_max_v_to_r){
+                *g_v_to_r += args->step_v_to_r;
+                //printf("r_v = %f\n", *g_v_to_r);
+                if (*g_v_to_r > g_max_v_to_r){
                     *g_v_to_r = 0;
-                    *g_r_to_v -= args->step_r_to_v;
-                    if(*g_r_to_v < -g_max_r_to_v){
-                        g_v_to_r = 0;
-                        g_r_to_v = 0;
+                    *g_r_to_v += args->step_r_to_v;
+                    //printf("v_r = %f\n", *g_r_to_v);
+                    if(*g_r_to_v > g_max_r_to_v){
+                        *g_v_to_r = 0;
+                        *g_r_to_v = 0;
                         cal_on=FALSE;
                         return TRUE;
                     }
                 }
-                /*printf("v_r = %f\n", *g_r_to_v);
-                printf("r_v = %f\n", *g_v_to_r);*/
+                
+                
             }
 
 

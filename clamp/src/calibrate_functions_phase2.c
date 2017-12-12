@@ -26,7 +26,7 @@ int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result)
 	int num_burst = 3;
 	double diff = 0;
 
-	if(count_a_calc_ecm<life_burst_points*num_burst){
+	if(count_a_calc_ecm < life_burst_points*num_burst){
 		count_a_calc_ecm++;
 		diff = (v_a-v_b);
 		ecm_calc_ecm += diff * diff;
@@ -36,6 +36,7 @@ int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result)
 		count_a_calc_ecm=0;
 		//ecm_calc_ecm = ecm_calc_ecm / life_burst_points * num_burst;
 		*ecm_result = ecm_calc_ecm;
+		ecm_calc_ecm = 0;
 		return 1;
 	}
 }
@@ -173,11 +174,12 @@ int count_is_syn_by_percentage = 0;
 void set_is_syn_by_percentage(double val_sin, double percentage){
 	printf("ECM_inicial = %f\n", val_sin);
 	first_val_is_syn_by_percentage = val_sin;
-    printf("ECM_objetivo = %f\n", val_sin*percentage);
+    printf("ECM_objetivo = %f\n", val_sin*percentage/100);
 	count_is_syn_by_percentage = 0;
 }
 
 int is_syn_by_percentage(double val_sin, double percentage){
+	printf("%f\n", val_sin);
 	int times_correct = 2;
 	
 	/*FIRST TIME*/
@@ -185,7 +187,7 @@ int is_syn_by_percentage(double val_sin, double percentage){
 		return ERR;
 	}
     /*PERCENTAGE REACHED*/
-	else if (first_val_is_syn_by_percentage*percentage>val_sin){
+	else if( (first_val_is_syn_by_percentage*percentage/100) > val_sin){
 		/*ENOUGH CONSECUTIVE TIMES*/
 		if(count_is_syn_by_percentage<times_correct){
 			count_is_syn_by_percentage++;
@@ -207,6 +209,7 @@ double last_val_sin_is_syn_by_slope_1 = -1;
 double last_val_sin_is_syn_by_slope_2 = -1;
 
 int is_syn_by_slope(double val_sin){
+	printf("HOLA\n");
 	double tolerance = 2.5;
 
 	/*FIRST TIME*/
@@ -279,7 +282,7 @@ int is_syn_by_variance(double val_sin){
 **********************************************/
 
 void change_g (double *g){
-	*g+=0.1;
+	*g+=0.05;
 	return;
 }
 
