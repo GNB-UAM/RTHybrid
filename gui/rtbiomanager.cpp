@@ -4,6 +4,7 @@
 #include <string>
 #include "clamp/includes/clamp.h"
 #include <QSound>
+#include <QMovie>
 
 RTBiomanager::RTBiomanager(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +12,10 @@ RTBiomanager::RTBiomanager(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
+
+    movie = new QMovie("resources/neuron.gif");
+    ui->label_gif->setMovie(movie);
+    movie->stop();
 }
 
 RTBiomanager::~RTBiomanager()
@@ -194,10 +199,13 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
+
+    movie->start();
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
     int ret = clamp(&args);
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
+    movie->stop();
 
     QSound::play("resources/alarm_beep.wav");
     QMessageBox msgBox;

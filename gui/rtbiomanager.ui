@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="pageSynElec">
       <widget class="QLabel" name="label_27">
@@ -2322,6 +2322,19 @@ Step</string>
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="label_gif">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>500</y>
+      <width>261</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>frameAux4</zorder>
    <zorder>frameAux</zorder>
    <zorder>frameAux2</zorder>
@@ -2351,6 +2364,7 @@ Step</string>
    <zorder>label_37</zorder>
    <zorder>autoDetect</zorder>
    <zorder>doubleSecPerBurst</zorder>
+   <zorder>label_gif</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

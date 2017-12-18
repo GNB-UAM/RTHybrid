@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'rtbiomanager.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.1
+** Created by: Qt User Interface Compiler version 5.9.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -193,6 +193,7 @@ public:
     QFrame *frameAux4;
     QPushButton *simulate;
     QCheckBox *checkImp;
+    QLabel *label_gif;
 
     void setupUi(QMainWindow *RTBiomanager)
     {
@@ -974,6 +975,9 @@ public:
         checkImp = new QCheckBox(frameAux4);
         checkImp->setObjectName(QStringLiteral("checkImp"));
         checkImp->setGeometry(QRect(30, 410, 88, 21));
+        label_gif = new QLabel(centralWidget);
+        label_gif->setObjectName(QStringLiteral("label_gif"));
+        label_gif->setGeometry(QRect(1060, 500, 261, 181));
         RTBiomanager->setCentralWidget(centralWidget);
         frameAux4->raise();
         frameAux->raise();
@@ -1004,10 +1008,11 @@ public:
         label_37->raise();
         autoDetect->raise();
         doubleSecPerBurst->raise();
+        label_gif->raise();
 
         retranslateUi(RTBiomanager);
 
-        synapseModelPages->setCurrentIndex(0);
+        synapseModelPages->setCurrentIndex(1);
         neuronModelPages->setCurrentIndex(0);
         autocalPages->setCurrentIndex(0);
         gradualModelToExternalSelect->setCurrentIndex(1);
@@ -1133,6 +1138,7 @@ public:
         autoDetect->setText(QApplication::translate("RTBiomanager", "Auto detect", Q_NULLPTR));
         simulate->setText(QApplication::translate("RTBiomanager", "Start", Q_NULLPTR));
         checkImp->setText(QApplication::translate("RTBiomanager", "Important", Q_NULLPTR));
+        label_gif->setText(QString());
     } // retranslateUi
 
 };

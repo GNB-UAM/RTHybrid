@@ -28,6 +28,7 @@ private slots:
 
 private:
     Ui::RTBiomanager *ui;
+    QMovie *movie;
 };
 
 #endif // RTBIOMANAGER_H
