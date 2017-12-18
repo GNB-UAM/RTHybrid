@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'rtbiomanager.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.1
+** Created by: Qt User Interface Compiler version 5.9.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -156,6 +156,27 @@ public:
     QDoubleSpinBox *chemMap_MaxToModel;
     QDoubleSpinBox *chemMap_StepToExternal;
     QDoubleSpinBox *chemMap_StepToModel;
+    QLabel *label_52;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_48;
+    QDoubleSpinBox *doubleSynGrad_k1_map;
+    QWidget *widget1;
+    QHBoxLayout *horizontalLayout_9;
+    QLabel *label_49;
+    QDoubleSpinBox *doubleSynGrad_k2_map;
+    QWidget *widget2;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label_50;
+    QHBoxLayout *horizontalLayout_5;
+    QDoubleSpinBox *doubleSynGrad_vfast_map;
+    QLabel *label_53;
+    QWidget *widget3;
+    QHBoxLayout *horizontalLayout_11;
+    QLabel *label_51;
+    QHBoxLayout *horizontalLayout_7;
+    QDoubleSpinBox *doubleSynGrad_vslow_map;
+    QLabel *label_55;
     QLabel *label_35;
     QLabel *label_36;
     QSpinBox *intFreq;
@@ -693,54 +714,170 @@ public:
         pageGradualMap->setObjectName(QStringLiteral("pageGradualMap"));
         label_69 = new QLabel(pageGradualMap);
         label_69->setObjectName(QStringLiteral("label_69"));
-        label_69->setGeometry(QRect(130, 80, 181, 31));
+        label_69->setGeometry(QRect(20, 80, 181, 31));
         label_69->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         gradualModelToExternalSelect = new QComboBox(pageGradualMap);
         gradualModelToExternalSelect->setObjectName(QStringLiteral("gradualModelToExternalSelect"));
-        gradualModelToExternalSelect->setGeometry(QRect(310, 80, 79, 31));
+        gradualModelToExternalSelect->setGeometry(QRect(200, 80, 79, 31));
         gradualExternalToModelSelect = new QComboBox(pageGradualMap);
         gradualExternalToModelSelect->setObjectName(QStringLiteral("gradualExternalToModelSelect"));
-        gradualExternalToModelSelect->setGeometry(QRect(310, 130, 79, 31));
+        gradualExternalToModelSelect->setGeometry(QRect(200, 130, 79, 31));
         label_70 = new QLabel(pageGradualMap);
         label_70->setObjectName(QStringLiteral("label_70"));
-        label_70->setGeometry(QRect(130, 130, 191, 31));
+        label_70->setGeometry(QRect(20, 130, 191, 31));
         label_70->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         label_71 = new QLabel(pageGradualMap);
         label_71->setObjectName(QStringLiteral("label_71"));
-        label_71->setGeometry(QRect(260, 30, 181, 31));
+        label_71->setGeometry(QRect(200, 30, 81, 31));
         label_71->setAlignment(Qt::AlignCenter);
         label_72 = new QLabel(pageGradualMap);
         label_72->setObjectName(QStringLiteral("label_72"));
-        label_72->setGeometry(QRect(370, 30, 181, 31));
+        label_72->setGeometry(QRect(310, 30, 91, 31));
         label_72->setAlignment(Qt::AlignCenter);
         label_73 = new QLabel(pageGradualMap);
         label_73->setObjectName(QStringLiteral("label_73"));
-        label_73->setGeometry(QRect(480, 30, 181, 31));
+        label_73->setGeometry(QRect(430, 30, 71, 31));
         label_73->setAlignment(Qt::AlignCenter);
         chemMap_MaxToExternal = new QDoubleSpinBox(pageGradualMap);
         chemMap_MaxToExternal->setObjectName(QStringLiteral("chemMap_MaxToExternal"));
-        chemMap_MaxToExternal->setGeometry(QRect(430, 80, 68, 31));
+        chemMap_MaxToExternal->setGeometry(QRect(320, 80, 68, 31));
         chemMap_MaxToExternal->setDecimals(3);
         chemMap_MaxToExternal->setSingleStep(0.01);
         chemMap_MaxToExternal->setValue(0.06);
         chemMap_MaxToModel = new QDoubleSpinBox(pageGradualMap);
         chemMap_MaxToModel->setObjectName(QStringLiteral("chemMap_MaxToModel"));
-        chemMap_MaxToModel->setGeometry(QRect(430, 130, 68, 31));
+        chemMap_MaxToModel->setGeometry(QRect(320, 130, 68, 31));
         chemMap_MaxToModel->setDecimals(3);
         chemMap_MaxToModel->setSingleStep(0.1);
         chemMap_MaxToModel->setValue(0.4);
         chemMap_StepToExternal = new QDoubleSpinBox(pageGradualMap);
         chemMap_StepToExternal->setObjectName(QStringLiteral("chemMap_StepToExternal"));
-        chemMap_StepToExternal->setGeometry(QRect(540, 80, 68, 31));
+        chemMap_StepToExternal->setGeometry(QRect(430, 80, 68, 31));
         chemMap_StepToExternal->setDecimals(3);
         chemMap_StepToExternal->setSingleStep(0.01);
         chemMap_StepToExternal->setValue(0.01);
         chemMap_StepToModel = new QDoubleSpinBox(pageGradualMap);
         chemMap_StepToModel->setObjectName(QStringLiteral("chemMap_StepToModel"));
-        chemMap_StepToModel->setGeometry(QRect(540, 130, 68, 31));
+        chemMap_StepToModel->setGeometry(QRect(430, 130, 68, 31));
         chemMap_StepToModel->setDecimals(3);
-        chemMap_StepToModel->setSingleStep(0.01);
-        chemMap_StepToModel->setValue(0.01);
+        chemMap_StepToModel->setSingleStep(0.05);
+        chemMap_StepToModel->setValue(0.1);
+        label_52 = new QLabel(pageGradualMap);
+        label_52->setObjectName(QStringLiteral("label_52"));
+        label_52->setGeometry(QRect(490, 30, 261, 16));
+        label_52->setFont(font);
+        label_52->setAlignment(Qt::AlignCenter);
+        widget = new QWidget(pageGradualMap);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(560, 60, 108, 25));
+        horizontalLayout_8 = new QHBoxLayout(widget);
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
+        label_48 = new QLabel(widget);
+        label_48->setObjectName(QStringLiteral("label_48"));
+
+        horizontalLayout_8->addWidget(label_48);
+
+        doubleSynGrad_k1_map = new QDoubleSpinBox(widget);
+        doubleSynGrad_k1_map->setObjectName(QStringLiteral("doubleSynGrad_k1_map"));
+        doubleSynGrad_k1_map->setDecimals(4);
+        doubleSynGrad_k1_map->setMinimum(-99);
+        doubleSynGrad_k1_map->setSingleStep(0.05);
+        doubleSynGrad_k1_map->setValue(1);
+
+        horizontalLayout_8->addWidget(doubleSynGrad_k1_map);
+
+        widget1 = new QWidget(pageGradualMap);
+        widget1->setObjectName(QStringLiteral("widget1"));
+        widget1->setGeometry(QRect(560, 90, 108, 25));
+        horizontalLayout_9 = new QHBoxLayout(widget1);
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
+        label_49 = new QLabel(widget1);
+        label_49->setObjectName(QStringLiteral("label_49"));
+
+        horizontalLayout_9->addWidget(label_49);
+
+        doubleSynGrad_k2_map = new QDoubleSpinBox(widget1);
+        doubleSynGrad_k2_map->setObjectName(QStringLiteral("doubleSynGrad_k2_map"));
+        doubleSynGrad_k2_map->setDecimals(4);
+        doubleSynGrad_k2_map->setMinimum(-99);
+        doubleSynGrad_k2_map->setSingleStep(0.005);
+        doubleSynGrad_k2_map->setValue(0.03);
+
+        horizontalLayout_9->addWidget(doubleSynGrad_k2_map);
+
+        widget2 = new QWidget(pageGradualMap);
+        widget2->setObjectName(QStringLiteral("widget2"));
+        widget2->setGeometry(QRect(560, 120, 121, 27));
+        horizontalLayout_10 = new QHBoxLayout(widget2);
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
+        label_50 = new QLabel(widget2);
+        label_50->setObjectName(QStringLiteral("label_50"));
+
+        horizontalLayout_10->addWidget(label_50);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        doubleSynGrad_vfast_map = new QDoubleSpinBox(widget2);
+        doubleSynGrad_vfast_map->setObjectName(QStringLiteral("doubleSynGrad_vfast_map"));
+        doubleSynGrad_vfast_map->setDecimals(0);
+        doubleSynGrad_vfast_map->setMinimum(0);
+        doubleSynGrad_vfast_map->setMaximum(100);
+        doubleSynGrad_vfast_map->setSingleStep(5);
+        doubleSynGrad_vfast_map->setValue(25);
+
+        horizontalLayout_5->addWidget(doubleSynGrad_vfast_map);
+
+        label_53 = new QLabel(widget2);
+        label_53->setObjectName(QStringLiteral("label_53"));
+
+        horizontalLayout_5->addWidget(label_53);
+
+
+        horizontalLayout_10->addLayout(horizontalLayout_5);
+
+        widget3 = new QWidget(pageGradualMap);
+        widget3->setObjectName(QStringLiteral("widget3"));
+        widget3->setGeometry(QRect(560, 150, 120, 27));
+        horizontalLayout_11 = new QHBoxLayout(widget3);
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
+        label_51 = new QLabel(widget3);
+        label_51->setObjectName(QStringLiteral("label_51"));
+
+        horizontalLayout_11->addWidget(label_51);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        doubleSynGrad_vslow_map = new QDoubleSpinBox(widget3);
+        doubleSynGrad_vslow_map->setObjectName(QStringLiteral("doubleSynGrad_vslow_map"));
+        doubleSynGrad_vslow_map->setDecimals(0);
+        doubleSynGrad_vslow_map->setMinimum(0);
+        doubleSynGrad_vslow_map->setSingleStep(5);
+        doubleSynGrad_vslow_map->setValue(50);
+
+        horizontalLayout_7->addWidget(doubleSynGrad_vslow_map);
+
+        label_55 = new QLabel(widget3);
+        label_55->setObjectName(QStringLiteral("label_55"));
+
+        horizontalLayout_7->addWidget(label_55);
+
+
+        horizontalLayout_11->addLayout(horizontalLayout_7);
+
         autocalPages->addWidget(pageGradualMap);
         label_35 = new QLabel(centralWidget);
         label_35->setObjectName(QStringLiteral("label_35"));
@@ -878,8 +1015,8 @@ public:
         label_3->setText(QApplication::translate("RTBiomanager", "Channels (separated by commas):", Q_NULLPTR));
         label_4->setText(QApplication::translate("RTBiomanager", "Input", Q_NULLPTR));
         label_5->setText(QApplication::translate("RTBiomanager", "Output", Q_NULLPTR));
-        textChannelInput->setPlainText(QApplication::translate("RTBiomanager", "0,1", Q_NULLPTR));
-        textChannelOutput->setPlainText(QApplication::translate("RTBiomanager", "0,1", Q_NULLPTR));
+        textChannelInput->setPlainText(QApplication::translate("RTBiomanager", "0", Q_NULLPTR));
+        textChannelOutput->setPlainText(QApplication::translate("RTBiomanager", "0", Q_NULLPTR));
         label_6->setText(QApplication::translate("RTBiomanager", "Neuron model", Q_NULLPTR));
         neuronModelCombo->clear();
         neuronModelCombo->insertItems(0, QStringList()
@@ -957,6 +1094,13 @@ public:
 "conduntance", Q_NULLPTR));
         label_73->setText(QApplication::translate("RTBiomanager", "Increase\n"
 "Step", Q_NULLPTR));
+        label_52->setText(QApplication::translate("RTBiomanager", "Synapse parameters:", Q_NULLPTR));
+        label_48->setText(QApplication::translate("RTBiomanager", "k1", Q_NULLPTR));
+        label_49->setText(QApplication::translate("RTBiomanager", "k2", Q_NULLPTR));
+        label_50->setText(QApplication::translate("RTBiomanager", "V fast ", Q_NULLPTR));
+        label_53->setText(QApplication::translate("RTBiomanager", "%", Q_NULLPTR));
+        label_51->setText(QApplication::translate("RTBiomanager", "V slow", Q_NULLPTR));
+        label_55->setText(QApplication::translate("RTBiomanager", "%", Q_NULLPTR));
         label_35->setText(QApplication::translate("RTBiomanager", "Before control (s)", Q_NULLPTR));
         label_36->setText(QApplication::translate("RTBiomanager", "After control (s)", Q_NULLPTR));
         label_37->setText(QApplication::translate("RTBiomanager", "s/Burst", Q_NULLPTR));

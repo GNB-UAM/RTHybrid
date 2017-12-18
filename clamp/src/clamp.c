@@ -74,6 +74,10 @@ int clamp (clamp_args * args) {
 	r_args.in_channels = NULL;
 	r_args.out_channels = NULL;
 
+	/*Delete queue*/
+	system("rm -rf /dev/mqueue/rt_queue* > /dev/null 2>&1");
+
+	/*Parse channels*/
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
     if (args->output != NULL)parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 

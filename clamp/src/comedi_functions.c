@@ -130,7 +130,7 @@ int read_single_data_comedi (Daq_session * session, comedi_range * range_info, l
 		return -1;
 	}
 
-	comedi_set_global_oor_behavior(COMEDI_OOR_NAN);
+	comedi_set_global_oor_behavior(COMEDI_OOR_NUMBER);
 	physical_value = comedi_to_phys(data, range_info, maxdata);
 	
 	if(isnan(physical_value)) {
