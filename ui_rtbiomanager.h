@@ -144,6 +144,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QDoubleSpinBox *doubleMSE_percentagereduction;
     QLabel *label_41;
+    QFrame *frame_tmp;
     QWidget *pageGradualMap;
     QLabel *label_69;
     QComboBox *gradualModelToExternalSelect;
@@ -157,21 +158,21 @@ public:
     QDoubleSpinBox *chemMap_StepToExternal;
     QDoubleSpinBox *chemMap_StepToModel;
     QLabel *label_52;
-    QWidget *widget;
+    QWidget *layoutWidget5;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_48;
     QDoubleSpinBox *doubleSynGrad_k1_map;
-    QWidget *widget1;
+    QWidget *layoutWidget6;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_49;
     QDoubleSpinBox *doubleSynGrad_k2_map;
-    QWidget *widget2;
+    QWidget *layoutWidget7;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label_50;
     QHBoxLayout *horizontalLayout_5;
     QDoubleSpinBox *doubleSynGrad_vfast_map;
     QLabel *label_53;
-    QWidget *widget3;
+    QWidget *layoutWidget8;
     QHBoxLayout *horizontalLayout_11;
     QLabel *label_51;
     QHBoxLayout *horizontalLayout_7;
@@ -200,12 +201,17 @@ public:
         RTBiomanager->resize(1341, 716);
         RTBiomanager->setStyleSheet(QLatin1String("#centralWidget{\n"
 "	background-color: rgb(230, 230, 230);\n"
-"	/* Gradiente azul\n"
-"	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255));\n"
-"	*/\n"
+"	/*Gradiente azul\n"
+"	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255));*/\n"
 "}\n"
+"\n"
 "#frameAutocal, #frameSynapse, #frameNeuron, #frameAux,  #frameAux2, #frameAux3, #frameAux4{\n"
 "	background-color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"#frame_tmp {\n"
+"  background-color:rgb(255,255,255);\n"
+"  border: white;\n"
 "}\n"
 "\n"
 "\n"
@@ -680,6 +686,7 @@ public:
 
         radioButtonMSE_slopereduction = new QRadioButton(layoutWidget3);
         radioButtonMSE_slopereduction->setObjectName(QStringLiteral("radioButtonMSE_slopereduction"));
+        radioButtonMSE_slopereduction->setEnabled(true);
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -709,6 +716,25 @@ public:
 
         horizontalLayout->addWidget(label_41);
 
+        frame_tmp = new QFrame(pageElectricalConductanceMSE);
+        frame_tmp->setObjectName(QStringLiteral("frame_tmp"));
+        frame_tmp->setEnabled(false);
+        frame_tmp->setGeometry(QRect(70, 100, 591, 71));
+        QPalette palette;
+        QBrush brush(QColor(255, 255, 255, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        frame_tmp->setPalette(palette);
+        frame_tmp->setFrameShape(QFrame::StyledPanel);
+        frame_tmp->setFrameShadow(QFrame::Raised);
         autocalPages->addWidget(pageElectricalConductanceMSE);
         pageGradualMap = new QWidget();
         pageGradualMap->setObjectName(QStringLiteral("pageGradualMap"));
@@ -767,20 +793,20 @@ public:
         label_52->setGeometry(QRect(490, 30, 261, 16));
         label_52->setFont(font);
         label_52->setAlignment(Qt::AlignCenter);
-        widget = new QWidget(pageGradualMap);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(560, 60, 108, 25));
-        horizontalLayout_8 = new QHBoxLayout(widget);
+        layoutWidget5 = new QWidget(pageGradualMap);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(560, 60, 108, 25));
+        horizontalLayout_8 = new QHBoxLayout(layoutWidget5);
         horizontalLayout_8->setSpacing(6);
         horizontalLayout_8->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
-        label_48 = new QLabel(widget);
+        label_48 = new QLabel(layoutWidget5);
         label_48->setObjectName(QStringLiteral("label_48"));
 
         horizontalLayout_8->addWidget(label_48);
 
-        doubleSynGrad_k1_map = new QDoubleSpinBox(widget);
+        doubleSynGrad_k1_map = new QDoubleSpinBox(layoutWidget5);
         doubleSynGrad_k1_map->setObjectName(QStringLiteral("doubleSynGrad_k1_map"));
         doubleSynGrad_k1_map->setDecimals(4);
         doubleSynGrad_k1_map->setMinimum(-99);
@@ -789,20 +815,20 @@ public:
 
         horizontalLayout_8->addWidget(doubleSynGrad_k1_map);
 
-        widget1 = new QWidget(pageGradualMap);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(560, 90, 108, 25));
-        horizontalLayout_9 = new QHBoxLayout(widget1);
+        layoutWidget6 = new QWidget(pageGradualMap);
+        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(560, 90, 108, 25));
+        horizontalLayout_9 = new QHBoxLayout(layoutWidget6);
         horizontalLayout_9->setSpacing(6);
         horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
         horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
-        label_49 = new QLabel(widget1);
+        label_49 = new QLabel(layoutWidget6);
         label_49->setObjectName(QStringLiteral("label_49"));
 
         horizontalLayout_9->addWidget(label_49);
 
-        doubleSynGrad_k2_map = new QDoubleSpinBox(widget1);
+        doubleSynGrad_k2_map = new QDoubleSpinBox(layoutWidget6);
         doubleSynGrad_k2_map->setObjectName(QStringLiteral("doubleSynGrad_k2_map"));
         doubleSynGrad_k2_map->setDecimals(4);
         doubleSynGrad_k2_map->setMinimum(-99);
@@ -811,15 +837,15 @@ public:
 
         horizontalLayout_9->addWidget(doubleSynGrad_k2_map);
 
-        widget2 = new QWidget(pageGradualMap);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(560, 120, 121, 27));
-        horizontalLayout_10 = new QHBoxLayout(widget2);
+        layoutWidget7 = new QWidget(pageGradualMap);
+        layoutWidget7->setObjectName(QStringLiteral("layoutWidget7"));
+        layoutWidget7->setGeometry(QRect(560, 120, 121, 27));
+        horizontalLayout_10 = new QHBoxLayout(layoutWidget7);
         horizontalLayout_10->setSpacing(6);
         horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
         horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
-        label_50 = new QLabel(widget2);
+        label_50 = new QLabel(layoutWidget7);
         label_50->setObjectName(QStringLiteral("label_50"));
 
         horizontalLayout_10->addWidget(label_50);
@@ -827,7 +853,7 @@ public:
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        doubleSynGrad_vfast_map = new QDoubleSpinBox(widget2);
+        doubleSynGrad_vfast_map = new QDoubleSpinBox(layoutWidget7);
         doubleSynGrad_vfast_map->setObjectName(QStringLiteral("doubleSynGrad_vfast_map"));
         doubleSynGrad_vfast_map->setDecimals(0);
         doubleSynGrad_vfast_map->setMinimum(0);
@@ -837,7 +863,7 @@ public:
 
         horizontalLayout_5->addWidget(doubleSynGrad_vfast_map);
 
-        label_53 = new QLabel(widget2);
+        label_53 = new QLabel(layoutWidget7);
         label_53->setObjectName(QStringLiteral("label_53"));
 
         horizontalLayout_5->addWidget(label_53);
@@ -845,15 +871,15 @@ public:
 
         horizontalLayout_10->addLayout(horizontalLayout_5);
 
-        widget3 = new QWidget(pageGradualMap);
-        widget3->setObjectName(QStringLiteral("widget3"));
-        widget3->setGeometry(QRect(560, 150, 120, 27));
-        horizontalLayout_11 = new QHBoxLayout(widget3);
+        layoutWidget8 = new QWidget(pageGradualMap);
+        layoutWidget8->setObjectName(QStringLiteral("layoutWidget8"));
+        layoutWidget8->setGeometry(QRect(560, 150, 120, 27));
+        horizontalLayout_11 = new QHBoxLayout(layoutWidget8);
         horizontalLayout_11->setSpacing(6);
         horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
         horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
-        label_51 = new QLabel(widget3);
+        label_51 = new QLabel(layoutWidget8);
         label_51->setObjectName(QStringLiteral("label_51"));
 
         horizontalLayout_11->addWidget(label_51);
@@ -861,7 +887,7 @@ public:
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        doubleSynGrad_vslow_map = new QDoubleSpinBox(widget3);
+        doubleSynGrad_vslow_map = new QDoubleSpinBox(layoutWidget8);
         doubleSynGrad_vslow_map->setObjectName(QStringLiteral("doubleSynGrad_vslow_map"));
         doubleSynGrad_vslow_map->setDecimals(0);
         doubleSynGrad_vslow_map->setMinimum(0);
@@ -870,7 +896,7 @@ public:
 
         horizontalLayout_7->addWidget(doubleSynGrad_vslow_map);
 
-        label_55 = new QLabel(widget3);
+        label_55 = new QLabel(layoutWidget8);
         label_55->setObjectName(QStringLiteral("label_55"));
 
         horizontalLayout_7->addWidget(label_55);

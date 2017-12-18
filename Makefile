@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../Qt/5.9.2/gcc_64/include -I../../Qt/5.9.2/gcc_64/include/QtWidgets -I../../Qt/5.9.2/gcc_64/include/QtGui -I../../Qt/5.9.2/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I../../Qt/5.9.2/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -I../../Qt/5.9.2/gcc_64/include -I../../Qt/5.9.2/gcc_64/include/QtMultimedia -I../../Qt/5.9.2/gcc_64/include/QtWidgets -I../../Qt/5.9.2/gcc_64/include/QtGui -I../../Qt/5.9.2/gcc_64/include/QtNetwork -I../../Qt/5.9.2/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I../../Qt/5.9.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/manur/Qt/5.9.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = rtbiomanager1.0.0
 DISTDIR = /home/manur/Desktop/RTBiomanager/.tmp/rtbiomanager1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/manur/Qt/5.9.2/gcc_64/lib
-LIBS          = $(SUBLIBS) -D_GNU_SOURCE -lrt -lm -lcomedi -L/home/manur/Qt/5.9.2/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -D_GNU_SOURCE -lrt -lm -lcomedi -L/home/manur/Qt/5.9.2/gcc_64/lib -lQt5Multimedia -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -471,8 +471,10 @@ Makefile: rtbiomanager.pro ../../Qt/5.9.2/gcc_64/mkspecs/linux-g++/qmake.conf ..
 		../../Qt/5.9.2/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.9.2/gcc_64/mkspecs/features/lex.prf \
 		rtbiomanager.pro \
+		../../Qt/5.9.2/gcc_64/lib/libQt5Multimedia.prl \
 		../../Qt/5.9.2/gcc_64/lib/libQt5Widgets.prl \
 		../../Qt/5.9.2/gcc_64/lib/libQt5Gui.prl \
+		../../Qt/5.9.2/gcc_64/lib/libQt5Network.prl \
 		../../Qt/5.9.2/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile rtbiomanager.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ../../Qt/5.9.2/gcc_64/mkspecs/features/spec_pre.prf:
@@ -656,8 +658,10 @@ Makefile: rtbiomanager.pro ../../Qt/5.9.2/gcc_64/mkspecs/linux-g++/qmake.conf ..
 ../../Qt/5.9.2/gcc_64/mkspecs/features/yacc.prf:
 ../../Qt/5.9.2/gcc_64/mkspecs/features/lex.prf:
 rtbiomanager.pro:
+../../Qt/5.9.2/gcc_64/lib/libQt5Multimedia.prl:
 ../../Qt/5.9.2/gcc_64/lib/libQt5Widgets.prl:
 ../../Qt/5.9.2/gcc_64/lib/libQt5Gui.prl:
+../../Qt/5.9.2/gcc_64/lib/libQt5Network.prl:
 ../../Qt/5.9.2/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile rtbiomanager.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -817,7 +821,7 @@ moc_rtbiomanager.cpp: ../../Qt/5.9.2/gcc_64/include/QtWidgets/QMainWindow \
 		gui/rtbiomanager.h \
 		moc_predefs.h \
 		../../Qt/5.9.2/gcc_64/bin/moc
-	/home/manur/Qt/5.9.2/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/manur/Qt/5.9.2/gcc_64/mkspecs/linux-g++ -I/home/manur/Desktop/RTBiomanager -I/home/manur/Qt/5.9.2/gcc_64/include -I/home/manur/Qt/5.9.2/gcc_64/include/QtWidgets -I/home/manur/Qt/5.9.2/gcc_64/include/QtGui -I/home/manur/Qt/5.9.2/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/rtbiomanager.h -o moc_rtbiomanager.cpp
+	/home/manur/Qt/5.9.2/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/manur/Qt/5.9.2/gcc_64/mkspecs/linux-g++ -I/home/manur/Desktop/RTBiomanager -I/home/manur/Qt/5.9.2/gcc_64/include -I/home/manur/Qt/5.9.2/gcc_64/include/QtMultimedia -I/home/manur/Qt/5.9.2/gcc_64/include/QtWidgets -I/home/manur/Qt/5.9.2/gcc_64/include/QtGui -I/home/manur/Qt/5.9.2/gcc_64/include/QtNetwork -I/home/manur/Qt/5.9.2/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/rtbiomanager.h -o moc_rtbiomanager.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1139,7 +1143,11 @@ rtbiomanager.o: gui/rtbiomanager.cpp gui/rtbiomanager.h \
 		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/writer_thread_functions.h
+		clamp/includes/writer_thread_functions.h \
+		../../Qt/5.9.2/gcc_64/include/QtMultimedia/QSound \
+		../../Qt/5.9.2/gcc_64/include/QtMultimedia/qsound.h \
+		../../Qt/5.9.2/gcc_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../Qt/5.9.2/gcc_64/include/QtMultimedia/qtmultimedia-config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rtbiomanager.o gui/rtbiomanager.cpp
 
 model_library.o: clamp/src/model_library.c clamp/includes/model_library.h

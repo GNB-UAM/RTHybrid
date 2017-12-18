@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <string>
 #include "clamp/includes/clamp.h"
+#include <QSound>
 
 RTBiomanager::RTBiomanager(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +21,8 @@ RTBiomanager::~RTBiomanager()
 void RTBiomanager::on_simulate_clicked()
 {
     clamp_args args;
+
+
 
     int autocalIndex=0;
     std::string aux_in, aux_out;
@@ -193,8 +196,10 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
+    ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     int ret = clamp(&args);
-
+    ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
+    QSound::play("resources/alarm_beep.wav");
     QMessageBox msgBox;
     msgBox.setText("Clamp finished");
 
