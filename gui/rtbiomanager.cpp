@@ -207,7 +207,7 @@ void RTBiomanager::on_simulate_clicked()
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
     movie->stop();
 
-    QSound::play("resources/alarm_beep.wav");
+    QSound::play("resources/epic_alarm.wav");
     QMessageBox msgBox;
     msgBox.setText("Clamp finished");
 
