@@ -47,8 +47,8 @@ def plot_voltage_events(data, data2):
 	plt.legend()
 
 	ax3 = plt.subplot(3, 1, 3, sharex=ax1)
-	plt.plot(data.time, data.c_model, label="Current model", linewidth=0.8)
-	plt.plot(data.time, data.c_viva, label="Current real", linewidth=0.8)
+	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
+	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
 	plt.ylabel("Current")
 	plt.legend()
 	
