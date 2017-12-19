@@ -574,6 +574,7 @@ void * rt_thread(void * arg) {
 
             if (args->type_syn==CHEMICAL)
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
+                syn_aux_params[SC_MAX] = max_real * scale_virtual_to_real + offset_virtual_to_real;
             args->syn(ret_values[0], args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, args->g_virtual_to_real, &c_model, syn_aux_params);
             msg.c_model = -(args->anti * c_model);
             //printf("c_model = %f\n", msg.c_model);
@@ -655,9 +656,11 @@ void * rt_thread(void * arg) {
         /*CALCULO CORRIENTE E INTEGRACIÓN DEL MODELO*/
         if (args->type_syn == CHEMICAL) {
         	syn_aux_params[SC_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
+            syn_aux_params[SC_MAX] = max_real * scale_real_to_virtual + offset_real_to_virtual;
         	args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);
         	
         	syn_aux_params[SC_MIN] = min_abs_real;
+            syn_aux_params[SC_MAX] = max_real;
         	args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
     	} else {
     		args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);

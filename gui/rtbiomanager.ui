@@ -2286,7 +2286,7 @@ Step</string>
       <x>1050</x>
       <y>20</y>
       <width>271</width>
-      <height>461</height>
+      <height>491</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -2299,7 +2299,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>410</y>
+       <y>430</y>
        <width>82</width>
        <height>23</height>
       </rect>
@@ -2321,14 +2321,30 @@ Step</string>
       <string>Important</string>
      </property>
     </widget>
+    <widget class="QCheckBox" name="checksound">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>450</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>End sound</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_gif">
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>500</y>
+      <y>540</y>
       <width>261</width>
-      <height>181</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="text">
