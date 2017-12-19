@@ -88,7 +88,7 @@ COPY 1D ARRAY
 void copy_1d_array (double * src, double * dst, int n_elems) {
     int i;
 
-    for (i = 0; i < n_elems; ++i) {
+    for (i = 0; i < n_elems; i++) {
         dst[i] = src[i];
     }
 
@@ -572,9 +572,11 @@ void * rt_thread(void * arg) {
             /*SINAPSIS Y CORRIENTE EN VIRTUAL TO REAL*/
             //printf("g_f = %f // g_s = %f\n", args->g_virtual_to_real[G_FAST], args->g_virtual_to_real[G_SLOW]);
 
-            if (args->type_syn==CHEMICAL)
+            if (args->type_syn == CHEMICAL) {
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
                 syn_aux_params[SC_MAX] = max_real * scale_virtual_to_real + offset_virtual_to_real;
+            }
+            
             args->syn(ret_values[0], args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, args->g_virtual_to_real, &c_model, syn_aux_params);
             msg.c_model = -(args->anti * c_model);
             //printf("c_model = %f\n", msg.c_model);

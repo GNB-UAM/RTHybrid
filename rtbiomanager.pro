@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rtbiomanager
 TEMPLATE = app
 QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
-QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
+QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi -g
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

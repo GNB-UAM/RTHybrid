@@ -100,15 +100,17 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 	double s_f;
 
     double v_range = aux[SC_MAX] - aux[SC_MIN];
-    v_range *= aux[SC_VFAST];
 
-	if(aux[SC_MIN] > 0) {
-		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
-		v_f = aux[SC_MIN] + v_range;
+	/*if(aux[SC_MIN] > 0) {
+		e_syn = aux[SC_MIN] - v_range * 0.153846;
+		v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
 	} else {
-		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
-		v_f = aux[SC_MIN] - v_range;
-	}
+		e_syn = aux[SC_MIN] - v_range * 0.153846;
+		v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
+	}*/
+
+    e_syn = aux[SC_MIN] - v_range * 0.153846;
+    v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
 
     s_f = aux[SC_BT] * 0.2;
 
@@ -123,15 +125,18 @@ double chem_slow (double v_post, double * g, double * aux) {
     double e_syn;
 
     double v_range = aux[SC_MAX] - aux[SC_MIN];
-    v_range *= aux[SC_VSLOW];
 
-	if(aux[SC_MIN] > 0) {
-		e_syn = aux[SC_MIN] - aux[SC_MIN] * 0.153846;
-		params[MS_VS] = aux[SC_MIN] + v_range;
+	/*if(aux[SC_MIN] > 0) {
+		e_syn = aux[SC_MIN] - v_range * 0.153846;
+		params[MS_VS] = aux[SC_MIN] + v_range * aux[SC_VSLOW];
 	} else {
 		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
-		params[MS_VS] = aux[SC_MIN] - v_range;
-	}
+		params[MS_VS] = aux[SC_MIN] + v_range;
+	}*/
+
+    e_syn = aux[SC_MIN] - v_range * 0.153846;
+    params[MS_VS] = aux[SC_MIN] + v_range * aux[SC_VSLOW];
+
     params[MS_K1] = aux[SC_MS_K1];//1;
     params[MS_K2] = aux[SC_MS_K2];//0.03;
     params[MS_SS] = aux[SC_BT];
