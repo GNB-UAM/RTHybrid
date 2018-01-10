@@ -10,8 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = rtbiomanager
 TEMPLATE = app
-QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lanalogy -lrtdm
-QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lm -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --posix --cflags) $(shell /usr/xenomai/bin/xeno-config --posix --ldflags) -g
+QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm
+QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lm -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -g
 QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
 
 # The following define makes your compiler emit warnings if you use
