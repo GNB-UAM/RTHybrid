@@ -1,5 +1,5 @@
 #include "../includes/device_functions.h"
-#include <analogy/analogy.h>
+#include <rtdm/analogy.h>
 
 struct _Daq_session {
     a4l_desc_t * device;
