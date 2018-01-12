@@ -1,5 +1,7 @@
 #include "../includes/model_library.h"
 
+#include <syslog.h>
+
 
 
 /* INTEGRATION FUNCTIONS */
@@ -150,7 +152,15 @@ double chem_slow (double v_post, double * g, double * aux) {
 }
 
 void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-    *ret = chem_fast(v_post, v_pre, &(g[G_FAST]), aux) + chem_slow(v_post, &(g[G_SLOW]), aux);
+	*ret = 0;
+
+	if (g[G_FAST] != 0.0) {
+		*ret += chem_fast(v_post, v_pre, &(g[G_FAST]), aux);
+	} 
+
+    if (g[G_SLOW] != 0.0) {
+		*ret += chem_slow(v_post, &(g[G_SLOW]), aux);
+	}
 
     //printf("g_f = %f // g_s = %f\n", g[G_FAST], g[G_SLOW]);
     //printf("v_fast %f\n", chem_fast(v_post, v_pre, &(g[G_FAST]), aux));
@@ -158,6 +168,47 @@ void chem_syn (double v_post, double v_pre, double * g, double * ret, double * a
     return;
 }
 
+
+
+void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
+	double tau;
+	double s_pre;
+
+	s_pre = 1 / (1 + exp((params[PR_PARAM_V_TH] - params[PR_PARAM_V_PRE]) / params[PR_PARAM_DELTA]));
+
+	tau = (1 - s_pre) / params[PR_PARAM_K];
+
+	ret[0] = (s_pre - vars[0]) / tau;
+
+	return;
+}
+
+
+
+void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
+	double vars[1] = {aux[PR_AUX_S_OLD]};
+    double params[4];
+    double v_range;
+    double e_syn;
+
+    v_range = aux[PR_AUX_MAX] - aux[PR_AUX_MIN];
+    e_syn = aux[PR_AUX_MIN] - v_range * 0.153846;;
+
+	params[PR_PARAM_V_PRE] = v_pre;
+	params[PR_PARAM_DELTA] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_DELTA];
+	params[PR_PARAM_V_TH] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_V_TH];
+	params[PR_PARAM_K] = aux[PR_AUX_K];
+
+	//syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
+	//	aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], params[PR_PARAM_DELTA], params[PR_PARAM_V_TH], params[PR_PARAM_K]);
+
+    runge_kutta_6 (&prinz_syn_f, 1, aux[PR_AUX_DT], vars, params, 0);
+    aux[PR_AUX_S_OLD] = vars[0];
+
+    *ret = (*g) * aux[PR_AUX_S_OLD] * (v_post - e_syn);
+
+    return;
+}
 
 
 

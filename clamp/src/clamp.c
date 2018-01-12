@@ -190,6 +190,10 @@ int clamp (clamp_args * args) {
 			r_args.syn = &chem_syn;
 
 			break;
+		case PRINZ:
+			r_args.syn = &prinz_syn;
+
+			break;
 		default:
 			return -1;
 	}

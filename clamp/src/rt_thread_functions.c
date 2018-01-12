@@ -325,6 +325,18 @@ void * rt_thread(void * arg) {
     		msg.n_g = 4;
 			break;
 
+        case PRINZ:
+            syn_aux_params = (double *) malloc (sizeof(double) * 8);
+            syn_aux_params[PR_AUX_DT] = args->dt;
+            syn_aux_params[PR_AUX_S_OLD] = 0;
+            syn_aux_params[PR_AUX_V_TH] = args->syn_gradual_vslow/100.0;
+            syn_aux_params[PR_AUX_DELTA] = args->syn_gradual_vfast/100.0;
+            syn_aux_params[PR_AUX_K_Live_Model] = args->syn_gradual_k1;
+            syn_aux_params[PR_AUX_K_Model_Live] = args->syn_gradual_k2;
+
+            msg.n_g = 2;
+            break;
+
 		default:
             free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
 			daq_close_device ((void**) &dsc);
@@ -575,6 +587,10 @@ void * rt_thread(void * arg) {
             if (args->type_syn == CHEMICAL) {
                 syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
                 syn_aux_params[SC_MAX] = max_real * scale_virtual_to_real + offset_virtual_to_real;
+            } else if (args->type_syn == PRINZ) {
+                syn_aux_params[PR_AUX_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
+                syn_aux_params[PR_AUX_MAX] = max_real * scale_virtual_to_real + offset_virtual_to_real;
+                syn_aux_params[PR_AUX_K] = syn_aux_params[PR_AUX_K_Model_Live];
             }
             
             args->syn(ret_values[0], args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, args->g_virtual_to_real, &c_model, syn_aux_params);
@@ -664,7 +680,17 @@ void * rt_thread(void * arg) {
         	syn_aux_params[SC_MIN] = min_abs_real;
             syn_aux_params[SC_MAX] = max_real;
         	args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
-    	} else {
+    	} else if (args->type_syn == PRINZ) {
+            syn_aux_params[PR_AUX_K] = syn_aux_params[PR_AUX_K_Live_Model];
+
+            syn_aux_params[PR_AUX_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
+            syn_aux_params[PR_AUX_MAX] = max_real * scale_real_to_virtual + offset_real_to_virtual;
+            args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);
+
+            syn_aux_params[PR_AUX_MIN] = min_abs_real;
+            syn_aux_params[PR_AUX_MAX] = max_real;
+            args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
+        } else {
     		args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, args->g_real_to_virtual, &c_real, syn_aux_params);
     		args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], args->g_real_to_virtual, &(msg.c_real), syn_aux_params);
     	}

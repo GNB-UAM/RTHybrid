@@ -106,8 +106,8 @@ typedef struct {
     double syn_gradual_k1;
     double syn_gradual_k2;
     double auto_cal_val_1;
-    double syn_gradual_vfast;
-    double syn_gradual_vslow;
+    double syn_gradual_vfast; //delta
+    double syn_gradual_vslow; //vth
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

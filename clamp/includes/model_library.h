@@ -10,6 +10,7 @@
 #define RLK 2
 #define ELECTRIC 0
 #define CHEMICAL 1
+#define PRINZ 2
 
 #define X 0
 #define Y 1
@@ -38,6 +39,8 @@
 #define INTER_RLK 7
 
 /*Synapses*/
+
+/*Golowash*/
 #define G_FAST 0
 #define G_SLOW 1
 
@@ -56,6 +59,22 @@
 #define SC_VFAST 7
 #define SC_MAX 8
 
+/*Prinz*/
+#define PR_PARAM_V_PRE 0
+#define PR_PARAM_V_TH 1
+#define PR_PARAM_DELTA 2
+#define PR_PARAM_K 3
+
+#define PR_AUX_S_OLD 0
+#define PR_AUX_K 1
+#define PR_AUX_DT 2
+#define PR_AUX_V_TH 3
+#define PR_AUX_DELTA 4
+#define PR_AUX_MIN 5
+#define PR_AUX_MAX 6
+#define PR_AUX_K_Live_Model 7
+#define PR_AUX_K_Model_Live 8
+
 
 /* INTEGRATION FUNCTIONS */
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn);
@@ -64,6 +83,8 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
 void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
 
 void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
+
+void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
 
 /* IZHIKEVICH */
 void izh_f (double * vars, double * ret, double * params, double syn);

@@ -136,6 +136,20 @@ void RTBiomanager::on_simulate_clicked()
 
                 break;
 
+            case PRINZ: //Prinz graded chemical
+                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
+
+                args.g_virtual_to_real[0] = ui->doubleSynPrinz_gMtoE->value();
+                args.g_real_to_virtual[0] = ui->doubleSynPrinz_gEtoM->value();
+
+                args.syn_gradual_k1 = ui->doubleSynPrinz_kEtoM->value();
+                args.syn_gradual_k2 = ui->doubleSynPrinz_kMtoE->value();
+                args.syn_gradual_vfast = ui->doubleSynPrinz_delta->value();
+                args.syn_gradual_vslow = ui->doubleSynPrinz_vth->value();
+
+                break;
+
             default:
                 break;
         }
