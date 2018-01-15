@@ -3,6 +3,15 @@
 #include <syslog.h>
 
 
+double exp2(double x) {
+  x = 1.0 + x / 1024;
+  x *= x; x *= x; x *= x; x *= x;
+  x *= x; x *= x; x *= x; x *= x;
+  x *= x; x *= x;
+  return x;
+}
+
+
 
 /* INTEGRATION FUNCTIONS */
 
@@ -178,7 +187,10 @@ void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
 
 	tau = (1 - s_pre) / params[PR_PARAM_K];
 
-	ret[0] = (s_pre - vars[0]) / tau;
+    ret[0] = (s_pre - vars[0]) / tau;
+
+    //syslog(LOG_INFO, "ret %f vars %f s_pre %f tau %f", ret[0], vars[0], s_pre, tau);
+    //if (isnan(ret[0]) == 1) sleep(10);
 
 	return;
 }
@@ -192,20 +204,22 @@ void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * 
     double e_syn;
 
     v_range = aux[PR_AUX_MAX] - aux[PR_AUX_MIN];
-    e_syn = aux[PR_AUX_MIN] - v_range * 0.153846;;
+    e_syn = aux[PR_AUX_MIN] - v_range * 0.103846;;
 
 	params[PR_PARAM_V_PRE] = v_pre;
 	params[PR_PARAM_DELTA] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_DELTA];
 	params[PR_PARAM_V_TH] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_V_TH];
 	params[PR_PARAM_K] = aux[PR_AUX_K];
 
-	//syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
-	//	aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], params[PR_PARAM_DELTA], params[PR_PARAM_V_TH], params[PR_PARAM_K]);
+	syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
+		aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], params[PR_PARAM_DELTA], params[PR_PARAM_V_TH], params[PR_PARAM_K]);
 
     runge_kutta_6 (&prinz_syn_f, 1, aux[PR_AUX_DT], vars, params, 0);
     aux[PR_AUX_S_OLD] = vars[0];
 
     *ret = (*g) * aux[PR_AUX_S_OLD] * (v_post - e_syn);
+
+    //syslog(LOG_INFO, "ret %f g %f s %f\n", *ret, *g, aux[PR_AUX_S_OLD]);
 
     return;
 }
