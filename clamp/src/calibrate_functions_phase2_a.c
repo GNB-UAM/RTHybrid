@@ -71,7 +71,8 @@ int auto_calibration(
             aux_counter++;
         }else{
             /*Ejecuta metrica*/
-            int is_syn = calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, cs->max_real_relativo, cs->min_real, &res_phase, args->anti);
+            int is_syn = 0;
+            //is_syn = calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, cs->max_real_relativo, cs->min_real, &res_phase, args->anti);
             msg->ecm = res_phase;
 
             printf("var = %f\n", msg->ecm);
@@ -105,28 +106,28 @@ int auto_calibration(
         if (aux_counter2==TRUE){
                 aux_counter2=FALSE;
 
-                if (cs->g_real_to_virtual[G_FAST]!=0){
+                if (cs->g_real_to_virtual[GL_G_FAST]!=0){
                 	//printf("Hacia modelo es rapida\n");
-                    g_max_r_to_v = cs->g_real_to_virtual[G_FAST];
-                    g_r_to_v = &g_real_to_virtual[G_FAST];
+                    g_max_r_to_v = cs->g_real_to_virtual[GL_G_FAST];
+                    g_r_to_v = &g_real_to_virtual[GL_G_FAST];
                     //printf("Después rvf%p\n", g_r_to_v);
 
                 }else{
                 	//printf("Hacia modelo es lenta\n");
-                    g_max_r_to_v = cs->g_real_to_virtual[G_SLOW];
-                    g_r_to_v = &g_real_to_virtual[G_SLOW];
+                    g_max_r_to_v = cs->g_real_to_virtual[GL_G_SLOW];
+                    g_r_to_v = &g_real_to_virtual[GL_G_SLOW];
                     //printf("Después rvs%p\n", g_r_to_v);
                 }
 
-                if (cs->g_virtual_to_real[G_FAST]!=0){
+                if (cs->g_virtual_to_real[GL_G_FAST]!=0){
                     //printf("Hacia viva es rapida\n");
-                    g_max_v_to_r = cs->g_virtual_to_real[G_FAST];
-                    g_v_to_r = &g_virtual_to_real[G_FAST];
+                    g_max_v_to_r = cs->g_virtual_to_real[GL_G_FAST];
+                    g_v_to_r = &g_virtual_to_real[GL_G_FAST];
                     //printf("Después vrf%p\n", g_v_to_r);
                 }else{
                 	//printf("Hacia viva es lenta\n");
-                    g_max_v_to_r = cs->g_virtual_to_real[G_SLOW];
-                    g_v_to_r = &g_virtual_to_real[G_SLOW];
+                    g_max_v_to_r = cs->g_virtual_to_real[GL_G_SLOW];
+                    g_v_to_r = &g_virtual_to_real[GL_G_SLOW];
                     //printf("Después vrs%p\n", g_v_to_r);
                 }
         }

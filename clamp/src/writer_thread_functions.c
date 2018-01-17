@@ -97,21 +97,21 @@ void * writer_thread(void * arg) {
         fprintf(f3, "Electric\n");
     }else if(args->type_syn==1){
         fprintf(f3, "Chemical\n");
-        fprintf(f3, "k1 = %f\n", args->syn_gradual_k1);
+        /*fprintf(f3, "k1 = %f\n", args->syn_gradual_k1);
         fprintf(f3, "k2 = %f\n", args->syn_gradual_k2);
         fprintf(f3, "V fast = %.2f\n", args->syn_gradual_vfast);
-        fprintf(f3, "V slow = %.2f\n", args->syn_gradual_vslow);
+        fprintf(f3, "V slow = %.2f\n", args->syn_gradual_vslow);*/
     }
 
     fprintf(f3, "Freq = %d Hz\n", args->freq);
 
     fprintf(f3, "Duration = %d s\n", args->time_var);
 
-    if(args->anti==1){
+    /*if(args->anti==1){
         fprintf(f3, "Antiphase = True\n");
     }else{
         fprintf(f3, "Antiphase = False\n");
-    }
+    }*/
 
     fprintf(f3, "Calibration mode = %d\n", args->calibration);
 
@@ -178,7 +178,7 @@ void * writer_thread(void * arg) {
         fprintf(f2, "%f %d", msg.t_absol, msg.i);
         fprintf(f2, " %f", msg.ecm);
         fprintf(f2, " %f", msg.extra);
-        for (j = 0; j < msg.n_g; ++j) {
+        for (j = 0; j < msg.n_g*2; ++j) {
             fprintf(f2, " %f", msg.g_real_to_virtual[j]);
             fprintf(f2, " %f", msg.g_virtual_to_real[j]);
         }

@@ -74,6 +74,9 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
                    k[5][j]*0.035714285714285;
     }
 
+
+    printf("rk %f\n", vars[0]);
+
     return;
 }
 
@@ -88,8 +91,50 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
 
  */
 
+
+ /* ELECTRICAL */
+
+ void ini_elec (double ** params, double scale, double offset, void * syn_args) {
+     syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args;
+
+    *params = (double *) malloc (sizeof(double) * 4);
+    (*params)[SYN_SCALE] = scale;
+    (*params)[SYN_OFFSET] = offset;
+    (*params)[SYN_CALIBRATE] = SYN_CALIB_PRE;
+    (*params)[ELEC_ANTI] = aux_syn_args->anti;
+ }
+
 void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-    *ret = g[0] * (v_post - v_pre);
+	if (aux[SYN_CALIBRATE] == SYN_CALIB_PRE) {
+		v_pre = v_pre * aux[SYN_SCALE] + aux[SYN_OFFSET];
+	} else if (aux[SYN_CALIBRATE] == SYN_CALIB_POST) {
+        v_post = (v_post - aux[SYN_OFFSET]) / aux[SYN_SCALE];
+	}
+
+    *ret = aux[ELEC_ANTI] * (g[ELEC_G] * (v_post - v_pre));
+    return;
+}
+
+
+/* GOLOWASCH */
+
+void ini_golowasch (double ** params, double scale, double offset, void * syn_args, double dt, double period, double min, double max) {
+    syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args;
+
+    *params = (double *) malloc (sizeof(double) * 12);
+    (*params)[SYN_SCALE] = scale;
+    (*params)[SYN_OFFSET] = offset;
+    (*params)[SYN_CALIBRATE] = SYN_CALIB_PRE;
+    (*params)[GL_MIN] = min;
+    (*params)[GL_MAX] = max;
+    (*params)[GL_K1] = aux_syn_args->k1;
+    (*params)[GL_K2] = aux_syn_args->k2;
+    (*params)[GL_DT] = dt;
+    (*params)[GL_VFAST] = aux_syn_args->v_fast/100.0;
+    (*params)[GL_VSLOW] = aux_syn_args->v_slow/100.0;
+    (*params)[GL_PERIOD] = period;
+    (*params)[GL_MS_OLD] = 0.0;
+
     return;
 }
 
@@ -101,16 +146,18 @@ void ms_f (double * vars, double * ret, double * params, double v_pre) {
     p3 = params[MS_K2] * vars[0];
     
     ret[0] = (p1 / p2) - p3;
+
+    printf("p1 %f p2 %f p3 %f ret %f\n", p1, p2, p3, ret[0]);
     return;
 }
     
 
-double chem_fast (double v_post, double v_pre, double * g, double * aux) {
+double golowasch_fast (double v_post, double v_pre, double g, double * aux) {
 	double e_syn;
 	double v_f;
 	double s_f;
 
-    double v_range = aux[SC_MAX] - aux[SC_MIN];
+    double v_range = aux[GL_MAX] - aux[GL_MIN];
 
 	/*if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - v_range * 0.153846;
@@ -120,22 +167,22 @@ double chem_fast (double v_post, double v_pre, double * g, double * aux) {
 		v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
 	}*/
 
-    e_syn = aux[SC_MIN] - v_range * 0.153846;
-    v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
+    e_syn = aux[GL_MIN] - v_range * 0.153846;
+    v_f = aux[GL_MIN] + v_range * aux[GL_VFAST];
 
-    s_f = aux[SC_BT] * 0.2;
+    s_f = v_range * 0.002;
 
-    //printf("esyn %f vf %f sf %f g %f vpre %f vpost %f", e_syn, v_f, s_f, (*g), v_pre, v_post);
+    //printf("\nesyn %f vf %f sf %f g %f vpre %f vpost %f min %f max %f range %f\n", e_syn, v_f, s_f, g, v_pre, v_post, aux[GL_MIN], aux[GL_MAX], v_range);
 
-    return ((*g) * (v_post - e_syn)) / (1.0 + exp(s_f * (v_f - v_pre)));
+    return (g * (v_post - e_syn)) / (1.0 + exp(s_f * (v_f - v_pre)));
 }
 
-double chem_slow (double v_post, double * g, double * aux) {
-    double vars[1] = {aux[SC_OLD]};
+double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
+    double vars[1] = {aux[GL_MS_OLD]};
     double params[4];
     double e_syn;
 
-    double v_range = aux[SC_MAX] - aux[SC_MIN];
+    double v_range = aux[GL_MAX] - aux[GL_MIN];
 
 	/*if(aux[SC_MIN] > 0) {
 		e_syn = aux[SC_MIN] - v_range * 0.153846;
@@ -145,47 +192,83 @@ double chem_slow (double v_post, double * g, double * aux) {
 		params[MS_VS] = aux[SC_MIN] + v_range;
 	}*/
 
-    e_syn = aux[SC_MIN] - v_range * 0.153846;
-    params[MS_VS] = aux[SC_MIN] + v_range * aux[SC_VSLOW];
+    e_syn = aux[GL_MIN] - v_range * 0.153846;
+    params[MS_VS] = aux[GL_MIN] + v_range * aux[GL_VSLOW];
 
-    params[MS_K1] = aux[SC_MS_K1];//1;
-    params[MS_K2] = aux[SC_MS_K2];//0.03;
-    params[MS_SS] = aux[SC_BT];
+    params[MS_K1] = aux[GL_K1];//1;
+    params[MS_K2] = aux[GL_K2];//0.03;
+    params[MS_SS] = v_range * 0.01;
 
-    runge_kutta_6(&ms_f, 1, aux[SC_DT], vars, params, 0);
-    aux[SC_OLD] = vars[0];
+    printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
 
-    //printf("v_post %f esyn %f old %f ", v_post, e_syn, aux[SC_OLD]);
+    runge_kutta_6(&ms_f, 1, aux[GL_DT], vars, params, v_pre);
+    aux[GL_MS_OLD] = vars[0];
+    printf("%f\n\n", aux[GL_MS_OLD]);
 
-    return (*g) * aux[SC_OLD] * (v_post - e_syn);
+    //printf("\nv_post %f esyn %f old %f\n", v_post, e_syn, aux[GL_MS_OLD]);
+
+    return g * aux[GL_MS_OLD] * (v_post - e_syn);
 }
 
-void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-	*ret = 0;
+void golowasch_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
+    double min, max;
 
-	if (g[G_FAST] != 0.0) {
-		*ret += chem_fast(v_post, v_pre, &(g[G_FAST]), aux);
-	} 
+    min = aux[GL_MIN];
+    max = aux[GL_MAX];
+    *ret = 0.0;
 
-    if (g[G_SLOW] != 0.0) {
-		*ret += chem_slow(v_post, &(g[G_SLOW]), aux);
+	if (aux[SYN_CALIBRATE] == SYN_CALIB_PRE) {
+		v_pre = v_pre * aux[SYN_SCALE] + aux[SYN_OFFSET];
+		aux[GL_MIN] = aux[GL_MIN] * aux[SYN_SCALE] + aux[SYN_OFFSET];
+		aux[GL_MAX] = aux[GL_MAX] * aux[SYN_SCALE] + aux[SYN_OFFSET];
+	} else if (aux[SYN_CALIBRATE] == SYN_CALIB_POST) {
+        v_post = (v_post - aux[SYN_OFFSET]) / aux[SYN_SCALE];
+	}
+
+    if (g[GL_G_FAST] != 0.0) {
+        *ret += golowasch_fast(v_post, v_pre, g[GL_G_FAST], aux);
+    }
+
+    if (g[GL_G_SLOW] != 0.0) {
+        *ret += golowasch_slow(v_post, v_pre, g[GL_G_SLOW], aux);
 	}
 
     //printf("g_f = %f // g_s = %f\n", g[G_FAST], g[G_SLOW]);
     //printf("v_fast %f\n", chem_fast(v_post, v_pre, &(g[G_FAST]), aux));
     //printf("v_slow %f\n", chem_slow(v_post, &(g[G_SLOW]), aux));
+
+    aux[GL_MIN] = min;
+    aux[GL_MAX] = max;
+
     return;
 }
 
 
+/* PRINZ */
+
+void ini_prinz (double ** params, double scale, double offset, double k, double vth, double dt, double period, double min, double max) {
+    (*params) = (double *) malloc (sizeof(double) * 10);
+    (*params)[SYN_SCALE] = scale;
+    (*params)[SYN_OFFSET] = offset;
+    (*params)[SYN_CALIBRATE] = SYN_CALIB_PRE;
+    (*params)[PR_S_OLD] = 0.0;
+    (*params)[PR_K] = k;
+    (*params)[PR_DT] = dt;
+    (*params)[PR_VTH] = vth/100.0;
+    (*params)[PR_PERIOD] = period;
+    (*params)[PR_MIN] = min;
+    (*params)[PR_MAX] = max;
+
+    return;
+}
 
 void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
 	double tau;
 	double s_pre;
 
-	s_pre = 1 / (1 + exp((params[PR_PARAM_V_TH] - params[PR_PARAM_V_PRE]) / params[PR_PARAM_DELTA]));
+	s_pre = 1 / (1 + exp((params[PR_AUX_VTH] - params[PR_AUX_VPRE]) / params[PR_AUX_DELTA]));
 
-	tau = (1 - s_pre) / params[PR_PARAM_K];
+	tau = (1 - s_pre) / params[PR_AUX_K];
 
     ret[0] = (s_pre - vars[0]) / tau;
 
@@ -198,26 +281,35 @@ void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
 
 
 void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-	double vars[1] = {aux[PR_AUX_S_OLD]};
+	double vars[1] = {aux[PR_S_OLD]};
     double params[4];
     double v_range;
     double e_syn;
 
-    v_range = aux[PR_AUX_MAX] - aux[PR_AUX_MIN];
-    e_syn = aux[PR_AUX_MIN] - v_range * 0.103846;;
+    if (aux[SYN_CALIBRATE] == SYN_CALIB_PRE) {
+		v_pre = v_pre * aux[SYN_SCALE] + aux[SYN_OFFSET];
+		aux[PR_MIN] = aux[PR_MIN] * aux[SYN_SCALE] + aux[SYN_OFFSET];
+		aux[PR_MAX] = aux[PR_MAX] * aux[SYN_SCALE] + aux[SYN_OFFSET];
+	} else if (aux[SYN_CALIBRATE] == SYN_CALIB_POST) {
+		v_post = v_post / aux[SYN_SCALE] - aux[SYN_OFFSET];
+	}
 
-	params[PR_PARAM_V_PRE] = v_pre;
-	params[PR_PARAM_DELTA] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_DELTA];
-	params[PR_PARAM_V_TH] = aux[PR_AUX_MIN] + v_range * aux[PR_AUX_V_TH];
-	params[PR_PARAM_K] = aux[PR_AUX_K];
+    v_range = aux[PR_MAX] - aux[PR_MIN];
+    e_syn = aux[PR_MIN] - v_range * 0.103846;
 
-	syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
-		aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], params[PR_PARAM_DELTA], params[PR_PARAM_V_TH], params[PR_PARAM_K]);
+	params[PR_AUX_VPRE] = v_pre;
+	params[PR_AUX_DELTA] = v_range * 0.05;
+	params[PR_AUX_VTH] = aux[PR_MIN] + v_range * aux[PR_VTH];
+	params[PR_AUX_K] = aux[PR_K];
 
-    runge_kutta_6 (&prinz_syn_f, 1, aux[PR_AUX_DT], vars, params, 0);
-    aux[PR_AUX_S_OLD] = vars[0];
+	/*syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f s_old %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
+		aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], vars[0], params[PR_PARAM_DELTA], 
+		params[PR_PARAM_V_TH], params[PR_PARAM_K]);*/
 
-    *ret = (*g) * aux[PR_AUX_S_OLD] * (v_post - e_syn);
+    runge_kutta_6 (&prinz_syn_f, 1, aux[PR_DT], vars, params, 0);
+    aux[PR_S_OLD] = vars[0];
+
+    *ret = (*g) * aux[PR_S_OLD] * (v_post - e_syn);
 
     //syslog(LOG_INFO, "ret %f g %f s %f\n", *ret, *g, aux[PR_AUX_S_OLD]);
 

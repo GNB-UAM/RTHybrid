@@ -5,8 +5,20 @@ extern "C" {
 #ifndef TYPES_H__
 #define TYPES_H__
 
-#include <syslog.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+#include <syslog.h>
+#include <string.h>
+#include <stdarg.h>
+
+#include <pthread.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <semaphore.h>
+
+/* Basic types */
 #define ERR -1
 #define OK 0
 #define TRUE 1
@@ -25,6 +37,20 @@ extern "C" {
 #define PRINT_CYAN "\033[36;1m"
 #define PRINT_WHITE "\033[37;1m"
 #define PRINT_RESET "\033[00m"
+
+
+/* RT Params */
+#define MAX_SAFE_STACK (8*1024)
+#define PRIORITY (99)
+#define MAX_LAT (900000)
+#define CORE (0)
+
+
+void free_pointers (int n, ...);
+
+void prepare_real_time (pthread_t id);
+
+void copy_1d_array (double * src, double * dst, int n_elems);
 
 
 #endif // TYPES_H__

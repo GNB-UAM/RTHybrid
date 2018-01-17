@@ -79,45 +79,45 @@ int clamp (clamp_args * args) {
 
 	/*Parse channels*/
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
-    if (args->output != NULL)parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
+    if (args->output != NULL) parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
-    if (args->anti == TRUE) {
+    /*if (args->anti == TRUE) {
 		args->anti = -1;
 	} else {
 		args->anti = 1;
-	}
+    }*/
 
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %
         args->synapse=0;
-		args->anti=1;
+        //args->anti=1;
     }else if(args->mode_auto_cal == 2){
 		//Electrica en fase - ecm y slope
         args->synapse=0;
-		args->anti=1;
+        //args->anti=1;
     }else if(args->mode_auto_cal == 3){
 		//Electrica en fase - ecm y var
         args->synapse=0;
-		args->anti=1;
+        //args->anti=1;
     }else if(args->mode_auto_cal == 4){
 		//Electrica en fase - fase y var
         args->synapse=0;
-		args->anti=1;
+        //args->anti=1;
     }else if(args->mode_auto_cal == 5){
 		//Electrica en anti - fase y var
         args->synapse=0;
-		args->anti = -1;
+        //args->anti = -1;
         args->mode_auto_cal = 4;
     }else if(args->mode_auto_cal == 6){
 		//variar mu de hr
         args->model=1;
-		args->anti=1;
+        //args->anti=1;
     }else if(args->mode_auto_cal == 7){
-		args->anti=1;
+        //args->anti=1;
         r_args.step_v_to_r = args->step_v_to_r;
         r_args.step_r_to_v = args->step_r_to_v;
     }else if(args->mode_auto_cal == 8){
-        args->anti=1;
+        //args->anti=1;
     }
 
 	if(!c_a){
@@ -186,8 +186,8 @@ int clamp (clamp_args * args) {
 			r_args.syn = &elec_syn;
 
 			break;
-		case CHEMICAL:
-			r_args.syn = &chem_syn;
+		case GOLOWASCH:
+			r_args.syn = &golowasch_syn;
 
 			break;
 		case PRINZ:
@@ -250,15 +250,10 @@ int clamp (clamp_args * args) {
     r_args.filename = filename;
     r_args.model = args->model;
     r_args.calibration = args->mode_auto_cal;
-    r_args.anti = args->anti;
-    r_args.g_real_to_virtual = args->g_real_to_virtual;
-    r_args.g_virtual_to_real = args->g_virtual_to_real;
     r_args.firing_rate = args->firing_rate;
-    r_args.syn_gradual_k1 = args->syn_gradual_k1;
-    r_args.syn_gradual_k2 = args->syn_gradual_k2;
-    r_args.syn_gradual_vfast = args->syn_gradual_vfast;
-    r_args.syn_gradual_vslow = args->syn_gradual_vslow;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
+    r_args.syn_args_live_to_model = args->syn_args_live_to_model;
+    r_args.syn_args_model_to_live = args->syn_args_model_to_live;
 
     w_args.path = path;
     w_args.filename = filename;
@@ -269,12 +264,9 @@ int clamp (clamp_args * args) {
     w_args.freq = args->freq;
     w_args.time_var = args->time_var;
     w_args.important = args->imp;
-    w_args.anti = args->anti;
     w_args.calibration = args->mode_auto_cal;
-    w_args.syn_gradual_k1 = args->syn_gradual_k1;
-    w_args.syn_gradual_k2 = args->syn_gradual_k2;
-    w_args.syn_gradual_vfast = args->syn_gradual_vfast;
-    w_args.syn_gradual_vslow = args->syn_gradual_vslow;
+    w_args.syn_args_live_to_model = args->syn_args_live_to_model;
+    w_args.syn_args_model_to_live = args->syn_args_model_to_live;
 
     err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)

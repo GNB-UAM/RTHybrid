@@ -38,6 +38,7 @@ SOURCES += \
     clamp/src/time_functions.c \
     clamp/src/queue_functions.c \
     clamp/src/clamp.c \
+    common/src/aux_functions.c
 
 HEADERS += \
     gui/rtbiomanager.h \

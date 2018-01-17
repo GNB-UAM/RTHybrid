@@ -48,7 +48,5 @@ int receive_from_queue (void * msqid, message * msg);
 
 int close_queue (void ** msqid);
 
-void free_pointers (int n, ...);
-
 
 #endif /* queue_functions.h */

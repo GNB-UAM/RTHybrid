@@ -21,6 +21,7 @@ def plot_voltage(data):
 	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
 	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
 	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
+	plt.plot(data.time, data.v_model, label="m", linewidth=0.8)
 	plt.ylabel("Current")
 	plt.legend()
 	

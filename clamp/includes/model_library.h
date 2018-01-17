@@ -1,6 +1,14 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifndef MODEL_LIBRARY_H
+#define MODEL_LIBRARY_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "../../common/includes/types.h"
 
 
 /* MACROS */
@@ -9,7 +17,7 @@
 #define HR 1
 #define RLK 2
 #define ELECTRIC 0
-#define CHEMICAL 1
+#define GOLOWASCH 1
 #define PRINZ 2
 
 #define X 0
@@ -40,9 +48,38 @@
 
 /*Synapses*/
 
+/* General */
+#define SYN_MODEL_TO_LIVE 0
+#define SYN_LIVE_TO_MODEL 1
+
+#define SYN_SCALE 0
+#define SYN_OFFSET 1
+#define SYN_CALIBRATE 2
+
+#define SYN_CALIB_PRE 0
+#define SYN_CALIB_POST 1
+
+/* Electrical */
+#define ELEC_N_G 1
+#define ELEC_G 0
+
+#define ELEC_ANTI 3
+
 /*Golowash*/
-#define G_FAST 0
-#define G_SLOW 1
+#define GL_G_FAST 0
+#define GL_G_SLOW 1
+#define GL_N_G 2
+
+#define GL_MIN 3
+#define GL_MAX 4
+#define GL_K1 5
+#define GL_K2 6
+#define GL_DT 7
+#define GL_VFAST 8
+#define GL_VSLOW 9
+#define GL_PERIOD 10
+#define GL_MS_OLD 11
+
 
 #define MS_K1 0
 #define MS_K2 1
@@ -60,29 +97,50 @@
 #define SC_MAX 8
 
 /*Prinz*/
-#define PR_PARAM_V_PRE 0
-#define PR_PARAM_V_TH 1
-#define PR_PARAM_DELTA 2
-#define PR_PARAM_K 3
+#define PR_AUX_VPRE 0
+#define PR_AUX_VTH 1
+#define PR_AUX_DELTA 2
+#define PR_AUX_K 3
 
-#define PR_AUX_S_OLD 0
-#define PR_AUX_K 1
-#define PR_AUX_DT 2
-#define PR_AUX_V_TH 3
-#define PR_AUX_DELTA 4
-#define PR_AUX_MIN 5
-#define PR_AUX_MAX 6
-#define PR_AUX_K_Live_Model 7
-#define PR_AUX_K_Model_Live 8
+#define PR_MIN 3
+#define PR_MAX 4
+#define PR_S_OLD 5
+#define PR_K 6
+#define PR_DT 7
+#define PR_VTH 8
+#define PR_PERIOD 9
+
+
+
+/* STRUCTS */
+typedef struct {
+    double g[ELEC_N_G];
+    int anti;
+} syn_elec_args;
+
+typedef struct {
+    double g[GL_N_G];
+    double v_fast;
+    double v_slow;
+    double k1;
+    double k2;
+} syn_gl_args;
+
 
 
 /* INTEGRATION FUNCTIONS */
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn);
 
 /* SYNAPSES */
+void ini_elec (double ** params, double scale, double offset, void * syn_args);
+
+void ini_golowasch (double ** params, double scale, double offset, void * syn_args, double dt, double period, double min, double max);
+
+void ini_prinz (double ** params, double scale, double offset, double k, double vth, double dt, double period, double min, double max);
+
 void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
 
-void chem_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
+void golowasch_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
 
 void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
 
@@ -107,3 +165,10 @@ void rlk_f (double * vars, double * ret, double * params, double syn);
 void rulkov_map (int dim, double dt, double * vars, double * params, double syn);
 
 void ini_rlk (double *min, double *minABS, double *max);
+
+#endif // MODEL_LIBRARY_H
+
+
+#ifdef __cplusplus
+}
+#endif

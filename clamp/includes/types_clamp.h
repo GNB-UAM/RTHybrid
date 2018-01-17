@@ -8,14 +8,13 @@ extern "C" {
 #include <syslog.h>
 #include "../../common/includes/types.h"
 
+
 typedef struct {
     void (*func)(int, double, double*, double*, double);
     void (*ini)(double*, double*, double*);
     void (*syn)(double, double, double*, double*, double*);
     double * vars;
     double * params;
-    double * g_virtual_to_real;
-    double * g_real_to_virtual;
     int dim;
     double dt;
     int type_syn;
@@ -33,17 +32,15 @@ typedef struct {
     int rafaga_modelo_pts;
     char * filename;
     int calibration;
-    int anti;
     int model;
     double step_v_to_r;
     double step_r_to_v;
     double firing_rate;
-    double syn_gradual_k1;
-    double syn_gradual_k2;
-    double syn_gradual_vfast;
-    double syn_gradual_vslow;
+    void * syn_args_model_to_live;
+    void * syn_args_live_to_model;
     double auto_cal_val_1;
 } rt_args;
+
 
 typedef struct {
     char * filename;
@@ -57,12 +54,9 @@ typedef struct {
     int freq;
     int time_var;
     int calibration;
-    int anti;
     int important;
-    double syn_gradual_k1;
-    double syn_gradual_k2;
-    double syn_gradual_vfast;
-    double syn_gradual_vslow;
+    void * syn_args_model_to_live;
+    void * syn_args_live_to_model;
 } writer_args;
 
 typedef struct {
@@ -92,7 +86,6 @@ typedef struct {
     int model;
     int synapse;
     int mode_auto_cal;
-    int anti;
     int imp;
     char * input;
     char * output;
@@ -103,11 +96,9 @@ typedef struct {
     double step_v_to_r;
     double step_r_to_v;
     double firing_rate;
-    double syn_gradual_k1;
-    double syn_gradual_k2;
     double auto_cal_val_1;
-    double syn_gradual_vfast; //delta
-    double syn_gradual_vslow; //vth
+    void * syn_args_model_to_live;
+    void * syn_args_live_to_model;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

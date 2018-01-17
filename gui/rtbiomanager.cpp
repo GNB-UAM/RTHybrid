@@ -107,37 +107,78 @@ void RTBiomanager::on_simulate_clicked()
             break;
     }
 
-    args.anti = false;
+    //args.anti = false;
 
     if (autocalIndex == 0){
         switch (args.synapse) {
             case ELECTRIC: //Electrical
-                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+                {
+                /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
                 args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
                 args.g_virtual_to_real[0] = ui->doubleSynElec_gMtoE->value();
                 args.g_real_to_virtual[0] = ui->doubleSynElec_gEtoM->value();
-                args.anti = ui->checkAnti->isChecked();
+                args.anti = ui->checkAnti->isChecked();*/
+
+                args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+                args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+
+                syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
+                syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
+
+                args_live_to_model_elec->g[ELEC_G] = ui->doubleSynElec_gEtoM->value();
+                args_live_to_model_elec->anti = 1;
+
+                args_model_to_live_elec->g[ELEC_G] = ui->doubleSynElec_gMtoE->value();
+                if (ui->checkAnti->isChecked()) {
+                    args_model_to_live_elec->anti = -1;
+                    args_live_to_model_elec->anti = -1;
+                } else {
+                    args_model_to_live_elec->anti = 1;
+                    args_live_to_model_elec->anti = 1;
+                }
 
 
                 break;
-            case CHEMICAL: //Gradual chemical
-                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
+                }
+            case GOLOWASCH: //Gradual chemical
+                {
+                /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);*/
 
-                args.g_virtual_to_real[G_FAST] = ui->doubleSynGrad_gMtoE_fast->value();
-                args.g_virtual_to_real[G_SLOW] = ui->doubleSynGrad_gMtoE_slow->value();
-                args.g_real_to_virtual[G_FAST] = ui->doubleSynGrad_gEtoM_fast->value();
-                args.g_real_to_virtual[G_SLOW] = ui->doubleSynGrad_gEtoM_slow->value();
+                args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+                args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+
+                syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
+                syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
+
+                args_live_to_model_gl->g[GL_G_FAST] = ui->doubleSpinBox_gl_EtoM_fast_g->value();
+                args_live_to_model_gl->g[GL_G_SLOW] = ui->doubleSpinBox_gl_EtoM_slow_g->value();
+                args_live_to_model_gl->v_fast = ui->spinBox_gl_EtoM_fast_vth->value();
+                args_live_to_model_gl->v_slow = ui->spinBox_gl_EtoM_slow_vth->value();
+                args_live_to_model_gl->k1 = ui->doubleSpinBox_gl_EtoM_slow_k1->value();
+                args_live_to_model_gl->k2 = ui->doubleSpinBox_gl_EtoM_slow_k2->value();
+
+                args_model_to_live_gl->g[GL_G_FAST] = ui->doubleSpinBox_gl_MtoE_fast_g->value();
+                args_model_to_live_gl->g[GL_G_SLOW] = ui->doubleSpinBox_gl_MtoE_slow_g->value();
+                args_model_to_live_gl->v_fast = ui->spinBox_gl_MtoE_fast_vth->value();
+                args_model_to_live_gl->v_slow = ui->spinBox_gl_MtoE_slow_vth->value();
+                args_model_to_live_gl->k1 = ui->doubleSpinBox_gl_MtoE_slow_k1->value();
+                args_model_to_live_gl->k2 = ui->doubleSpinBox_gl_MtoE_slow_k2->value();
+
+                /*args.g_virtual_to_real[0] = ui
+                args.g_real_to_virtual[0] = ui->doubleSynGrad_gEtoM_fast->value();
 
                 args.syn_gradual_k1 = ui->doubleSynGrad_k1->value();
                 args.syn_gradual_k2 = ui->doubleSynGrad_k2->value();
                 args.syn_gradual_vfast = ui->doubleSynGrad_vfast->value();
-                args.syn_gradual_vslow = ui->doubleSynGrad_vslow->value();
+                args.syn_gradual_vslow = ui->doubleSynGrad_vslow->value();*/
 
                 break;
+            }
 
             case PRINZ: //Prinz graded chemical
-                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+                {
+                /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
                 args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
 
                 args.g_virtual_to_real[0] = ui->doubleSynPrinz_gMtoE->value();
@@ -146,9 +187,10 @@ void RTBiomanager::on_simulate_clicked()
                 args.syn_gradual_k1 = ui->doubleSynPrinz_kEtoM->value();
                 args.syn_gradual_k2 = ui->doubleSynPrinz_kMtoE->value();
                 args.syn_gradual_vfast = ui->doubleSynPrinz_delta->value();
-                args.syn_gradual_vslow = ui->doubleSynPrinz_vth->value();
+                args.syn_gradual_vslow = ui->doubleSynPrinz_vth->value();*/
 
                 break;
+                }
 
             default:
                 break;
@@ -176,26 +218,22 @@ void RTBiomanager::on_simulate_clicked()
 
         case 2: //Gradual MAP
 
-            args.mode_auto_cal = 7;
-            args.synapse = CHEMICAL;
+            /*args.mode_auto_cal = 7;
+            args.synapse = GOLOWASCH;
 
-            args.g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-            args.g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
+            args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
+            args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
 
             if (ui->gradualModelToExternalSelect->currentIndex() == G_FAST){
-                args.g_virtual_to_real[G_FAST] = ui->chemMap_MaxToExternal->value();
-                args.g_virtual_to_real[G_SLOW] = 0;
+                args.g_virtual_to_real[0] = ui->chemMap_MaxToExternal->value();
             }else{
-                args.g_virtual_to_real[G_SLOW] = ui->chemMap_MaxToExternal->value();
-                args.g_virtual_to_real[G_FAST] = 0;
+                args.g_virtual_to_real[0] = ui->chemMap_MaxToExternal->value();
             }
 
             if (ui->gradualExternalToModelSelect->currentIndex() == G_FAST){
-                args.g_real_to_virtual[G_FAST] = ui->chemMap_MaxToModel->value();
-                args.g_real_to_virtual[G_SLOW] = 0;
+                args.g_real_to_virtual[0] = ui->chemMap_MaxToModel->value();
             }else{
-                args.g_real_to_virtual[G_SLOW] = ui->chemMap_MaxToModel->value();
-                args.g_real_to_virtual[G_FAST] = 0;
+                args.g_real_to_virtual[0] = ui->chemMap_MaxToModel->value();
             }
 
             args.step_v_to_r = ui->chemMap_StepToExternal->value();
@@ -204,7 +242,7 @@ void RTBiomanager::on_simulate_clicked()
             args.syn_gradual_k1 = ui->doubleSynGrad_k1_map->value();
             args.syn_gradual_k2 = ui->doubleSynGrad_k2_map->value();
             args.syn_gradual_vfast = ui->doubleSynGrad_vfast_map->value();
-            args.syn_gradual_vslow = ui->doubleSynGrad_vslow_map->value();
+            args.syn_gradual_vslow = ui->doubleSynGrad_vslow_map->value();*/
 
             break;
 
