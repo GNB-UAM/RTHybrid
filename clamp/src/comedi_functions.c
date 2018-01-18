@@ -1,6 +1,8 @@
 #include "../includes/device_functions.h"
 #include <comedilib.h>
 
+#define READ_FROM_FILE 1
+
 struct _Daq_session{
 	comedi_t * device;
 	int in_subdev;		/*input subdevice */
@@ -8,6 +10,10 @@ struct _Daq_session{
 	int range;			
 	int aref;		
 };
+
+
+/* Read from file variables */
+if (READ_FROM_FILE == 1) FILE * f;
 
 comedi_range * get_range_info_comedi (Daq_session * session, int direction, int chan);
 lsampl_t get_maxdata_comedi (Daq_session * session, int direction, int chan);
@@ -19,6 +25,8 @@ int daq_open_device (void ** device) {
 
 	/**device = (comedi_t *) malloc (sizeof(comedi_t));
 	dsc = *device;*/
+
+	if (READ_FROM_FILE == 1) f = fopen("data/2017y_11m_28d/19h_34m_1s_1.txt", "r");
 
 	dsc = comedi_open("/dev/comedi0");
 	if(dsc == NULL)
@@ -34,6 +42,8 @@ int daq_open_device (void ** device) {
 
 int daq_close_device (void ** device) {
 	comedi_t * dsc = *device;
+
+	if (READ_FROM_FILE == 1) fclose(f);
 
 	if (comedi_close(dsc) == -1) {
 		comedi_perror("Error with comedi_close");
@@ -123,21 +133,46 @@ int read_single_data_comedi (Daq_session * session, comedi_range * range_info, l
 	double physical_value;
 	int retval;
 
-	retval = comedi_data_read(session->device, session->in_subdev, chan, session->range, session->aref, &data);
-	if(retval < 0)
-	{
-		comedi_perror("read");
-		return -1;
-	}
+	if (READ_FROM_FILE == 0) {
+		retval = comedi_data_read(session->device, session->in_subdev, chan, session->range, session->aref, &data);
+		if(retval < 0)
+		{
+			comedi_perror("read");
+			return -1;
+		}
 
-	comedi_set_global_oor_behavior(COMEDI_OOR_NUMBER);
-	physical_value = comedi_to_phys(data, range_info, maxdata);
-	
-	if(isnan(physical_value)) {
-		return -1;
-	} else {
-		*ret = physical_value;
+		comedi_set_global_oor_behavior(COMEDI_OOR_NUMBER);
+		physical_value = comedi_to_phys(data, range_info, maxdata);
+		
+		if(isnan(physical_value)) {
+			return -1;
+		} else {
+			*ret = physical_value;
+		}
+	} else if (READ_FROM_FILE == 1) {
+		char buf[999];
+		fgets(buf, sizeof(char) * 200, f);
+		//printf("%s\n", buf);
+		char * elemento;
+		elemento = strtok(buf, " ");
+		//printf("%p %p\n", elemento, buf);
+		int i;
+		for (i=0; i<8; i++){
+			elemento = strtok(NULL, " ");
+			//printf("%p\n", elemento);
+			fflush(NULL);
+		}
+		*ret = atof(elemento);
+		//printf("\n%f\n", *ret);
+
+		while (elemento != NULL) {
+			elemento = strtok(NULL, " ");
+		}
 	}
+	
+
+
+	
 
 	return 0;
 }
