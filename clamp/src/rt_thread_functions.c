@@ -577,7 +577,7 @@ void * rt_thread(void * arg) {
             syn_aux_params_model_to_live[SYN_CALIBRATE] = SYN_CALIB_PRE;
             args->syn(ret_values[X], args->vars[X], g_virtual_to_real, &c_model, syn_aux_params_model_to_live);
             msg.c_model = -c_model;
-            msg.v_model = syn_aux_params_model_to_live[GL_MS_OLD]; //ms de la sinapsis
+            msg.v_model = syn_aux_params_live_to_model[GL_MS_OLD]; //ms de la sinapsis
             //printf("c_model = %f\n", msg.c_model);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");

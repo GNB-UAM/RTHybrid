@@ -75,7 +75,7 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
     }
 
 
-    printf("rk %f\n", vars[0]);
+    //printf("rk %f\n", vars[0]);
 
     return;
 }
@@ -141,13 +141,15 @@ void ini_golowasch (double ** params, double scale, double offset, void * syn_ar
 void ms_f (double * vars, double * ret, double * params, double v_pre) {
     double p1, p2, p3;
 
+    //printf("vpre %f ms %f k1 %f k2 %f vs %f ss %f ", v_pre, vars[0], params[MS_K1], params[MS_K2], params[MS_VS], params[MS_SS]);
+
     p1 = params[MS_K1] * (1.0 - vars[0]);
     p2 = 1.0 + exp(params[MS_SS] * (params[MS_VS] - v_pre));
     p3 = params[MS_K2] * vars[0];
     
     ret[0] = (p1 / p2) - p3;
 
-    printf("p1 %f p2 %f p3 %f ret %f\n", p1, p2, p3, ret[0]);
+    //printf("p1 %f p2 %f p3 %f ret %f\n", p1, p2, p3, ret[0]);
     return;
 }
     
@@ -181,6 +183,7 @@ double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
     double vars[1] = {aux[GL_MS_OLD]};
     double params[4];
     double e_syn;
+    double ret;
 
     double v_range = aux[GL_MAX] - aux[GL_MIN];
 
@@ -199,15 +202,19 @@ double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
     params[MS_K2] = aux[GL_K2];//0.03;
     params[MS_SS] = v_range * 0.01;
 
-    printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
+    //printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
+
+    ret = g * aux[GL_MS_OLD] * (v_post - e_syn);
 
     runge_kutta_6(&ms_f, 1, aux[GL_DT], vars, params, v_pre);
     aux[GL_MS_OLD] = vars[0];
-    printf("%f\n\n", aux[GL_MS_OLD]);
+    //printf("%f\n\n", aux[GL_MS_OLD]);
 
     //printf("\nv_post %f esyn %f old %f\n", v_post, e_syn, aux[GL_MS_OLD]);
 
-    return g * aux[GL_MS_OLD] * (v_post - e_syn);
+
+
+    return ret;
 }
 
 void golowasch_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
