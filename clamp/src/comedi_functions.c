@@ -13,7 +13,7 @@ struct _Daq_session{
 
 
 /* Read from file variables */
-if (READ_FROM_FILE == 1) FILE * f;
+FILE * f;
 
 comedi_range * get_range_info_comedi (Daq_session * session, int direction, int chan);
 lsampl_t get_maxdata_comedi (Daq_session * session, int direction, int chan);
