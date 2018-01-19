@@ -172,7 +172,7 @@ double golowasch_fast (double v_post, double v_pre, double g, double * aux) {
     e_syn = aux[GL_MIN] - v_range * 0.153846;
     v_f = aux[GL_MIN] + v_range * aux[GL_VFAST];
 
-    s_f = v_range * 0.002;
+    s_f = 1.0 / (v_range * 0.05);
 
     //printf("\nesyn %f vf %f sf %f g %f vpre %f vpost %f min %f max %f range %f\n", e_syn, v_f, s_f, g, v_pre, v_post, aux[GL_MIN], aux[GL_MAX], v_range);
 
@@ -200,7 +200,7 @@ double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
 
     params[MS_K1] = aux[GL_K1];//1;
     params[MS_K2] = aux[GL_K2];//0.03;
-    params[MS_SS] = v_range * 0.01;
+    params[MS_SS] = 1.0 / (v_range * 0.01);
 
     //printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
 
