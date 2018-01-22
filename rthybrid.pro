@@ -12,6 +12,7 @@ TARGET = RTHybrid
 TEMPLATE = app
 QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
 QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi -g
+QMAKE_CLEAN += RTHybrid
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

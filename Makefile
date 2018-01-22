@@ -682,6 +682,7 @@ distdir: FORCE
 
 clean: compiler_clean 
 	-$(DEL_FILE) $(OBJECTS)
+	-$(DEL_FILE) RTHybrid
 	-$(DEL_FILE) *~ core *.core
 
 
@@ -953,15 +954,16 @@ main.o: gui/main.cpp gui/rthybrid.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
 
 model_library.o: clamp/src/model_library.c clamp/includes/model_library.h \
+		clamp/includes/types_clamp.h \
 		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o model_library.o clamp/src/model_library.c
 
 rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
 		clamp/includes/model_library.h \
+		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/queue_functions.h \
-		clamp/includes/types_clamp.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
@@ -1011,9 +1013,9 @@ clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
 		clamp/includes/model_library.h \
+		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/queue_functions.h \
-		clamp/includes/types_clamp.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
@@ -1136,9 +1138,9 @@ rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
 		clamp/includes/model_library.h \
+		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/queue_functions.h \
-		clamp/includes/types_clamp.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
