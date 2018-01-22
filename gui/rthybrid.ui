@@ -1927,7 +1927,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="pageOff">
       <widget class="QTextBrowser" name="textBrowser">

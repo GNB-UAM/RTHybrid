@@ -196,7 +196,8 @@ void RTHybrid::on_simulate_clicked()
                 break;
         }
     }
-    
+
+
     switch (autocalIndex) {
 
         case 1: //Electric conductance MSE
@@ -250,7 +251,6 @@ void RTHybrid::on_simulate_clicked()
             args.mode_auto_cal = 0;
             break;
     }
-
 
     movie->start();
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
