@@ -1,19 +1,19 @@
-#ifndef RTBIOMANAGER_H
-#define RTBIOMANAGER_H
+#ifndef RTHYBRID_H
+#define RTHYBRID_H
 
 #include <QMainWindow>
 
 namespace Ui {
-class RTBiomanager;
+class RTHybrid;
 }
 
-class RTBiomanager : public QMainWindow
+class RTHybrid : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit RTBiomanager(QWidget *parent = 0);
-    ~RTBiomanager();
+    explicit RTHybrid(QWidget *parent = 0);
+    ~RTHybrid();
 
 private slots:
     void on_simulate_clicked();
@@ -27,8 +27,8 @@ private slots:
     void on_autoDetect_clicked();
 
 private:
-    Ui::RTBiomanager *ui;
+    Ui::RTHybrid *ui;
     QMovie *movie;
 };
 
-#endif // RTBIOMANAGER_H
+#endif // RTHYBRID_H

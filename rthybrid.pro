@@ -8,11 +8,10 @@ QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = rtbiomanager
+TARGET = RTHybrid
 TEMPLATE = app
-QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm
-QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lm -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -g
-QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
+QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
+QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi -g
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -28,20 +27,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         gui/main.cpp \
-        gui/rtbiomanager.cpp \
     clamp/src/model_library.c \
     clamp/src/rt_thread_functions.c \
     clamp/src/writer_thread_functions.c \
-    clamp/src/analogy_functions.c \
+    clamp/src/comedi_functions.c \
     clamp/src/calibrate_functions_phase2_a.c \
     clamp/src/calibrate_functions_phase1.c \
     clamp/src/calibrate_functions_phase2.c \
     clamp/src/time_functions.c \
     clamp/src/queue_functions.c \
     clamp/src/clamp.c \
+    common/src/aux_functions.c \
+    gui/rthybrid.cpp
 
 HEADERS += \
-    gui/rtbiomanager.h \
     clamp/includes/calibrate_functions_phase1.h \
     clamp/includes/calibrate_functions_phase2.h \
     clamp/includes/calibrate_functions_phase2_a.h \
@@ -53,7 +52,8 @@ HEADERS += \
     common/includes/types.h \
     clamp/includes/writer_thread_functions.h \
     clamp/includes/clamp.h \
-    clamp/includes/types_clamp.h
+    clamp/includes/types_clamp.h \
+    gui/rthybrid.h
 
 FORMS += \
-        gui/rtbiomanager.ui
+    gui/rthybrid.ui

@@ -1,14 +1,14 @@
-#include "rtbiomanager.h"
-#include "ui_rtbiomanager.h"
+#include "rthybrid.h"
+#include "ui_rthybrid.h"
 #include <QMessageBox>
 #include <string>
 #include "clamp/includes/clamp.h"
 #include <QSound>
 #include <QMovie>
 
-RTBiomanager::RTBiomanager(QWidget *parent) :
+RTHybrid::RTHybrid(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::RTBiomanager)
+    ui(new Ui::RTHybrid)
 {
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
@@ -18,12 +18,12 @@ RTBiomanager::RTBiomanager(QWidget *parent) :
     movie->stop();
 }
 
-RTBiomanager::~RTBiomanager()
+RTHybrid::~RTHybrid()
 {
     delete ui;
 }
 
-void RTBiomanager::on_simulate_clicked()
+void RTHybrid::on_simulate_clicked()
 {
     clamp_args args;
 
@@ -273,17 +273,17 @@ void RTBiomanager::on_simulate_clicked()
     msgBox.exec();
 }
 
-void RTBiomanager::on_neuronModelCombo_activated(int index)
+void RTHybrid::on_neuronModelCombo_activated(int index)
 {
     ui->neuronModelPages->setCurrentIndex(index);
 }
 
-void RTBiomanager::on_synapseModelCombo_activated(int index)
+void RTHybrid::on_synapseModelCombo_activated(int index)
 {
     ui->synapseModelPages->setCurrentIndex(index);
 }
 
-void RTBiomanager::on_autocalCombo_activated(int index)
+void RTHybrid::on_autocalCombo_activated(int index)
 {
     ui->autocalPages->setCurrentIndex(index);
     if(index!=0){
@@ -304,7 +304,7 @@ void RTBiomanager::on_autocalCombo_activated(int index)
     }
 }
 
-void RTBiomanager::on_autoDetect_clicked()
+void RTHybrid::on_autoDetect_clicked()
 {
     if (ui->autoDetect->isChecked()) {
         ui->doubleSecPerBurst->setEnabled(false);

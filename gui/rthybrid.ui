@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RTBiomanager</class>
- <widget class="QMainWindow" name="RTBiomanager">
+ <class>RTHybrid</class>
+ <widget class="QMainWindow" name="RTHybrid">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RTBiomanager</string>
+   <string>RTHybrid</string>
   </property>
   <property name="styleSheet">
    <string notr="true">#centralWidget{
