@@ -3,14 +3,11 @@
 #include <syslog.h>
 
 
-double exp2(double x) {
-  x = 1.0 + x / 1024;
-  x *= x; x *= x; x *= x; x *= x;
-  x *= x; x *= x; x *= x; x *= x;
-  x *= x; x *= x;
-  return x;
+/* AUXILIAR FUNCTIONS */
+void free_synapse (syn_params * params) {
+    free_pointers(2, &params->g, &params->type_params);
+    return;
 }
-
 
 
 /* INTEGRATION FUNCTIONS */

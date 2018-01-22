@@ -69,6 +69,7 @@ int clamp (clamp_args * args) {
     if (args->output != NULL) parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
 
+    /*Calchange*/
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %
         args->synapse=0;

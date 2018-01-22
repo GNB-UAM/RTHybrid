@@ -40,7 +40,9 @@ void rt_cleanup () {
         daq_close_device ((void**) &dsc);
     }
 
-    free_pointers(12, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
+    free_pointers(11, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
+    free_synapse(&syn_aux_params_live_to_model);
+    free_synapse(&syn_aux_params_model_to_live);
 
     printf("\n" PRINT_CYAN "rt_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
@@ -64,6 +66,11 @@ void * rt_thread(void * arg) {
     struct timespec ts_target, ts_iter, ts_result, ts_start;
     message msg2;
     pthread_t id;
+
+    syn_aux_params_live_to_model.g = NULL;
+    syn_aux_params_live_to_model.type_params = NULL;
+    syn_aux_params_model_to_live.g = NULL;
+    syn_aux_params_model_to_live.type_params = NULL;
 
     /* Calibration variables */
     double max_model, min_model, min_abs_model;
@@ -271,6 +278,7 @@ void * rt_thread(void * arg) {
                 infinite_loop = TRUE;
             }
 
+            /*Calchange*/
             /*if(args->calibration == 8){
                 syn_aux_params[SC_MS_K1] = ini_k1;
                 syn_aux_params[SC_MS_K2] = ini_k2;/
@@ -380,7 +388,9 @@ void * rt_thread(void * arg) {
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 daq_close_device ((void**) &dsc);
-                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_synapse (&syn_aux_params_live_to_model);
+                free_synapse (&syn_aux_params_model_to_live);
                 pthread_exit(NULL);
             }
 
@@ -447,7 +457,7 @@ void * rt_thread(void * arg) {
                     lectura_a[cont_lectura]=ret_values[0];
                     lectura_t[cont_lectura]=msg.t_absol;
                     cont_lectura++;
-                }else{
+                }else{ /*Calchange*/
                     //calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, args->anti);
                     msg.ecm = res_phase;
                     cont_lectura=0;
@@ -467,7 +477,9 @@ void * rt_thread(void * arg) {
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 daq_close_device ((void**) &dsc);
-                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_synapse(&syn_aux_params_live_to_model);
+                free_synapse(&syn_aux_params_model_to_live);
                 pthread_exit(NULL);
             }
         }
@@ -577,7 +589,7 @@ void * rt_thread(void * arg) {
                 pthread_exit(NULL);
             }
 
-            /*CALIBRACION*/
+            /*CALIBRACION*/ /*Calchange*/
             end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
                                 &msg, syn_aux_params_model_to_live.g, syn_aux_params_live_to_model.g,
@@ -613,7 +625,9 @@ void * rt_thread(void * arg) {
 
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 daq_close_device ((void**) &dsc);
-                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_synapse(&syn_aux_params_live_to_model);
+                free_synapse(&syn_aux_params_model_to_live);
                 pthread_exit(NULL);
             }
 
@@ -689,7 +703,9 @@ void * rt_thread(void * arg) {
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
                 free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
                 daq_close_device ((void**) &dsc);
-                free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+                free_synapse(&syn_aux_params_live_to_model);
+                free_synapse(&syn_aux_params_model_to_live);
                 pthread_exit(NULL);
             }
 
@@ -722,7 +738,9 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Closing message sent");
 
-    free_pointers(8, &syn_aux_params, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+    free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
+    free_synapse(&syn_aux_params_live_to_model);
+    free_synapse(&syn_aux_params_model_to_live);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: End. Not sent messages: %d\n", lost_msg);
 

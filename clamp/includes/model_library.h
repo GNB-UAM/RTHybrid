@@ -143,6 +143,8 @@ typedef struct {
 } syn_gl_params;
 
 
+/* AUXILIAR FUNCTIONS */
+void free_synapse (syn_params * params);
 
 /* INTEGRATION FUNCTIONS */
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn);
