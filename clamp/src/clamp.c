@@ -37,10 +37,8 @@ void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 }
 
 int clamp (clamp_args * args) {
-	key_t key_q;
 	pthread_attr_t attr_rt, attr_wr;
 	int err;
-	FILE * f;
 
 	time_t t;
 	struct tm tm;
@@ -53,18 +51,7 @@ int clamp (clamp_args * args) {
 	writer_args w_args;
 	rt_args r_args;
 
-	double rafaga_modelo_pts_hr;
-	double rafaga_modelo_pts_iz;
-    double pts_por_s;
-    double t_rafaga_viva_s;
-    double rafaga_viva_pts;
 
-    /*int model = 0;
-	int synapse = 0;
-	double freq = 10000.0;
-	int time_var = 0;*/
-    int ret = 0;
-	//int mode_auto_cal = 0;
 	int c_a = FALSE;
 
 	sigset_t set;
@@ -81,11 +68,6 @@ int clamp (clamp_args * args) {
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
     if (args->output != NULL) parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
 
-    /*if (args->anti == TRUE) {
-		args->anti = -1;
-	} else {
-		args->anti = 1;
-    }*/
 
     if (args->mode_auto_cal == 1){
 		//Electrica en fase - ecm y %

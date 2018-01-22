@@ -8,7 +8,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "../../common/includes/types.h"
+#include "types_clamp.h"
 
 
 /* MACROS */
@@ -126,23 +126,39 @@ typedef struct {
     double k2;
 } syn_gl_args;
 
+typedef struct {
+    int anti;
+} syn_elec_params;
+
+typedef struct {
+    double min;
+    double max;
+    double k1;
+    double k2;
+    double v_fast;
+    double v_slow;
+    double ms_old;
+    double dt;
+    double period;
+} syn_gl_params;
+
 
 
 /* INTEGRATION FUNCTIONS */
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn);
 
 /* SYNAPSES */
-void ini_elec (double ** params, double scale, double offset, void * syn_args);
+void ini_elec (syn_params * params, double scale, double offset, void * syn_args);
 
-void ini_golowasch (double ** params, double scale, double offset, void * syn_args, double dt, double period, double min, double max);
+void ini_golowasch (syn_params * params, double scale, double offset, void * syn_args, double dt, double min, double max);
 
 void ini_prinz (double ** params, double scale, double offset, double k, double vth, double dt, double period, double min, double max);
 
-void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
+void elec_syn (double v_post, double v_pre, syn_params * params, double * ret);
 
-void golowasch_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
+void golowasch_syn (double v_post, double v_pre, syn_params * params, double * ret);
 
-void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux);
+void prinz_syn (double v_post, double v_pre, syn_params * params, double * ret);
 
 /* IZHIKEVICH */
 void izh_f (double * vars, double * ret, double * params, double syn);

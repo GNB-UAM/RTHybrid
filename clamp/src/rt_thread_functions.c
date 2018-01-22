@@ -9,7 +9,7 @@ rt_args * args;
 calibration_args * cal_struct = NULL;
 message msg;
 double * syn_aux_params = NULL;
-double * syn_aux_params_live_to_model = NULL, * syn_aux_params_model_to_live = NULL;
+syn_params syn_aux_params_live_to_model, syn_aux_params_model_to_live;
 
 double * lectura_a = NULL;
 double * lectura_b = NULL;
@@ -64,10 +64,6 @@ void * rt_thread(void * arg) {
     struct timespec ts_target, ts_iter, ts_result, ts_start;
     message msg2;
     pthread_t id;
-
-    /* Conductance variables */
-    double * g_real_to_virtual;
-    double * g_virtual_to_real;
 
     /* Calibration variables */
     double max_model, min_model, min_abs_model;
@@ -222,20 +218,14 @@ void * rt_thread(void * arg) {
     switch (args->type_syn) {
         case ELECTRIC:
             {
-            syn_elec_args * aux_syn_args_live_to_model = (syn_elec_args *) args->syn_args_live_to_model;
-            syn_elec_args * aux_syn_args_model_to_live = (syn_elec_args *) args->syn_args_model_to_live;
-
             ini_elec(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model);
             ini_elec(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live);
-
-            g_real_to_virtual = aux_syn_args_live_to_model->g;
-            g_virtual_to_real = aux_syn_args_model_to_live->g;
 
 
             if(args->calibration != 0 && args->calibration != 6){
                 if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside autocal");
-                g_virtual_to_real[0] = 0.0;
-                g_real_to_virtual[0] = 0.0;
+                syn_aux_params_model_to_live.g[0] = 0.0;
+                syn_aux_params_live_to_model.g[0] = 0.0;
             }
             msg.n_g = ELEC_N_G;
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Elec set finalized");
@@ -244,23 +234,8 @@ void * rt_thread(void * arg) {
 
         case GOLOWASCH:
             {
-            /*syn_aux_params = (double *) malloc (sizeof(double) * 8);
-            syn_aux_params[SC_DT] = args->dt;
-            syn_aux_params[SC_OLD] = 0;
-            syn_aux_params[SC_BT] = 1;
-            syn_aux_params[SC_MS_K1] = args->syn_gradual_k1;//1;
-            syn_aux_params[SC_MS_K2] = args->syn_gradual_k2;//0.03;
-            syn_aux_params[SC_VFAST] = args->syn_gradual_vfast/100;
-            syn_aux_params[SC_VSLOW] = args->syn_gradual_vslow/100;*/
-
-            syn_gl_args * aux_syn_args_live_to_model = (syn_gl_args *) args->syn_args_live_to_model;
-            syn_gl_args * aux_syn_args_model_to_live = (syn_gl_args *) args->syn_args_model_to_live;
-
-            ini_golowasch(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model, args->dt, period_disp_real, min_abs_real, max_real);
-            ini_golowasch(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live, args->dt, period_disp_real, min_abs_model, max_model);
-
-            g_real_to_virtual = aux_syn_args_live_to_model->g;
-            g_virtual_to_real = aux_syn_args_model_to_live->g;
+            ini_golowasch(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model, args->dt, min_abs_real, max_real);
+            ini_golowasch(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live, args->dt, min_abs_model, max_model);
 
             /*printf("Antes rvf%p\n", &g_real_to_virtual[GL_G_FAST]);
             printf("Antes rvs%p\n", &g_real_to_virtual[GL_G_SLOW]);
@@ -280,18 +255,18 @@ void * rt_thread(void * arg) {
             if(args->calibration == 7){
                 cal_struct->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
                 cal_struct->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
-                copy_1d_array(g_virtual_to_real, cal_struct->g_virtual_to_real, 2);
-                copy_1d_array(g_real_to_virtual, cal_struct->g_real_to_virtual, 2);
+                copy_1d_array(syn_aux_params_model_to_live.g, cal_struct->g_virtual_to_real, 2);
+                copy_1d_array(syn_aux_params_live_to_model.g, cal_struct->g_real_to_virtual, 2);
 
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", g_virtual_to_real[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", g_virtual_to_real[GL_G_SLOW]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", g_real_to_virtual[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", g_real_to_virtual[GL_G_SLOW]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", syn_aux_params_model_to_live.g[GL_G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", syn_aux_params_model_to_live.g[GL_G_SLOW]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", syn_aux_params_live_to_model.g[GL_G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", syn_aux_params_live_to_model.g[GL_G_SLOW]);
 
-                g_virtual_to_real[GL_G_FAST] = 0.0;
-                g_virtual_to_real[GL_G_SLOW] = 0.0;
-                g_real_to_virtual[GL_G_FAST] = 0.0;
-                g_real_to_virtual[GL_G_SLOW] = 0.0;
+                syn_aux_params_model_to_live.g[GL_G_FAST] = 0.0;
+                syn_aux_params_model_to_live.g[GL_G_SLOW] = 0.0;
+                syn_aux_params_live_to_model.g[GL_G_FAST] = 0.0;
+                syn_aux_params_live_to_model.g[GL_G_SLOW] = 0.0;
 
                 infinite_loop = TRUE;
             }
@@ -330,7 +305,7 @@ void * rt_thread(void * arg) {
 
     //VARIABLES
 
-    double sum_ecm;
+    double sum_ecm = 0.0;
     int t_obs=5;
     int sum_ecm_cont=0;
     double res_phase = 0;
@@ -395,8 +370,8 @@ void * rt_thread(void * arg) {
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
 
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(syn_aux_params_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(syn_aux_params_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 
@@ -482,8 +457,8 @@ void * rt_thread(void * arg) {
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
 
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(syn_aux_params_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(syn_aux_params_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 
@@ -563,20 +538,12 @@ void * rt_thread(void * arg) {
             msg.v_model_scaled = args->vars[X] * scale_virtual_to_real + offset_virtual_to_real;
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
-            /*SINAPSIS Y CORRIENTE EN VIRTUAL TO REAL*/
-            //printf("g_f = %f // g_s = %f\n", g_virtual_to_real[GL_G_FAST], g_virtual_to_real[GL_G_SLOW]);
-
-            /*if (args->type_syn == CHEMICAL) {
-                syn_aux_params[SC_MIN] = min_abs_model * scale_virtual_to_real + offset_virtual_to_real;
-                syn_aux_params[SC_MAX] = max_model * scale_virtual_to_real + offset_virtual_to_real;
-            }*/
-
 
             /* Synapse from model to live scaled to live range */
-            syn_aux_params_model_to_live[SYN_CALIBRATE] = SYN_CALIB_PRE;
-            args->syn(ret_values[X], args->vars[X], g_virtual_to_real, &c_model, syn_aux_params_model_to_live);
+            syn_aux_params_model_to_live.calibrate = SYN_CALIB_PRE;
+            args->syn(ret_values[X], args->vars[X], &syn_aux_params_model_to_live, &c_model);
             msg.c_model = -c_model;
-            msg.v_model = syn_aux_params_model_to_live[GL_MS_OLD]; //ms de la sinapsis
+            msg.v_model = ((syn_gl_params*)(syn_aux_params_model_to_live.type_params))->ms_old; //ms de la sinapsis
             //printf("c_model = %f\n", msg.c_model);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
@@ -591,8 +558,6 @@ void * rt_thread(void * arg) {
             if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
 
             /*GUARDAR INFO*/
-            /*msg.g_real_to_virtual = g_real_to_virtual;
-            msg.g_virtual_to_real = g_virtual_to_real;*/
             msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
             msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
             copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
@@ -600,8 +565,8 @@ void * rt_thread(void * arg) {
 
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(syn_aux_params_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(syn_aux_params_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before writing to device");
 
@@ -615,7 +580,7 @@ void * rt_thread(void * arg) {
             /*CALIBRACION*/
             end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
-                                &msg, g_virtual_to_real, g_real_to_virtual,
+                                &msg, syn_aux_params_model_to_live.g, syn_aux_params_live_to_model.g,
                                 lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
                                 syn_aux_params, ini_k1, ini_k2
                                 );
@@ -653,37 +618,15 @@ void * rt_thread(void * arg) {
             }
 
             /* Synapse from live to model scaled to live range */
-            syn_aux_params_live_to_model[SYN_CALIBRATE] = SYN_CALIB_POST;
-            args->syn(args->vars[0], ret_values[0], g_real_to_virtual, &(msg.c_real), syn_aux_params_live_to_model);
+            syn_aux_params_live_to_model.calibrate = SYN_CALIB_POST;
+            args->syn(args->vars[0], ret_values[0], &syn_aux_params_live_to_model, &(msg.c_real));
             msg.c_real = -msg.c_real;
         }
 
-        /*CALCULO CORRIENTE E INTEGRACIÓN DEL MODELO*/
-        /*if (args->type_syn == CHEMICAL) {
-            syn_aux_params[SC_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
-            syn_aux_params[SC_MAX] = max_real * scale_real_to_virtual + offset_real_to_virtual;
-            args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, g_real_to_virtual, &c_real, syn_aux_params);
-
-            syn_aux_params[SC_MIN] = min_abs_real;
-            syn_aux_params[SC_MAX] = max_real;
-            args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], g_real_to_virtual, &(msg.c_real), syn_aux_params);
-        } else if (args->type_syn == PRINZ) {
-            syn_aux_params[PR_AUX_K] = syn_aux_params[PR_AUX_K_Live_Model];
-
-            syn_aux_params[PR_AUX_MIN] = min_abs_real * scale_real_to_virtual + offset_real_to_virtual;
-            syn_aux_params[PR_AUX_MAX] = max_real * scale_real_to_virtual + offset_real_to_virtual;
-            args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, g_real_to_virtual, &c_real, syn_aux_params);
-
-            args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], g_real_to_virtual, &(msg.c_real), syn_aux_params);
-        } else {
-            args->syn(args->vars[0], ret_values[0] * scale_real_to_virtual + offset_real_to_virtual, g_real_to_virtual, &c_real, syn_aux_params);
-            args->syn(args->vars[0]*scale_virtual_to_real + offset_virtual_to_real, ret_values[0], g_real_to_virtual, &(msg.c_real), syn_aux_params);
-        }*/
-
 
         /* Synapse from live to model scaled to model range */
-        syn_aux_params_live_to_model[SYN_CALIBRATE] = SYN_CALIB_PRE;
-        args->syn(args->vars[0], ret_values[0], g_real_to_virtual, &c_real, syn_aux_params_live_to_model);
+        syn_aux_params_live_to_model.calibrate = SYN_CALIB_PRE;
+        args->syn(args->vars[0], ret_values[0], &syn_aux_params_live_to_model, &c_real);
 
         args->func(args->dim, args->dt, args->vars, args->params, c_real);
     }
@@ -736,9 +679,8 @@ void * rt_thread(void * arg) {
 
             msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
             msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-
-            copy_1d_array(g_real_to_virtual, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(g_virtual_to_real, msg.g_virtual_to_real, msg.n_g);
+            copy_1d_array(syn_aux_params_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
+            copy_1d_array(syn_aux_params_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
             if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
 

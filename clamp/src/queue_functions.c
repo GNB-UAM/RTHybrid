@@ -79,7 +79,7 @@ int open_queue (void ** msqid) {
     int size = integer_length(getpid()) + 10;
 	char name[size];
 
-    sprintf(name, "/rt_queue%d\0", getpid());
+    sprintf(name, "/rt_queue%d", getpid());
 
 	attrp = NULL;
     attr.mq_maxmsg = 2000;
@@ -130,7 +130,7 @@ int close_queue (void ** msqid) {
 	int size = 11 + sizeof(pid_t);
 	char name[size];
 
-	sprintf(name, "/rt_queue%d\0", getpid());
+    sprintf(name, "/rt_queue%d", getpid());
 
 	printf("Closing queue with id: %d\n", id);
 

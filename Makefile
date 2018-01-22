@@ -1129,75 +1129,6 @@ rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		../../Qt/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../Qt/5.9.1/gcc_64/include/QtGui/qicon.h \
 		ui_rthybrid.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QAction \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qaction.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QApplication \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QCheckBox \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qcheckbox.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QComboBox \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qcombobox.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qvalidator.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qslider.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qframe.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QDoubleSpinBox \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qspinbox.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QFrame \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QLabel \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QPlainTextEdit \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qplaintextedit.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qtextedit.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qtextdocument.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qtextoption.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qtextcursor.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qtextformat.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qpen.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qtextlayout.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qglyphrun.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qrawfont.h \
-		../../Qt/5.9.1/gcc_64/include/QtGui/qfontdatabase.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QPushButton \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QRadioButton \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qradiobutton.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QSpinBox \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QStackedWidget \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qstackedwidget.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QTextBrowser \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/qtextbrowser.h \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QVBoxLayout \
-		../../Qt/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
 		../../Qt/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
@@ -1220,6 +1151,8 @@ rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		../../Qt/5.9.1/gcc_64/include/QtGui/QMovie \
 		../../Qt/5.9.1/gcc_64/include/QtGui/qmovie.h \
 		../../Qt/5.9.1/gcc_64/include/QtGui/qimagereader.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreapplication.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qeventloop.h \
 		../../Qt/5.9.1/gcc_64/include/QtGui/qimageiohandler.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qplugin.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \

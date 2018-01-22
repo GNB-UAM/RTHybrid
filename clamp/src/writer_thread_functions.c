@@ -27,13 +27,11 @@ void writer_cleanup () {
 void * writer_thread(void * arg) {
     message msg;
     message msg2;
-    pthread_t id;
     writer_args * args;
     int i = 0, j;
     int s_points;
 
     args = arg;
-    id = pthread_self();
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Start");
 

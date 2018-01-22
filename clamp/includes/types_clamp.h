@@ -8,11 +8,18 @@ extern "C" {
 #include <syslog.h>
 #include "../../common/includes/types.h"
 
+typedef struct {
+    double * g;
+    double scale;
+    double offset;
+    unsigned int calibrate;
+    void * type_params;
+} syn_params;
 
 typedef struct {
     void (*func)(int, double, double*, double*, double);
     void (*ini)(double*, double*, double*);
-    void (*syn)(double, double, double*, double*, double*);
+    void (*syn)(double, double, syn_params*, double*);
     double * vars;
     double * params;
     int dim;

@@ -15,36 +15,36 @@ double exp2(double x) {
 
 /* INTEGRATION FUNCTIONS */
 
-void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double syn) {
+void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
     double k[6][dim];
     int j;
 
-    (*f)(vars, retorno, params, syn);
+    (*f)(vars, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[0][j] = dt * retorno[j];
         apoyo[j] = vars[j] + k[0][j] * 0.2;
     }
 
-    (*f)(apoyo, retorno, params, syn);
+    (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[1][j] = dt * retorno[j];
         apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.225;
     }
 
-    (*f)(apoyo, retorno, params, syn);
+    (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[2][j] = dt * retorno[j];
         apoyo[j] = vars[j] + k[0][j] * 0.3 - k[1][j] * 0.9 + k[2][j] * 1.2;
     }
 
-    (*f)(apoyo, retorno, params, syn);
+    (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[3][j] = dt * retorno[j];
         apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.675 - k[2][j] * 0.6 + k[2][j] * 0.75;
     }
 
-    (*f)(apoyo, retorno, params, syn);
+    (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[4][j] = dt * retorno[j];
         apoyo[j] = vars[j] 
@@ -55,7 +55,7 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
                 - k[4][j] * 0.864197530864197;
     }
 
-    (*f)(apoyo, retorno, params, syn);
+    (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[5][j] = dt * retorno[j];
         apoyo[j] = vars[j] 
@@ -94,46 +94,56 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
 
  /* ELECTRICAL */
 
- void ini_elec (double ** params, double scale, double offset, void * syn_args) {
-     syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args;
+ void ini_elec (syn_params * params, double scale, double offset, void * syn_args) {
+    syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args;
+    params->type_params = (syn_elec_params *) malloc (sizeof(syn_elec_params));
+    syn_elec_params * aux_elec_params = params->type_params;
 
-    *params = (double *) malloc (sizeof(double) * 4);
-    (*params)[SYN_SCALE] = scale;
-    (*params)[SYN_OFFSET] = offset;
-    (*params)[SYN_CALIBRATE] = SYN_CALIB_PRE;
-    (*params)[ELEC_ANTI] = aux_syn_args->anti;
+    params->scale = scale;
+    params->offset = offset;
+    params->calibrate = SYN_CALIB_PRE;
+    aux_elec_params->anti = aux_syn_args->anti;
+
+    params->g = (double *) malloc (sizeof(ELEC_N_G));
+    copy_1d_array(aux_syn_args->g, params->g, ELEC_N_G);
+
  }
 
-void elec_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-	if (aux[SYN_CALIBRATE] == SYN_CALIB_PRE) {
-		v_pre = v_pre * aux[SYN_SCALE] + aux[SYN_OFFSET];
-	} else if (aux[SYN_CALIBRATE] == SYN_CALIB_POST) {
-        v_post = (v_post - aux[SYN_OFFSET]) / aux[SYN_SCALE];
+void elec_syn (double v_post, double v_pre, syn_params * params, double * ret) {
+    syn_elec_params * aux_elec_params = params->type_params;
+
+    if (params->calibrate == SYN_CALIB_PRE) {
+        v_pre = v_pre * params->scale + params->offset;
+    } else if (params->calibrate == SYN_CALIB_POST) {
+        v_post = (v_post - params->offset) / params->scale;
 	}
 
-    *ret = aux[ELEC_ANTI] * (g[ELEC_G] * (v_post - v_pre));
+    *ret = aux_elec_params->anti * (params->g[ELEC_G] * (v_post - v_pre));
     return;
 }
 
 
 /* GOLOWASCH */
 
-void ini_golowasch (double ** params, double scale, double offset, void * syn_args, double dt, double period, double min, double max) {
+void ini_golowasch (syn_params * params, double scale, double offset, void * syn_args, double dt, double min, double max) {
     syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args;
+    params->type_params = (syn_gl_params *) malloc (sizeof(syn_gl_params));
+    syn_gl_params * aux_gl_params = params->type_params;
 
-    *params = (double *) malloc (sizeof(double) * 12);
-    (*params)[SYN_SCALE] = scale;
-    (*params)[SYN_OFFSET] = offset;
-    (*params)[SYN_CALIBRATE] = SYN_CALIB_PRE;
-    (*params)[GL_MIN] = min;
-    (*params)[GL_MAX] = max;
-    (*params)[GL_K1] = aux_syn_args->k1;
-    (*params)[GL_K2] = aux_syn_args->k2;
-    (*params)[GL_DT] = dt;
-    (*params)[GL_VFAST] = aux_syn_args->v_fast/100.0;
-    (*params)[GL_VSLOW] = aux_syn_args->v_slow/100.0;
-    (*params)[GL_PERIOD] = period;
-    (*params)[GL_MS_OLD] = 0.0;
+    params->scale = scale;
+    params->offset = offset;
+    params->calibrate = SYN_CALIB_PRE;
+    aux_gl_params->min = min;
+    aux_gl_params->max = max;
+    aux_gl_params->k1 = aux_syn_args->k1;
+    aux_gl_params->k2 = aux_syn_args->k2;
+    aux_gl_params->dt = dt;
+    aux_gl_params->v_fast = aux_syn_args->v_fast/100.0;
+    aux_gl_params->v_slow = aux_syn_args->v_slow/100.0;
+    aux_gl_params->ms_old = 0.0;
+
+    params->g = (double *) malloc (sizeof(GL_N_G));
+    copy_1d_array(aux_syn_args->g, params->g, GL_N_G);
 
     return;
 }
@@ -154,23 +164,15 @@ void ms_f (double * vars, double * ret, double * params, double v_pre) {
 }
     
 
-double golowasch_fast (double v_post, double v_pre, double g, double * aux) {
+double golowasch_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
 	double e_syn;
 	double v_f;
 	double s_f;
 
-    double v_range = aux[GL_MAX] - aux[GL_MIN];
+    double v_range = params->max - params->min;
 
-	/*if(aux[SC_MIN] > 0) {
-		e_syn = aux[SC_MIN] - v_range * 0.153846;
-		v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
-	} else {
-		e_syn = aux[SC_MIN] - v_range * 0.153846;
-		v_f = aux[SC_MIN] + v_range * aux[SC_VFAST];
-	}*/
-
-    e_syn = aux[GL_MIN] - v_range * 0.153846;
-    v_f = aux[GL_MIN] + v_range * aux[GL_VFAST];
+    e_syn = params->min - v_range * 0.153846;
+    v_f = params->min + v_range * params->v_fast;
 
     s_f = 1.0 / (v_range * 0.05);
 
@@ -179,35 +181,27 @@ double golowasch_fast (double v_post, double v_pre, double g, double * aux) {
     return (g * (v_post - e_syn)) / (1.0 + exp(s_f * (v_f - v_pre)));
 }
 
-double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
-    double vars[1] = {aux[GL_MS_OLD]};
-    double params[4];
+double golowasch_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
+    double vars[1] = {params->ms_old};
+    double params_ms[4];
     double e_syn;
     double ret;
 
-    double v_range = aux[GL_MAX] - aux[GL_MIN];
+    double v_range = params->max - params->min;
 
-	/*if(aux[SC_MIN] > 0) {
-		e_syn = aux[SC_MIN] - v_range * 0.153846;
-		params[MS_VS] = aux[SC_MIN] + v_range * aux[SC_VSLOW];
-	} else {
-		e_syn = aux[SC_MIN] + aux[SC_MIN] * 0.153846;
-		params[MS_VS] = aux[SC_MIN] + v_range;
-	}*/
+    e_syn = params->min - v_range * 0.153846;
+    params_ms[MS_VS] = params->min + v_range * params->v_slow;
 
-    e_syn = aux[GL_MIN] - v_range * 0.153846;
-    params[MS_VS] = aux[GL_MIN] + v_range * aux[GL_VSLOW];
-
-    params[MS_K1] = aux[GL_K1];//1;
-    params[MS_K2] = aux[GL_K2];//0.03;
-    params[MS_SS] = 1.0 / (v_range * 0.01);
+    params_ms[MS_K1] = params->k1;
+    params_ms[MS_K2] = params->k2;
+    params_ms[MS_SS] = 1.0 / (v_range * 0.01);
 
     //printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
 
-    ret = g * aux[GL_MS_OLD] * (v_post - e_syn);
+    ret = g * params->ms_old * (v_post - e_syn);
 
-    runge_kutta_6(&ms_f, 1, aux[GL_DT], vars, params, v_pre);
-    aux[GL_MS_OLD] = vars[0];
+    runge_kutta_6(&ms_f, 1, params->dt, vars, params_ms, v_pre);
+    params->ms_old = vars[0];
     //printf("%f\n\n", aux[GL_MS_OLD]);
 
     //printf("\nv_post %f esyn %f old %f\n", v_post, e_syn, aux[GL_MS_OLD]);
@@ -217,35 +211,36 @@ double golowasch_slow (double v_post, double v_pre, double g, double * aux) {
     return ret;
 }
 
-void golowasch_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
+void golowasch_syn (double v_post, double v_pre, syn_params * params, double * ret) {
     double min, max;
+    syn_gl_params * aux_gl_params = params->type_params;
 
-    min = aux[GL_MIN];
-    max = aux[GL_MAX];
+    min = aux_gl_params->min;
+    max = aux_gl_params->max;
     *ret = 0.0;
 
-	if (aux[SYN_CALIBRATE] == SYN_CALIB_PRE) {
-		v_pre = v_pre * aux[SYN_SCALE] + aux[SYN_OFFSET];
-		aux[GL_MIN] = aux[GL_MIN] * aux[SYN_SCALE] + aux[SYN_OFFSET];
-		aux[GL_MAX] = aux[GL_MAX] * aux[SYN_SCALE] + aux[SYN_OFFSET];
-	} else if (aux[SYN_CALIBRATE] == SYN_CALIB_POST) {
-        v_post = (v_post - aux[SYN_OFFSET]) / aux[SYN_SCALE];
+    if (params->calibrate == SYN_CALIB_PRE) {
+        v_pre = v_pre * params->scale + params->offset;
+        aux_gl_params->min = aux_gl_params->min * params->scale + params->offset;
+        aux_gl_params->max = aux_gl_params->max * params->scale + params->offset;
+    } else if (params->calibrate == SYN_CALIB_POST) {
+        v_post = (v_post - params->offset) / params->scale;
 	}
 
-    if (g[GL_G_FAST] != 0.0) {
-        *ret += golowasch_fast(v_post, v_pre, g[GL_G_FAST], aux);
+    if (params->g[GL_G_FAST] != 0.0) {
+        *ret += golowasch_fast(v_post, v_pre, params->g[GL_G_FAST], aux_gl_params);
     }
 
-    if (g[GL_G_SLOW] != 0.0) {
-        *ret += golowasch_slow(v_post, v_pre, g[GL_G_SLOW], aux);
+    if (params->g[GL_G_SLOW] != 0.0) {
+        *ret += golowasch_slow(v_post, v_pre, params->g[GL_G_SLOW], aux_gl_params);
 	}
 
     //printf("g_f = %f // g_s = %f\n", g[G_FAST], g[G_SLOW]);
     //printf("v_fast %f\n", chem_fast(v_post, v_pre, &(g[G_FAST]), aux));
     //printf("v_slow %f\n", chem_slow(v_post, &(g[G_SLOW]), aux));
 
-    aux[GL_MIN] = min;
-    aux[GL_MAX] = max;
+    aux_gl_params->min = min;
+    aux_gl_params->max = max;
 
     return;
 }
@@ -269,11 +264,11 @@ void ini_prinz (double ** params, double scale, double offset, double k, double 
     return;
 }
 
-void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
+void prinz_syn_f (double * vars, double * ret, double * params, double v_pre) {
 	double tau;
 	double s_pre;
 
-	s_pre = 1 / (1 + exp((params[PR_AUX_VTH] - params[PR_AUX_VPRE]) / params[PR_AUX_DELTA]));
+    s_pre = 1 / (1 + exp((params[PR_AUX_VTH] - v_pre) / params[PR_AUX_DELTA]));
 
 	tau = (1 - s_pre) / params[PR_AUX_K];
 
@@ -287,8 +282,8 @@ void prinz_syn_f (double * vars, double * ret, double * params, double syn) {
 
 
 
-void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * aux) {
-	double vars[1] = {aux[PR_S_OLD]};
+void prinz_syn (double v_post, double v_pre, syn_params * params, double * ret) {
+    /*double vars[1] = {aux[PR_S_OLD]};
     double params[4];
     double v_range;
     double e_syn;
@@ -309,16 +304,11 @@ void prinz_syn (double v_post, double v_pre, double * g, double * ret, double * 
 	params[PR_AUX_VTH] = aux[PR_MIN] + v_range * aux[PR_VTH];
 	params[PR_AUX_K] = aux[PR_K];
 
-	/*syslog(LOG_INFO, "min %f max %f range %f esyn %f vpre %f s_old %f delta %f vth %f k %f\n", aux[PR_AUX_MIN], 
-		aux[PR_AUX_MAX], v_range, e_syn, params[PR_PARAM_V_PRE], vars[0], params[PR_PARAM_DELTA], 
-		params[PR_PARAM_V_TH], params[PR_PARAM_K]);*/
 
     runge_kutta_6 (&prinz_syn_f, 1, aux[PR_DT], vars, params, 0);
     aux[PR_S_OLD] = vars[0];
 
-    *ret = (*g) * aux[PR_S_OLD] * (v_post - e_syn);
-
-    //syslog(LOG_INFO, "ret %f g %f s %f\n", *ret, *g, aux[PR_AUX_S_OLD]);
+    *ret = (*g) * aux[PR_S_OLD] * (v_post - e_syn);*/
 
     return;
 }

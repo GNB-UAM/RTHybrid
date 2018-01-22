@@ -182,7 +182,7 @@ int write_single_data_comedi (Daq_session * session, comedi_range * range_info, 
 	lsampl_t comedi_value;
 
 	comedi_value = comedi_from_phys(data, range_info, maxdata);
-	if (comedi_value < 0 || comedi_value > maxdata) {
+    if (comedi_value > maxdata) {
 		comedi_perror("write");
 		return -1;
 	}
@@ -214,7 +214,6 @@ int daq_read (Daq_session * session, int n_channels, int * channels, double * re
 
 int daq_write (Daq_session * session, int n_channels, int * channels, double * values) {
 	int i;
-	double aux;
 	comedi_range * range_info;
 	lsampl_t maxdata;
 

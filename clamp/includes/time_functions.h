@@ -1,4 +1,11 @@
-#define _GNU_SOURCE
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifndef TIME_FUNCTIONS_H
+#define TIME_FUNCTIONS_H
+
+//#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,3 +28,9 @@ void ts_substraction (struct timespec * start, struct timespec * stop, struct ti
 void ts_assign (struct timespec * ts1,  struct timespec ts2);
 
 void ts_add_time (struct timespec * ts, int sec, int nsec);
+
+#endif // TIME_FUNCTIONS_H
+
+#ifdef __cplusplus
+}
+#endif
