@@ -70,37 +70,9 @@ int clamp (clamp_args * args) {
 
 
     /*Calchange*/
-    if (args->mode_auto_cal == 1){
-		//Electrica en fase - ecm y %
-        args->synapse=0;
-        //args->anti=1;
-    }else if(args->mode_auto_cal == 2){
-		//Electrica en fase - ecm y slope
-        args->synapse=0;
-        //args->anti=1;
-    }else if(args->mode_auto_cal == 3){
-		//Electrica en fase - ecm y var
-        args->synapse=0;
-        //args->anti=1;
-    }else if(args->mode_auto_cal == 4){
-		//Electrica en fase - fase y var
-        args->synapse=0;
-        //args->anti=1;
-    }else if(args->mode_auto_cal == 5){
-		//Electrica en anti - fase y var
-        args->synapse=0;
-        //args->anti = -1;
-        args->mode_auto_cal = 4;
-    }else if(args->mode_auto_cal == 6){
-		//variar mu de hr
-        args->model=1;
-        //args->anti=1;
-    }else if(args->mode_auto_cal == 7){
-        //args->anti=1;
+    if (args->mode_auto_cal == 7){
         r_args.step_v_to_r = args->step_v_to_r;
         r_args.step_r_to_v = args->step_r_to_v;
-    }else if(args->mode_auto_cal == 8){
-        //args->anti=1;
     }
 
 	if(!c_a){

@@ -152,7 +152,7 @@ class DataStruct2():
 		self.extra = data[:,3]	
 
 		self.data_extra = []
-		
+
 		if (int(args["jump"])==0):
 			for j in range(4, 4+self.n_extra_data):
 				self.data_extra.append(data[:, j])

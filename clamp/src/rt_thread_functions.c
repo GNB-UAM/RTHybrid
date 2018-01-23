@@ -244,18 +244,6 @@ void * rt_thread(void * arg) {
             ini_golowasch(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model, args->dt, min_abs_real, max_real);
             ini_golowasch(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live, args->dt, min_abs_model, max_model);
 
-            /*printf("Antes rvf%p\n", &g_real_to_virtual[GL_G_FAST]);
-            printf("Antes rvs%p\n", &g_real_to_virtual[GL_G_SLOW]);
-            printf("Antes vrf%p\n", &g_virtual_to_real[GL_G_FAST]);
-            printf("Antes vrs%p\n", &g_virtual_to_real[GL_G_SLOW]);*/
-
-            /*if (args->model==0){
-                g_virtual_to_real[GL_G_FAST] = 0.0;
-                g_virtual_to_real[GL_G_SLOW] = 0.02;
-                g_real_to_virtual[GL_G_FAST] = 0.0;
-                g_real_to_virtual[GL_G_SLOW] = 0.04;
-
-            }*/
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration mode = %i", args->calibration);
 
@@ -458,7 +446,7 @@ void * rt_thread(void * arg) {
                     lectura_t[cont_lectura]=msg.t_absol;
                     cont_lectura++;
                 }else{ /*Calchange*/
-                    //calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, args->anti);
+                    calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, syn_aux_params_live_to_model);
                     msg.ecm = res_phase;
                     cont_lectura=0;
                 }
@@ -590,11 +578,16 @@ void * rt_thread(void * arg) {
             }
 
             /*CALIBRACION*/ /*Calchange*/
-            end_loop = auto_calibration(
+            /*end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
                                 &msg, syn_aux_params_model_to_live.g, syn_aux_params_live_to_model.g,
                                 lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
                                 syn_aux_params, ini_k1, ini_k2
+                                );*/
+            end_loop = auto_calibration(
+                                args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
+                                &msg, lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
+                                ini_k1, ini_k2, syn_aux_params_live_to_model, syn_aux_params_model_to_live
                                 );
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");

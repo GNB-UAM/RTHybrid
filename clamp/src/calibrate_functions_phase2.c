@@ -45,9 +45,20 @@ int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result)
 */
 double old_res_calc_phase = -1;
 
-int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, int antifase){
+int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, syn_params params){
 
 	double limit = 3; //ns
+    int antifase;
+
+    switch (params.syn_type) {
+        case ELECTRIC:
+            antifase = ((syn_elec_params*)params.type_params)->anti;
+            break;
+        case GOLOWASCH:
+        default:
+            antifase = 1;
+            break;
+    }
 
 	if (antifase==1){
 		limit=50;

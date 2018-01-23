@@ -96,6 +96,7 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
     params->type_params = (syn_elec_params *) malloc (sizeof(syn_elec_params));
     syn_elec_params * aux_elec_params = params->type_params;
 
+    params->syn_type = ELECTRIC;
     params->scale = scale;
     params->offset = offset;
     params->calibrate = SYN_CALIB_PRE;
@@ -127,6 +128,7 @@ void ini_golowasch (syn_params * params, double scale, double offset, void * syn
     params->type_params = (syn_gl_params *) malloc (sizeof(syn_gl_params));
     syn_gl_params * aux_gl_params = params->type_params;
 
+    params->syn_type = GOLOWASCH;
     params->scale = scale;
     params->offset = offset;
     params->calibrate = SYN_CALIB_PRE;

@@ -9,6 +9,7 @@ extern "C" {
 #include "../../common/includes/types.h"
 
 typedef struct {
+    unsigned int syn_type;
     double * g;
     double scale;
     double offset;

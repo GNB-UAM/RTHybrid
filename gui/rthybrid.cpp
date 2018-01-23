@@ -126,9 +126,8 @@ void RTHybrid::on_simulate_clicked()
                 syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
 
                 args_live_to_model_elec->g[ELEC_G] = ui->doubleSynElec_gEtoM->value();
-                args_live_to_model_elec->anti = 1;
-
                 args_model_to_live_elec->g[ELEC_G] = ui->doubleSynElec_gMtoE->value();
+
                 if (ui->checkAnti->isChecked()) {
                     args_model_to_live_elec->anti = -1;
                     args_live_to_model_elec->anti = -1;
@@ -195,62 +194,93 @@ void RTHybrid::on_simulate_clicked()
             default:
                 break;
         }
+    } else {
+        switch (autocalIndex) {
+
+            case 1: //Electric conductance MSE
+            {
+                args.synapse = ELECTRIC;
+
+                args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+                args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+
+                syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
+                syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
+
+                args_live_to_model_elec->g[ELEC_G] = 0.0;
+                args_model_to_live_elec->g[ELEC_G] = 0.0;
+
+                args_model_to_live_elec->anti = 1;
+                args_live_to_model_elec->anti = 1;
+
+                if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
+
+                    args.mode_auto_cal = 1;
+                    args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
+
+                } else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
+
+                    args.mode_auto_cal = 2;
+                    args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
+
+                }
+
+
+                break;
+            }
+
+            case 2: //Gradual MAP
+            {
+                args.mode_auto_cal = 7;
+                args.synapse = GOLOWASCH;
+
+                args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+                args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+
+                syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
+                syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
+
+                if (ui->gradualModelToExternalSelect->currentIndex() == GL_G_FAST){
+                    args_model_to_live_gl->g[GL_G_FAST] = ui->chemMap_MaxToExternal->value();
+                    args_model_to_live_gl->g[GL_G_SLOW] = 0.0;
+                }else{
+                    args_model_to_live_gl->g[GL_G_FAST] = 0.0;
+                    args_model_to_live_gl->g[GL_G_SLOW] = ui->chemMap_MaxToExternal->value();
+                }
+
+                if (ui->gradualExternalToModelSelect->currentIndex() == GL_G_FAST){
+                    args_live_to_model_gl->g[GL_G_FAST] = ui->chemMap_MaxToModel->value();
+                    args_live_to_model_gl->g[GL_G_SLOW] = 0.0;
+                }else{
+                    args_live_to_model_gl->g[GL_G_FAST] = 0.0;
+                    args_live_to_model_gl->g[GL_G_SLOW] = ui->chemMap_MaxToModel->value();
+                }
+
+                args.step_v_to_r = ui->chemMap_StepToExternal->value();
+                args.step_r_to_v = ui->chemMap_StepToModel->value();
+
+
+                args_live_to_model_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
+                args_live_to_model_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
+                args_live_to_model_gl->k1 = ui->doubleSynGrad_k1_map->value();
+                args_live_to_model_gl->k2 = ui->doubleSynGrad_k2_map->value();
+
+                args_model_to_live_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
+                args_model_to_live_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
+                args_model_to_live_gl->k1 = ui->doubleSynGrad_k1_map->value();
+                args_model_to_live_gl->k2 = ui->doubleSynGrad_k2_map->value();
+
+                break;
+            }
+
+            default:
+                args.mode_auto_cal = 0;
+                break;
+        }
     }
 
 
-    switch (autocalIndex) {
 
-        case 1: //Electric conductance MSE
-            if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
-                args.mode_auto_cal = 1;
-                args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
-                args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
-                args.g_virtual_to_real[0] = 0;
-                args.g_real_to_virtual[0] = 0;
-
-            }else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
-                args.mode_auto_cal = 2;
-                args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
-                args.g_virtual_to_real[0] = 0;
-                args.g_real_to_virtual[0] = 0; 
-            }
-            break;
-
-        case 2: //Gradual MAP
-
-            /*args.mode_auto_cal = 7;
-            args.synapse = GOLOWASCH;
-
-            args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-            args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
-
-            if (ui->gradualModelToExternalSelect->currentIndex() == G_FAST){
-                args.g_virtual_to_real[0] = ui->chemMap_MaxToExternal->value();
-            }else{
-                args.g_virtual_to_real[0] = ui->chemMap_MaxToExternal->value();
-            }
-
-            if (ui->gradualExternalToModelSelect->currentIndex() == G_FAST){
-                args.g_real_to_virtual[0] = ui->chemMap_MaxToModel->value();
-            }else{
-                args.g_real_to_virtual[0] = ui->chemMap_MaxToModel->value();
-            }
-
-            args.step_v_to_r = ui->chemMap_StepToExternal->value();
-            args.step_r_to_v = ui->chemMap_StepToModel->value();
-
-            args.syn_gradual_k1 = ui->doubleSynGrad_k1_map->value();
-            args.syn_gradual_k2 = ui->doubleSynGrad_k2_map->value();
-            args.syn_gradual_vfast = ui->doubleSynGrad_vfast_map->value();
-            args.syn_gradual_vslow = ui->doubleSynGrad_vslow_map->value();*/
-
-            break;
-
-        default:
-            args.mode_auto_cal = 0;
-            break;
-    }
 
     movie->start();
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");

@@ -16,16 +16,15 @@ int auto_calibration(
 					double rafaga_viva_pts,
 					double * ecm_result,
 					message * msg,
-					double * g_virtual_to_real,
-					double * g_real_to_virtual,
                     double * lectura_a,
                     double * lectura_b,
                     double * lectura_t,
                     int size_lectura,
                     int cont_send,
-                    double * syn_aux_params,
                     double ini_k1,
-                    double ini_k2
+                    double ini_k2,
+                    syn_params syn_params_live_to_model,
+                    syn_params syn_params_model_to_live
 					){
 
 	if(args->calibration==1 || args->calibration==2 || args->calibration==3){
@@ -49,12 +48,12 @@ int auto_calibration(
             }
 
             if (is_syn==TRUE){
-                printf("CALIBRATION END: g=%f\n", g_virtual_to_real[0]);
+                printf("CALIBRATION END: g=%f\n", syn_params_model_to_live.g[0]);
                 cal_on=FALSE;
             }else if(is_syn==FALSE && cal_on==TRUE){
                 //printf("%f\n", g_virtual_to_real[0]);
-                change_g(&g_virtual_to_real[0]);
-                change_g(&g_real_to_virtual[0]);
+                change_g(&syn_params_model_to_live.g[0]);
+                change_g(&syn_params_live_to_model.g[0]);
             }
         }
 
@@ -78,11 +77,11 @@ int auto_calibration(
             printf("var = %f\n", msg->ecm);
             if(cal_on){
                 if (is_syn==TRUE){
-                    printf("CALIBRATION END: g=%f\n", g_virtual_to_real[0]);
+                    printf("CALIBRATION END: g=%f\n", syn_params_model_to_live.g[0]);
                     cal_on=FALSE;
                 }else if (is_syn==FALSE){
-                    change_g(&g_virtual_to_real[0]);
-                    change_g(&g_real_to_virtual[0]);
+                    change_g(&syn_params_model_to_live.g[0]);
+                    change_g(&syn_params_live_to_model.g[0]);
                 } 
             }
             aux_counter=0;
@@ -109,25 +108,25 @@ int auto_calibration(
                 if (cs->g_real_to_virtual[GL_G_FAST]!=0){
                 	//printf("Hacia modelo es rapida\n");
                     g_max_r_to_v = cs->g_real_to_virtual[GL_G_FAST];
-                    g_r_to_v = &g_real_to_virtual[GL_G_FAST];
+                    g_r_to_v = &syn_params_live_to_model.g[GL_G_FAST];
                     //printf("Después rvf%p\n", g_r_to_v);
 
                 }else{
                 	//printf("Hacia modelo es lenta\n");
                     g_max_r_to_v = cs->g_real_to_virtual[GL_G_SLOW];
-                    g_r_to_v = &g_real_to_virtual[GL_G_SLOW];
+                    g_r_to_v = &syn_params_live_to_model.g[GL_G_SLOW];
                     //printf("Después rvs%p\n", g_r_to_v);
                 }
 
                 if (cs->g_virtual_to_real[GL_G_FAST]!=0){
                     //printf("Hacia viva es rapida\n");
                     g_max_v_to_r = cs->g_virtual_to_real[GL_G_FAST];
-                    g_v_to_r = &g_virtual_to_real[GL_G_FAST];
+                    g_v_to_r = &syn_params_model_to_live.g[GL_G_FAST];
                     //printf("Después vrf%p\n", g_v_to_r);
                 }else{
                 	//printf("Hacia viva es lenta\n");
                     g_max_v_to_r = cs->g_virtual_to_real[GL_G_SLOW];
-                    g_v_to_r = &g_virtual_to_real[GL_G_SLOW];
+                    g_v_to_r = &syn_params_model_to_live.g[GL_G_SLOW];
                     //printf("Después vrs%p\n", g_v_to_r);
                 }
         }
@@ -162,35 +161,39 @@ int auto_calibration(
         }
 
     }else if(args->calibration==8){
-                if (cal_on==TRUE){
-                    /*Los ini se cambian en rt thread*/
-                    double paso_k1 = 0.3;
-                    double paso_k2 = 0.02;
-                    double max_k1 = 1.6;
-                    double max_k2 = 0.1;
+        syn_gl_params * aux_gl = syn_params_model_to_live.type_params;
 
-                    //Mapa de k 
-                    aux_counter++;
-                    if (aux_counter>=10000*10){ //Cada 10s hay cambio
-                        aux_counter=0;
-                        syn_aux_params[SC_MS_K1]+=paso_k1;
-                        if(syn_aux_params[SC_MS_K1]>=max_k1){
-                            syn_aux_params[SC_MS_K1]=ini_k1;
-                            syn_aux_params[SC_MS_K2]+=paso_k2;
-                            if( syn_aux_params[SC_MS_K2]>=max_k2){
-                                printf("FIN\n");
-                                printf("Apuntar: %d\n", cont_send);
-                                syn_aux_params[SC_MS_K1]=0;
-                                syn_aux_params[SC_MS_K2]=0;
-                                cal_on=FALSE;
-                            }
-                        }
+        if (cal_on==TRUE){
+            /*Los ini se cambian en rt thread*/
+            double paso_k1 = 0.3;
+            double paso_k2 = 0.02;
+            double max_k1 = 1.6;
+            double max_k2 = 0.1;
+
+            //Mapa de k
+            aux_counter++;
+            if (aux_counter>=10000*10){ //Cada 10s hay cambio
+                aux_counter=0;
+                aux_gl->k1 += paso_k1;
+
+                if(aux_gl->k1 >= max_k1){
+                    aux_gl->k1 = ini_k1;
+                    aux_gl->k2 += paso_k2;
+
+                    if(aux_gl->k2 >= max_k2){
+                        printf("FIN\n");
+                        printf("Apuntar: %d\n", cont_send);
+                        aux_gl->k1 = 0.0;
+                        aux_gl->k2 = 0.0;
+                        cal_on=FALSE;
+                        return TRUE;
                     }
                 }
-                msg->ecm=syn_aux_params[SC_MS_K1];
-                msg->extra=syn_aux_params[SC_MS_K2];
-
             }
+        }
+        msg->ecm = aux_gl->k1;
+        msg->extra = aux_gl->k2;
+    }
     return FALSE;
 
 }

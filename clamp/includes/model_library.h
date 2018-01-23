@@ -139,7 +139,6 @@ typedef struct {
     double v_slow;
     double ms_old;
     double dt;
-    double period;
 } syn_gl_params;
 
 

@@ -23,14 +23,14 @@ def plot_autocal(data1, data2):
 
 
 def auto_plot_1(data1, data2):
-	ecm = data2.data_extra[0]
+	ecm = data2.ecm
 
 	#Extracción de la media inicial del ecm
-	segundos_ini = 5
+	mili_segundos_ini = 500
 	aux=[]
 	for i in range(len(ecm)):
 		if i>0:
-			if ecm[i]!=ecm[i-1] and data1.time[i]<segundos_ini:
+			if ecm[i]!=ecm[i-1] and data1.time[i]<mili_segundos_ini:
 				aux.append(ecm[i])
 	ini = sum(aux) / len (aux)
 	
@@ -39,7 +39,7 @@ def auto_plot_1(data1, data2):
 
 	#Voltaje
 	axarr[0].plot(data1.time, data1.v_model_scaled, label="Model neuron", linewidth=0.4)
-	axarr[0].plot(data1.time, data1.v_live, label="Real neuron", linewidth=0.4)
+	axarr[0].plot(data1.time, data1.data_in[0], label="Real neuron", linewidth=0.4)
 	axarr[0].set_title("Voltage")
 	axarr[0].legend(loc=1)
 
@@ -64,7 +64,7 @@ def auto_plot_6(data1, data2):
 	f, axarr = plt.subplots(3, sharex=True, figsize=(8.5,5.1))
 
 	axarr[0].plot(data1.time, data1.v_model_scaled, label="Model", linewidth=0.4)
-	axarr[0].plot(data1.time, data1.v_live, label="Live", linewidth=0.4)
+	axarr[0].plot(data1.time, data1.data_in[0], label="Live", linewidth=0.4)
 	axarr[0].set_title("Voltage")
 	axarr[0].legend()
 

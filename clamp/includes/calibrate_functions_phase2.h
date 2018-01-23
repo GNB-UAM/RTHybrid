@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include "types_clamp.h"
+#include "model_library.h"
 
 int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result);
 
-int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, int antifase);
+int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, syn_params params);
 
 void set_is_syn_by_percentage(double val_sin, double percentage);
 

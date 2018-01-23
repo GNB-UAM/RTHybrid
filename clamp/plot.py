@@ -18,7 +18,7 @@ funcs.plot_voltage(data1)
 funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)
 
-#autocal.plot_autocal(data1, data2)
+autocal.plot_autocal(data1, data2)
 
 
 
