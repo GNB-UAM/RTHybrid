@@ -156,7 +156,7 @@ void * writer_thread(void * arg) {
         if (i == 0) {
             fprintf(f1, "%d %d\n", msg.n_in_chan, msg.n_out_chan);
             //if(msg.autocal==1){
-            fprintf(f2, "%d %d\n", msg.autocal, msg.n_g);
+            fprintf(f2, "%d %d\n", msg.autocal, msg.n_g * 2);
             //}
 
             i++;
@@ -176,7 +176,7 @@ void * writer_thread(void * arg) {
         fprintf(f2, "%f %d", msg.t_absol, msg.i);
         fprintf(f2, " %f", msg.ecm);
         fprintf(f2, " %f", msg.extra);
-        for (j = 0; j < msg.n_g*2; ++j) {
+        for (j = 0; j < msg.n_g * 2; ++j) {
             fprintf(f2, " %f", msg.g_real_to_virtual[j]);
             fprintf(f2, " %f", msg.g_virtual_to_real[j]);
         }
