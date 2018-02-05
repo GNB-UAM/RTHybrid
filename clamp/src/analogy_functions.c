@@ -4,7 +4,8 @@
 struct _Daq_session {
     a4l_desc_t * device;
 	int idx_subd_in;
-	int idx_subd_out;     
+	int idx_subd_out;
+	int idx_subd_dio;     
 };
 
 int debug = 0;
@@ -55,6 +56,7 @@ int daq_create_session (void  ** device, Daq_session ** session_ptr) {
 
 	session->idx_subd_in  = session->device->idx_read_subd;
 	session->idx_subd_out  = 1;//session->device->idx_write_subd;
+	session->idx_subd_dio  = 2;//session->device->idx_write_subd;
 
 	if (session->idx_subd_in == -1) {
 		fprintf(stderr, "Analogy: no analog input subdevice available\n");
@@ -101,6 +103,32 @@ int daq_create_session (void  ** device, Daq_session ** session_ptr) {
 		fprintf(stderr,
 			"insn_write: wrong subdevice selected "
 			"(not an analog output)\n");
+		return ERR;
+	}
+
+
+	/* We must check that the subdevice is really an DIO one
+	   (in case, the subdevice index was set with the option -s) */
+	err = a4l_get_subdinfo(session->device, session->idx_subd_dio, &sbinfo);
+	if (err < 0) {
+		fprintf(stderr,
+			"insn_write: get_sbinfo(%d) failed (err = %d)\n",
+			session->idx_subd_dio, err);
+		return ERR;
+	}
+
+	if ((sbinfo->flags & A4L_SUBD_TYPES) != A4L_SUBD_DIO) {
+		fprintf(stderr,
+			"insn_write: wrong subdevice selected "
+			"(not a DIO)\n");
+		return ERR;
+	}
+
+
+	/* Configure dio channel as output */
+	err = a4l_config_subd (session->device, session->idx_subd_dio, A4L_INSN_CONFIG_DIO_OUTPUT, 0);
+	if (err < 0) {
+		fprintf(stderr, "dio: a4l_config_subd failed (err = %d)\n", err);
 		return ERR;
 	}
 
@@ -233,4 +261,71 @@ int write_single_data_analogy (Daq_session * session, int idx_chan, int value) {
 	}
 
 	return OK;
+}
+
+
+
+
+int daq_digital_write (Daq_session * session, int n_channels, int * channels, unsigned int * bits) {
+	int i;
+	unsigned int mask = 0x00000011;
+	unsigned int data = bits[0];
+	int err;
+
+
+    err = a4l_sync_dio(session->device, session->idx_subd_dio, mask, bits);
+
+	if (err < 0) {
+		fprintf(stderr, "Analogy digital write1: a4l_sync_dio failed (err=%d)\n", err);
+		return -1;
+	}
+
+	//sleep(2);
+
+	data = 0;
+	bits[0] = 0;
+	printf("%u ", bits[1]);
+
+	err = a4l_sync_dio(session->device, session->idx_subd_dio, mask, bits);
+
+	if (err < 0) {
+		fprintf(stderr, "Analogy digital write2: a4l_sync_dio failed (err=%d)\n", err);
+		return -1;
+	}
+
+	printf("%u\n", bits[1]);
+
+	//sleep(2);
+
+	/*comedi_data_write(session->device, session->dio_subdev, 0, 0, 0, 1);
+	comedi_data_write(session->device, session->dio_subdev, 0, 0, 0, 0);*/
+
+	/*comedi_dio_write(session->device, session->dio_subdev, 0, 1);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 0);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 1);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 0);*/
+
+    /*for (i = 0; i < n_channels; ++i) {
+    	range_info = get_range_info_comedi(session, COMEDI_OUTPUT, channels[i]);
+    	maxdata = get_maxdata_comedi(session, COMEDI_OUTPUT, channels[i]);
+
+    	comedi_value = comedi_from_phys(bits[i], range_info, maxdata);
+	    if (comedi_value > maxdata) {
+			comedi_perror("write");
+			return -1;
+		}
+
+
+
+
+		if ( comedi_data_write(session->device, session->dio_subdev, channels[i], 0, 0, bits[i]) != 1) {
+    		printf("Error writing from dio channel %d at iter %d\n", channels[i], i);
+    		return -1;
+    	}
+    }*/
+
+    return 0;
 }

@@ -32,7 +32,7 @@ SOURCES += \
     clamp/src/model_library.c \
     clamp/src/rt_thread_functions.c \
     clamp/src/writer_thread_functions.c \
-    clamp/src/comedi_functions.c \
+    clamp/src/analogy_functions.c \
     clamp/src/calibrate_functions_phase2_a.c \
     clamp/src/calibrate_functions_phase1.c \
     clamp/src/calibrate_functions_phase2.c \
