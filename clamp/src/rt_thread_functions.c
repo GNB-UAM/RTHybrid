@@ -331,12 +331,14 @@ void * rt_thread(void * arg) {
     }
 
 
+	if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before dio write");
     unsigned int bits[] = {0, 0}; 
     if (daq_digital_write(session, args->n_out_chan, args->out_channels, bits) != OK) {
         fprintf(stderr, "RT_THREAD: error writing to dio DAQ.\n");
         daq_close_device ((void**) &dsc);
         pthread_exit(NULL);
     }
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After dio write");
 
     /************************
     BEFORE CONTROL RECORD

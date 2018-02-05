@@ -124,6 +124,7 @@ int daq_create_session (void  ** device, Daq_session ** session_ptr) {
 		return ERR;
 	}
 
+	printf("Configure\n");
 
 	/* Configure dio channel as output */
 	err = a4l_config_subd (session->device, session->idx_subd_dio, A4L_INSN_CONFIG_DIO_OUTPUT, 0);
@@ -131,6 +132,8 @@ int daq_create_session (void  ** device, Daq_session ** session_ptr) {
 		fprintf(stderr, "dio: a4l_config_subd failed (err = %d)\n", err);
 		return ERR;
 	}
+
+	printf("end Configure\n");
 
 	return OK;
 }
@@ -215,6 +218,7 @@ int daq_write (Daq_session * session, int n_channels, int * channels, double * v
 
 
 	for (i = 0; i < n_channels; ++i) {
+		syslog(LOG_INFO, "WRITE: Write to channel %d", channels[i]);
 		err = a4l_get_rnginfo(session->device, session->idx_subd_out, channels[i], 1, &rnginfo);
 		if (err < 0) {
 			fprintf(stderr, "Analogy write: failed to recover range descriptor (err=%d)\n", err);
@@ -252,7 +256,6 @@ int daq_write (Daq_session * session, int n_channels, int * channels, double * v
 int write_single_data_analogy (Daq_session * session, int idx_chan, int value) {
 	int err = 0;
 
-
 	err = a4l_sync_write(session->device, session->idx_subd_out, CHAN(idx_chan), 0, &value, sizeof(double));
 
 	if (err < 0) {
@@ -268,32 +271,30 @@ int write_single_data_analogy (Daq_session * session, int idx_chan, int value) {
 
 int daq_digital_write (Daq_session * session, int n_channels, int * channels, unsigned int * bits) {
 	int i;
-	unsigned int mask = 0x00000011;
+	unsigned int mask = 0x00000001;
 	unsigned int data = bits[0];
 	int err;
 
 
-    err = a4l_sync_dio(session->device, session->idx_subd_dio, mask, bits);
+
+    err = a4l_sync_dio(session->device, session->idx_subd_dio, &mask, &data);
 
 	if (err < 0) {
 		fprintf(stderr, "Analogy digital write1: a4l_sync_dio failed (err=%d)\n", err);
 		return -1;
 	}
 
-	//sleep(2);
+
 
 	data = 0;
 	bits[0] = 0;
-	printf("%u ", bits[1]);
 
-	err = a4l_sync_dio(session->device, session->idx_subd_dio, mask, bits);
+	err = a4l_sync_dio(session->device, session->idx_subd_dio, &mask, &data);
 
 	if (err < 0) {
 		fprintf(stderr, "Analogy digital write2: a4l_sync_dio failed (err=%d)\n", err);
 		return -1;
 	}
-
-	printf("%u\n", bits[1]);
 
 	//sleep(2);
 
