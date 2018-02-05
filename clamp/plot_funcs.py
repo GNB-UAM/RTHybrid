@@ -13,8 +13,8 @@ def plot_voltage(data):
 
 	ax1 = plt.subplot(2, 1, 1)
 	plt.title("Hybrid connection")
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
-	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
+	#plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data.time, data.data_in[1], label="Real neuron", linewidth=0.8)
 	plt.ylabel("Voltage")
 	plt.legend()
 

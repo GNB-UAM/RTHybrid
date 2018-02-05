@@ -330,6 +330,14 @@ void * rt_thread(void * arg) {
         pthread_exit(NULL);
     }
 
+
+    unsigned int bits[] = {0, 0}; 
+    if (daq_digital_write(session, args->n_out_chan, args->out_channels, bits) != OK) {
+        fprintf(stderr, "RT_THREAD: error writing to dio DAQ.\n");
+        daq_close_device ((void**) &dsc);
+        pthread_exit(NULL);
+    }
+
     /************************
     BEFORE CONTROL RECORD
     ************************/
@@ -573,6 +581,14 @@ void * rt_thread(void * arg) {
             /*ENVIO POR LA TARJETA*/
             if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
                 fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
+                daq_close_device ((void**) &dsc);
+                pthread_exit(NULL);
+            }
+
+
+            unsigned int bits[] = {1, 0}; 
+            if (daq_digital_write(session, args->n_out_chan, args->out_channels, bits) != OK) {
+                fprintf(stderr, "RT_THREAD: error writing to dio DAQ.\n");
                 daq_close_device ((void**) &dsc);
                 pthread_exit(NULL);
             }

@@ -7,6 +7,7 @@ struct _Daq_session{
 	comedi_t * device;
 	int in_subdev;		/*input subdevice */
 	int out_subdev;		/*output subdevice */
+	int dio_subdev;
 	int range;			
 	int aref;		
 };
@@ -79,6 +80,27 @@ int daq_create_session (void  ** device, Daq_session ** session_ptr) {
 		free(session);
 		return ERR;
 	}
+
+
+	session->dio_subdev = comedi_find_subdevice_by_type(session->device, COMEDI_SUBD_DIO, 0);
+	if (session->dio_subdev == -1) {
+		comedi_perror("Error finding DIO subdevice");
+
+		free(session);
+		return ERR;
+	} else {
+		 if (comedi_dio_config (session->device, session->dio_subdev, 0, COMEDI_OUTPUT) == -1) {
+		 	comedi_perror("Error setting DIO subdevice");
+			free(session);
+		 }
+
+		 if (comedi_dio_config (session->device, session->dio_subdev, 1, COMEDI_INPUT) == -1) {
+		 	comedi_perror("Error setting DIO subdevice");
+			free(session);
+		 }
+	}
+
+
 
 	return OK;
 }
@@ -233,5 +255,67 @@ int daq_write (Daq_session * session, int n_channels, int * channels, double * v
 
     //if (DEBUG == 1) syslog(LOG_INFO, "WRITE_DAQ: Ending");
     
+    return 0;
+}
+
+
+int daq_digital_write (Daq_session * session, int n_channels, int * channels, unsigned int * bits) {
+	int i;
+	comedi_range * range_info;
+	lsampl_t maxdata;
+	lsampl_t comedi_value;
+	unsigned int mask = 0x00000011;
+	unsigned int data = bits[0];
+
+
+	if (comedi_dio_bitfield2(session->device, session->dio_subdev, mask, bits, 0) != 0) {
+		comedi_perror("bitfield1");
+		return -1;
+	}
+
+	//sleep(2);
+
+	data = 0;
+	bits[0] = 0;
+	printf("%u ", bits[1]);
+	if (comedi_dio_bitfield2(session->device, session->dio_subdev, mask, bits, 0) != 0) {
+		comedi_perror("bitfield2");
+		return -1;
+	}
+
+	printf("%u\n", bits[1]);
+
+	//sleep(2);
+
+	/*comedi_data_write(session->device, session->dio_subdev, 0, 0, 0, 1);
+	comedi_data_write(session->device, session->dio_subdev, 0, 0, 0, 0);*/
+
+	/*comedi_dio_write(session->device, session->dio_subdev, 0, 1);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 0);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 1);
+	sleep(1);
+	comedi_dio_write(session->device, session->dio_subdev, 0, 0);*/
+
+    /*for (i = 0; i < n_channels; ++i) {
+    	range_info = get_range_info_comedi(session, COMEDI_OUTPUT, channels[i]);
+    	maxdata = get_maxdata_comedi(session, COMEDI_OUTPUT, channels[i]);
+
+    	comedi_value = comedi_from_phys(bits[i], range_info, maxdata);
+	    if (comedi_value > maxdata) {
+			comedi_perror("write");
+			return -1;
+		}
+
+
+
+
+		if ( comedi_data_write(session->device, session->dio_subdev, channels[i], 0, 0, bits[i]) != 1) {
+    		printf("Error writing from dio channel %d at iter %d\n", channels[i], i);
+    		return -1;
+    	}
+    }*/
+
     return 0;
 }

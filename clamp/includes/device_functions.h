@@ -16,3 +16,5 @@ int daq_close_device (void ** device);
 int daq_read (Daq_session * session, int n_channels, int * channels, double * ret);
 
 int daq_write (Daq_session * session, int n_channels, int * channels, double * values);
+
+int daq_digital_write (Daq_session * session, int n_channels, int * channels, unsigned int * bits);
