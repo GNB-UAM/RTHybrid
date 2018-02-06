@@ -39,7 +39,7 @@ void RTHybrid::on_simulate_clicked()
 
     args.model = ui->neuronModelPages->currentIndex();
     args.synapse = ui->synapseModelPages->currentIndex();
-    autocalIndex = ui->autocalPages->currentIndex();
+    args.mode_auto_cal = ui->autocalPages->currentIndex();
 
     args.imp = ui->checkImp->isChecked();
 
@@ -109,7 +109,7 @@ void RTHybrid::on_simulate_clicked()
 
     //args.anti = false;
 
-    if (autocalIndex == 0){
+    if (args.mode_auto_cal == 0){
         switch (args.synapse) {
             case ELECTRIC: //Electrical
                 {
@@ -195,7 +195,7 @@ void RTHybrid::on_simulate_clicked()
                 break;
         }
     } else {
-        switch (autocalIndex) {
+        switch (args.mode_auto_cal) {
 
             case 1: //Electric conductance MSE
             {

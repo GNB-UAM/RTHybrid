@@ -1,5 +1,6 @@
 #include "../includes/rt_thread_functions.h"
 #define DEBUG 0
+
 /************************
 GLOBAL VARIABLES
 ************************/
@@ -82,6 +83,9 @@ void * rt_thread(void * arg) {
     double period_disp_real;
     double rafaga_viva_pts = 0;
     int end_loop = FALSE;
+
+    double max_window = -999999, min_window = 999999;
+    int deriva_counter = 0;
 
     /* Loop variables */
     unsigned long loop_points = 0, i=0;
@@ -628,6 +632,35 @@ void * rt_thread(void * arg) {
             syn_aux_params_live_to_model.calibrate = SYN_CALIB_POST;
             args->syn(args->vars[0], ret_values[0], &syn_aux_params_live_to_model, &(msg.c_real));
             msg.c_real = -msg.c_real;
+
+
+
+            /* Fix deriva */
+            if (min_window > ret_values[0]) min_window = ret_values[0];
+            if (max_window < ret_values[0]) max_window = ret_values[0];
+
+            if (deriva_counter >= (2 * rafaga_viva_pts)) {
+                deriva_counter = 0;
+                calcula_escala (min_abs_model, max_model, min_window, max_window, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
+
+                syn_aux_params_live_to_model.offset = offset_real_to_virtual;
+                syn_aux_params_live_to_model.scale = scale_real_to_virtual;
+
+                syn_aux_params_model_to_live.offset = offset_virtual_to_real;
+                syn_aux_params_model_to_live.scale = scale_virtual_to_real;
+
+                if (args->model == GOLOWASCH) {
+                    syn_gl_params * aux_gl_deriva = syn_aux_params_live_to_model.type_params;
+
+                    aux_gl_deriva->min = min_window;
+                    aux_gl_deriva->max = max_window;
+                }
+
+                max_window = -999999;
+                min_window = 999999;
+            }
+
+            deriva_counter++;
         }
 
 
