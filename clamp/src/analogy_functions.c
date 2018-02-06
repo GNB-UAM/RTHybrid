@@ -284,7 +284,7 @@ int daq_digital_write (Daq_session * session, int n_channels, int * channels, un
 		return -1;
 	}
 
-
+	//sleep(2);
 
 	data = 0;
 	bits[0] = 0;
