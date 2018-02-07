@@ -42,10 +42,10 @@ int clamp (clamp_args * args) {
 
 	time_t t;
 	struct tm tm;
-	char path [19];
-	char path_b [19];
-	char hour [13];
-	char filename [23];
+	char path [50];
+	char path_b [50];
+	char hour [50];
+	char filename [50];
 
 
 	writer_args w_args;
@@ -159,8 +159,7 @@ int clamp (clamp_args * args) {
 	sprintf(path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 	sprintf(path_b, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
-	filename[0] = '\0';
-	strcat(filename, path);
+	strcpy(filename, path);
 
 
 	struct stat st = {0};
@@ -225,11 +224,11 @@ int clamp (clamp_args * args) {
 
     err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)
-        syslog(LOG_INFO, "Can't create thread :[%s]", strerror(err));
+        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
 
     err = pthread_create(&(rt), &attr_rt, &rt_thread, (void *) &r_args);
     if (err != 0)
-        syslog(LOG_INFO, "Can't create thread :[%s]", strerror(err));
+        syslog(LOG_INFO, "Can't create rt_thread :[%s]", strerror(err));
 
     syslog(LOG_INFO, "CLAMP: Threads created");
 

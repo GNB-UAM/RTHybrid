@@ -52,7 +52,14 @@ void rt_cleanup () {
 /************************
 RT THREAD
 ************************/
+
 void * rt_thread(void * arg) {
+    pthread_exit(NULL);
+}
+
+
+
+void * rt_thread2(void * arg) {
 
     /************************
     START

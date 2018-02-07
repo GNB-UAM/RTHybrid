@@ -1,5 +1,5 @@
 #include "../includes/writer_thread_functions.h"
-
+#define DEBUG 1
 
 /* Global variables */
 FILE * f1 = NULL;
@@ -20,6 +20,11 @@ void writer_cleanup () {
     free_pointers(3, &filename_1, &filename_2, &filename_3);
 
     printf("\n" PRINT_CYAN "writer_thread terminated." PRINT_RESET "\n");
+    pthread_exit(NULL);
+}
+
+
+void * writer_thread2(void * arg) {
     pthread_exit(NULL);
 }
 
@@ -58,6 +63,14 @@ void * writer_thread(void * arg) {
         pthread_exit(NULL);
     }
 
+    /*strcpy(filename_1, args->filename);
+    strcpy(filename_2, args->filename);
+    strcpy(filename_3, args->path);
+
+    strcat(filename_1, "_1.txt");
+    strcat(filename_2, "_2.txt");
+    strcat(filename_3, "/summary.txt");*/
+
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before umask");
 
     umask(1);
@@ -80,6 +93,7 @@ void * writer_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first write to f3");
     fprintf(f3, "%s\nModel: ", args->filename);
+
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first write to f3");
     if(args->model==1){
         fprintf(f3, "Hindmarsh Rose\n");
@@ -112,6 +126,7 @@ void * writer_thread(void * arg) {
     }*/
 
     fprintf(f3, "Calibration mode = %d\n", args->calibration);
+    fflush(NULL);
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first rcv");
 
