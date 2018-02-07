@@ -1,5 +1,6 @@
 #include "../includes/rt_thread_functions.h"
 #define DEBUG 0
+
 /************************
 GLOBAL VARIABLES
 ************************/
