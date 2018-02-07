@@ -53,13 +53,13 @@ void rt_cleanup () {
 RT THREAD
 ************************/
 
-void * rt_thread(void * arg) {
+void * rt_thread2(void * arg) {
     pthread_exit(NULL);
 }
 
 
 
-void * rt_thread2(void * arg) {
+void * rt_thread(void * arg) {
 
     /************************
     START
@@ -152,6 +152,8 @@ void * rt_thread2(void * arg) {
 
     args->ini(&min_model, &min_abs_model, &max_model);
 
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Model initiated");
+
     //printf("min %f    min_abs %f   max %f\n", min_model, min_abs_model, max_model);
 
 
@@ -164,9 +166,15 @@ void * rt_thread2(void * arg) {
             daq_close_device ((void**) &dsc);
             pthread_exit(NULL);
         }
+
+        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: ini_recibido done");
+
         //printf("Periodo disparo = %f\n", period_disp_real);
         if (args->firing_rate != -1) period_disp_real = args->firing_rate;
         calcula_escala (min_abs_model, max_model, min_abs_real, max_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
+        
+        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: calcula_escala done");
+
         /*printf("min_abs_model=%f\n", min_abs_model);
         printf("max_model=%f\n", max_model);
         printf("min_abs_real=%f\n", min_abs_real);

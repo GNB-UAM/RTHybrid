@@ -26,10 +26,11 @@ int ini_recibido (double *min, double *min_abs, double *max, double *max_relativ
 
     /*DECLARACIONES DE ARRAYS Y SUS TAMAÑOS*/
     int size_lectura = freq*segs_observo;
-    double lectura[size_lectura];
-    double convolution[size_lectura];
+    double * lectura = (double*) malloc(sizeof(double) * size_lectura);
+    double * convolution = (double*) malloc(sizeof(double) * size_lectura);
     int size_media = size_lectura / 10;
-    double media[size_lectura];
+    double * media = (double*) malloc(sizeof(double) * size_lectura);
+
 
     for (i=0; i<freq*(segs_observo); i++){
 
@@ -61,6 +62,7 @@ int ini_recibido (double *min, double *min_abs, double *max, double *max_relativ
 
         ts_add_time(&ts_target, 0, period); 
     }
+
 
     /*RETURN*/
     double min_abs_aux = mini;
