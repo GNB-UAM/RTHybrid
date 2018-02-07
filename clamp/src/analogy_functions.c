@@ -1,5 +1,10 @@
 #include "../includes/device_functions.h"
-#include <analogy/analogy.h>
+
+#if CONFIG_XENO_VERSION_MAJOR >= 3
+    #include <rtdm/analogy.h>
+#else
+    #include <analogy/analogy.h>
+#endif
 
 struct _Daq_session {
     a4l_desc_t * device;
