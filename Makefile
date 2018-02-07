@@ -36,7 +36,7 @@ DISTNAME      = RTHybrid1.0.0
 DISTDIR = /home/gnb/Desktop/RTHybrid/.tmp/RTHybrid1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -D_GNU_SOURCE -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm -lQt5Multimedia -lQt5Widgets -L/usr/X11R6/lib64 -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -D_GNU_SOURCE -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm -lQt5Multimedia -lQt5Widgets -L/usr/X11R6/lib64 -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,7 +52,7 @@ SOURCES       = gui/main.cpp \
 		clamp/src/model_library.c \
 		clamp/src/rt_thread_functions.c \
 		clamp/src/writer_thread_functions.c \
-		clamp/src/comedi_functions.c \
+		clamp/src/analogy_functions.c \
 		clamp/src/calibrate_functions_phase2_a.c \
 		clamp/src/calibrate_functions_phase1.c \
 		clamp/src/calibrate_functions_phase2.c \
@@ -65,7 +65,7 @@ OBJECTS       = main.o \
 		model_library.o \
 		rt_thread_functions.o \
 		writer_thread_functions.o \
-		comedi_functions.o \
+		analogy_functions.o \
 		calibrate_functions_phase2_a.o \
 		calibrate_functions_phase1.o \
 		calibrate_functions_phase2.o \
@@ -156,7 +156,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/src/model_library.c \
 		clamp/src/rt_thread_functions.c \
 		clamp/src/writer_thread_functions.c \
-		clamp/src/comedi_functions.c \
+		clamp/src/analogy_functions.c \
 		clamp/src/calibrate_functions_phase2_a.c \
 		clamp/src/calibrate_functions_phase1.c \
 		clamp/src/calibrate_functions_phase2.c \
@@ -353,7 +353,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/model_library.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h gui/rthybrid.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/main.cpp clamp/src/model_library.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/comedi_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/queue_functions.c clamp/src/clamp.c common/src/aux_functions.c gui/rthybrid.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/main.cpp clamp/src/model_library.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/analogy_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/queue_functions.c clamp/src/clamp.c common/src/aux_functions.c gui/rthybrid.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/rthybrid.ui $(DISTDIR)/
 
 
@@ -429,10 +429,10 @@ writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/wr
 		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o writer_thread_functions.o clamp/src/writer_thread_functions.c
 
-comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/device_functions.h \
+analogy_functions.o: clamp/src/analogy_functions.c clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o comedi_functions.o clamp/src/comedi_functions.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o analogy_functions.o clamp/src/analogy_functions.c
 
 calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
