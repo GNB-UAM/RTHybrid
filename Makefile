@@ -13,7 +13,7 @@ MAKEFILE      = Makefile
 CC            = $(shell /usr/xenomai/bin/xeno-config --cc)
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -lpthread -D_GNU_SOURCE -lm -lanalogy -lrtdm $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -g -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe -lpthread -D_GNU_SOURCE -lm -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
