@@ -10,9 +10,41 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RTHybrid
 TEMPLATE = app
-QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi
-QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lrt -lm -lcomedi -g
-QMAKE_CLEAN += RTHybrid
+
+OBJECTS_DIR = obj/
+MOC_DIR = moc/
+QMAKE_CLEAN += $$TARGET
+
+QMAKE_LIBS += -lpthread -lrt -lm
+QMAKE_CFLAGS += -D_GNU_SOURCE
+
+exists(/usr/xenomai/bin/xeno-config) {
+    XEN_VERSION = $$system(/usr/xenomai/bin/xeno-config --version)
+    message("Compiling for Xenomai "$$XEN_VERSION)
+
+    QMAKE_LIBS += -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags)
+    QMAKE_CFLAGS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags)
+    QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
+
+    contains(XEN_VERSION, '.*2\.[0-9]\.[0-9].*') {
+        QMAKE_LIBS += -lrtdm
+    }
+
+    SOURCES += \ 
+        clamp/src/analogy_functions.c \
+
+} else {
+    KERNEL_VERSION = $$system(uname -r)
+    message("Compiling for Linux "$$KERNEL_VERSION)
+
+    QMAKE_LIBS += -lcomedi
+
+    SOURCES += \ 
+        clamp/src/comedi_functions.c \
+}
+
+
+
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -26,12 +58,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += \
-        gui/main.cpp \
+SOURCES += gui/main.cpp \
     clamp/src/model_library.c \
     clamp/src/rt_thread_functions.c \
     clamp/src/writer_thread_functions.c \
-    clamp/src/comedi_functions.c \
     clamp/src/calibrate_functions_phase2_a.c \
     clamp/src/calibrate_functions_phase1.c \
     clamp/src/calibrate_functions_phase2.c \
