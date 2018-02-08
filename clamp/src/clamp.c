@@ -38,7 +38,6 @@ void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 
 int clamp (clamp_args * args) {
 	pthread_attr_t attr_rt, attr_wr;
-	int err;
 
 	time_t t;
 	struct tm tm;
@@ -62,7 +61,7 @@ int clamp (clamp_args * args) {
 	r_args.out_channels = NULL;
 
 	/*Delete queue*/
-	system("rm -rf /dev/mqueue/rt_queue* > /dev/null 2>&1");
+	//system("rm -rf /dev/mqueue/rt_queue* > /dev/null 2>&1");
 
 	/*Parse channels*/
     if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
@@ -183,6 +182,7 @@ int clamp (clamp_args * args) {
     pthread_attr_setdetachstate(&attr_rt, PTHREAD_CREATE_JOINABLE);
     pthread_attr_setdetachstate(&attr_wr, PTHREAD_CREATE_JOINABLE);
 
+
     sigemptyset(&set);
     sigaddset(&set, SIGINT);
     if (pthread_sigmask(SIG_BLOCK, &set, NULL) != 0) syslog(LOG_INFO, "Error blocking SIGINT at main.\n");
@@ -222,13 +222,16 @@ int clamp (clamp_args * args) {
     w_args.syn_args_live_to_model = args->syn_args_live_to_model;
     w_args.syn_args_model_to_live = args->syn_args_model_to_live;
 
-    err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
+    /*err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)
         syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
 
     err = pthread_create(&(rt), &attr_rt, &rt_thread, (void *) &r_args);
     if (err != 0)
-        syslog(LOG_INFO, "Can't create rt_thread :[%s]", strerror(err));
+        syslog(LOG_INFO, "Can't create rt_thread :[%s]", strerror(err));*/
+
+    create_writer_thread(&(writer), (void *) &w_args);
+    create_rt_thread(&(rt), (void *) &r_args);
 
     syslog(LOG_INFO, "CLAMP: Threads created");
 
@@ -238,8 +241,10 @@ int clamp (clamp_args * args) {
     syslog(LOG_INFO, "CLAMP: Signals set");
 
 
-    pthread_join(writer, NULL);
-    pthread_join(rt, NULL);
+    /*pthread_join(writer, NULL);
+    pthread_join(rt, NULL);*/
+    join_writer_thread(writer);
+    join_rt_thread(rt);
 
     syslog(LOG_INFO, "CLAMP: Threads joined");
     

@@ -1,5 +1,4 @@
 #include "../includes/writer_thread_functions.h"
-#define DEBUG 1
 
 /* Global variables */
 FILE * f1 = NULL;
@@ -8,6 +7,34 @@ FILE * f3 = NULL;
 char * filename_1 = NULL;
 char * filename_2 = NULL;
 char * filename_3 = NULL;
+
+
+void * writer_thread(void * arg);
+
+
+/************************
+WRITER THREAD MANAGEMENT
+************************/
+
+int create_writer_thread (pthread_t * thread, void *arg) {
+    pthread_attr_t attr;
+    int err;
+
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    err = pthread_create(thread, &attr, &writer_thread, arg);
+    if (err != 0) {
+        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
+        return ERR;
+    }
+
+    return OK;
+}
+
+int join_writer_thread (pthread_t thread) {
+    return pthread_join(thread, NULL);
+}
 
 
 void writer_cleanup () {
@@ -24,11 +51,6 @@ void writer_cleanup () {
 }
 
 
-void * writer_thread2(void * arg) {
-    pthread_exit(NULL);
-}
-
-
 void * writer_thread(void * arg) {
     message msg;
     message msg2;
@@ -39,6 +61,8 @@ void * writer_thread(void * arg) {
     args = arg;
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Start");
+
+    setlocale(LC_NUMERIC, "en_US.UTF-8");
 
     if (signal(SIGUSR2, writer_cleanup) == SIG_ERR) printf("Error catching SIGUSR2 at writer_thread.\n");
 
@@ -62,14 +86,6 @@ void * writer_thread(void * arg) {
         printf("Error creating summary file name\n;");
         pthread_exit(NULL);
     }
-
-    /*strcpy(filename_1, args->filename);
-    strcpy(filename_2, args->filename);
-    strcpy(filename_3, args->path);
-
-    strcat(filename_1, "_1.txt");
-    strcat(filename_2, "_2.txt");
-    strcat(filename_3, "/summary.txt");*/
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before umask");
 

@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <syslog.h>
 #include "types_clamp.h"
+#include "time_functions.h"
 
 
 typedef struct {

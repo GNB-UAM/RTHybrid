@@ -13,9 +13,9 @@ MAKEFILE      = Makefile
 CC            = $(shell /usr/xenomai/bin/xeno-config --cc)
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -lpthread -D_GNU_SOURCE -lm -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) -D_GNU_SOURCE -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -33,10 +33,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = RTHybrid1.0.0
-DISTDIR = /home/gnb/Desktop/RTHybrid/.tmp/RTHybrid1.0.0
+DISTDIR = /home/gnb/Desktop/RTHybrid/obj/RTHybrid1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -D_GNU_SOURCE -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm -lQt5Multimedia -lQt5Widgets -L/usr/X11R6/lib64 -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags) -lrt -lm -lQt5Multimedia -lQt5Widgets -L/usr/X11R6/lib64 -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -44,7 +44,7 @@ STRIP         = strip
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = obj/
 
 ####### Files
 
@@ -60,21 +60,21 @@ SOURCES       = gui/main.cpp \
 		clamp/src/queue_functions.c \
 		clamp/src/clamp.c \
 		common/src/aux_functions.c \
-		gui/rthybrid.cpp moc_rthybrid.cpp
-OBJECTS       = main.o \
-		model_library.o \
-		rt_thread_functions.o \
-		writer_thread_functions.o \
-		analogy_functions.o \
-		calibrate_functions_phase2_a.o \
-		calibrate_functions_phase1.o \
-		calibrate_functions_phase2.o \
-		time_functions.o \
-		queue_functions.o \
-		clamp.o \
-		aux_functions.o \
-		rthybrid.o \
-		moc_rthybrid.o
+		gui/rthybrid.cpp moc/moc_rthybrid.cpp
+OBJECTS       = obj/main.o \
+		obj/model_library.o \
+		obj/rt_thread_functions.o \
+		obj/writer_thread_functions.o \
+		obj/analogy_functions.o \
+		obj/calibrate_functions_phase2_a.o \
+		obj/calibrate_functions_phase1.o \
+		obj/calibrate_functions_phase2.o \
+		obj/time_functions.o \
+		obj/queue_functions.o \
+		obj/clamp.o \
+		obj/aux_functions.o \
+		obj/rthybrid.o \
+		obj/moc_rthybrid.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -379,11 +379,11 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_rthybrid.cpp
+compiler_moc_header_make_all: moc/moc_rthybrid.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_rthybrid.cpp
-moc_rthybrid.cpp: gui/rthybrid.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gnb/Desktop/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/rthybrid.h -o moc_rthybrid.cpp
+	-$(DEL_FILE) moc/moc_rthybrid.cpp
+moc/moc_rthybrid.cpp: gui/rthybrid.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gnb/Desktop/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/rthybrid.h -o moc/moc_rthybrid.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -403,15 +403,15 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: gui/main.cpp gui/rthybrid.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
+obj/main.o: gui/main.cpp gui/rthybrid.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
 
-model_library.o: clamp/src/model_library.c clamp/includes/model_library.h \
+obj/model_library.o: clamp/src/model_library.c clamp/includes/model_library.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o model_library.o clamp/src/model_library.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/model_library.o clamp/src/model_library.c
 
-rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
+obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
 		clamp/includes/model_library.h \
 		clamp/includes/types_clamp.h \
@@ -421,49 +421,52 @@ rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_
 		clamp/includes/device_functions.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o rt_thread_functions.o clamp/src/rt_thread_functions.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/rt_thread_functions.o clamp/src/rt_thread_functions.c
 
-writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h \
+obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/types_clamp.h \
-		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o writer_thread_functions.o clamp/src/writer_thread_functions.c
+		common/includes/types.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/writer_thread_functions.o clamp/src/writer_thread_functions.c
 
-analogy_functions.o: clamp/src/analogy_functions.c clamp/includes/device_functions.h \
+obj/analogy_functions.o: clamp/src/analogy_functions.c clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o analogy_functions.o clamp/src/analogy_functions.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/analogy_functions.o clamp/src/analogy_functions.c
 
-calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
+obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/model_library.h \
-		clamp/includes/queue_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
+		clamp/includes/queue_functions.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
 
-calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h \
+obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
 
-calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h \
+obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		clamp/includes/model_library.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
 
-time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o time_functions.o clamp/src/time_functions.c
+obj/time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/time_functions.o clamp/src/time_functions.c
 
-queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_functions.h \
+obj/queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_functions.h \
 		clamp/includes/types_clamp.h \
-		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o queue_functions.o clamp/src/queue_functions.c
+		common/includes/types.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/queue_functions.o clamp/src/queue_functions.c
 
-clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
+obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
 		clamp/includes/model_library.h \
@@ -475,12 +478,12 @@ clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/writer_thread_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o clamp.o clamp/src/clamp.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/clamp.o clamp/src/clamp.c
 
-aux_functions.o: common/src/aux_functions.c common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o aux_functions.o common/src/aux_functions.c
+obj/aux_functions.o: common/src/aux_functions.c common/includes/types.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/aux_functions.o common/src/aux_functions.c
 
-rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
+obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		ui_rthybrid.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
@@ -494,10 +497,10 @@ rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/writer_thread_functions.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rthybrid.o gui/rthybrid.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/rthybrid.o gui/rthybrid.cpp
 
-moc_rthybrid.o: moc_rthybrid.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rthybrid.o moc_rthybrid.cpp
+obj/moc_rthybrid.o: moc/moc_rthybrid.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_rthybrid.o moc/moc_rthybrid.cpp
 
 ####### Install
 

@@ -12,11 +12,9 @@ extern "C" {
 #include <string.h>
 #include <stdarg.h>
 
-#include <pthread.h>
-#include <sys/mman.h>
 #include <fcntl.h>
+#include <sys/mman.h>
 #include <sys/stat.h>
-#include <semaphore.h>
 
 /* Basic types */
 #define ERR -1
@@ -47,8 +45,6 @@ extern "C" {
 
 
 void free_pointers (int n, ...);
-
-void prepare_real_time (pthread_t id);
 
 void copy_1d_array (double * src, double * dst, int n_elems);
 

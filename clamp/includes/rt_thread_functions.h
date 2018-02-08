@@ -8,15 +8,10 @@
 #include "calibrate_functions_phase2_a.h"
 #include "calibrate_functions_phase2.h"
 
-#define MAX_SAFE_STACK (8*1024)
-#define PRIORITY (99)
-#define MAX_LAT (900000)
-#define CORE (0)
+#include <pthread.h>
 
-void prepare_real_time (pthread_t id);
+int create_rt_thread (pthread_t * thread, void *arg);
 
-void copy_1d_array (double * src, double * dst, int n_elems);
-
-void * rt_thread (void * arg);
+int join_rt_thread (pthread_t thread);
 
 #endif

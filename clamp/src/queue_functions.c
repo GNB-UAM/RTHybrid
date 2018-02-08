@@ -86,8 +86,7 @@ int open_queue (void ** msqid) {
     attr.mq_msgsize = sizeof(message);
     attrp = &attr;
 
-	//id = mq_open("rt_queue", O_CREAT|O_RDWR|O_NONBLOCK, S_IRWXU, attrp);
-	id = mq_open(name, O_CREAT | O_RDWR | O_NONBLOCK, 0666, attrp);
+    id = mq_open(name, O_CREAT | O_RDWR, 0666, attrp);
 
 	if (id == -1) {
 		perror("Error opening queue");
@@ -102,8 +101,11 @@ int open_queue (void ** msqid) {
 
 int send_to_queue (void * msqid, message * msg) {
 	mqd_t id = *(mqd_t*)msqid;
+    struct timespec ts1;
 
-	if (mq_send(id, (const char *) msg, sizeof(*msg), 0) == -1) {
+    clock_gettime(CLOCK_MONOTONIC, &ts1);
+
+    if (mq_timedsend(id, (const char *) msg, sizeof(*msg), 0, &ts1) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}
@@ -116,11 +118,16 @@ int send_to_queue (void * msqid, message * msg) {
 int receive_from_queue (void * msqid, message * msg) {
 	mqd_t id = *(mqd_t*)msqid;
 
-	while(1) {
-		if (mq_receive(id, (char *) msg, sizeof(*msg), 0) != -1) {
-			break;
-		}
-	}
+    /*while(1) {
+        if (mq_receive(id, (char *) msg, sizeof(*msg), NULL) != -1) {
+            break;
+        }
+    }*/
+
+    if (mq_receive(id, (char *) msg, sizeof(*msg), NULL) < 0) {
+        perror("Error receiving message in queue");
+        return ERR;
+    }
 
 	return OK;
 }

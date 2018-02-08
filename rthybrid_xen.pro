@@ -10,22 +10,30 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RTHybrid
 TEMPLATE = app
-XEN_VERSION = $$system(/usr/xenomai/bin/xeno-config --version)
 
-message("Compiling for Xenomai "$$XEN_VERSION)
+exists(/usr/xenomai/bin/xeno-config) {
+    XEN_VERSION = $$system(/usr/xenomai/bin/xeno-config --version)
+    message("Compiling for Xenomai "$$XEN_VERSION)
 
+    QMAKE_LIBS += -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags)
+    QMAKE_CFLAGS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags)
+    QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
 
-QMAKE_LIBS += -lpthread -D_GNU_SOURCE -lanalogy
-QMAKE_CFLAGS += -lpthread -D_GNU_SOURCE -lm -lanalogy
-contains(XEN_VERSION, '.*2\.[0-9]\.[0-9].*') {
-    QMAKE_LIBS += -lrtdm
-    QMAKE_CFLAGS += -lrtdm
+    contains(XEN_VERSION, '.*2\.[0-9]\.[0-9].*') {
+        QMAKE_LIBS += -lrtdm
+    }
+
+} else {
+    KERNEL_VERSION = $$system(uname -r)
+    message("Compiling for Linux "$$KERNEL_VERSION)
 }
 
-QMAKE_LIBS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags --ldflags) -lrt -lm
-QMAKE_CFLAGS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags)
-QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
-QMAKE_CLEAN += RTHybrid
+
+QMAKE_LIBS += -lpthread -lrt -lm
+QMAKE_CFLAGS += -D_GNU_SOURCE
+QMAKE_CLEAN += $$TARGET
+OBJECTS_DIR = obj/
+MOC_DIR = moc/
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

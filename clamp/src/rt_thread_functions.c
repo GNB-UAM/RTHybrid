@@ -18,9 +18,69 @@ double * lectura_t = NULL;
 double * ret_values = NULL;
 double * out_values = NULL;
 
+
+void * rt_thread(void * arg);
+
 /************************
-RT CLEANUP
+RT THREAD MANAGEMENT
 ************************/
+int create_rt_thread (pthread_t * thread, void *arg) {
+    pthread_attr_t attr;
+    int err;
+
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    err = pthread_create(thread, &attr, &rt_thread, arg);
+    if (err != 0) {
+        syslog(LOG_INFO, "Can't create rt_thread :[%s]", strerror(err));
+        return ERR;
+    }
+
+    return OK;
+}
+
+int join_rt_thread (pthread_t thread) {
+    return pthread_join(thread, NULL);
+}
+
+
+
+void prepare_real_time (pthread_t id) {
+    struct sched_param param;
+    unsigned char dummy[MAX_SAFE_STACK];
+
+
+    /* Set priority */
+    param.sched_priority = PRIORITY;
+    if(pthread_setschedparam(id, SCHED_FIFO, &param) == -1) {
+        perror("sched_setscheduler failed");
+        exit(-1);
+    }
+
+    /* Set core affinity */
+    /*cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(CORE, &mask);
+    if (pthread_setaffinity_np(id, sizeof(mask), &mask) != 0) {
+        perror("Affinity set failure\n");
+        exit(-2);
+    }*/
+
+    /* Lock memory */
+
+    if(mlockall(MCL_CURRENT|MCL_FUTURE) == -1) {
+        perror("mlockall failed");
+        exit(-3);
+    }
+
+    /* Pre-fault our stack */
+    memset(dummy, 0, MAX_SAFE_STACK);
+
+    return;
+}
+
+
 void rt_cleanup () {
     unsigned int i = 0;
 
@@ -52,11 +112,6 @@ void rt_cleanup () {
 /************************
 RT THREAD
 ************************/
-
-void * rt_thread2(void * arg) {
-    pthread_exit(NULL);
-}
-
 
 
 void * rt_thread(void * arg) {
