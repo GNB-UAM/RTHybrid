@@ -85,7 +85,7 @@ void * rt_thread(void * arg) {
     int end_loop = FALSE;
 
     double max_window = -999999, min_window = 999999;
-    int deriva_counter = 0;
+    int drift_counter = 0;
 
     /* Loop variables */
     unsigned long loop_points = 0, i=0;
@@ -636,12 +636,12 @@ void * rt_thread(void * arg) {
 
 
 
-            /* Fix deriva */
+            /* Fix drift */
             if (min_window > ret_values[0]) min_window = ret_values[0];
             if (max_window < ret_values[0]) max_window = ret_values[0];
 
-            if (deriva_counter >= (2 * rafaga_viva_pts)) {
-                deriva_counter = 0;
+            if (drift_counter >= (2 * rafaga_viva_pts)) {
+                drift_counter = 0;
                 calcula_escala (min_abs_model, max_model, min_window, max_window, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
 
                 syn_aux_params_live_to_model.offset = offset_real_to_virtual;
@@ -651,10 +651,10 @@ void * rt_thread(void * arg) {
                 syn_aux_params_model_to_live.scale = scale_virtual_to_real;
 
                 if (args->model == GOLOWASCH) {
-                    syn_gl_params * aux_gl_deriva = syn_aux_params_live_to_model.type_params;
+                    syn_gl_params * aux_gl_drift = syn_aux_params_live_to_model.type_params;
 
-                    aux_gl_deriva->min = min_window;
-                    aux_gl_deriva->max = max_window;
+                    aux_gl_drift->min = min_window;
+                    aux_gl_drift->max = max_window;
                 }
 
                 msg.min_window = min_window;
@@ -664,7 +664,7 @@ void * rt_thread(void * arg) {
                 min_window = 999999;
             }
 
-            deriva_counter++;
+            drift_counter++;
         }
 
 

@@ -15,7 +15,7 @@ class DataStruct1():
 		ap.add_argument("-e", "--end", required=False, help="Last data")
 		ap.add_argument("-fr", "--freq", required=False, help="Freq. for start and end")
 		ap.add_argument("-j", "--jump", required=False, help="Plot less points", default=0)
-		ap.add_argument("-d", "--deriva", required=False, help="Fix_deriva activated", default=0)
+		ap.add_argument("-d", "--drift", required=False, help="Fix_drift activated", default=0)
 
 
 		args = vars(ap.parse_args())
@@ -74,14 +74,14 @@ class DataStruct1():
 		for j in range(8 + self.n_in_chan, 8 + self.n_in_chan + self.n_out_chan):
 			self.data_out.append(data[:, j])
 
-		if int(args["deriva"]) == 1:
+		if int(args["drift"]) == 1:
 			#READ DATA
-			filename_deriva = args["file"]+"_deriva.txt"
-			dataset_deriva = pd.read_csv(filename_deriva, delimiter=' ')
-			array_deriva = dataset_deriva.values
-			data_deriva = array_deriva[int(args["start"]):int(args["end"]),:]
-			self.min_window = data_deriva[:,0]
-			self.max_window = data_deriva[:,1]
+			filename_drift = args["file"]+"_drift.txt"
+			dataset_drift = pd.read_csv(filename_drift, delimiter=' ')
+			array_drift = dataset_drift.values
+			data_drift = array_drift[int(args["start"]):int(args["end"]),:]
+			self.min_window = data_drift[:,0]
+			self.max_window = data_drift[:,1]
 
 		if (int(args["jump"])>0):
 			new_t_unix = []
@@ -95,7 +95,7 @@ class DataStruct1():
 			new_data_in = []
 			new_data_out = []
 
-			if int(args["deriva"]) == 1:
+			if int(args["drift"]) == 1:
 				new_min_window = []
 				new_max_window = []
 
@@ -110,7 +110,7 @@ class DataStruct1():
 					new_c_model.append(self.c_model[j])
 					new_c_viva.append(self.c_viva[j])
 
-					if int(args["deriva"]) == 1:
+					if int(args["drift"]) == 1:
 						new_min_window.append(self.min_window[j])
 						new_max_window.append(self.max_window[j])
 
@@ -123,7 +123,7 @@ class DataStruct1():
 			self.c_model = new_c_model 
 			self.c_viva = new_c_viva
 
-			if int(args["deriva"]) == 1:
+			if int(args["drift"]) == 1:
 				self.min_window = new_min_window
 				self.max_window = new_max_window 	
 

@@ -5,11 +5,11 @@
 FILE * f1 = NULL;
 FILE * f2 = NULL;
 FILE * summary = NULL;
-FILE * f_deriva = NULL;
+FILE * f_drift = NULL;
 char * filename_1 = NULL;
 char * filename_2 = NULL;
 char * filename_summary = NULL;
-char * filename_deriva = NULL;
+char * filename_drift = NULL;
 
 
 void writer_cleanup () {
@@ -18,9 +18,9 @@ void writer_cleanup () {
     if (f1 != NULL) fclose(f1);
     if (f2 != NULL) fclose(f2);
     if (summary != NULL) fclose(summary);
-    if (f_deriva != NULL) fclose(f_deriva);
+    if (f_drift != NULL) fclose(f_drift);
 
-    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
+    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_drift);
 
     printf("\n" PRINT_CYAN "writer_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
@@ -45,7 +45,7 @@ void * writer_thread(void * arg) {
     filename_1 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
     filename_2 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
     filename_summary = (char *) malloc (sizeof(char)*(strlen(args->path)+13));
-    filename_deriva = (char *) malloc (sizeof(char)*(strlen(args->filename)+12));
+    filename_drift = (char *) malloc (sizeof(char)*(strlen(args->filename)+12));
 
     if (sprintf(filename_1, "%s_1.txt", args->filename) < 0) {
         printf("Error creating file 1 name\n;");
@@ -62,8 +62,8 @@ void * writer_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    if (sprintf(filename_deriva, "%s_deriva.txt", args->filename) < 0) {
-        printf("Error creating file deriva name\n;");
+    if (sprintf(filename_drift, "%s_drift.txt", args->filename) < 0) {
+        printf("Error creating file drift name\n;");
         pthread_exit(NULL);
     }
 
@@ -73,10 +73,10 @@ void * writer_thread(void * arg) {
     f1 = fopen(filename_1, "w");
     f2 = fopen(filename_2, "w");
     summary = fopen(filename_summary, "a");
-    f_deriva = fopen(filename_deriva, "w");
+    f_drift = fopen(filename_drift, "w");
 
-    if (f1 == NULL || f2 == NULL || summary == NULL || f_deriva == NULL) {
-        free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
+    if (f1 == NULL || f2 == NULL || summary == NULL || f_drift == NULL) {
+        free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_drift);
 
         printf("\n" PRINT_CYAN "writer_thread terminated: No data folder." PRINT_RESET "\n");
         pthread_exit(NULL);
@@ -192,8 +192,8 @@ void * writer_thread(void * arg) {
         }
         fprintf(f2, "\n");
 
-        //Write deriva
-        fprintf(f_deriva, "%f %f\n", msg.min_window, msg.max_window);
+        //Write drift
+        fprintf(f_drift, "%f %f\n", msg.min_window, msg.max_window);
 
         //Free
         free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
@@ -204,8 +204,8 @@ void * writer_thread(void * arg) {
     
     fclose(f1);
     fclose(f2);
-    fclose(f_deriva);
-    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
+    fclose(f_drift);
+    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_drift);
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: End.\n");
     pthread_exit(NULL);
