@@ -15,6 +15,7 @@ class DataStruct1():
 		ap.add_argument("-e", "--end", required=False, help="Last data")
 		ap.add_argument("-fr", "--freq", required=False, help="Freq. for start and end")
 		ap.add_argument("-j", "--jump", required=False, help="Plot less points", default=0)
+		ap.add_argument("-d", "--deriva", required=False, help="Fix_deriva activated", default=0)
 
 
 		args = vars(ap.parse_args())
@@ -73,6 +74,15 @@ class DataStruct1():
 		for j in range(8 + self.n_in_chan, 8 + self.n_in_chan + self.n_out_chan):
 			self.data_out.append(data[:, j])
 
+		if int(args["deriva"]) == 1:
+			#READ DATA
+			filename_deriva = args["file"]+"_deriva.txt"
+			dataset_deriva = pd.read_csv(filename_deriva, delimiter=' ')
+			array_deriva = dataset_deriva.values
+			data_deriva = array_deriva[int(args["start"]):int(args["end"]),:]
+			self.min_window = data_deriva[:,0]
+			self.max_window = data_deriva[:,1]
+
 		if (int(args["jump"])>0):
 			new_t_unix = []
 			new_time = []
@@ -84,6 +94,11 @@ class DataStruct1():
 			new_c_viva = []
 			new_data_in = []
 			new_data_out = []
+
+			if int(args["deriva"]) == 1:
+				new_min_window = []
+				new_max_window = []
+
 			for j in range(len(self.time)):
 				if (j%int(args["jump"])) == 0:
 					new_t_unix.append(self.t_unix[j])
@@ -95,6 +110,10 @@ class DataStruct1():
 					new_c_model.append(self.c_model[j])
 					new_c_viva.append(self.c_viva[j])
 
+					if int(args["deriva"]) == 1:
+						new_min_window.append(self.min_window[j])
+						new_max_window.append(self.max_window[j])
+
 			self.t_unix = new_t_unix 
 			self.time = new_time
 			self.i = new_i 
@@ -102,7 +121,11 @@ class DataStruct1():
 			self.v_model = new_v_model 
 			self.v_model_scaled = new_v_model_scaled 
 			self.c_model = new_c_model 
-			self.c_viva = new_c_viva 	
+			self.c_viva = new_c_viva
+
+			if int(args["deriva"]) == 1:
+				self.min_window = new_min_window
+				self.max_window = new_max_window 	
 
 			np_data_in = np.matrix(self.data_in)
 			np_data_in = np_data_in[:,::int(args["jump"])]

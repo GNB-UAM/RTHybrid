@@ -180,7 +180,8 @@ void * rt_thread(void * arg) {
         period_disp_real = 0;
     }
 
-
+    msg.min_window = min_abs_real;
+    msg.max_window = max_real;
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Create calibration struct");
 
@@ -655,6 +656,9 @@ void * rt_thread(void * arg) {
                     aux_gl_deriva->min = min_window;
                     aux_gl_deriva->max = max_window;
                 }
+
+                msg.min_window = min_window;
+                msg.max_window = max_window;
 
                 max_window = -999999;
                 min_window = 999999;

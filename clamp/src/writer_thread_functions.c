@@ -4,10 +4,12 @@
 /* Global variables */
 FILE * f1 = NULL;
 FILE * f2 = NULL;
-FILE * f3 = NULL;
+FILE * summary = NULL;
+FILE * f_deriva = NULL;
 char * filename_1 = NULL;
 char * filename_2 = NULL;
-char * filename_3 = NULL;
+char * filename_summary = NULL;
+char * filename_deriva = NULL;
 
 
 void writer_cleanup () {
@@ -15,9 +17,10 @@ void writer_cleanup () {
 
     if (f1 != NULL) fclose(f1);
     if (f2 != NULL) fclose(f2);
-    if (f3 != NULL) fclose(f3);
+    if (summary != NULL) fclose(summary);
+    if (f_deriva != NULL) fclose(f_deriva);
 
-    free_pointers(3, &filename_1, &filename_2, &filename_3);
+    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
 
     printf("\n" PRINT_CYAN "writer_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
@@ -41,7 +44,8 @@ void * writer_thread(void * arg) {
 
     filename_1 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
     filename_2 = (char *) malloc (sizeof(char)*(strlen(args->filename)+7));
-    filename_3 = (char *) malloc (sizeof(char)*(strlen(args->path)+13));
+    filename_summary = (char *) malloc (sizeof(char)*(strlen(args->path)+13));
+    filename_deriva = (char *) malloc (sizeof(char)*(strlen(args->filename)+12));
 
     if (sprintf(filename_1, "%s_1.txt", args->filename) < 0) {
         printf("Error creating file 1 name\n;");
@@ -53,8 +57,13 @@ void * writer_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    if (sprintf(filename_3, "%s/summary.txt", args->path) < 0) {
+    if (sprintf(filename_summary, "%s/summary.txt", args->path) < 0) {
         printf("Error creating summary file name\n;");
+        pthread_exit(NULL);
+    }
+
+    if (sprintf(filename_deriva, "%s_deriva.txt", args->filename) < 0) {
+        printf("Error creating file deriva name\n;");
         pthread_exit(NULL);
     }
 
@@ -63,10 +72,11 @@ void * writer_thread(void * arg) {
     umask(1);
     f1 = fopen(filename_1, "w");
     f2 = fopen(filename_2, "w");
-    f3 = fopen(filename_3, "a");
+    summary = fopen(filename_summary, "a");
+    f_deriva = fopen(filename_deriva, "w");
 
-    if (f1 == NULL || f2 == NULL || f3 == NULL) {
-        free_pointers(3, &filename_1, &filename_2, &filename_3);
+    if (f1 == NULL || f2 == NULL || summary == NULL || f_deriva == NULL) {
+        free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
 
         printf("\n" PRINT_CYAN "writer_thread terminated: No data folder." PRINT_RESET "\n");
         pthread_exit(NULL);
@@ -75,43 +85,43 @@ void * writer_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Files opened");
     
     if (args->important==1){
-        fprintf(f3, "*********IMPORTANT RECORD********\n");
+        fprintf(summary, "*********IMPORTANT RECORD********\n");
     }
 
-    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first write to f3");
-    fprintf(f3, "%s\nModel: ", args->filename);
-    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first write to f3");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first write to summary");
+    fprintf(summary, "%s\nModel: ", args->filename);
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first write to summary");
     if(args->model==1){
-        fprintf(f3, "Hindmarsh Rose\n");
+        fprintf(summary, "Hindmarsh Rose\n");
     }else if(args->model==0){
-        fprintf(f3, "Izhikevich\n");
+        fprintf(summary, "Izhikevich\n");
     }else if(args->model==2){
-        fprintf(f3, "Rulkov Map\n");
+        fprintf(summary, "Rulkov Map\n");
     }
 
-    fprintf(f3, "Synapse: ");
+    fprintf(summary, "Synapse: ");
     /*Esto tiene que dar mas detalles de hacia que lado en las quimicas hay de cual*/
     if(args->type_syn==0){
-        fprintf(f3, "Electric\n");
+        fprintf(summary, "Electric\n");
     }else if(args->type_syn==1){
-        fprintf(f3, "Chemical\n");
-        /*fprintf(f3, "k1 = %f\n", args->syn_gradual_k1);
-        fprintf(f3, "k2 = %f\n", args->syn_gradual_k2);
-        fprintf(f3, "V fast = %.2f\n", args->syn_gradual_vfast);
-        fprintf(f3, "V slow = %.2f\n", args->syn_gradual_vslow);*/
+        fprintf(summary, "Chemical\n");
+        /*fprintf(summary, "k1 = %f\n", args->syn_gradual_k1);
+        fprintf(summary, "k2 = %f\n", args->syn_gradual_k2);
+        fprintf(summary, "V fast = %.2f\n", args->syn_gradual_vfast);
+        fprintf(summary, "V slow = %.2f\n", args->syn_gradual_vslow);*/
     }
 
-    fprintf(f3, "Freq = %d Hz\n", args->freq);
+    fprintf(summary, "Freq = %d Hz\n", args->freq);
 
-    fprintf(f3, "Duration = %d s\n", args->time_var);
+    fprintf(summary, "Duration = %d s\n", args->time_var);
 
     /*if(args->anti==1){
-        fprintf(f3, "Antiphase = True\n");
+        fprintf(summary, "Antiphase = True\n");
     }else{
-        fprintf(f3, "Antiphase = False\n");
+        fprintf(summary, "Antiphase = False\n");
     }*/
 
-    fprintf(f3, "Calibration mode = %d\n", args->calibration);
+    fprintf(summary, "Calibration mode = %d\n", args->calibration);
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first rcv");
 
@@ -121,19 +131,19 @@ void * writer_thread(void * arg) {
     
     s_points = msg2.i;
 
-    fprintf(f3, "Model jump points = %d\n", s_points);
+    fprintf(summary, "Model jump points = %d\n", s_points);
 
-    fprintf(f3, "Burst duration = %.3f s\n", msg2.t_unix);
+    fprintf(summary, "Burst duration = %.3f s\n", msg2.t_unix);
 
     printf("Firing rate = %.3f s/burst\n", msg2.t_unix);
 
-    fprintf(f3, "\n=================================\n\n");
+    fprintf(summary, "\n=================================\n\n");
 
-    //fprintf(f3, "%s\nModel: %d\nSynapse: %d\nFreq: %d ns\n\n\n", args->filename, args->model, args->type_syn, args->freq);
-    fclose(f3);
-    f3 = NULL;
+    //fprintf(summary, "%s\nModel: %d\nSynapse: %d\nFreq: %d ns\n\n\n", args->filename, args->model, args->type_syn, args->freq);
+    fclose(summary);
+    summary = NULL;
 
-    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: F3 closed");
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: summary closed");
 
     /****************/
     /* WRITING DATA */      
@@ -182,6 +192,9 @@ void * writer_thread(void * arg) {
         }
         fprintf(f2, "\n");
 
+        //Write deriva
+        fprintf(f_deriva, "%f %f\n", msg.min_window, msg.max_window);
+
         //Free
         free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
 
@@ -191,7 +204,8 @@ void * writer_thread(void * arg) {
     
     fclose(f1);
     fclose(f2);
-    free_pointers(3, &filename_1, &filename_2, &filename_3);
+    fclose(f_deriva);
+    free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_deriva);
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: End.\n");
     pthread_exit(NULL);
