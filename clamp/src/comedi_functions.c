@@ -26,7 +26,11 @@ int daq_open_device (void ** device) {
 	/**device = (comedi_t *) malloc (sizeof(comedi_t));
 	dsc = *device;*/
 
-	if (READ_FROM_FILE == 1) f = fopen("data/2017y_11m_28d/19h_34m_1s_1.txt", "r");
+	if (READ_FROM_FILE == 1) {
+		f = fopen("data/2018y_2m_6d/19h_48m_45s_1.txt", "r");
+		char buf[999];
+		fgets(buf, sizeof(char) * 200, f);
+	}
 
 	dsc = comedi_open("/dev/comedi0");
 	if(dsc == NULL)
