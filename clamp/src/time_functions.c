@@ -30,3 +30,30 @@ void ts_add_time (struct timespec * ts, int sec, int nsec) {
 
     ts->tv_sec += sec;
 }
+
+void ts_convert_time (struct timespec * ts, unsigned int unit, double * res) {
+    *res = 0.0;
+
+    switch(unit) {
+        case MS:
+            *res += ts->tv_sec * MSEC_PER_SEC;
+            *res += ts->tv_nsec / 1000000.0;
+            break;
+        case US:
+            *res += ts->tv_sec * USEC_PER_SEC;
+            *res += ts->tv_nsec / 1000.0;
+            break;
+        case NS:
+            *res += ts->tv_sec * NSEC_PER_SEC;
+            *res += ts->tv_nsec;
+            break;
+        case PS:
+            *res += ts->tv_sec * PSEC_PER_SEC;
+            *res += ts->tv_nsec * 1000.0;
+            break;
+        default:
+            break;
+    }
+
+    return;
+}

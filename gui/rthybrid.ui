@@ -1898,6 +1898,11 @@
       <string>Gradual chemical map</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>Regularity control</string>
+     </property>
+    </item>
    </widget>
    <widget class="QFrame" name="frameAutocal">
     <property name="geometry">
@@ -2575,6 +2580,21 @@ Step</string>
          </layout>
         </item>
        </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="pageRegularity">
+      <widget class="QSpinBox" name="autocal_reg_per">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>100</y>
+         <width>71</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
       </widget>
      </widget>
     </widget>

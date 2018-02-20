@@ -297,5 +297,3 @@ void change_g (double *g){
 	return;
 }
 
-
-

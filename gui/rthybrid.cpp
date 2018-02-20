@@ -107,7 +107,7 @@ void RTHybrid::on_simulate_clicked()
 
     //args.anti = false;
 
-    if (args.mode_auto_cal == 0){
+    if (ui->autocalPages->currentIndex() == 0 || ui->autocalPages->currentIndex() == 3){
         switch (args.synapse) {
             case ELECTRIC: //Electrical
                 {
@@ -192,89 +192,95 @@ void RTHybrid::on_simulate_clicked()
             default:
                 break;
         }
-    } else {
-        switch (args.mode_auto_cal) {
-
-            case 1: //Electric conductance MSE
-            {
-                args.synapse = ELECTRIC;
-
-                args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-                args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-
-                syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
-                syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
-
-                args_live_to_model_elec->g[ELEC_G] = 0.0;
-                args_model_to_live_elec->g[ELEC_G] = 0.0;
-
-                args_model_to_live_elec->anti = 1;
-                args_live_to_model_elec->anti = 1;
-
-                if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
-
-                    args.mode_auto_cal = 1;
-                    args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
-
-                } else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
-
-                    args.mode_auto_cal = 2;
-                    args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
-
-                }
+    }
 
 
-                break;
+    switch (ui->autocalPages->currentIndex()) {
+        case 1: //Electric conductance MSE
+        {
+            args.synapse = ELECTRIC;
+
+            args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+            args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+
+            syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
+            syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
+
+            args_live_to_model_elec->g[ELEC_G] = 0.0;
+            args_model_to_live_elec->g[ELEC_G] = 0.0;
+
+            args_model_to_live_elec->anti = 1;
+            args_live_to_model_elec->anti = 1;
+
+            if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
+
+                args.mode_auto_cal = 1;
+                args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
+
+            } else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
+
+                args.mode_auto_cal = 2;
+                args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
+
             }
 
-            case 2: //Gradual MAP
-            {
-                args.mode_auto_cal = 7;
-                args.synapse = GOLOWASCH;
 
-                args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-                args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-
-                syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
-                syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
-
-                if (ui->gradualModelToExternalSelect->currentIndex() == GL_G_FAST){
-                    args_model_to_live_gl->g[GL_G_FAST] = ui->chemMap_MaxToExternal->value();
-                    args_model_to_live_gl->g[GL_G_SLOW] = 0.0;
-                }else{
-                    args_model_to_live_gl->g[GL_G_FAST] = 0.0;
-                    args_model_to_live_gl->g[GL_G_SLOW] = ui->chemMap_MaxToExternal->value();
-                }
-
-                if (ui->gradualExternalToModelSelect->currentIndex() == GL_G_FAST){
-                    args_live_to_model_gl->g[GL_G_FAST] = ui->chemMap_MaxToModel->value();
-                    args_live_to_model_gl->g[GL_G_SLOW] = 0.0;
-                }else{
-                    args_live_to_model_gl->g[GL_G_FAST] = 0.0;
-                    args_live_to_model_gl->g[GL_G_SLOW] = ui->chemMap_MaxToModel->value();
-                }
-
-                args.step_v_to_r = ui->chemMap_StepToExternal->value();
-                args.step_r_to_v = ui->chemMap_StepToModel->value();
-
-
-                args_live_to_model_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
-                args_live_to_model_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
-                args_live_to_model_gl->k1 = ui->doubleSynGrad_k1_map->value();
-                args_live_to_model_gl->k2 = ui->doubleSynGrad_k2_map->value();
-
-                args_model_to_live_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
-                args_model_to_live_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
-                args_model_to_live_gl->k1 = ui->doubleSynGrad_k1_map->value();
-                args_model_to_live_gl->k2 = ui->doubleSynGrad_k2_map->value();
-
-                break;
-            }
-
-            default:
-                args.mode_auto_cal = 0;
-                break;
+            break;
         }
+
+        case 2: //Gradual MAP
+        {
+            args.mode_auto_cal = 7;
+            args.synapse = GOLOWASCH;
+
+            args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+            args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+
+            syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
+            syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
+
+            if (ui->gradualModelToExternalSelect->currentIndex() == GL_G_FAST){
+                args_model_to_live_gl->g[GL_G_FAST] = ui->chemMap_MaxToExternal->value();
+                args_model_to_live_gl->g[GL_G_SLOW] = 0.0;
+            }else{
+                args_model_to_live_gl->g[GL_G_FAST] = 0.0;
+                args_model_to_live_gl->g[GL_G_SLOW] = ui->chemMap_MaxToExternal->value();
+            }
+
+            if (ui->gradualExternalToModelSelect->currentIndex() == GL_G_FAST){
+                args_live_to_model_gl->g[GL_G_FAST] = ui->chemMap_MaxToModel->value();
+                args_live_to_model_gl->g[GL_G_SLOW] = 0.0;
+            }else{
+                args_live_to_model_gl->g[GL_G_FAST] = 0.0;
+                args_live_to_model_gl->g[GL_G_SLOW] = ui->chemMap_MaxToModel->value();
+            }
+
+            args.step_v_to_r = ui->chemMap_StepToExternal->value();
+            args.step_r_to_v = ui->chemMap_StepToModel->value();
+
+
+            args_live_to_model_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
+            args_live_to_model_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
+            args_live_to_model_gl->k1 = ui->doubleSynGrad_k1_map->value();
+            args_live_to_model_gl->k2 = ui->doubleSynGrad_k2_map->value();
+
+            args_model_to_live_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
+            args_model_to_live_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
+            args_model_to_live_gl->k1 = ui->doubleSynGrad_k1_map->value();
+            args_model_to_live_gl->k2 = ui->doubleSynGrad_k2_map->value();
+
+            break;
+        }
+        case 3:
+        {
+            args.auto_cal_val_1 = ui->autocal_reg_per->value();
+            args.mode_auto_cal = 9;
+            break;
+        }
+
+        default:
+            args.mode_auto_cal = 0;
+            break;
     }
 
 
@@ -314,22 +320,44 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
 void RTHybrid::on_autocalCombo_activated(int index)
 {
     ui->autocalPages->setCurrentIndex(index);
-    if(index!=0){
-        //General stuff for all autocals
+
+    switch(index) {
+        ui->intTime->setEnabled(true);
+
+        case 1:
+            ui->synapseModelCombo->setEnabled(false);
+            ui->frameSynapse->setEnabled(false);
+            break;
+        case 2:
+            ui->synapseModelCombo->setEnabled(false);
+            ui->frameSynapse->setEnabled(false);
+            ui->intTime->setEnabled(false);
+            break;
+        case 3:
+            ui->synapseModelCombo->setEnabled(true);
+            ui->frameSynapse->setEnabled(true);
+            break;
+        default:
+            ui->synapseModelCombo->setEnabled(true);
+            ui->frameSynapse->setEnabled(true);
+            ui->intTime->setEnabled(true);
+            break;
+    }
+
+    /*if(index!=0){
         ui->synapseModelCombo->setEnabled(false);
         ui->frameSynapse->setEnabled(false);
-        //Particular behaviors
+
         if(index==2){
             ui->intTime->setEnabled(false);
         }else{
             ui->intTime->setEnabled(true);
         }
     }else{
-        //Autocal modes off
         ui->synapseModelCombo->setEnabled(true);
         ui->frameSynapse->setEnabled(true);
         ui->intTime->setEnabled(true);
-    }
+    }*/
 }
 
 void RTHybrid::on_autoDetect_clicked()

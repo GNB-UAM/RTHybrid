@@ -9,9 +9,59 @@ int aux_counter2 = TRUE;
 double g_max_r_to_v, g_max_v_to_r;
 double *g_r_to_v, *g_v_to_r;
 
+
+void cal_struct_init (void ** cal_struct, unsigned int mode_auto_cal, ...) {
+    va_list l;
+    va_start(l, mode_auto_cal); 
+
+    switch (mode_auto_cal) {
+        case 1 ... 8:
+        {
+            *cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
+            calibration_args * cal_struct_aux = *cal_struct;
+
+            cal_struct_aux->min_abs_model = va_arg(l, double);
+            cal_struct_aux->max_abs_model = va_arg(l, double);
+            cal_struct_aux->min_abs_real = va_arg(l, double);
+            cal_struct_aux->max_abs_real = va_arg(l, double);
+            cal_struct_aux->min_rel_real = va_arg(l, double);
+            cal_struct_aux->max_rel_real = va_arg(l, double);
+            cal_struct_aux->scale_virtual_to_real = va_arg(l, double);
+            cal_struct_aux->scale_real_to_virtual = va_arg(l, double);
+            cal_struct_aux->offset_virtual_to_real = va_arg(l, double);
+            cal_struct_aux->offset_real_to_virtual = va_arg(l, double);
+            cal_struct_aux->g_real_to_virtual = NULL;
+            cal_struct_aux->g_virtual_to_real = NULL;
+            break;
+        }
+        case 9:
+        {
+            *cal_struct = (regularity_control_args *) malloc (sizeof(regularity_control_args));
+            regularity_control_args * cal_struct_aux = *cal_struct;
+
+            cal_struct_aux->detect_on = TRUE;
+            cal_struct_aux->index = 0;
+            cal_struct_aux->sum_acc = 0.0;
+            cal_struct_aux->syn_aux_params_live_to_model = va_arg(l, syn_params*);
+            cal_struct_aux->syn_aux_params_model_to_live = va_arg(l, syn_params*);
+            cal_struct_aux->thresh_down = va_arg(l, double);
+            cal_struct_aux->thresh_up = va_arg(l, double);
+            cal_struct_aux->per = va_arg(l, double) / 100.0;
+            break;
+        }
+        default:
+            *cal_struct = NULL;
+            break;
+    }
+
+    va_end(l);
+    return;
+}
+
+
 int auto_calibration(
 					rt_args * args,
-					calibration_args * cs,
+					void * cal_args,
 					double * ret_values,
 					double rafaga_viva_pts,
 					double * ecm_result,
@@ -24,11 +74,12 @@ int auto_calibration(
                     double ini_k1,
                     double ini_k2,
                     syn_params syn_params_live_to_model,
-                    syn_params syn_params_model_to_live
+                    syn_params syn_params_model_to_live,
+                    struct timespec * ts
 					){
 
 	if(args->calibration==1 || args->calibration==2 || args->calibration==3){
-
+        calibration_args * cs = cal_args;
 		
         //Electrica en fase - ecm
 		int ret_ecm = calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
@@ -58,6 +109,7 @@ int auto_calibration(
         }
 
 	}else if (args->calibration==4){
+        calibration_args * cs = cal_args;
 
         /***** REVISAR *******/
         //Electrica y var
@@ -88,6 +140,8 @@ int auto_calibration(
         }
 
     }else if(args->calibration==6){
+        calibration_args * cs = cal_args;
+
         aux_counter++;
         if(aux_counter == 10000*3){
             args->params[R_HR]+=0.0006;
@@ -99,6 +153,8 @@ int auto_calibration(
         msg->extra = args->params[R_HR];
         
     }else if(args->calibration==7){
+        calibration_args * cs = cal_args;
+
         /*Primero vez seleccionamos que queremos*/
         // Identificamos que se quiere cambiar
         // Tenemos variables para cada sentido sin importar si es lenta o rapida
@@ -193,6 +249,11 @@ int auto_calibration(
         }
         msg->ecm = aux_gl->k1;
         msg->extra = aux_gl->k2;
+    } else if (args->calibration == 9) {
+        regularity_control_args * cs = cal_args;
+        cs->v = ret_values[0];
+        cs->ts = ts;
+        regularity_control(cs);
     }
     return FALSE;
 
@@ -230,7 +291,7 @@ void fix_drift (fix_drift_args args) {
     args.syn_aux_params_model_to_live->offset = *(args.offset_virtual_to_real);
     args.syn_aux_params_model_to_live->scale = *(args.scale_virtual_to_real);
 
-    if (args.model == GOLOWASCH) {
+    if (args.syn_aux_params_live_to_model->syn_type == GOLOWASCH) {
         syn_gl_params * aux_gl_drift = args.syn_aux_params_live_to_model->type_params;
 
         aux_gl_drift->min = *(args.min_window);
@@ -250,4 +311,79 @@ void fix_drift (fix_drift_args args) {
     }
 
     return;
+}
+
+
+
+/* Regularity control */
+int first_spike_detection (regularity_control_args * args) {
+    int ret = FALSE;
+
+    //printf("starting first_spike_detection %f thresh up %f thresh down %f detect %d\n", args->v, args->thresh_up, args->thresh_down, args->detect_on);
+
+    if (args->detect_on == TRUE && args->v >= args->thresh_up) {
+        args->detect_on = FALSE;
+        ts_convert_time (args->ts, MS, &args->first_spike_times[args->index]);
+
+        ret = TRUE;
+    } else if (args->detect_on == FALSE && args->v <= args->thresh_down) {
+        args->detect_on = TRUE;
+    }
+
+    return ret;
+}
+
+void change_conductance (syn_params * params, double per) {
+    if (params->syn_type == ELECTRIC) {
+        params->g[ELEC_G] += params->g[ELEC_G] * per;
+    } else if (params->syn_type == GOLOWASCH) {
+        if (params->g[GL_G_SLOW] != 0.0) params->g[GL_G_SLOW] += params->g[GL_G_SLOW] * per;
+        if (params->g[GL_G_FAST] != 0.0) params->g[GL_G_FAST] += params->g[GL_G_FAST] * per;
+    }
+
+    return;
+}
+
+
+void regularity_control (regularity_control_args * args) {
+    double mean, tmp, var = 0.0;
+    int i;
+
+    //printf("starting regularity_control %f\n", args->v);
+
+    if (first_spike_detection(args) == TRUE){
+        if (args->index >= 1) {
+            args->between_firsts_periods[args->index - 1] = args->first_spike_times[args->index] - args->first_spike_times[args->index - 1];
+            args->sum_acc += args->between_firsts_periods[args->index - 1];
+        }
+
+        args->index++;
+
+        if (args->index >= 6) {
+            /* Decision */
+            mean = args->sum_acc / 5;  
+
+            for(i = 0; i < 5; i++){
+                tmp = args->between_firsts_periods[i] - mean;
+                var += tmp*tmp;
+            }
+
+            var /= 5;
+            args->var = sqrt(var) / mean;
+
+            /* Actuacion */
+            if (var > 0.1) {
+                change_conductance(args->syn_aux_params_live_to_model, args->per);
+                change_conductance(args->syn_aux_params_model_to_live, args->per);
+            }
+
+            /* Resets */
+            args->sum_acc = 0.0;
+            args->index = 0;
+        }
+    }
+
+    //printf("ending regularity_control %f\n", args->v);
+
+    return; 
 }
