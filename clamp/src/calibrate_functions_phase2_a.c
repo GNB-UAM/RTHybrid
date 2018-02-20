@@ -254,6 +254,8 @@ int auto_calibration(
         cs->v = ret_values[0];
         cs->ts = ts;
         regularity_control(cs);
+
+        msg->ecm = cs->var;
     }
     return FALSE;
 
