@@ -74,8 +74,8 @@ void * rt_thread(void * arg) {
     syn_aux_params_model_to_live.type_params = NULL;
 
     /* Calibration variables */
-    double max_model, min_model, min_abs_model;
-    double max_real, min_real, min_abs_real, max_real_relativo;
+    double max_abs_model, min_rel_model, min_abs_model;
+    double max_abs_real, max_rel_real, min_rel_real, min_abs_real;
     double scale_real_to_virtual;
     double scale_virtual_to_real;
     double offset_virtual_to_real;
@@ -86,6 +86,7 @@ void * rt_thread(void * arg) {
 
     double max_window = -999999, min_window = 999999;
     int drift_counter = 0;
+    fix_drift_args fx_args;
 
     /* Loop variables */
     unsigned long loop_points = 0, i=0;
@@ -146,27 +147,27 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Real-time prepared");
 
-    args->ini(&min_model, &min_abs_model, &max_model);
+    args->ini(&min_rel_model, &min_abs_model, &max_abs_model);
 
-    //printf("min %f    min_abs %f   max %f\n", min_model, min_abs_model, max_model);
+    //printf("min %f    min_abs %f   max %f\n", min_rel_model, min_abs_model, max_abs_model);
 
 
     /************************
     CALIBRADO ESPACIO-TEMPORAL
     ************************/
     if (args->n_in_chan > 0) {
-        if ( ini_recibido (&min_real, &min_abs_real, &max_real, &max_real_relativo, &period_disp_real, session, calib_chan, args->period, args->freq, args->filename) == -1 ) {
+        if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &period_disp_real, session, calib_chan, args->period, args->freq, args->filename) == -1 ) {
             free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
             pthread_exit(NULL);
         }
         //printf("Periodo disparo = %f\n", period_disp_real);
         if (args->firing_rate != -1) period_disp_real = args->firing_rate;
-        calcula_escala (min_abs_model, max_model, min_abs_real, max_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
+        calcula_escala (min_abs_model, max_abs_model, min_abs_real, max_abs_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
         /*printf("min_abs_model=%f\n", min_abs_model);
-        printf("max_model=%f\n", max_model);
+        printf("max_abs_model=%f\n", max_abs_model);
         printf("min_abs_real=%f\n", min_abs_real);
-        printf("max_real=%f\n", max_real);*/
+        printf("max_abs_real=%f\n", max_abs_real);*/
 
         rafaga_viva_pts = args->freq * period_disp_real;
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
@@ -181,18 +182,18 @@ void * rt_thread(void * arg) {
     }
 
     msg.min_window = min_abs_real;
-    msg.max_window = max_real;
+    msg.max_window = max_abs_real;
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Create calibration struct");
 
     /*CALIBRATION STRUCT*/
     cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
     cal_struct->min_abs_model=min_abs_model;
-    cal_struct->max_model=max_model;
+    cal_struct->max_abs_model=max_abs_model;
     cal_struct->min_abs_real=min_abs_real;
-    cal_struct->max_real=max_real;
-    cal_struct->min_real=min_real;
-    cal_struct->max_real_relativo=max_real_relativo;
+    cal_struct->max_abs_real=max_abs_real;
+    cal_struct->min_rel_real=min_rel_real;
+    cal_struct->max_rel_real=max_rel_real;
     cal_struct->scale_virtual_to_real=scale_virtual_to_real;
     cal_struct->scale_real_to_virtual=scale_real_to_virtual;
     cal_struct->offset_virtual_to_real=offset_virtual_to_real;
@@ -246,8 +247,8 @@ void * rt_thread(void * arg) {
 
         case GOLOWASCH:
             {
-            ini_golowasch(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model, args->dt, min_abs_real, max_real);
-            ini_golowasch(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live, args->dt, min_abs_model, max_model);
+            ini_golowasch(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_args_live_to_model, args->dt, min_abs_real, max_abs_real);
+            ini_golowasch(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_args_model_to_live, args->dt, min_abs_model, max_abs_model);
 
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration mode = %i", args->calibration);
@@ -290,8 +291,8 @@ void * rt_thread(void * arg) {
             syn_aux_params[PR_AUX_K_Live_Model] = args->syn_gradual_k1;
             syn_aux_params[PR_AUX_K_Model_Live] = args->syn_gradual_k2;*/
 
-            /*ini_prinz(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_gradual_k1, args->dt, period_disp_real, min_abs_real, max_real);
-            ini_prinz(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_gradual_k2, args->dt, period_disp_real, min_abs_model, max_model);
+            /*ini_prinz(&syn_aux_params_live_to_model, scale_real_to_virtual, offset_real_to_virtual, args->syn_gradual_k1, args->dt, period_disp_real, min_abs_real, max_abs_real);
+            ini_prinz(&syn_aux_params_model_to_live, scale_virtual_to_real, offset_virtual_to_real, args->syn_gradual_k2, args->dt, period_disp_real, min_abs_model, max_abs_model);
 
             msg.n_g = 2;*/
             break;
@@ -451,7 +452,7 @@ void * rt_thread(void * arg) {
                     lectura_t[cont_lectura]=msg.t_absol;
                     cont_lectura++;
                 }else{ /*Calchange*/
-                    calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_real_relativo, min_real, &res_phase, syn_aux_params_live_to_model);
+                    calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_rel_real, min_rel_real, &res_phase, syn_aux_params_live_to_model);
                     msg.ecm = res_phase;
                     cont_lectura=0;
                 }
@@ -642,20 +643,23 @@ void * rt_thread(void * arg) {
 
             if (drift_counter >= (2 * rafaga_viva_pts)) {
                 drift_counter = 0;
-                calcula_escala (min_abs_model, max_model, min_window, max_window, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
+                
+                fx_args.scale_virtual_to_real = &scale_virtual_to_real;
+			    fx_args.scale_real_to_virtual = &scale_real_to_virtual;
+			    fx_args.offset_virtual_to_real = &offset_virtual_to_real;
+			    fx_args.offset_real_to_virtual = &offset_real_to_virtual;
+			    fx_args.max_window = &max_window;
+			    fx_args.min_window = &min_window;
+			    fx_args.max_rel_real = &max_rel_real;
+			    fx_args.min_rel_real = &min_rel_real;
+			    fx_args.max_abs_model = max_abs_model;
+			    fx_args.min_abs_model = min_abs_model;
+			    fx_args.syn_aux_params_live_to_model = &syn_aux_params_live_to_model;
+			    fx_args.syn_aux_params_model_to_live = &syn_aux_params_model_to_live;
+			    fx_args.model = args->model;
 
-                syn_aux_params_live_to_model.offset = offset_real_to_virtual;
-                syn_aux_params_live_to_model.scale = scale_real_to_virtual;
 
-                syn_aux_params_model_to_live.offset = offset_virtual_to_real;
-                syn_aux_params_model_to_live.scale = scale_virtual_to_real;
-
-                if (args->model == GOLOWASCH) {
-                    syn_gl_params * aux_gl_drift = syn_aux_params_live_to_model.type_params;
-
-                    aux_gl_drift->min = min_window;
-                    aux_gl_drift->max = max_window;
-                }
+                fix_drift(fx_args);
 
                 msg.min_window = min_window;
                 msg.max_window = max_window;

@@ -36,4 +36,8 @@ int auto_calibration(
                     syn_params syn_params_model_to_live
 					);
 
+void calcula_escala (double min_virtual, double max_virtual, double min_viva, double max_viva, double *scale_virtual_to_real, double *scale_real_to_virtual, double *offset_virtual_to_real, double *offset_real_to_virtual);
+
+void fix_drift (fix_drift_args args);
+
 #endif 
