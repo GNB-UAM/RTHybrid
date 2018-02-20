@@ -39,6 +39,9 @@ typedef struct {
     double ecm; 
     double extra;
     //char mensaje [100];
+    /* Deriva */
+    double min_window;
+    double max_window;
 } message;
 
 int open_queue (void ** msqid);

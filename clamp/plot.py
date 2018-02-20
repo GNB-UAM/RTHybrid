@@ -13,11 +13,14 @@ ap = argparse.ArgumentParser()
 data1 = aux.DataStruct1(ap)
 data2 = aux.DataStruct2(ap)
 
-funcs.plot_voltage(data1)
+
+
+#funcs.plot_voltage(data1)
+funcs.plot_voltage_min_max(data1)
 funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)
 
-autocal.plot_autocal(data1, data2)
+#autocal.plot_autocal(data1, data2)
 
 
 

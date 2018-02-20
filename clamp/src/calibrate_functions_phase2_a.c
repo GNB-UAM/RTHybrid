@@ -197,3 +197,57 @@ int auto_calibration(
     return FALSE;
 
 }
+
+/* Ordenar los ficheros de calibraciones */
+void calcula_escala (double min_virtual, double max_virtual, double min_viva, double max_viva, double *scale_virtual_to_real, double *scale_real_to_virtual, double *offset_virtual_to_real, double *offset_real_to_virtual){
+    
+    double rg_virtual, rg_viva;
+    
+    rg_virtual = max_virtual-min_virtual;
+    rg_viva = max_viva-min_viva;
+    
+    //printf("rg_virtual=%f, rg_viva=%f\n", rg_virtual, rg_viva);
+    
+    *scale_virtual_to_real = rg_viva / rg_virtual;
+    *scale_real_to_virtual = rg_virtual / rg_viva;
+    
+    *offset_virtual_to_real = min_viva - (min_virtual*(*scale_virtual_to_real));
+    *offset_real_to_virtual = min_virtual - (min_viva*(*scale_real_to_virtual));
+
+    //printf("ESCALAS CALCULADAS\n\n");
+    return;
+}
+
+
+void fix_drift (fix_drift_args args) {
+    double per_min = 0.1, per_max = 0.1;
+
+    calcula_escala (args.min_abs_model, args.max_abs_model, *(args.min_window), *(args.max_window), args.scale_virtual_to_real, args.scale_real_to_virtual, args.offset_virtual_to_real, args.offset_real_to_virtual);
+
+    args.syn_aux_params_live_to_model->offset = *(args.offset_real_to_virtual);
+    args.syn_aux_params_live_to_model->scale = *(args.scale_real_to_virtual);
+
+    args.syn_aux_params_model_to_live->offset = *(args.offset_virtual_to_real);
+    args.syn_aux_params_model_to_live->scale = *(args.scale_virtual_to_real);
+
+    if (args.model == GOLOWASCH) {
+        syn_gl_params * aux_gl_drift = args.syn_aux_params_live_to_model->type_params;
+
+        aux_gl_drift->min = *(args.min_window);
+        aux_gl_drift->max = *(args.max_window);
+    }
+
+    if(*(args.min_window) > 0){
+        *(args.min_rel_real) = *(args.min_window) + (*(args.min_window) * per_min);
+    }else{
+        *(args.min_rel_real) = *(args.min_window) - (*(args.min_window) * per_min);
+    }
+
+    if(*(args.max_window) > 0){
+        *(args.max_rel_real) = *(args.max_window) - (*(args.max_window) * per_max);
+    }else{
+        *(args.max_rel_real) = *(args.max_window) + (*(args.max_window) * per_max);
+    }
+
+    return;
+}

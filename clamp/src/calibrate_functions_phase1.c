@@ -1,6 +1,6 @@
 #include "../includes/calibrate_functions_phase1.h"
 
-int ini_recibido (double *min, double *min_abs, double *max, double *max_relativo, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename){
+int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename){
     
     /*TIEMPO OBSERVACION*/
     int segs_observo = 10; 
@@ -65,38 +65,36 @@ int ini_recibido (double *min, double *min_abs, double *max, double *max_relativ
 
 
     /*RETURN*/
-    double min_abs_aux = mini;
-    double max_aux = maxi;
-    *min_abs = min_abs_aux;
-    *max = max_aux;
+    *min_abs_real = mini;
+    *max_abs_real = maxi;
 
     double porcentaje_mini = 0.10;
     double porcentaje_maxi = 0.10;
 
-    //printf("MIN_ABS= %f\n", min_abs_aux);
-    //printf("MAX_ABS= %f\n", max_aux);
+    //printf("min_abs_real= %f\n", min_abs_real_aux);
+    //printf("MAX_ABS= %f\n", max_abs_real_aux);
 
     if(mini>0){
-        *min = mini + mini*porcentaje_mini;
+        *min_rel_real = mini + mini*porcentaje_mini;
     }else{
-        *min = mini - mini*porcentaje_mini;
+        *min_rel_real = mini - mini*porcentaje_mini;
     }
 
     if(maxi>0){
-        *max_relativo = maxi - maxi*porcentaje_maxi;
+        *max_rel_real = maxi - maxi*porcentaje_maxi;
     }else{
-        *max_relativo = maxi + maxi*porcentaje_maxi;
+        *max_rel_real = maxi + maxi*porcentaje_maxi;
     }
 
     //printf("MIN_RE= %f\n", *min);
-    //printf("MAX_RE= %f\n", *max_relativo);
+    //printf("MAX_RE= %f\n", *max_rel_real);
 
     /*GUARDAR DATOS LEIDOS*/
 
     /*PERIODO DE LA SEÑAL*/
     signal_convolution (lectura, size_lectura, convolution, size_lectura);
     signal_average (lectura, size_lectura, media, size_media);
-    *period_signal = signal_period_2 (segs_observo, lectura, size_lectura, *max_relativo, *min);
+    *period_signal = signal_period_2 (segs_observo, lectura, size_lectura, *max_rel_real, *min_rel_real);
     //printf("Perido signal = %f\n", *period_signal);
     array_to_file(lectura, size_lectura, filename, "lectura_ini");
     array_to_file(convolution, size_lectura, filename, "lectura_ini_filtro");
@@ -194,24 +192,5 @@ void array_to_file(double * array, int size, char * filename_date, char * tittle
     fflush(f);
     fclose(f);
     sleep(1);
-    return;
-}
-
-void calcula_escala (double min_virtual, double max_virtual, double min_viva, double max_viva, double *scale_virtual_to_real, double *scale_real_to_virtual, double *offset_virtual_to_real, double *offset_real_to_virtual){
-    
-    double rg_virtual, rg_viva;
-    
-    rg_virtual = max_virtual-min_virtual;
-    rg_viva = max_viva-min_viva;
-    
-    //printf("rg_virtual=%f, rg_viva=%f\n", rg_virtual, rg_viva);
-    
-    *scale_virtual_to_real = rg_viva / rg_virtual;
-    *scale_real_to_virtual = rg_virtual / rg_viva;
-    
-    *offset_virtual_to_real = min_viva - (min_virtual*(*scale_virtual_to_real));
-    *offset_real_to_virtual = min_virtual - (min_viva*(*scale_real_to_virtual));
-
-    //printf("ESCALAS CALCULADAS\n\n");
     return;
 }

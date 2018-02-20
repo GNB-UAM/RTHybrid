@@ -69,21 +69,40 @@ typedef struct {
 
 typedef struct {
     double min_abs_model;
-    double max_model;
+    double max_abs_model;
     double min_abs_real;
-    double max_real;
+    double max_abs_real;
+    double min_rel_model;
+    double max_rel_model;
+    double min_rel_real;
+    double max_rel_real;
     double scale_virtual_to_real;
     double scale_real_to_virtual;
     double offset_virtual_to_real;
     double offset_real_to_virtual;
-    double max_real_relativo;
-    double min_real;
     double * g_virtual_to_real;
     double * g_real_to_virtual;
     double syn_gradual_k1;
     double syn_gradual_k2;
 
 } calibration_args;
+
+
+typedef struct {
+    double * scale_virtual_to_real;
+    double * scale_real_to_virtual;
+    double * offset_virtual_to_real;
+    double * offset_real_to_virtual;
+    double * max_window;
+    double * min_window;
+    double * max_rel_real;
+    double * min_rel_real;
+    double max_abs_model;
+    double min_abs_model;
+    syn_params * syn_aux_params_live_to_model;
+    syn_params * syn_aux_params_model_to_live;
+    int model;
+} fix_drift_args;
 
 
 typedef struct {

@@ -58,6 +58,30 @@ def plot_voltage_events(data, data2):
 	plt.show()
 
 
+def plot_voltage_min_max(data):
+	plt.figure(figsize=(12,8))
+
+	ax1 = plt.subplot(2, 1, 1)
+	plt.title("Hybrid connection")
+	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
+	plt.plot(data.time, data.min_window, "red", linewidth=0.8)
+	plt.plot(data.time, data.max_window, "red", linewidth=0.8)
+	plt.ylabel("Voltage")
+	plt.legend()
+
+	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
+	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
+	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
+	plt.plot(data.time, data.v_model, label="m", linewidth=0.8)
+	plt.ylabel("Current")
+	plt.legend()
+	
+	plt.xlabel("Time (s)")
+	plt.tight_layout()
+	plt.show()
+
+
 #########
 # Latencies
 #########
