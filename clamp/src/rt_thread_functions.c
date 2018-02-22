@@ -728,7 +728,7 @@ void * rt_thread(void * arg) {
 			    fx_args.min_abs_model = min_abs_model;
 			    fx_args.syn_aux_params_live_to_model = &syn_aux_params_live_to_model;
 			    fx_args.syn_aux_params_model_to_live = &syn_aux_params_model_to_live;
-			    fx_args.model = args->model;
+			    fx_args.model = args->type_syn;
 
 
                 fix_drift(fx_args);
