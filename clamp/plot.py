@@ -9,13 +9,14 @@ import plot_aux as aux
 import plot_funcs as funcs
 import plot_autocal as autocal
 
-ap = argparse.ArgumentParser()
-data1 = aux.DataStruct1(ap)
-data2 = aux.DataStruct2(ap)
+args  = aux.arguments()
+data1 = aux.DataStruct1(args)
+data2 = aux.DataStruct2(args)
 
 
 
 #funcs.plot_voltage(data1)
+funcs.plot_just_voltage(data1)
 funcs.plot_voltage_min_max(data1)
 funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)

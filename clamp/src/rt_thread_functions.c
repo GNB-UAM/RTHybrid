@@ -548,6 +548,39 @@ void * rt_thread(void * arg) {
                 free_synapse(&syn_aux_params_model_to_live);
                 pthread_exit(NULL);
             }
+
+            /* Fix drift */
+            if (min_window > ret_values[0]) min_window = ret_values[0];
+            if (max_window < ret_values[0]) max_window = ret_values[0];
+
+            if (drift_counter >= (2 * rafaga_viva_pts)) {
+                drift_counter = 0;
+                
+                fx_args.scale_virtual_to_real = &scale_virtual_to_real;
+			    fx_args.scale_real_to_virtual = &scale_real_to_virtual;
+			    fx_args.offset_virtual_to_real = &offset_virtual_to_real;
+			    fx_args.offset_real_to_virtual = &offset_real_to_virtual;
+			    fx_args.max_window = &max_window;
+			    fx_args.min_window = &min_window;
+			    fx_args.max_rel_real = &max_rel_real;
+			    fx_args.min_rel_real = &min_rel_real;
+			    fx_args.max_abs_model = max_abs_model;
+			    fx_args.min_abs_model = min_abs_model;
+			    fx_args.syn_aux_params_live_to_model = &syn_aux_params_live_to_model;
+			    fx_args.syn_aux_params_model_to_live = &syn_aux_params_model_to_live;
+			    fx_args.model = args->type_syn;
+
+
+                fix_drift(fx_args);
+
+                msg.min_window = min_window;
+                msg.max_window = max_window;
+
+                max_window = -999999;
+                min_window = 999999;
+            }
+
+            drift_counter++;
         }
         msg.c_real = 0;
         args->func(args->dim, args->dt, args->vars, args->params, c_real);
