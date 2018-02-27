@@ -243,10 +243,11 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_rel_real=%f\n", max_rel_real);
 
 
-        args->ini(rafaga_viva_pts, &args->rafaga_modelo_pts);
-
         rafaga_viva_pts = args->freq * period_disp_real;
+        args->ini(rafaga_viva_pts, &(args->rafaga_modelo_pts));
+
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
+
         if (args->s_points == 0) args->s_points = 1;
     } else {
         /*MODO SIN ENTRADA*/

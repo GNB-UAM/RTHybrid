@@ -38,7 +38,7 @@ typedef struct {
     int * in_channels;
     int * out_channels;
     int freq;
-    int rafaga_modelo_pts;
+    double rafaga_modelo_pts;
     char * filename;
     int calibration;
     int model;
