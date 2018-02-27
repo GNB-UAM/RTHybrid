@@ -93,6 +93,7 @@ int clamp (clamp_args * args) {
 			
 			r_args.func = &izhikevich;
 			r_args.ini = &ini_iz;
+			r_args.min_max_model = &min_max_iz;
 
 			break;
 		case HR:
@@ -110,6 +111,7 @@ int clamp (clamp_args * args) {
 
 			r_args.func = &hindmarsh_rose;
 			r_args.ini = &ini_hr;
+			r_args.min_max_model = &min_max_hr;
 
 			break;
 		case RLK:
@@ -129,6 +131,7 @@ int clamp (clamp_args * args) {
 			
 			r_args.func = &rulkov_map;
 			r_args.ini = &ini_rlk;
+			r_args.min_max_model = &min_max_rlk;
 
 			break;
 		default:

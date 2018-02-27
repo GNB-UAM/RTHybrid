@@ -335,7 +335,12 @@ void izhikevich (int dim, double dt, double * vars, double * params, double syn)
 	return;
 }
 
-void ini_iz (double *min, double *minABS, double *max){
+void ini_iz (double pts_live, double * pts_model){
+    *pts_model = 59324.0;
+    return;
+}
+
+void min_max_iz (double *min, double *minABS, double *max){
     *min=-50.000000;
     *minABS=-74.235106;
     *max=30.240470;
@@ -359,11 +364,15 @@ void hindmarsh_rose (int dim, double dt, double * vars, double * params, double 
 	return;
 }
 
-void ini_hr (double *min, double *minABS, double *max){
+void ini_hr (double pts_live, double * pts_model){
+    *pts_model = 260166.0;
+    return;
+}
+
+void min_max_hr (double *min, double *minABS, double *max){
     *min=-1.608734;
     *minABS=-1.608734;
     *max=1.797032;
-    //rafaga_hr=260166;
     return;
 }
 
@@ -401,6 +410,8 @@ void rulkov_map (int dim, double dt, double * vars, double * params, double syn)
 
         vars[0] = ret[0];
         vars[1] = ret[1];
+
+        return;
     }
 
     ret[0] = params[OLD_RLK] + (params[INTER_RLK] - params[OLD_RLK]) / ((params[PTS_RLK] - 400) / 400) * params[J_RLK];
@@ -414,7 +425,13 @@ void rulkov_map (int dim, double dt, double * vars, double * params, double syn)
     return;
 }
 
-void ini_rlk (double *min, double *minABS, double *max){
+void ini_rlk (double pts_live, double * pts_model){
+    *pts_model = pts_live;
+    return;
+}
+
+
+void min_max_rlk (double *min, double *minABS, double *max){
     *min=-1.18;
     *minABS=-1.977;
     *max=2.111;

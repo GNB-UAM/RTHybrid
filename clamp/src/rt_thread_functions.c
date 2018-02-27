@@ -208,7 +208,7 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Real-time prepared");
 
-    args->ini(&min_rel_model, &min_abs_model, &max_abs_model);
+    args->min_max_model(&min_rel_model, &min_abs_model, &max_abs_model);
 
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Model initiated");
@@ -242,8 +242,12 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: min_rel_real=%f\n", min_rel_real);
         if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_rel_real=%f\n", max_rel_real);
 
+
+        args->ini(rafaga_viva_pts, &args->rafaga_modelo_pts);
+
         rafaga_viva_pts = args->freq * period_disp_real;
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
+        if (args->s_points == 0) args->s_points = 1;
     } else {
         /*MODO SIN ENTRADA*/
         scale_real_to_virtual = 1;

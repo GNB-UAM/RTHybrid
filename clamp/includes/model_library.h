@@ -166,22 +166,27 @@ void izh_f (double * vars, double * ret, double * params, double syn);
 
 void izhikevich (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_iz (double *min, double *minABS, double *max);
+void ini_iz (double pts_live, double * pts_model);
 
+void min_max_iz (double *min, double *minABS, double *max);
 
 /* HINDMARSH-ROSE */
 void hr_f (double * vars, double * ret, double * params, double syn);
 
 void hindmarsh_rose (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_hr (double *min, double *minABS, double *max);
+void ini_hr (double pts_live, double * pts_model);
 
-/* HINDMARSH-ROSE */
+void min_max_hr (double *min, double *minABS, double *max);
+
+/* RULKOV */
 void rlk_f (double * vars, double * ret, double * params, double syn);
 
 void rulkov_map (int dim, double dt, double * vars, double * params, double syn);
 
-void ini_rlk (double *min, double *minABS, double *max);
+void ini_rlk (double pts_live, double * pts_model);
+
+void min_max_rlk (double *min, double *minABS, double *max);
 
 #endif // MODEL_LIBRARY_H
 

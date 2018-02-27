@@ -19,7 +19,8 @@ typedef struct {
 
 typedef struct {
     void (*func)(int, double, double*, double*, double);
-    void (*ini)(double*, double*, double*);
+    void (*ini)(double, double*);
+    void (*min_max_model)(double*, double*, double*);
     void (*syn)(double, double, syn_params*, double*);
     double * vars;
     double * params;
