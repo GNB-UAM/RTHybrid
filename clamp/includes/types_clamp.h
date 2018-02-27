@@ -87,6 +87,24 @@ typedef struct {
 
 } calibration_args;
 
+typedef struct {
+    unsigned int detect_on;
+    double first_spike_times[6]; //N
+    double between_firsts_periods[5]; //N - 1
+    unsigned index;
+    double sum_acc;
+    double per;
+    double thresh_up;
+    double thresh_down;
+    double var;
+
+    /* Cosas que se le pasan desde rt */
+    struct timespec * ts;
+    double v;
+    syn_params * syn_aux_params_live_to_model;
+    syn_params * syn_aux_params_model_to_live;
+} regularity_control_args;
+
 
 typedef struct {
     double * scale_virtual_to_real;
@@ -101,7 +119,6 @@ typedef struct {
     double min_abs_model;
     syn_params * syn_aux_params_live_to_model;
     syn_params * syn_aux_params_model_to_live;
-    int model;
 } fix_drift_args;
 
 

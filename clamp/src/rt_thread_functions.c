@@ -1,5 +1,4 @@
 #include "../includes/rt_thread_functions.h"
-#define DEBUG 0
 
 /************************
 GLOBAL VARIABLES
@@ -7,7 +6,7 @@ GLOBAL VARIABLES
 void * dsc = NULL;
 Daq_session * session = NULL;
 rt_args * args;
-calibration_args * cal_struct = NULL;
+void * cal_struct = NULL;
 message msg;
 double * syn_aux_params = NULL;
 syn_params syn_aux_params_live_to_model, syn_aux_params_model_to_live;
@@ -236,10 +235,12 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: calcula_escala done");
 
         
-        /*printf("min_abs_model=%f\n", min_abs_model);
+        printf("min_abs_model=%f\n", min_abs_model);
         printf("max_abs_model=%f\n", max_abs_model);
         printf("min_abs_real=%f\n", min_abs_real);
-        printf("max_abs_real=%f\n", max_abs_real);*/
+        printf("max_abs_real=%f\n", max_abs_real);
+        printf("min_rel_real=%f\n", min_rel_real);
+        printf("max_rel_real=%f\n", max_rel_real);
 
         rafaga_viva_pts = args->freq * period_disp_real;
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
@@ -258,23 +259,6 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Create calibration struct");
 
-    /*CALIBRATION STRUCT*/
-    cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
-    cal_struct->min_abs_model=min_abs_model;
-    cal_struct->max_abs_model=max_abs_model;
-    cal_struct->min_abs_real=min_abs_real;
-    cal_struct->max_abs_real=max_abs_real;
-    cal_struct->min_rel_real=min_rel_real;
-    cal_struct->max_rel_real=max_rel_real;
-    cal_struct->scale_virtual_to_real=scale_virtual_to_real;
-    cal_struct->scale_real_to_virtual=scale_real_to_virtual;
-    cal_struct->offset_virtual_to_real=offset_virtual_to_real;
-    cal_struct->offset_real_to_virtual=offset_real_to_virtual;
-    cal_struct->g_real_to_virtual = NULL;
-    cal_struct->g_virtual_to_real = NULL;
-
-
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
 
     /*CALIBRADO TEMPORAL*/
     msg2.i = args->s_points;
@@ -326,10 +310,10 @@ void * rt_thread(void * arg) {
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration mode = %i", args->calibration);
 
             if(args->calibration == 7){
-                cal_struct->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-                cal_struct->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
-                copy_1d_array(syn_aux_params_model_to_live.g, cal_struct->g_virtual_to_real, 2);
-                copy_1d_array(syn_aux_params_live_to_model.g, cal_struct->g_real_to_virtual, 2);
+                ((calibration_args*)cal_struct)->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
+                ((calibration_args*)cal_struct)->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
+                copy_1d_array(syn_aux_params_model_to_live.g, ((calibration_args*)cal_struct)->g_virtual_to_real, 2);
+                copy_1d_array(syn_aux_params_live_to_model.g, ((calibration_args*)cal_struct)->g_real_to_virtual, 2);
 
                 if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", syn_aux_params_model_to_live.g[GL_G_FAST]);
                 if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", syn_aux_params_model_to_live.g[GL_G_SLOW]);
@@ -370,10 +354,42 @@ void * rt_thread(void * arg) {
             break;
 
         default:
-            free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+            free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
             pthread_exit(NULL);
     }
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn struct created");
+
+
+    /*CALIBRATION STRUCT*/
+    /*cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
+    cal_struct->min_abs_model=min_abs_model;
+    cal_struct->max_abs_model=max_abs_model;
+    cal_struct->min_abs_real=min_abs_real;
+    cal_struct->max_abs_real=max_abs_real;
+    cal_struct->min_rel_real=min_rel_real;
+    cal_struct->max_rel_real=max_rel_real;
+    cal_struct->scale_virtual_to_real=scale_virtual_to_real;
+    cal_struct->scale_real_to_virtual=scale_real_to_virtual;
+    cal_struct->offset_virtual_to_real=offset_virtual_to_real;
+    cal_struct->offset_real_to_virtual=offset_real_to_virtual;
+    cal_struct->g_real_to_virtual = NULL;
+    cal_struct->g_virtual_to_real = NULL;*/
+
+    if (args->calibration >= 1 && args->calibration <= 8) {
+    	cal_struct_init (&cal_struct, args->calibration, min_abs_model, max_abs_model, min_abs_real,
+    		max_abs_real, min_rel_real, max_rel_real, scale_virtual_to_real, scale_real_to_virtual,
+    		offset_virtual_to_real, offset_real_to_virtual);
+
+    } else if (args->calibration == 9) {
+    	printf("min_rel_real %f max_rel_real %f\n", min_rel_real, max_rel_real);
+    	cal_struct_init (&cal_struct, args->calibration, &syn_aux_params_live_to_model, &syn_aux_params_model_to_live,
+    		min_rel_real, max_rel_real, args->auto_cal_val_1);
+    }
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Preparation done");
 
@@ -452,7 +468,7 @@ void * rt_thread(void * arg) {
             ts_add_time(&ts_target, 0, args->period);
 
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
-                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                free_pointers(2, &session, &cal_struct);
                 daq_close_device ((void**) &dsc);
                 free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 free_synapse (&syn_aux_params_live_to_model);
@@ -541,7 +557,7 @@ void * rt_thread(void * arg) {
             ts_add_time(&ts_target, 0, args->period);
 
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
-                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                free_pointers(2, &session, &cal_struct);
                 daq_close_device ((void**) &dsc);
                 free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 free_synapse(&syn_aux_params_live_to_model);
@@ -568,7 +584,6 @@ void * rt_thread(void * arg) {
 			    fx_args.min_abs_model = min_abs_model;
 			    fx_args.syn_aux_params_live_to_model = &syn_aux_params_live_to_model;
 			    fx_args.syn_aux_params_model_to_live = &syn_aux_params_model_to_live;
-			    fx_args.model = args->type_syn;
 
 
                 fix_drift(fx_args);
@@ -698,7 +713,8 @@ void * rt_thread(void * arg) {
             end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
                                 &msg, lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
-                                ini_k1, ini_k2, syn_aux_params_live_to_model, syn_aux_params_model_to_live
+                                ini_k1, ini_k2, syn_aux_params_live_to_model, syn_aux_params_model_to_live,
+                                &ts_iter
                                 );
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");
@@ -727,7 +743,7 @@ void * rt_thread(void * arg) {
                     pthread_exit(NULL);
                 }
 
-                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                free_pointers(2, &session, &cal_struct);
                 daq_close_device ((void**) &dsc);
                 free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 free_synapse(&syn_aux_params_live_to_model);
@@ -761,8 +777,6 @@ void * rt_thread(void * arg) {
 			    fx_args.min_abs_model = min_abs_model;
 			    fx_args.syn_aux_params_live_to_model = &syn_aux_params_live_to_model;
 			    fx_args.syn_aux_params_model_to_live = &syn_aux_params_model_to_live;
-			    fx_args.model = args->type_syn;
-
 
                 fix_drift(fx_args);
 
@@ -840,7 +854,7 @@ void * rt_thread(void * arg) {
             ts_add_time(&ts_target, 0, args->period);
 
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
-                free_pointers(4, &session, &cal_struct->g_virtual_to_real, &cal_struct->g_real_to_virtual, &cal_struct);
+                free_pointers(2, &session, &cal_struct);
                 daq_close_device ((void**) &dsc);
                 free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
                 free_synapse(&syn_aux_params_live_to_model);
@@ -865,7 +879,7 @@ void * rt_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    free_pointers(4, &session, &cal_struct->g_real_to_virtual, &cal_struct->g_virtual_to_real, &cal_struct);
+    free_pointers(2, &session, &cal_struct);
     daq_close_device ((void**) &dsc);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
