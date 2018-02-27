@@ -235,12 +235,12 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: calcula_escala done");
 
         
-        printf("min_abs_model=%f\n", min_abs_model);
-        printf("max_abs_model=%f\n", max_abs_model);
-        printf("min_abs_real=%f\n", min_abs_real);
-        printf("max_abs_real=%f\n", max_abs_real);
-        printf("min_rel_real=%f\n", min_rel_real);
-        printf("max_rel_real=%f\n", max_rel_real);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: min_abs_model=%f\n", min_abs_model);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_abs_model=%f\n", max_abs_model);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: min_abs_real=%f\n", min_abs_real);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_abs_real=%f\n", max_abs_real);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: min_rel_real=%f\n", min_rel_real);
+        if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_rel_real=%f\n", max_rel_real);
 
         rafaga_viva_pts = args->freq * period_disp_real;
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
@@ -383,7 +383,7 @@ void * rt_thread(void * arg) {
     		offset_virtual_to_real, offset_real_to_virtual);
 
     } else if (args->calibration == 9) {
-    	printf("min_rel_real %f max_rel_real %f\n", min_rel_real, max_rel_real);
+    	if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: control_regularity min_rel_real %f max_rel_real %f\n", min_rel_real, max_rel_real);
     	cal_struct_init (&cal_struct, args->calibration, &syn_aux_params_live_to_model, &syn_aux_params_model_to_live,
     		min_rel_real, max_rel_real, args->auto_cal_val_1);
     }

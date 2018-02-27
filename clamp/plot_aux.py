@@ -34,7 +34,7 @@ class arguments():
 			self.end = int(args["end"]) * int(args["freq"])
 		else:
 			# All the file
-			self.end = sum(1 for line in open(filename+"_1.txt",'r'))
+			self.end = sum(1 for line in open(self.file+"_1.txt",'r'))
 
 		# Error control
 		if(self.start >= self.end):
