@@ -16,7 +16,7 @@ class arguments():
 		ap.add_argument("-s", "--start",  required=False, default=0,        help="First data")
 		ap.add_argument("-e", "--end",    required=False, help="Last data")
 		ap.add_argument("-j", "--jump",   required=False, default=0,        help="Plot less points")
-		ap.add_argument("-d", "--drift",  required=False, default=0,        help="Fix_drift activated")
+		ap.add_argument("-d", "--drift",  required=False, default=1,        help="Fix_drift activated")
 		args = vars(ap.parse_args())
 
 		# Parse and save arguments

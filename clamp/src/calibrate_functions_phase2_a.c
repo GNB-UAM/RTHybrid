@@ -375,8 +375,10 @@ void regularity_control (regularity_control_args * args) {
 
             /* Actuacion */
             if (var > 0.1) {
-                change_conductance(args->syn_aux_params_live_to_model, args->per);
+                //change_conductance(args->syn_aux_params_live_to_model, args->per);
                 change_conductance(args->syn_aux_params_model_to_live, args->per);
+            }else{
+                args->per = args->per / 2; 
             }
 
             /* Resets */

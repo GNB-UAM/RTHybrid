@@ -5,104 +5,120 @@ import matplotlib.gridspec as gridspec
 import argparse
 import math
 
-#########
-# Voltage
-#########
-def plot_voltage(data):
-	plt.figure(figsize=(12,8))
+import plot_analysis as pa
 
-	ax1 = plt.subplot(2, 1, 1)
-	plt.title("Hybrid connection")
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
-	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
-	plt.ylabel("Voltage")
-	plt.legend()
-
-	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
-	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
-	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
-	#plt.plot(data.time, data.v_model, label="m", linewidth=0.8)
-	plt.ylabel("Current")
-	plt.legend()
+##################
+##################
+# STANDAR PLOTS  #
+##################
+##################
+def plot_voltage(data1, data2, args):
+	#Crete and size
+	fig = plt.figure(figsize=(12,4))
+    
+	#Plots
+	ax1 = plt.subplot(1, 1, 1)
+	plot_line_voltage(data1, data2, args)
 	
+	#Details
 	plt.xlabel("Time (s)")
 	plt.tight_layout()
 	plt.show()
 
-def plot_voltage_events(data, data2):
+def plot_voltage_current(data1, data2, args):
+	#Crete and size
+	plt.figure(figsize=(12,8))
+
+	#Plots
+	ax1 = plt.subplot(2, 1, 1)
+	plot_line_voltage(data1, data2, args)
+
+	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
+	plot_line_current(data1, data2, args)
+	
+	#Details
+	plt.xlabel("Time (s)")
+	plt.tight_layout()
+	plt.show()
+
+def plot_voltage_g_current(data1, data2, args):
 	plt.figure(figsize=(12,8))
 
 	ax1 = plt.subplot(3, 1, 1)
 	plt.title("Hybrid connection")
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
-	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
-	plt.ylabel("Voltage")
-	plt.legend()
+	plot_line_voltage(data1, data2, args)
 
 	ax2 = plt.subplot(3, 1, 2, sharex=ax1)
-	plt.plot(data.time, data2.data_extra[0], label="Real to Model - Fast", linewidth=0.8)
-	plt.plot(data.time, data2.data_extra[1], label="Real to Model - Slow", linewidth=0.8)
-	plt.plot(data.time, data2.data_extra[2], label="Model to Real - Fast", linewidth=0.8)
-	plt.plot(data.time, data2.data_extra[3], label="Model to Real - Slow", linewidth=0.8)
+	# No en funcion por no ser universal
+	plt.plot(data1.time, data2.data_extra[0], label="Real to Model - Fast", linewidth=0.8)
+	plt.plot(data1.time, data2.data_extra[1], label="Real to Model - Slow", linewidth=0.8)
+	plt.plot(data1.time, data2.data_extra[2], label="Model to Real - Fast", linewidth=0.8)
+	plt.plot(data1.time, data2.data_extra[3], label="Model to Real - Slow", linewidth=0.8)
 	plt.ylabel("Conductance")
 	plt.legend()
 
 	ax3 = plt.subplot(3, 1, 3, sharex=ax1)
-	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
-	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
-	plt.ylabel("Current")
-	plt.legend()
+	plot_line_current(data1, data2, args)
 	
 	plt.xlabel("Time (s)")
 	plt.tight_layout()
 	plt.show()
 
-
-def plot_voltage_min_max(data):
+def plot_regularity(data1, data2, args):
+	times = pa.periodo(data1.data_in[0], args.freq, True)[0]
+	times, res = pa.regularity(times)
+	
+	#Crete and size
 	plt.figure(figsize=(12,8))
 
+	#Plots
 	ax1 = plt.subplot(2, 1, 1)
-	plt.title("Hybrid connection")
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
-	plt.plot(data.time, data.data_in[0], label="Real neuron", linewidth=0.8)
-	plt.plot(data.time, data.min_window, "g", linewidth=0.8)
-	plt.plot(data.time, data.max_window, "g", linewidth=0.8)
-	plt.ylabel("Voltage")
-	plt.legend()
+	plot_line_voltage(data1, data2, args)
 
 	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
-	plt.plot(data.time, data.c_viva, label="Current real to model", linewidth=0.8)
-	plt.plot(data.time, data.c_model, label="Current model to real", linewidth=0.8)
-	#plt.plot(data.time, data.v_model, label="m", linewidth=0.8)
-	plt.ylabel("Current")
-	plt.legend()
-	
-	plt.xlabel("Time (s)")
-	plt.tight_layout()
-	plt.show()
-
-def plot_just_voltage(data):
-	plt.figure(figsize=(12,4))
-
-	ax1 = plt.subplot(1, 1, 1)
-	#plt.title("Hybrid connection")
-	plt.plot(data.time, data.v_model_scaled, label="Model neuron", linewidth=0.8)
-	plt.plot(data.time, data.data_in[0], label="Living neuron", linewidth=0.8)
-	plt.plot(data.time, data.min_window, "g", linewidth=0.8)
-	plt.plot(data.time, data.max_window, "g", linewidth=0.8)
-	plt.ylabel("Voltage")
+	plt.plot(times, res, label="Living cell period variance (%)", linewidth=0.8)
+	plt.ylim([0, 100])
+	plt.ylabel("Variance percentage")
 	plt.legend(loc=1, framealpha=1.0)
 	
+	#Details
 	plt.xlabel("Time (s)")
 	plt.tight_layout()
 	plt.show()
 
 
-#########
-# Latencies
-#########
-def plot_lat_dist(data):
-	lats = [int(math.modf(x/1000)[1]) for x in data.lat]
+
+###########################
+#   Internal lines plots  #
+###########################
+def plot_line_voltage(data1, data2, args):
+	plt.plot(data1.time, data1.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data1.time, data1.data_in[0], label="Living neuron", linewidth=0.8)
+	if args.drift==1:
+		plt.plot(data1.time, data1.min_window, "g", linewidth=0.8)
+		plt.plot(data1.time, data1.max_window, "g", linewidth=0.8)
+	plt.ylabel("Voltage")
+	plt.legend(loc=1, framealpha=1.0)
+
+def plot_line_current(data1, data2, args):
+	plt.plot(data1.time, data1.c_viva, label="Current real to model", linewidth=0.8)
+	plt.plot(data1.time, data1.c_model, label="Current model to real", linewidth=0.8)
+	plt.ylabel("Current")
+	plt.legend(loc=1, framealpha=1.0)
+
+##################
+##################
+# NO STANDAR PLOTS 
+##################
+##################
+
+##################
+##################
+#    LATENCIES   #
+##################
+##################
+def plot_lat_dist(data1):
+	lats = [int(math.modf(x/1000)[1]) for x in data1.lat]
 	hist = np.histogram(lats, bins=np.arange(max(lats)+2))
 	values = hist[0]
 	edges = hist[1][:-1]
@@ -145,6 +161,7 @@ def plot_lat_dist(data):
 
 		ax1.set_ylabel("Ocurrences")
 		ax1.set_xlabel("Latencies (μs)")
+
 	else:
 		plt.figure(figsize=(12,6))
 		plt.bar(edges, values)
@@ -159,12 +176,11 @@ def plot_lat_dist(data):
 	plt.subplots_adjust(left=0.06, right=0.98, top=0.93, bottom=0.1)
 	plt.show()
 
-
-def plot_lat(data):
-	lats = [int(math.modf(x/1000)[1]) for x in data.lat]
+def plot_lat(data1):
+	lats = [int(math.modf(x/1000)[1]) for x in data1.lat]
 	
 	plt.figure(figsize=(12,6))
-	plt.plot(data.time, lats, label="Latencies", linewidth=0.8)
+	plt.plot(data1.time, lats, label="Latencies", linewidth=0.8)
 	plt.legend()
 	plt.xlabel("Time (s)")
 	plt.ylabel("Latency (us)")

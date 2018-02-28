@@ -5,35 +5,43 @@ import matplotlib.gridspec as gridspec
 import argparse
 import math
 
-def periodo(array):
-	freq=10000
-	porcentaje_mini = 0.05
-	porcentaje_maxi = 0.3
+def regularity(events):
+	acc, counter, var = 0, 0, 0
+	times, periods, res = [], [], []
 
-	#Linear search max & min
-	min_ped=99999
-	max_ped=-99999
-	v = array
-	for elem in array:
-		if elem>max_ped:
-			max_ped=elem
-		elif elem<min_ped:
-			min_ped=elem
+	for i in range(len(events)-1):
+		periods.append (events[i+1]-events[i])
+		acc += events[i+1]-events[i]
+		counter += 1
+		if counter == 1:
+			time = events[i]
+		if counter == 5:
+			mean = acc / 5
+			for j in range(5):
+				tmp = periods[i]-mean
+				var += tmp*tmp
+			var /= 5
+			res.append (math.sqrt(var)/mean*100)
+			times.append (events[i])
+			acc, counter, var = 0, 0, 0
 
-	#Ajusting min & max
-	if min_ped>0:
-		min_ped = min_ped + min_ped*porcentaje_mini;
-	else:
-		min_ped = min_ped - min_ped*porcentaje_mini;
-	
-	if max_ped>0:
-		max_ped = max_ped - max_ped*porcentaje_maxi;
-	else:
-		max_ped = max_ped + max_ped*porcentaje_maxi;
+	return times, res
+
+def periodo(v, freq, plot_on=False):
+	porcentaje_min = 0.2
+	porcentaje_max = 0.8
+
+	# max & min
+	min_v = min(v)
+	max_v = max(v)
+	range_v = max_v - min_v
+
+	min_r_v = min_v + range_v*porcentaje_min
+	max_r_v = min_v + range_v*porcentaje_max
 
 	#Take note of the time of the events
 	up = False
-	if v[0]>max_ped:
+	if v[0]>max_r_v:
 		up = True
 
 	changes=0
@@ -42,33 +50,33 @@ def periodo(array):
 
 	for i in range(len(v)):
 		#Up threshold pass first time after down threshold
-		if up==False and v[i]>max_ped:
+		if up==False and v[i]>max_r_v:
 			changes+=1
 			times.append(i/freq)
-			res.append(max_ped)
+			res.append(max_r_v)
 			up = True
 		#Down threshold activate up threshold
-		elif up==True and v[i]<min_ped:
+		elif up==True and v[i]<min_r_v:
 			up = False
 
 	#Plot
-	if 1==0:
+	if plot_on==True:
 		t = np.linspace(0,len(v), len(v))
 		t = t / 10000
 		plt.figure(figsize=(7,4))
 		plt.plot(t, v, color='C1',linewidth=0.5)
-		plt.axhline(y=max_ped, color='r', linestyle='--', linewidth=0.2, label="Detección de ráfaga")
-		plt.axhline(y=min_ped, color='g', linestyle='--', linewidth=0.2, label="Interruptor de búsqueda")
-		plt.plot(times, res, 'o', label="Evento detectado")
-		plt.xlabel("Tiempo (s)")
-		plt.ylabel("Voltaje")
-		plt.title("Detección de eventos")
-		plt.legend()
+		plt.axhline(y=max_r_v, color='r', linestyle='--', linewidth=0.2)
+		plt.axhline(y=min_r_v, color='g', linestyle='--', linewidth=0.2)
+		plt.plot(times, res, 'o', label="Event")
+		plt.xlabel("Time (s)")
+		plt.ylabel("Voltage")
+		plt.title("Event detection")
+		plt.legend(loc=1, framealpha=1.0)
 		plt.tight_layout()
 		plt.show()
 	
 
-	return times, res, min_ped, max_ped
+	return times, res, min_r_v, max_r_v
 
 def num_disp(array):
 	t, r, min, max = periodo(array)
