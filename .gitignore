@@ -12,6 +12,10 @@ ui_rtbiomanager.h
 moc_rtbiomanager.cpp
 gui/rtbiomanager.ui.autosave
 
+moc_rthybrid.cpp
+ui_rthybrid.h
+
+RTHybrid
 main
 clamp-cli_preempt
 rtbiomanager
