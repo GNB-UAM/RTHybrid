@@ -28,8 +28,40 @@ def regularity(events):
 	return times, res
 
 def periodo(v, freq, plot_on=False):
-	porcentaje_min = 0.2
-	porcentaje_max = 0.8
+	s_interval = 4
+	times, events, minis, maxis = [], [], [], [] 
+	up = None
+
+	num_intervals = len(v)/(freq*s_interval)
+	for i in range(int(num_intervals)):
+		time, event, mini, maxi, up = periodo_internal( v[ i*freq*s_interval : (i+1)*freq*s_interval ], i*s_interval, freq, up)
+		times.extend(time)
+		events.extend(event)
+		np.append(minis, mini)
+		np.append(maxis, maxi)
+
+	#Plot
+	if plot_on==True:
+		t = np.linspace(0,len(v), len(v))
+		t = t / 10000
+		plt.figure(figsize=(7,4))
+		plt.plot(t, v, color='C1',linewidth=0.5)
+		#plt.axhline(y=maxis, color='r', linestyle='--', linewidth=0.2)
+		#plt.axhline(y=minis, color='g', linestyle='--', linewidth=0.2)
+		plt.plot(times, events, 'o', label="Event")
+		plt.xlabel("Time (s)")
+		plt.ylabel("Voltage")
+		plt.title("Event detection")
+		plt.legend(loc=1, framealpha=1.0)
+		plt.tight_layout()
+		plt.show()
+
+	return times, events, minis, maxis
+
+
+def periodo_internal(v, base_time, freq, up, plot_on=False):
+	porcentaje_min = 0.1
+	porcentaje_max = 0.9
 
 	# max & min
 	min_v = min(v)
@@ -39,10 +71,11 @@ def periodo(v, freq, plot_on=False):
 	min_r_v = min_v + range_v*porcentaje_min
 	max_r_v = min_v + range_v*porcentaje_max
 
-	#Take note of the time of the events
-	up = False
-	if v[0]>max_r_v:
-		up = True
+	if up==None:
+		if v[0]>max_r_v:
+			up = True
+		else:
+			up = False
 
 	changes=0
 	times=[]
@@ -52,7 +85,7 @@ def periodo(v, freq, plot_on=False):
 		#Up threshold pass first time after down threshold
 		if up==False and v[i]>max_r_v:
 			changes+=1
-			times.append(i/freq)
+			times.append(base_time + i/freq)
 			res.append(max_r_v)
 			up = True
 		#Down threshold activate up threshold
@@ -62,7 +95,7 @@ def periodo(v, freq, plot_on=False):
 	#Plot
 	if plot_on==True:
 		t = np.linspace(0,len(v), len(v))
-		t = t / 10000
+		t = t / 10000 + base_time
 		plt.figure(figsize=(7,4))
 		plt.plot(t, v, color='C1',linewidth=0.5)
 		plt.axhline(y=max_r_v, color='r', linestyle='--', linewidth=0.2)
@@ -74,9 +107,8 @@ def periodo(v, freq, plot_on=False):
 		plt.legend(loc=1, framealpha=1.0)
 		plt.tight_layout()
 		plt.show()
-	
 
-	return times, res, min_r_v, max_r_v
+	return times, res, min_r_v, max_r_v, up
 
 def num_disp(array):
 	t, r, min, max = periodo(array)
