@@ -65,8 +65,11 @@ def plot_voltage_g_current(data1, data2, args):
 	plt.show()
 
 def plot_regularity(data1, data2, args):
-	times = pa.periodo(data1.data_in[0], args.freq, True)[0]
-	times, res = pa.regularity(times)
+	times = pa.periodo(data1.v_model_scaled, args.freq, False)[0]
+	times1, res1 = pa.regularity(times)
+
+	times = pa.periodo(data1.data_in[0], args.freq, False)[0]
+	times2, res2 = pa.regularity(times)
 	
 	#Crete and size
 	plt.figure(figsize=(12,8))
@@ -76,7 +79,8 @@ def plot_regularity(data1, data2, args):
 	plot_line_voltage(data1, data2, args)
 
 	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
-	plt.plot(times, res, label="Living cell period variance (%)", linewidth=0.8)
+	plt.plot(times1, res1, label="Model neuron period variance (%)", linewidth=0.8)
+	plt.plot(times2, res2, label="Living neuron period variance (%)", linewidth=0.8)
 	plt.ylim([0, 100])
 	plt.ylabel("Variance percentage")
 	plt.legend(loc=1, framealpha=1.0)
@@ -85,8 +89,6 @@ def plot_regularity(data1, data2, args):
 	plt.xlabel("Time (s)")
 	plt.tight_layout()
 	plt.show()
-
-
 
 ###########################
 #   Internal lines plots  #
