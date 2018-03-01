@@ -63,7 +63,7 @@ void RTHybrid::on_simulate_clicked()
     switch (args.model) {
         case IZHIKEVICH: //Izhikevich
             args.vars = (double*) malloc (sizeof(double) * 2);
-            args.params = (double *) malloc (sizeof(double) * 5);
+            args.params = (double *) malloc (sizeof(double) * 6);
 
             args.vars[X] = ui->doubleIzVini->value();
             args.vars[Y] = ui->doubleIzUini->value();
@@ -73,11 +73,12 @@ void RTHybrid::on_simulate_clicked()
             args.params[C_IZ] = ui->doubleIzC->value();
             args.params[D_IZ] = ui->doubleIzD->value();
             args.params[I_IZ] = ui->doubleIzI->value();
+            args.params[DT_IZ] = ui->doubleIzDt->value();
 
             break;
         case HR: //Hindmarsh-Rose
             args.vars = (double*) malloc (sizeof(double) * 3);
-            args.params = (double *) malloc (sizeof(double) * 3);
+            args.params = (double *) malloc (sizeof(double) * 4);
 
             args.vars[X] = ui->doubleHrXIni->value();
             args.vars[Y] = ui->doubleHrYIni->value();
@@ -86,6 +87,7 @@ void RTHybrid::on_simulate_clicked()
             args.params[R_HR] = ui->doubleHrR->value();
             args.params[S_HR] = ui->doubleHrS->value();
             args.params[I_HR] = ui->doubleHrI->value();
+            args.params[DT_HR] = ui->doubleHrDt->value();
 
             break;
         case RLK: //Rulkov

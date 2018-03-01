@@ -8,15 +8,38 @@ extern "C" {
 #include <syslog.h>
 #include "../../common/includes/types.h"
 
-typedef struct {
+
+/* Neuron model struct */
+typedef struct neuron_model neuron_model;
+
+struct neuron_model {
+    void (*func)(neuron_model nm, double);
+    void (*set_pts_burst)(double, double*);
+    unsigned int type;
+    unsigned int dim;
+    unsigned int n_params;
+    double * vars;
+    double * params;
+    double min;
+    double max;
+    double pts_burst;
+};
+
+/* Synapse model struct */
+typedef struct synapse_model synapse_model;
+
+struct synapse_model {
+    void (*syn)(double, double, synapse_model*, double*);
     unsigned int syn_type;
     double * g;
     double scale;
     double offset;
     unsigned int calibrate;
     void * type_params;
-} syn_params;
+};
 
+
+/* rt_thread struct */
 typedef struct {
     void (*func)(int, double, double*, double*, double);
     void (*ini)(double, double*);
@@ -51,6 +74,7 @@ typedef struct {
 } rt_args;
 
 
+/* writer_thread struct */
 typedef struct {
     char * filename;
     char * path;
@@ -85,7 +109,6 @@ typedef struct {
     double * g_real_to_virtual;
     double syn_gradual_k1;
     double syn_gradual_k2;
-
 } calibration_args;
 
 typedef struct {

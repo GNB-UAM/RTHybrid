@@ -110,7 +110,20 @@ extern "C" {
 #define PR_VTH 8
 #define PR_PERIOD 9
 
-
+/* Neuron model struct */
+typedef struct {
+    void (*func)(int, double, double*, double*, double);
+    void (*ini)(double, double*);
+    void (*min_max)(double*, double*, double*);
+    unsigned int type;
+    unsigned int dim;
+    unsigned int n_params;
+    double * vars;
+    double * params;
+    double min;
+    double max;
+    double pts_burst;
+}
 
 /* STRUCTS */
 typedef struct {
