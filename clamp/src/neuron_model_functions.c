@@ -6,7 +6,7 @@ void init_neuron_model (neuron_model * nm, int model) {
     nm->type = model;
 
     switch (model) {
-        case IZHIKEVICH:
+        case IZ:
             nm->dim = 2;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
             copy_1d_array(args->vars, nm->vars, nm->dim);
@@ -72,19 +72,19 @@ void free_neuron_model (neuron_model * nm) {
 /* IZHIKEVICH */
 
 void izh_f (double * vars, double * ret, double * params, double syn) {
-	ret[0] = 0.04 * vars[0]*vars[0] + 5*vars[0] + 140 - vars[1] + params[I_IZ] - syn;
-	ret[1] = params[A_IZ] * (params[B_IZ] * vars[0] - vars[1]);
+	ret[0] = 0.04 * vars[0]*vars[0] + 5*vars[0] + 140 - vars[1] + params[IZ_I] - syn;
+	ret[1] = params[IZ_A] * (params[IZ_B] * vars[0] - vars[1]);
 
 	return;
 }
 
 
 void izhikevich (neuron_model nm, double syn) {
-	runge_kutta_6 (izh_f, nm.dim, nm.params[DT_IZ], nm.vars, nm.params, syn);
+	runge_kutta_6 (izh_f, nm.dim, nm.params[IZ_DT], nm.vars, nm.params, syn);
 
 	if (nm.vars[0] >= 30) {
-		nm.vars[0] = nm.params[C_IZ];
-		nm.vars[1] += nm.params[D_IZ];
+		nm.vars[0] = nm.params[IZ_C];
+		nm.vars[1] += nm.params[IZ_D];
 	}
 
 	return;
@@ -99,15 +99,15 @@ void iz_set_pts_burst (double pts_live, double * pts_model) {
 /* HINDMARSH-ROSE */
 
 void hr_f (double * vars, double * ret, double * params, double syn) {
-    ret[0] = vars[1] + 3.0 * (vars[0]*vars[0]) - (vars[0]*vars[0]*vars[0]) - vars[2] + params[I_HR] - syn;
+    ret[0] = vars[1] + 3.0 * (vars[0]*vars[0]) - (vars[0]*vars[0]*vars[0]) - vars[2] + params[HR_I] - syn;
     ret[1] = 1.0 - 5.0 * (vars[0]*vars[0]) - vars[1];
-    ret[2] = (-vars[2] + params[S_HR] * (vars[0] + 1.6)) * params[R_HR];
+    ret[2] = (-vars[2] + params[HR_S] * (vars[0] + 1.6)) * params[HR_R];
 
     return;
 }
 
 void hindmarsh_rose (neuron_model nm, double syn) {
-	runge_kutta_6 (hr_f, nm.dim, nm.params[DT_HR], nm.vars, nm.params, syn);
+	runge_kutta_6 (hr_f, nm.dim, nm.params[HR_DT], nm.vars, nm.params, syn);
 
 	return;
 }
@@ -124,16 +124,16 @@ void hr_set_pts_burst (double pts_live, double * pts_model) {
 void rlk_f (double * vars, double * ret, double * params, double syn) {
     double y_old;
 
-    ret[1] = vars[1] - params[MU_RLK] * (vars[0] + 1) + params[MU_RLK] * params[SIGMA_RLK];
-    y_old = vars[1] - syn * params[I_RLK];
+    ret[1] = vars[1] - params[RLK_MU] * (vars[0] + 1) + params[RLK_MU] * params[RLK_SIGMA];
+    y_old = vars[1] - syn * params[RLK_I];
 
 
     if (vars[0] <= 0) {
-        ret[0] = params[ALPHA_RLK] / (1 - vars[0]) + y_old;
-    } else if (vars[0] >= params[ALPHA_RLK] + y_old) {
+        ret[0] = params[RLK_ALPHA] / (1 - vars[0]) + y_old;
+    } else if (vars[0] >= params[RLK_ALPHA] + y_old) {
         ret[0] = -1;
     } else {
-        ret[0] = params[ALPHA_RLK] + y_old;
+        ret[0] = params[RLK_ALPHA] + y_old;
     }
 
 
@@ -143,18 +143,18 @@ void rlk_f (double * vars, double * ret, double * params, double syn) {
 void rulkov_map (neuron_model nm, double syn) {
     double ret[2];
 
-    if (nm.params[J_RLK] >= ((nm.params[PTS_RLK] - 400) / 400)) {
+    if (nm.params[RLK_J] >= ((nm.params[RLK_PTS] - 400) / 400)) {
 
-        nm.params[OLD_RLK] = nm.vars[0];
+        nm.params[RLK_OLD] = nm.vars[0];
         rlk_f(nm.vars, ret, nm.params, syn);
-        nm.params[J_RLK] = 0;
-        nm.params[INTER_RLK] = ret[0];
+        nm.params[RLK_J] = 0;
+        nm.params[RLK_INTER] = ret[0];
 
     } else {
 
-        ret[0] = nm.params[OLD_RLK] + (nm.params[INTER_RLK] - nm.params[OLD_RLK]) / ((nm.params[PTS_RLK] - 400) / 400) * nm.params[J_RLK];
+        ret[0] = nm.params[RLK_OLD] + (nm.params[RLK_INTER] - nm.params[RLK_OLD]) / ((nm.params[RLK_PTS] - 400) / 400) * nm.params[RLK_J];
         ret[1] = nm.vars[1];
-        nm.params[J_RLK]++;
+        nm.params[J]++;
 
     }
 

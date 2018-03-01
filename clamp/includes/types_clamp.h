@@ -41,14 +41,8 @@ struct synapse_model {
 
 /* rt_thread struct */
 typedef struct {
-    void (*func)(int, double, double*, double*, double);
-    void (*ini)(double, double*);
-    void (*min_max_model)(double*, double*, double*);
     void (*syn)(double, double, syn_params*, double*);
-    double * vars;
-    double * params;
-    int dim;
-    double dt;
+    neuron_model nm;
     int type_syn;
     long time_var;
     int before;
@@ -64,7 +58,6 @@ typedef struct {
     double rafaga_modelo_pts;
     char * filename;
     int calibration;
-    int model;
     double step_v_to_r;
     double step_r_to_v;
     double firing_rate;

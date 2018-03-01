@@ -8,6 +8,42 @@ extern "C" {
 #include <math.h>
 #include "types_clamp.h"
 
+/* Macros */
+
+#define IZ 0
+#define HR 1
+#define RLK 2
+
+#define X 0
+#define Y 1
+#define Z 2
+
+/* IZHIKEVICH */
+#define IZ_I 0
+#define IZ_DT 1
+#define IZ_A 2
+#define IZ_B 3
+#define IZ_C 4
+#define IZ_D 5
+
+
+/* HINDMARSH-ROSE */
+#define HR_I 0
+#define HR_DT 1
+#define HR_R 2
+#define HR_S 3
+
+
+/* RULKOV MAP */
+#define RLK_I 0
+#define RLK_ALPHA 1
+#define RLK_MU 2
+#define RLK_SIGMA 3
+#define RLK_J 4
+#define RLK_OLD 5
+#define RLK_PTS 6
+#define RLK_INTER 7
+
 /* General functions */
 
 void init_neuron_model (neuron_model * nm, int model);
