@@ -9,7 +9,7 @@ rt_args * args;
 void * cal_struct = NULL;
 message msg;
 double * syn_aux_params = NULL;
-syn_params syn_aux_params_live_to_model, syn_aux_params_model_to_live;
+synapse_model syn_aux_params_live_to_model, syn_aux_params_model_to_live;
 
 double * lectura_a = NULL;
 double * lectura_b = NULL;
@@ -208,7 +208,8 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Real-time prepared");
 
-    args->min_max_model(&min_rel_model, &min_abs_model, &max_abs_model);
+    min_abs_model = args->nm.min;
+    max_abs_model = args->nm.max;
 
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Model initiated");
@@ -244,7 +245,7 @@ void * rt_thread(void * arg) {
 
 
         rafaga_viva_pts = args->freq * period_disp_real;
-        args->ini(rafaga_viva_pts, &(args->rafaga_modelo_pts));
+        args->nm.set_pts_burst(rafaga_viva_pts, &(args->rafaga_modelo_pts));
 
         args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
 
@@ -443,8 +444,8 @@ void * rt_thread(void * arg) {
             msg.extra = 0;
             msg.i = cont_send;
             cont_send++;
-            msg.v_model_scaled = args->vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->vars[X];
+            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model = 0;//args->nm.vars[X];
             msg.c_model = 0;
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
@@ -483,7 +484,7 @@ void * rt_thread(void * arg) {
 
         }
         msg.c_real = 0;
-        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+        args->nm.func(args->nm, c_real);
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: before loop end");
@@ -503,8 +504,8 @@ void * rt_thread(void * arg) {
             msg.extra = 0;
             msg.i = cont_send;
             cont_send++;
-            msg.v_model_scaled = args->vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->vars[X];
+            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model = 0;//args->nm.vars[X];
             msg.c_model = 0;
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
@@ -531,7 +532,7 @@ void * rt_thread(void * arg) {
             if(args->calibration == 1){
                 //Electrica en fase
                 double ecm_old=ecm_result;
-                calc_ecm(args->vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], rafaga_viva_pts, &ecm_result);
+                calc_ecm(args->nm.vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], rafaga_viva_pts, &ecm_result);
                 msg.ecm = ecm_result;
                 if(ecm_result!=0 && ecm_old!=ecm_result){
                     sum_ecm+=ecm_result;
@@ -540,7 +541,7 @@ void * rt_thread(void * arg) {
             }else if(args->calibration  == 4){
                  if(cont_lectura<size_lectura){
                     /*Guardamos info*/
-                    lectura_b[cont_lectura]=args->vars[0] * scale_virtual_to_real + offset_virtual_to_real;
+                    lectura_b[cont_lectura]=args->nm.vars[0] * scale_virtual_to_real + offset_virtual_to_real;
                     lectura_a[cont_lectura]=ret_values[0];
                     lectura_t[cont_lectura]=msg.t_absol;
                     cont_lectura++;
@@ -603,7 +604,7 @@ void * rt_thread(void * arg) {
             drift_counter++;
         }
         msg.c_real = 0;
-        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+        args->nm.func(args->nm, c_real);
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: initial interaction loop end");
@@ -666,13 +667,13 @@ void * rt_thread(void * arg) {
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing stuff at the loop");
 
-            msg.v_model_scaled = args->vars[X] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
 
             /* Synapse from model to live scaled to live range */
             syn_aux_params_model_to_live.calibrate = SYN_CALIB_PRE;
-            args->syn(ret_values[X], args->vars[X], &syn_aux_params_model_to_live, &c_model);
+            args->syn(ret_values[X], args->nm.vars[X], &syn_aux_params_model_to_live, &c_model);
             msg.c_model = -c_model;
             msg.v_model = ((syn_gl_params*)(syn_aux_params_model_to_live.type_params))->ms_old; //ms de la sinapsis
             //printf("c_model = %f\n", msg.c_model);
@@ -758,7 +759,7 @@ void * rt_thread(void * arg) {
 
             /* Synapse from live to model scaled to live range */
             syn_aux_params_live_to_model.calibrate = SYN_CALIB_POST;
-            args->syn(args->vars[0], ret_values[0], &syn_aux_params_live_to_model, &(msg.c_real));
+            args->syn(args->nm.vars[0], ret_values[0], &syn_aux_params_live_to_model, &(msg.c_real));
             msg.c_real = -msg.c_real;
 
 
@@ -798,9 +799,9 @@ void * rt_thread(void * arg) {
 
         /* Synapse from live to model scaled to model range */
         syn_aux_params_live_to_model.calibrate = SYN_CALIB_PRE;
-        args->syn(args->vars[0], ret_values[0], &syn_aux_params_live_to_model, &c_real);
+        args->syn(args->nm.vars[0], ret_values[0], &syn_aux_params_live_to_model, &c_real);
 
-        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+        args->nm.func(args->nm, c_real);
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: main loop end");
@@ -830,8 +831,8 @@ void * rt_thread(void * arg) {
             msg.extra = 0;
             msg.i = cont_send;
             cont_send++;
-            msg.v_model_scaled = args->vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->vars[X];
+            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
+            msg.v_model = 0;//args->nm.vars[X];
             msg.c_model = 0;
             msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
@@ -869,7 +870,7 @@ void * rt_thread(void * arg) {
 
         }
         msg.c_real = 0;
-        args->func(args->dim, args->dt, args->vars, args->params, c_real);
+        args->nm.func(args->nm, c_real);
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: after loop end");

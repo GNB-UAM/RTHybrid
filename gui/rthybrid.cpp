@@ -61,19 +61,19 @@ void RTHybrid::on_simulate_clicked()
     strcpy(args.output, aux_out.c_str());
 
     switch (args.model) {
-        case IZHIKEVICH: //Izhikevich
+        case IZ: //Izhikevich
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 6);
 
             args.vars[X] = ui->doubleIzVini->value();
             args.vars[Y] = ui->doubleIzUini->value();
 
-            args.params[A_IZ] = ui->doubleIzA->value();
-            args.params[B_IZ] = ui->doubleIzB->value();
-            args.params[C_IZ] = ui->doubleIzC->value();
-            args.params[D_IZ] = ui->doubleIzD->value();
-            args.params[I_IZ] = ui->doubleIzI->value();
-            args.params[DT_IZ] = ui->doubleIzDt->value();
+            args.params[IZ_A] = ui->doubleIzA->value();
+            args.params[IZ_B] = ui->doubleIzB->value();
+            args.params[IZ_C] = ui->doubleIzC->value();
+            args.params[IZ_D] = ui->doubleIzD->value();
+            args.params[IZ_I] = ui->doubleIzI->value();
+            args.params[IZ_DT] = ui->doubleIzDt->value();
 
             break;
         case HR: //Hindmarsh-Rose
@@ -84,10 +84,10 @@ void RTHybrid::on_simulate_clicked()
             args.vars[Y] = ui->doubleHrYIni->value();
             args.vars[Z] = ui->doubleHrZIni->value();
 
-            args.params[R_HR] = ui->doubleHrR->value();
-            args.params[S_HR] = ui->doubleHrS->value();
-            args.params[I_HR] = ui->doubleHrI->value();
-            args.params[DT_HR] = ui->doubleHrDt->value();
+            args.params[HR_R] = ui->doubleHrR->value();
+            args.params[HR_S] = ui->doubleHrS->value();
+            args.params[HR_I] = ui->doubleHrI->value();
+            args.params[HR_DT] = ui->doubleHrDt->value();
 
             break;
         case RLK: //Rulkov
@@ -97,10 +97,10 @@ void RTHybrid::on_simulate_clicked()
             args.vars[X] = ui->doubleRlkXIni->value();
             args.vars[Y] = ui->doubleRlkYIni->value();
 
-            args.params[ALPHA_RLK] = ui->doubleRlkAlpha->value();
-            args.params[SIGMA_RLK] = ui->doubleRlkSigma->value();
-            args.params[MU_RLK] = ui->doubleRlkMu->value();
-            args.params[I_RLK] = ui->doubleRlkI->value();
+            args.params[RLK_ALPHA] = ui->doubleRlkAlpha->value();
+            args.params[RLK_SIGMA] = ui->doubleRlkSigma->value();
+            args.params[RLK_MU] = ui->doubleRlkMu->value();
+            args.params[RLK_I] = ui->doubleRlkI->value();
 
             break;
         default:

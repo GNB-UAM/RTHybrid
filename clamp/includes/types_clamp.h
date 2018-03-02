@@ -29,7 +29,7 @@ struct neuron_model {
 typedef struct synapse_model synapse_model;
 
 struct synapse_model {
-    void (*syn)(double, double, synapse_model*, double*);
+    void (*func)(double, double, synapse_model*, double*);
     unsigned int syn_type;
     double * g;
     double scale;
@@ -41,7 +41,7 @@ struct synapse_model {
 
 /* rt_thread struct */
 typedef struct {
-    void (*syn)(double, double, syn_params*, double*);
+    void (*syn)(double, double, synapse_model*, double*);
     neuron_model nm;
     int type_syn;
     long time_var;
@@ -118,8 +118,8 @@ typedef struct {
     /* Cosas que se le pasan desde rt */
     struct timespec * ts;
     double v;
-    syn_params * syn_aux_params_live_to_model;
-    syn_params * syn_aux_params_model_to_live;
+    synapse_model * syn_aux_params_live_to_model;
+    synapse_model * syn_aux_params_model_to_live;
 } regularity_control_args;
 
 
@@ -134,8 +134,8 @@ typedef struct {
     double * min_rel_real;
     double max_abs_model;
     double min_abs_model;
-    syn_params * syn_aux_params_live_to_model;
-    syn_params * syn_aux_params_model_to_live;
+    synapse_model * syn_aux_params_live_to_model;
+    synapse_model * syn_aux_params_model_to_live;
 } fix_drift_args;
 
 
