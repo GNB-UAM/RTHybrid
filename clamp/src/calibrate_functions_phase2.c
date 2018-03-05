@@ -45,12 +45,12 @@ int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result)
 */
 double old_res_calc_phase = -1;
 
-int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, syn_params params){
+int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, double th_on, double * result, synapse_model params){
 
 	double limit = 3; //ns
     int antifase;
 
-    switch (params.syn_type) {
+    switch (params.type) {
         case ELECTRIC:
             antifase = ((syn_elec_params*)params.type_params)->anti;
             break;

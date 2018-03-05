@@ -46,7 +46,7 @@ extern "C" {
 
 /* General functions */
 
-void init_neuron_model (neuron_model * nm, int model);
+void init_neuron_model (neuron_model * nm, int model, double * vars, double * params);
 
 void free_neuron_model (neuron_model * nm);
 

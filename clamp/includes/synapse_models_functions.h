@@ -13,7 +13,6 @@ extern "C" {
 
 #define ELECTRIC 0
 #define GOLOWASCH 1
-#define PRINZ 2
 
 /* General */
 #define SYN_MODEL_TO_LIVE 0
@@ -47,22 +46,17 @@ extern "C" {
 #define GL_PERIOD 10
 #define GL_MS_OLD 11
 
-/*Prinz*/
-#define PR_AUX_VPRE 0
-#define PR_AUX_VTH 1
-#define PR_AUX_DELTA 2
-#define PR_AUX_K 3
-
-#define PR_MIN 3
-#define PR_MAX 4
-#define PR_S_OLD 5
-#define PR_K 6
-#define PR_DT 7
-#define PR_VTH 8
-#define PR_PERIOD 9
+#define GL_MS_K1 0
+#define GL_MS_K2 1
+#define GL_MS_SS 2
+#define GL_MS_VS 3
 
 
-/* STRUCTS */
+/* General */
+void init_synapse_model (synapse_model * sm, int model, void * syn_args);
+
+void free_synapse_model (synapse_model * sm);
+
 
 /* Electrical */
 
@@ -77,6 +71,11 @@ typedef struct {
 typedef struct {
     int anti;
 } syn_elec_params;
+
+
+void elec_set_online_params (synapse_model * sm, double scale, double offset);
+
+void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
 
 
 /*Golowash*/
@@ -104,19 +103,10 @@ typedef struct {
 } syn_gl_params;
 
 
-/* FUNCTIONS */
-
-void ini_elec (synapse_model * params, double scale, double offset, void * syn_args);
-
-void ini_golowasch (synapse_model * params, double scale, double offset, void * syn_args, double dt, double min, double max);
-
-void ini_prinz (double ** params, double scale, double offset, double k, double vth, double dt, double period, double min, double max);
-
-void elec_syn (double v_post, double v_pre, synapse_model * params, double * ret);
+void gl_set_online_params (synapse_model * sm, double scale, double offset, double min, double max);
 
 void golowasch_syn (double v_post, double v_pre, synapse_model * params, double * ret);
 
-void prinz_syn (double v_post, double v_pre, synapse_model * params, double * ret);
 
 
 #endif // SYNAPSE_MODELS_FUNCTIONS_H

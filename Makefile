@@ -50,7 +50,8 @@ OBJECTS_DIR   = obj/
 
 SOURCES       = clamp/src/comedi_functions.c \
 		gui/main.cpp \
-		clamp/src/model_library.c \
+		clamp/src/neuron_models_functions.c \
+		clamp/src/synapse_models_functions.c \
 		clamp/src/rt_thread_functions.c \
 		clamp/src/writer_thread_functions.c \
 		clamp/src/calibrate_functions_phase2_a.c \
@@ -63,7 +64,8 @@ SOURCES       = clamp/src/comedi_functions.c \
 		gui/rthybrid.cpp moc/moc_rthybrid.cpp
 OBJECTS       = obj/comedi_functions.o \
 		obj/main.o \
-		obj/model_library.o \
+		obj/neuron_models_functions.o \
+		obj/synapse_models_functions.o \
 		obj/rt_thread_functions.o \
 		obj/writer_thread_functions.o \
 		obj/calibrate_functions_phase2_a.o \
@@ -142,7 +144,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/device_functions.h \
-		clamp/includes/model_library.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
@@ -152,7 +155,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/includes/types_clamp.h \
 		gui/rthybrid.h clamp/src/comedi_functions.c \
 		gui/main.cpp \
-		clamp/src/model_library.c \
+		clamp/src/neuron_models_functions.c \
+		clamp/src/synapse_models_functions.c \
 		clamp/src/rt_thread_functions.c \
 		clamp/src/writer_thread_functions.c \
 		clamp/src/calibrate_functions_phase2_a.c \
@@ -327,8 +331,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/model_library.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h gui/rthybrid.h $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/src/comedi_functions.c gui/main.cpp clamp/src/model_library.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/queue_functions.c clamp/src/clamp.c common/src/aux_functions.c gui/rthybrid.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/neuron_models_functions.h clamp/includes/synapse_models_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h gui/rthybrid.h $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/src/comedi_functions.c gui/main.cpp clamp/src/neuron_models_functions.c clamp/src/synapse_models_functions.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/queue_functions.c clamp/src/clamp.c common/src/aux_functions.c gui/rthybrid.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/rthybrid.ui $(DISTDIR)/
 
 
@@ -390,16 +394,22 @@ obj/comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/device_funct
 obj/main.o: gui/main.cpp gui/rthybrid.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
 
-obj/model_library.o: clamp/src/model_library.c clamp/includes/model_library.h \
+obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/model_library.o clamp/src/model_library.c
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_functions.o clamp/src/neuron_models_functions.c
+
+obj/synapse_models_functions.o: clamp/src/synapse_models_functions.c clamp/includes/synapse_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/synapse_models_functions.o clamp/src/synapse_models_functions.c
 
 obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
-		clamp/includes/model_library.h \
+		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -416,9 +426,10 @@ obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/include
 
 obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
-		clamp/includes/model_library.h \
+		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
@@ -431,9 +442,10 @@ obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/i
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
 
 obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
-		clamp/includes/model_library.h
+		clamp/includes/synapse_models_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
 
 obj/time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
@@ -448,9 +460,10 @@ obj/queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_function
 obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
-		clamp/includes/model_library.h \
+		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -467,9 +480,10 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
-		clamp/includes/model_library.h \
+		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \

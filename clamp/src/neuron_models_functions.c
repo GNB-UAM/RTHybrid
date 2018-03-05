@@ -2,18 +2,18 @@
 
 /* General functions */
 
-void init_neuron_model (neuron_model * nm, int model) {
+void init_neuron_model (neuron_model * nm, int model, double * vars, double * params) {
     nm->type = model;
 
     switch (model) {
         case IZ:
             nm->dim = 2;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
-            copy_1d_array(args->vars, nm->vars, nm->dim);
+            copy_1d_array(vars, nm->vars, nm->dim);
 
             nm->n_params = 6;
             nm->params = (double *) malloc (sizeof(double) * nm->n_params);
-            copy_1d_array(args->params, nm->params, nm->params);
+            copy_1d_array(params, nm->params, nm->n_params);
 
             nm->max = 30.240470;
             nm->min = -74.235106;
@@ -25,11 +25,11 @@ void init_neuron_model (neuron_model * nm, int model) {
         case HR:
             nm->dim = 3;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
-            copy_1d_array(args->vars, nm->vars, nm->dim);
+            copy_1d_array(vars, nm->vars, nm->dim);
 
             nm->n_params = 4;
             nm->params = (double *) malloc (sizeof(double) * nm->n_params);
-            copy_1d_array(args->params, nm->params, nm->params);
+            copy_1d_array(params, nm->params, nm->n_params);
 
             nm->max = 1.797032;
             nm->min = -1.608734;
@@ -41,11 +41,11 @@ void init_neuron_model (neuron_model * nm, int model) {
         case RLK:
             nm->dim = 2;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
-            copy_1d_array(args->vars, nm->vars, nm->dim);
+            copy_1d_array(vars, nm->vars, nm->dim);
 
             nm->n_params = 8;
             nm->params = (double *) malloc (sizeof(double) * nm->n_params);
-            copy_1d_array(args->params, nm->params, nm->params);
+            copy_1d_array(params, nm->params, nm->n_params);
 
             nm->max = 2.111;
             nm->min = -1.977;
@@ -154,7 +154,7 @@ void rulkov_map (neuron_model nm, double syn) {
 
         ret[0] = nm.params[RLK_OLD] + (nm.params[RLK_INTER] - nm.params[RLK_OLD]) / ((nm.params[RLK_PTS] - 400) / 400) * nm.params[RLK_J];
         ret[1] = nm.vars[1];
-        nm.params[J]++;
+        nm.params[RLK_J]++;
 
     }
 

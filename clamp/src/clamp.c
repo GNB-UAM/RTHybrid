@@ -80,24 +80,9 @@ int clamp (clamp_args * args) {
 		printf("DON'T USE -a AND -c AT THE SAME TIME\n");
 	}
 
-    init_neuron_model(&(r_args.nm), args->model)
-
-    switch (args->synapse) {
-		case ELECTRIC:
-			r_args.syn = &elec_syn;
-
-			break;
-		case GOLOWASCH:
-			r_args.syn = &golowasch_syn;
-
-			break;
-		case PRINZ:
-			r_args.syn = &prinz_syn;
-
-			break;
-		default:
-			return -1;
-	}
+    init_neuron_model(&(r_args.nm), args->model, args->vars, args->params);
+    init_synapse_model(&(r_args.sm_model_to_live), args->synapse, args->syn_args_model_to_live);
+    init_synapse_model(&(r_args.sm_live_to_model), args->synapse, args->syn_args_live_to_model);
 
 
     t = time(NULL);
@@ -146,14 +131,11 @@ int clamp (clamp_args * args) {
     r_args.before = args->before;
     r_args.after = args->after;
     r_args.period =  (1 / args->freq) * NSEC_PER_SEC;
-    r_args.type_syn = args->synapse;
     r_args.freq = args->freq;
     r_args.filename = filename;
     r_args.calibration = args->mode_auto_cal;
     r_args.firing_rate = args->firing_rate;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
-    r_args.syn_args_live_to_model = args->syn_args_live_to_model;
-    r_args.syn_args_model_to_live = args->syn_args_model_to_live;
 
     w_args.path = path;
     w_args.filename = filename;
@@ -165,8 +147,8 @@ int clamp (clamp_args * args) {
     w_args.time_var = args->time_var;
     w_args.important = args->imp;
     w_args.calibration = args->mode_auto_cal;
-    w_args.syn_args_live_to_model = args->syn_args_live_to_model;
-    w_args.syn_args_model_to_live = args->syn_args_model_to_live;
+    w_args.sm_model_to_live = r_args.sm_model_to_live;
+    w_args.sm_model_to_live = r_args.sm_model_to_live;
 
     /*err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
     if (err != 0)
@@ -200,6 +182,8 @@ int clamp (clamp_args * args) {
     }
 
     free_neuron_model (&(r_args.nm));
+    free_synapse_model (&(r_args.sm_model_to_live));
+    free_synapse_model (&(r_args.sm_live_to_model));
     free_pointers(6 , &args->input, &args->output, &args->vars, &args->params, &args->g_real_to_virtual, &args->g_virtual_to_real);
 
 

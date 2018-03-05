@@ -16,7 +16,8 @@
 #include <getopt.h>
 #include "calibrate_functions_phase2.h"
 #include "queue_functions.h"
-#include "model_library.h"
+#include "neuron_models_functions.h"
+#include "synapse_models_functions.h"
 
 void cal_struct_init (void ** cal_struct, unsigned int mode_auto_cal, ...);
 
@@ -34,8 +35,8 @@ int auto_calibration(
                     int cont_send,
                     double ini_k1,
                     double ini_k2,
-                    syn_params syn_params_live_to_model,
-                    syn_params syn_params_model_to_live,
+                    synapse_model syn_params_live_to_model,
+                    synapse_model syn_params_model_to_live,
                     struct timespec * ts
 					);
 
