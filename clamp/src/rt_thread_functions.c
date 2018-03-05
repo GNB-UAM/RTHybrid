@@ -276,6 +276,35 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn model: %d", args->sm_live_to_model.type);
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn calibration: %d", args->calibration);
 
+        /*CALIBRATION STRUCT*/
+    /*cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
+    cal_struct->min_abs_model=min_abs_model;
+    cal_struct->max_abs_model=max_abs_model;
+    cal_struct->min_abs_real=min_abs_real;
+    cal_struct->max_abs_real=max_abs_real;
+    cal_struct->min_rel_real=min_rel_real;
+    cal_struct->max_rel_real=max_rel_real;
+    cal_struct->scale_virtual_to_real=scale_virtual_to_real;
+    cal_struct->scale_real_to_virtual=scale_real_to_virtual;
+    cal_struct->offset_virtual_to_real=offset_virtual_to_real;
+    cal_struct->offset_real_to_virtual=offset_real_to_virtual;
+    cal_struct->g_real_to_virtual = NULL;
+    cal_struct->g_virtual_to_real = NULL;*/
+
+    if (args->calibration >= 1 && args->calibration <= 8) {
+        cal_struct_init (&cal_struct, args->calibration, min_abs_model, max_abs_model, min_abs_real,
+            max_abs_real, min_rel_real, max_rel_real, scale_virtual_to_real, scale_real_to_virtual,
+            offset_virtual_to_real, offset_real_to_virtual);
+
+    } else if (args->calibration == 9) {
+        if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: control_regularity min_rel_real %f max_rel_real %f\n", min_rel_real, max_rel_real);
+        cal_struct_init (&cal_struct, args->calibration, &(args->sm_live_to_model), &(args->sm_model_to_live),
+            min_rel_real, max_rel_real, args->auto_cal_val_1);
+    }
+
+
+    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
+
     //Synapse type
     switch (args->sm_live_to_model.type) {
         case ELECTRIC:
@@ -307,10 +336,10 @@ void * rt_thread(void * arg) {
                 copy_1d_array(args->sm_model_to_live.g, ((calibration_args*)cal_struct)->g_virtual_to_real, 2);
                 copy_1d_array(args->sm_live_to_model.g, ((calibration_args*)cal_struct)->g_real_to_virtual, 2);
 
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", args->sm_model_to_live.g[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", args->sm_model_to_live.g[GL_G_SLOW]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", args->sm_live_to_model.g[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", args->sm_live_to_model.g[GL_G_SLOW]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", ((calibration_args*)cal_struct)->g_virtual_to_real[GL_G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", ((calibration_args*)cal_struct)->g_virtual_to_real[GL_G_SLOW]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", ((calibration_args*)cal_struct)->g_real_to_virtual[GL_G_FAST]);
+                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", ((calibration_args*)cal_struct)->g_real_to_virtual[GL_G_SLOW]);
 
                 args->sm_model_to_live.g[GL_G_FAST] = 0.0;
                 args->sm_model_to_live.g[GL_G_SLOW] = 0.0;
@@ -339,34 +368,6 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn struct created");
 
 
-    /*CALIBRATION STRUCT*/
-    /*cal_struct = (calibration_args *) malloc (sizeof(calibration_args));
-    cal_struct->min_abs_model=min_abs_model;
-    cal_struct->max_abs_model=max_abs_model;
-    cal_struct->min_abs_real=min_abs_real;
-    cal_struct->max_abs_real=max_abs_real;
-    cal_struct->min_rel_real=min_rel_real;
-    cal_struct->max_rel_real=max_rel_real;
-    cal_struct->scale_virtual_to_real=scale_virtual_to_real;
-    cal_struct->scale_real_to_virtual=scale_real_to_virtual;
-    cal_struct->offset_virtual_to_real=offset_virtual_to_real;
-    cal_struct->offset_real_to_virtual=offset_real_to_virtual;
-    cal_struct->g_real_to_virtual = NULL;
-    cal_struct->g_virtual_to_real = NULL;*/
-
-    if (args->calibration >= 1 && args->calibration <= 8) {
-    	cal_struct_init (&cal_struct, args->calibration, min_abs_model, max_abs_model, min_abs_real,
-    		max_abs_real, min_rel_real, max_rel_real, scale_virtual_to_real, scale_real_to_virtual,
-    		offset_virtual_to_real, offset_real_to_virtual);
-
-    } else if (args->calibration == 9) {
-    	if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: control_regularity min_rel_real %f max_rel_real %f\n", min_rel_real, max_rel_real);
-    	cal_struct_init (&cal_struct, args->calibration, &(args->sm_live_to_model), &(args->sm_model_to_live),
-    		min_rel_real, max_rel_real, args->auto_cal_val_1);
-    }
-
-
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration struct created");
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Preparation done");
 
