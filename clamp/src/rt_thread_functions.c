@@ -171,21 +171,16 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before Comedi");
 
     //Comedi & RT
+    ret_values = (double *) malloc (sizeof(double) * args->n_in_chan);
+    out_values = (double *) malloc (sizeof(double) * args->n_out_chan);
+
+
     if (daq_open_device((void**) &dsc) != OK) {
         fprintf(stderr, "RT_THREAD: error opening device.\n");
         pthread_exit(NULL);
     }
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Comedi device opened");
-    /*Send zero
-    for (i = 0; i < args->n_out_chan; i++) {
-        out_values[i] = 0;
-    }
-    if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
-        fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
-        daq_close_device ((void**) &dsc);
-        pthread_exit(NULL);
-    }*/
 
     if (daq_create_session ((void**) &dsc, &session) != OK) {
         fprintf(stderr, "RT_THREAD: error creating DAQ session.\n");
@@ -387,9 +382,6 @@ void * rt_thread(void * arg) {
     lectura_a = (double *) malloc (sizeof(double) * 2*args->freq);
     lectura_b = (double *) malloc (sizeof(double) * 2*args->freq);
     lectura_t = (double *) malloc (sizeof(double) * 2*args->freq);
-
-    ret_values = (double *) malloc (sizeof(double) * args->n_in_chan);
-    out_values = (double *) malloc (sizeof(double) * args->n_out_chan);
 
     clock_gettime(CLOCK_MONOTONIC, &ts_target);
     ts_assign (&ts_start,  ts_target);
