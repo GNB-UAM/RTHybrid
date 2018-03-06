@@ -59,7 +59,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += gui/main.cpp \
-    clamp/src/model_library.c \
+    clamp/src/neuron_models_functions.c \
+    clamp/src/synapse_models_functions.c \
     clamp/src/rt_thread_functions.c \
     clamp/src/writer_thread_functions.c \
     clamp/src/calibrate_functions_phase2_a.c \
@@ -76,7 +77,8 @@ HEADERS += \
     clamp/includes/calibrate_functions_phase2.h \
     clamp/includes/calibrate_functions_phase2_a.h \
     clamp/includes/device_functions.h \
-    clamp/includes/model_library.h \
+    clamp/includes/neuron_models_functions.h \
+    clamp/includes/synapse_models_functions.h \
     clamp/includes/queue_functions.h \
     clamp/includes/rt_thread_functions.h \
     clamp/includes/time_functions.h \

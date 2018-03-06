@@ -42,8 +42,8 @@ void cal_struct_init (void ** cal_struct, unsigned int mode_auto_cal, ...) {
             cal_struct_aux->detect_on = TRUE;
             cal_struct_aux->index = 0;
             cal_struct_aux->sum_acc = 0.0;
-            cal_struct_aux->syn_aux_params_live_to_model = va_arg(l, syn_params*);
-            cal_struct_aux->syn_aux_params_model_to_live = va_arg(l, syn_params*);
+            cal_struct_aux->sm_live_to_model = va_arg(l, synapse_model*);
+            cal_struct_aux->sm_model_to_live = va_arg(l, synapse_model*);
             cal_struct_aux->thresh_down = va_arg(l, double);
             cal_struct_aux->thresh_up = va_arg(l, double);
             cal_struct_aux->per = va_arg(l, double) / 100.0;
@@ -73,8 +73,8 @@ int auto_calibration(
                     int cont_send,
                     double ini_k1,
                     double ini_k2,
-                    syn_params syn_params_live_to_model,
-                    syn_params syn_params_model_to_live,
+                    synapse_model syn_params_live_to_model,
+                    synapse_model syn_params_model_to_live,
                     struct timespec * ts
 					){
 
@@ -82,7 +82,7 @@ int auto_calibration(
         calibration_args * cs = cal_args;
 		
         //Electrica en fase - ecm
-		int ret_ecm = calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
+		int ret_ecm = calc_ecm(args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
         msg->ecm = *ecm_result;
 
         if(cal_on && ret_ecm==1){
@@ -115,7 +115,7 @@ int auto_calibration(
         //Electrica y var
         if(aux_counter<size_lectura){
             /*Guardamos info*/
-            lectura_b[aux_counter]=args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real;
+            lectura_b[aux_counter]=args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real;
             lectura_a[aux_counter]=ret_values[0];
             lectura_t[aux_counter]=msg->t_absol;
             msg->ecm = res_phase;
@@ -144,13 +144,13 @@ int auto_calibration(
 
         aux_counter++;
         if(aux_counter == 10000*3){
-            args->params[R_HR]+=0.0006;
-            printf("%f\n", args->params[R_HR]);
+            args->nm.params[HR_R]+=0.0006;
+            printf("%f\n", args->nm.params[HR_R]);
             aux_counter=0;
         }
-        calc_ecm(args->vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
+        calc_ecm(args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
         msg->ecm = *ecm_result;
-        msg->extra = args->params[R_HR];
+        msg->extra = args->nm.params[HR_R];
         
     }else if(args->calibration==7){
         calibration_args * cs = cal_args;
@@ -287,14 +287,14 @@ void fix_drift (fix_drift_args args) {
 
     calcula_escala (args.min_abs_model, args.max_abs_model, *(args.min_window), *(args.max_window), args.scale_virtual_to_real, args.scale_real_to_virtual, args.offset_virtual_to_real, args.offset_real_to_virtual);
 
-    args.syn_aux_params_live_to_model->offset = *(args.offset_real_to_virtual);
-    args.syn_aux_params_live_to_model->scale = *(args.scale_real_to_virtual);
+    args.sm_live_to_model->offset = *(args.offset_real_to_virtual);
+    args.sm_live_to_model->scale = *(args.scale_real_to_virtual);
 
-    args.syn_aux_params_model_to_live->offset = *(args.offset_virtual_to_real);
-    args.syn_aux_params_model_to_live->scale = *(args.scale_virtual_to_real);
+    args.sm_model_to_live->offset = *(args.offset_virtual_to_real);
+    args.sm_model_to_live->scale = *(args.scale_virtual_to_real);
 
-    if (args.syn_aux_params_live_to_model->syn_type == GOLOWASCH) {
-        syn_gl_params * aux_gl_drift = args.syn_aux_params_live_to_model->type_params;
+    if (args.sm_live_to_model->type == GOLOWASCH) {
+        syn_gl_params * aux_gl_drift = args.sm_live_to_model->type_params;
 
         aux_gl_drift->min = *(args.min_window);
         aux_gl_drift->max = *(args.max_window);
@@ -335,12 +335,12 @@ int first_spike_detection (regularity_control_args * args) {
     return ret;
 }
 
-void change_conductance (syn_params * params, double per) {
-    if (params->syn_type == ELECTRIC) {
-        params->g[ELEC_G] += params->g[ELEC_G] * per;
-    } else if (params->syn_type == GOLOWASCH) {
-        if (params->g[GL_G_SLOW] != 0.0) params->g[GL_G_SLOW] += params->g[GL_G_SLOW] * per;
-        if (params->g[GL_G_FAST] != 0.0) params->g[GL_G_FAST] += params->g[GL_G_FAST] * per;
+void change_conductance (synapse_model * sm, double per) {
+    if (sm->type == ELECTRIC) {
+        sm->g[ELEC_G] += sm->g[ELEC_G] * per;
+    } else if (sm->type == GOLOWASCH) {
+        if (sm->g[GL_G_SLOW] != 0.0) sm->g[GL_G_SLOW] += sm->g[GL_G_SLOW] * per;
+        if (sm->g[GL_G_FAST] != 0.0) sm->g[GL_G_FAST] += sm->g[GL_G_FAST] * per;
     }
 
     return;
@@ -376,7 +376,7 @@ void regularity_control (regularity_control_args * args) {
             /* Actuacion */
             if (var > 0.1) {
                 //change_conductance(args->syn_aux_params_live_to_model, args->per);
-                change_conductance(args->syn_aux_params_model_to_live, args->per);
+                change_conductance(args->sm_model_to_live, args->per);
             }else{
                 args->per = args->per / 2; 
             }

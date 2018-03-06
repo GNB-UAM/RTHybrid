@@ -8,25 +8,42 @@ extern "C" {
 #include <syslog.h>
 #include "../../common/includes/types.h"
 
-typedef struct {
-    unsigned int syn_type;
+
+/* Neuron model struct */
+typedef struct neuron_model neuron_model;
+
+struct neuron_model {
+    void (*func)(neuron_model nm, double);
+    void (*set_pts_burst)(double, double*);
+    unsigned int type;
+    unsigned int dim;
+    unsigned int n_params;
+    double * vars;
+    double * params;
+    double min;
+    double max;
+    double pts_burst;
+};
+
+/* Synapse model struct */
+typedef struct synapse_model synapse_model;
+
+struct synapse_model {
+    void (*func)(double, double, synapse_model*, double*);
+    unsigned int type;
     double * g;
     double scale;
     double offset;
     unsigned int calibrate;
     void * type_params;
-} syn_params;
+};
 
+
+/* rt_thread struct */
 typedef struct {
-    void (*func)(int, double, double*, double*, double);
-    void (*ini)(double, double*);
-    void (*min_max_model)(double*, double*, double*);
-    void (*syn)(double, double, syn_params*, double*);
-    double * vars;
-    double * params;
-    int dim;
-    double dt;
-    int type_syn;
+    neuron_model nm;
+    synapse_model sm_model_to_live;
+    synapse_model sm_live_to_model;
     long time_var;
     int before;
     int after;
@@ -41,16 +58,14 @@ typedef struct {
     double rafaga_modelo_pts;
     char * filename;
     int calibration;
-    int model;
     double step_v_to_r;
     double step_r_to_v;
     double firing_rate;
-    void * syn_args_model_to_live;
-    void * syn_args_live_to_model;
     double auto_cal_val_1;
 } rt_args;
 
 
+/* writer_thread struct */
 typedef struct {
     char * filename;
     char * path;
@@ -64,8 +79,8 @@ typedef struct {
     int time_var;
     int calibration;
     int important;
-    void * syn_args_model_to_live;
-    void * syn_args_live_to_model;
+    synapse_model sm_model_to_live;
+    synapse_model sm_live_to_model;
 } writer_args;
 
 typedef struct {
@@ -85,7 +100,6 @@ typedef struct {
     double * g_real_to_virtual;
     double syn_gradual_k1;
     double syn_gradual_k2;
-
 } calibration_args;
 
 typedef struct {
@@ -102,8 +116,8 @@ typedef struct {
     /* Cosas que se le pasan desde rt */
     struct timespec * ts;
     double v;
-    syn_params * syn_aux_params_live_to_model;
-    syn_params * syn_aux_params_model_to_live;
+    synapse_model * sm_live_to_model;
+    synapse_model * sm_model_to_live;
 } regularity_control_args;
 
 
@@ -118,8 +132,8 @@ typedef struct {
     double * min_rel_real;
     double max_abs_model;
     double min_abs_model;
-    syn_params * syn_aux_params_live_to_model;
-    syn_params * syn_aux_params_model_to_live;
+    synapse_model * sm_live_to_model;
+    synapse_model * sm_model_to_live;
 } fix_drift_args;
 
 
