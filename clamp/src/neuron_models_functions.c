@@ -90,8 +90,8 @@ void izhikevich (neuron_model nm, double syn) {
 	return;
 }
 
-void iz_set_pts_burst (double pts_live, double * pts_model) {
-    *pts_model = 59324.0;
+void iz_set_pts_burst (double pts_live, neuron_model nm) {
+    nm.pts_burst = 59324.0;
     return;
 }
 
@@ -112,8 +112,8 @@ void hindmarsh_rose (neuron_model nm, double syn) {
 	return;
 }
 
-void hr_set_pts_burst (double pts_live, double * pts_model) {
-    *pts_model = 260166.0;
+void hr_set_pts_burst (double pts_live, neuron_model nm) {
+    nm.pts_burst = 260166.0;
     return;
 }
 
@@ -143,7 +143,7 @@ void rlk_f (double * vars, double * ret, double * params, double syn) {
 void rulkov_map (neuron_model nm, double syn) {
     double ret[2];
 
-    if (nm.params[RLK_J] >= ((nm.params[RLK_PTS] - 400) / 400)) {
+    if (nm.params[RLK_J] >= ((nm.pts_burst - 400) / 400)) {
 
         nm.params[RLK_OLD] = nm.vars[0];
         rlk_f(nm.vars, ret, nm.params, syn);
@@ -152,7 +152,7 @@ void rulkov_map (neuron_model nm, double syn) {
 
     } else {
 
-        ret[0] = nm.params[RLK_OLD] + (nm.params[RLK_INTER] - nm.params[RLK_OLD]) / ((nm.params[RLK_PTS] - 400) / 400) * nm.params[RLK_J];
+        ret[0] = nm.params[RLK_OLD] + (nm.params[RLK_INTER] - nm.params[RLK_OLD]) / ((nm.pts_burst - 400) / 400) * nm.params[RLK_J];
         ret[1] = nm.vars[1];
         nm.params[RLK_J]++;
 
@@ -164,7 +164,8 @@ void rulkov_map (neuron_model nm, double syn) {
     return;
 }
 
-void rlk_set_pts_burst (double pts_live, double * pts_model) {
-    *pts_model = pts_live;
+void rlk_set_pts_burst (double pts_live, neuron_model nm) {
+    nm.pts_burst = pts_live;
+    nm.params[RLK_J] = ((nm.pts_burst - 400) / 400) + 1;
     return;
 }

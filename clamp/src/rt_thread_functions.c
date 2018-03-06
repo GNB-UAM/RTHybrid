@@ -232,9 +232,9 @@ void * rt_thread(void * arg) {
 
 
         rafaga_viva_pts = args->freq * period_disp_real;
-        args->nm.set_pts_burst(rafaga_viva_pts, &(args->rafaga_modelo_pts));
+        args->nm.set_pts_burst(rafaga_viva_pts, args->nm);
 
-        args->s_points = args->rafaga_modelo_pts / rafaga_viva_pts;
+        args->s_points = args->nm.pts_burst / rafaga_viva_pts;
 
         if (args->s_points == 0) args->s_points = 1;
     } else {

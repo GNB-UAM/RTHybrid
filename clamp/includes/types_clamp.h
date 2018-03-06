@@ -14,7 +14,7 @@ typedef struct neuron_model neuron_model;
 
 struct neuron_model {
     void (*func)(neuron_model nm, double);
-    void (*set_pts_burst)(double, double*);
+    void (*set_pts_burst)(double, neuron_model nm);
     unsigned int type;
     unsigned int dim;
     unsigned int n_params;

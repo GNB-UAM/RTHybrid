@@ -101,6 +101,8 @@ void RTHybrid::on_simulate_clicked()
             args.params[RLK_SIGMA] = ui->doubleRlkSigma->value();
             args.params[RLK_MU] = ui->doubleRlkMu->value();
             args.params[RLK_I] = ui->doubleRlkI->value();
+            args.params[RLK_OLD] = 0.0;
+            args.params[RLK_INTER] = 0.0;
 
             break;
         default:

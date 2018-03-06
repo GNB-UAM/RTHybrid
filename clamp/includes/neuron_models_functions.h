@@ -59,7 +59,7 @@ void izh_f (double * vars, double * ret, double * params, double syn);
 
 void izhikevich (neuron_model nm, double syn);
 
-void iz_set_pts_burst (double pts_live, double * pts_model);
+void iz_set_pts_burst (double pts_live, neuron_model nm);
 
 
 /* HINDMARSH-ROSE */
@@ -68,7 +68,7 @@ void hr_f (double * vars, double * ret, double * params, double syn);
 
 void hindmarsh_rose (neuron_model nm, double syn);
 
-void hr_set_pts_burst (double pts_live, double * pts_model);
+void hr_set_pts_burst (double pts_live, neuron_model nm);
 
 
 /* RULKOV MAP */
@@ -77,7 +77,7 @@ void rlk_f (double * vars, double * ret, double * params, double syn);
 
 void rulkov_map (neuron_model nm, double syn);
 
-void rlk_set_pts_burst (double pts_live, double * pts_model);
+void rlk_set_pts_burst (double pts_live, neuron_model nm);
 
 
 #endif // NEURON_MODELS_FUNCTIONS_H
