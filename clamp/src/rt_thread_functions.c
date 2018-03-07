@@ -232,7 +232,7 @@ void * rt_thread(void * arg) {
 
 
         rafaga_viva_pts = args->freq * period_disp_real;
-        args->nm.set_pts_burst(rafaga_viva_pts, args->nm);
+        args->nm.set_pts_burst(rafaga_viva_pts, &(args->nm));
 
         args->s_points = args->nm.pts_burst / rafaga_viva_pts;
 

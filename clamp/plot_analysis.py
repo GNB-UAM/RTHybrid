@@ -28,7 +28,7 @@ def regularity(events):
 	return times, res
 
 def periodo(v, freq, plot_on=False):
-	s_interval = 4
+	s_interval = 5
 	times, events, minis, maxis = [], [], [], [] 
 	up = None
 
@@ -115,23 +115,20 @@ def num_disp(array):
 	return len(r)
 
 
-def analisis_para_mapa(v1, v2, g1, g2):
+def analisis_para_mapa(v1, v2, g1, g2, args):
 	#Si los datos que han llegado hasta aqui estan pochos avisamos
 	for i in range(len(g1)):
 		if i>0:
 			if g1[i-1]!=g1[i] or g2[i-1]!=g2[i]:
-				print("Big trouble - Tamaño malo")
+				print("Big trouble - g's diferentes")
 				print(g1)
+				print(len(g1))
 				print(g2)
+				print(len(g2))
 
 	#Tiempos de disparo de cada señal
-	times_a, res_a, asd1, asd2 = periodo(v1)
-	times_b, res_b, asd3, asd4 = periodo(v2)
-
-	plt.figure(figsize=(7,4))
-	plt.plot(times_a, res_a, 'o', label="a")
-	plt.plot(times_b, res_b, 'o', label="b")
-	plt.show()
+	times_a, res_a, asd1, asd2 = periodo(v1, args.freq)
+	times_b, res_b, asd3, asd4 = periodo(v2, args.freq)
 
 	#Diferencia entre disparos muy tocha, parece no haber sincro
 	if abs(len(times_a)-len(times_b))>2:
@@ -179,6 +176,13 @@ def analisis_para_mapa(v1, v2, g1, g2):
 	suma=suma/len(res)
 	
 	print(str(g2[0])+" - "+str(g1[0])+" = "+str(suma))
+
+	'''
+	plt.figure(figsize=(7,4))
+	plt.plot(times_a, res_a, 'o', label="a")
+	plt.plot(times_b, res_b, 'o', label="b")
+	plt.show()
+	'''
 
 	return suma
 

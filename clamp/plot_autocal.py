@@ -10,14 +10,14 @@ import math
 import plot_analysis as analysis
 
 
-def plot_autocal(data1, data2):
+def plot_autocal(data1, data2, args):
 
 	if data2.autocal == 1:
 		auto_plot_1(data1, data2)
 	elif data2.autocal == 6:
 		auto_plot_6(data1, data2)
 	elif data2.autocal == 7:
-		auto_plot_7_mapa(data1, data2)
+		auto_plot_7_mapa(data1, data2, args)
 	elif data2.autocal == 8:
 		auto_plot_8(data1, data2)
 
@@ -103,7 +103,7 @@ def auto_plot_7(data1, data2):
 	plt.tight_layout()
 	plt.show()
 
-def auto_plot_7_mapa(data1, data2):
+def auto_plot_7_mapa(data1, data2, args):
 	print("No preparado si la g no empieza de 0 y revisa para no g0 y g3")
 	print("Plotting")
 	g0 = data2.data_extra[0]
@@ -132,51 +132,65 @@ def auto_plot_7_mapa(data1, data2):
 			g3s.append(i+1)
 			names_x.append(g3[i+1])
 
-	#Tamaño de los ejes
-	eje_x = len(g0s)
-	eje_y = 1
-	for elem in g3s[1:]:
-		if g3[elem]==0: ##!!!peligro cuando no empiece en cero
-			break
-		eje_y+=1
+	# Los ultimos valores son los ceros del control
+	'''
+	del g0s[-1]
+	del g3s[-1]
+	'''
+	del names_y[-1]
+	del names_x[-1]
 
+	#Tamaño de los ejes
+	eje_x = len(g0s)-1
+	eje_y = int ((len(g3s)-1)/eje_x)
 	names_x = names_x[0:eje_y]
 
 	#Analisis de cada trozo por separado
 	result=[]
-	for i in range(len(g3s)-1):
+	#for i in range(len(g3s)-1):
+	for i in range(eje_x*eje_y -1):
 		old=g3s[i]
 		new=g3s[i+1]-1
-		result.append( analysis.analisis_para_mapa( data1.v_model_scaled[old:new], data1.v_live[old:new], g3[old:new], g0[old:new] ) )
+		result.append( analysis.analisis_para_mapa( data1.v_model_scaled[old:new], data1.v_live[old:new], g3[old:new], g0[old:new], args ) )
+	print("End for loop")
 
-	result.append( analysis.analisis_para_mapa( data1.v_model_scaled[new+1:], data1.v_live[new+1:], g3[new+1:], g0[new+1:] ) )
+	old=g3s[i+1]
+	new=g3s[i+2]-1
+	result.append( analysis.analisis_para_mapa( data1.v_model_scaled[old:new], data1.v_live[old:new], g3[old:new], g0[old:new], args ) )
 
 	#Colocamos con la forma de matriz necesaria
 	print("Plotting.")
 	result = np.array(result)
 	for i in range(len(result)):
 		result[i]*=1000 #De segundos a ms.
-	matrix = result.reshape((eje_x, eje_y))
-	print(matrix)
 
+	matrix = result.reshape((eje_x, eje_y))
+
+	matrix = matrix[1:,:]
+	eje_x = eje_x-1
+	names_y = names_y [1:]
 	#Belleza para el plot, los ceros seran min-1
 	min_a=999
 	for i in range(eje_x):
+		print(i)
 		for j in range(eje_y):
 			if matrix[i][j]!=0 and matrix[i][j]<min_a:
 				min_a=matrix[i][j]
+	'''
 	for i in range(eje_x):
+		print(i)
 		for j in range(eje_y):
 			if matrix[i][j]==0 :
 				matrix[i][j]=min_a-1
-
+	'''
 	print("Plotting..")
 	#####Mapa
 	fig, ax = plt.subplots()
 	cMap = ListedColormap(['white', 'green', 'blue','red'])
 
 	# define the colormap
-	cmap = plt.cm.jet
+	#cmap = plt.cm.jet
+	cmap = plt.cm.Blues
 	# extract all colors from the .jet map
 	cmaplist = [cmap(i) for i in range(cmap.N)]
 	# force the first color entry to be grey
@@ -186,6 +200,8 @@ def auto_plot_7_mapa(data1, data2):
 
 
 	#heatmap = ax.pcolor(matrix, cmap=plt.get_cmap('Blues'))
+	#ñapa = 240
+	#heatmap = ax.pcolor(matrix, cmap=cmap, vmax=ñapa)
 	heatmap = ax.pcolor(matrix, cmap=cmap)
 	cbar = plt.colorbar(heatmap)
 	cbar.ax.set_ylabel('Distancia entre disparos (ms)')
