@@ -1,5 +1,5 @@
-# RTBiomanager
-Command line program to make neuron hybrid circuits
+# RTHybrid
+RTHybrid is a real-time neuron and synapse model library designed to build electrophysiological hybrid circuits with living neurons. It works with Xenomai 2, Xenomai 3, Preempt-RT and also non real-time Linux.
 
 ### Developed by
 Rodrigo Amaducci (rodrigo.amaducci@uam.es - [scholar](https://scholar.google.es/citations?user=Lq4ogOQAAAAJ))
@@ -17,7 +17,7 @@ Universidad Autónoma de Madrid [(UAM)](http://www.uam.es)
 - Qt
 
 ## Install
-- Debian 9 [guide](https://github.com/manurs/clamp-cli/wiki/Install-on-Debian-9)
+- Detailed installation instructions for each platform can be found [here](https://github.com/RoyVII/RTHybrid/wiki/Installation-guide).
 
 
 ## Data file details
@@ -26,11 +26,11 @@ See data/about.txt
 ## Plots
 Some Python Matplotlib programs are included. The programs read the files properly and include the data in Python variables. You can adapt the programs to plot what you need. 
 
-## Neuron models
+## Neuron models included
 - Hindmarsh–Rose
 - Izhikevich
 - Rulkov map
 
-## Synapsis models
+## Synapsis models included
 - Electrical synapse
 - Gradual chemical synapse
