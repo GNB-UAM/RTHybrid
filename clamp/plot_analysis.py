@@ -5,6 +5,14 @@ import matplotlib.gridspec as gridspec
 import argparse
 import math
 
+def events_to_file(events, file_name):
+	print(file_name)
+	f = open(file_name, 'w')
+	for event in events:
+		s =  '{0:.3f}'.format(event*1000)+" -1\n"
+		f.write(s) 
+	f.close()
+
 def regularity(events):
 	acc, counter, var = 0, 0, 0
 	times, periods, res = [], [], []
@@ -21,21 +29,23 @@ def regularity(events):
 				tmp = periods[i]-mean
 				var += tmp*tmp
 			var /= 5
+			#res.append (mean)
 			res.append (math.sqrt(var)/mean*100)
 			times.append (events[i])
 			acc, counter, var = 0, 0, 0
 
 	return times, res
 
-def periodo(v, freq, plot_on=False):
+def periodo(t, t_ms, v, freq, plot_on=False, all_events=False):
 	s_interval = 5
-	times, events, minis, maxis = [], [], [], [] 
+	times, times_ms, events, minis, maxis = [], [], [], [], [] 
 	up = None
 
 	num_intervals = len(v)/(freq*s_interval)
 	for i in range(int(num_intervals)):
-		time, event, mini, maxi, up = periodo_internal( v[ i*freq*s_interval : (i+1)*freq*s_interval ], i*s_interval, freq, up)
+		time, time_ms, event, mini, maxi, up = periodo_internal( t[ i*freq*s_interval : (i+1)*freq*s_interval ], t_ms[ i*freq*s_interval : (i+1)*freq*s_interval ], v[ i*freq*s_interval : (i+1)*freq*s_interval ], i*s_interval, freq, up, all_events)
 		times.extend(time)
+		times_ms.extend(time_ms)
 		events.extend(event)
 		np.append(minis, mini)
 		np.append(maxis, maxi)
@@ -43,7 +53,7 @@ def periodo(v, freq, plot_on=False):
 	#Plot
 	if plot_on==True:
 		t = np.linspace(0,len(v), len(v))
-		t = t / 10000
+		t = t / freq
 		plt.figure(figsize=(7,4))
 		plt.plot(t, v, color='C1',linewidth=0.5)
 		#plt.axhline(y=maxis, color='r', linestyle='--', linewidth=0.2)
@@ -56,12 +66,15 @@ def periodo(v, freq, plot_on=False):
 		plt.tight_layout()
 		plt.show()
 
-	return times, events, minis, maxis
+	return times, times_ms, events, minis, maxis
 
-
-def periodo_internal(v, base_time, freq, up, plot_on=False):
+def periodo_internal(t, t_ms, v, base_time, freq, up, all_events, plot_on=False):
 	porcentaje_min = 0.1
-	porcentaje_max = 0.9
+	porcentaje_max = 0.75
+
+	########PARA COGER TODOS
+	if all_events==True:
+		porcentaje_min = 0.65
 
 	# max & min
 	min_v = min(v)
@@ -79,6 +92,7 @@ def periodo_internal(v, base_time, freq, up, plot_on=False):
 
 	changes=0
 	times=[]
+	times_ms=[]
 	res=[]
 
 	for i in range(len(v)):
@@ -86,6 +100,7 @@ def periodo_internal(v, base_time, freq, up, plot_on=False):
 		if up==False and v[i]>max_r_v:
 			changes+=1
 			times.append(base_time + i/freq)
+			times_ms.append(t_ms[i])
 			res.append(max_r_v)
 			up = True
 		#Down threshold activate up threshold
@@ -108,7 +123,7 @@ def periodo_internal(v, base_time, freq, up, plot_on=False):
 		plt.tight_layout()
 		plt.show()
 
-	return times, res, min_r_v, max_r_v, up
+	return times, times_ms, res, min_r_v, max_r_v, up
 
 def num_disp(array):
 	t, r, min, max = periodo(array)

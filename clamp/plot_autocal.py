@@ -166,9 +166,15 @@ def auto_plot_7_mapa(data1, data2, args):
 
 	matrix = result.reshape((eje_x, eje_y))
 
+	#Quitar fila de abajo del todo
 	matrix = matrix[1:,:]
 	eje_x = eje_x-1
 	names_y = names_y [1:]
+	#Quitar columna de la izquierda
+	matrix = matrix[:,1:]
+	eje_y = eje_y-1
+	names_x = names_x [1:]
+
 	#Belleza para el plot, los ceros seran min-1
 	min_a=999
 	for i in range(eje_x):
@@ -176,13 +182,13 @@ def auto_plot_7_mapa(data1, data2, args):
 		for j in range(eje_y):
 			if matrix[i][j]!=0 and matrix[i][j]<min_a:
 				min_a=matrix[i][j]
-	'''
+	
 	for i in range(eje_x):
 		print(i)
 		for j in range(eje_y):
 			if matrix[i][j]==0 :
 				matrix[i][j]=min_a-1
-	'''
+	
 	print("Plotting..")
 	#####Mapa
 	fig, ax = plt.subplots()
@@ -200,9 +206,9 @@ def auto_plot_7_mapa(data1, data2, args):
 
 
 	#heatmap = ax.pcolor(matrix, cmap=plt.get_cmap('Blues'))
-	#ñapa = 240
-	#heatmap = ax.pcolor(matrix, cmap=cmap, vmax=ñapa)
-	heatmap = ax.pcolor(matrix, cmap=cmap)
+	ñapa = 200
+	heatmap = ax.pcolor(matrix, cmap=cmap, vmax=ñapa)
+	#heatmap = ax.pcolor(matrix, cmap=cmap)
 	cbar = plt.colorbar(heatmap)
 	cbar.ax.set_ylabel('Distancia entre disparos (ms)')
 

@@ -65,10 +65,10 @@ def plot_voltage_g_current(data1, data2, args):
 	plt.show()
 
 def plot_regularity(data1, data2, args):
-	times = pa.periodo(data1.v_model_scaled, args.freq, False)[0]
+	times = pa.periodo(data1.time, data1.time_ms, data1.v_model_scaled, args.freq)[0]
 	times1, res1 = pa.regularity(times)
 
-	times = pa.periodo(data1.data_in[0], args.freq, False)[0]
+	times = pa.periodo(data1.time, data1.time_ms, data1.data_in[0], args.freq)[0]
 	times2, res2 = pa.regularity(times)
 	
 	#Crete and size
@@ -89,6 +89,13 @@ def plot_regularity(data1, data2, args):
 	plt.xlabel("Time (s)")
 	plt.tight_layout()
 	plt.show()
+
+def save_events(data1, data2, args):
+	times = pa.periodo(data1.time, data1.time_ms, data1.v_model_scaled, args.freq, all_events=True)[0]
+	pa.events_to_file(times, 'extra/'+args.file+'_1_events_model.txt')
+	times = pa.periodo(data1.time, data1.time_ms, data1.data_in[0], args.freq, all_events=True)[0]
+	pa.events_to_file(times, 'extra/'+args.file+'_1_events_live.txt')
+
 
 ###########################
 #   Internal lines plots  #

@@ -65,6 +65,7 @@ class DataStruct1():
 		#DATA TO VARIABLES
 		self.t_unix         = data[:,0]
 		self.time           = data[:,1] / 1000
+		self.time_ms        = data[:,1]
 		self.i              = data[:,2]
 		self.lat            = data[:,3]
 		self.v_model        = data[:,4]
