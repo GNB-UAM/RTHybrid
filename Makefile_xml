@@ -3,21 +3,21 @@ CCFLAGS = -Wall --pedantic -g -w
 CFLAGS_XML = -I/usr/include/libxml2
 LIBS_XML = -lxml2
 
-xml_test: xml_test.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o xml_test xml_test.o clamp/obj/xml_clamp_parser.o common/obj/xml_parser_functions.o $(LIBS_XML)
+xml_test: obj/xml_test.o obj/xml_clamp_parser.o obj/xml_parser_functions.o
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -o xml_test xml_test.o obj/xml_clamp_parser.o obj/xml_parser_functions.o $(LIBS_XML)
 
-xml_test.o:  xml_test.c
+obj/xml_test.o:  xml_test.c
 	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c xml_test.c
 
-clamp/obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h clamp/includes/model_library.h clamp/includes/types_clamp.h common/includes/types.h
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c clamp/src/xml_clamp_parser.c -o clamp/obj/xml_clamp_parser.o
+obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h clamp/includes/neuron_models_functions.h clamp/includes/synapse_models_functions.h clamp/includes/types_clamp.h common/includes/types.h
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c clamp/src/xml_clamp_parser.c -o obj/xml_clamp_parser.o
 
-common/obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/includes/xml_parser_functions.h common/includes/types.h
-	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o common/obj/xml_parser_functions.o
+obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/includes/xml_parser_functions.h common/includes/types.h
+	$(CC) $(CCFLAGS) $(CFLAGS_XML) -c common/src/xml_parser_functions.c -o obj/xml_parser_functions.o
 
 clean:
-	rm -f xml_test clamp/obj/*.o common/obj/*
+	rm -f xml_test obj/*.o obj/*
 
 mclan:
-	rm -f xml_test clamp/obj/*.o common/obj/*
-	make
+	rm -f xml_test obj/*.o obj/*
+	make -f Makefile_xml

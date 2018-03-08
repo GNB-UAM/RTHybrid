@@ -1,5 +1,6 @@
 <clamp>
-	<model type="0">
+
+	<model type="1">
 		<vars>
 			<x val="30.24"/>
 			<y val="-5.5"/>
@@ -12,27 +13,43 @@
 			<i val="10.0"/>
 		</params>
 	</model>
-	<synapse type="1">
-		<g_virtual_to_real_slow val="0.02"/>
-		<g_virtual_to_real_fast val="0.0"/>
+
+	<synapse type="2">
+		<g_real_to_virtual_fast val="0.4"/>
+		<syn_gradual_vfast_to_model val="25.0"/>
 		<g_real_to_virtual_slow val="0.0"/>
-		<g_real_to_virtual_fast val="0.15"/>
-		<syn_gradual_k1 val="1"/>
-		<syn_gradual_k2 val="0.03"/>
-		<syn_gradual_vslow val="50"/>
-		<syn_gradual_vfast val="25"/>
+		<syn_gradual_vslow_to_model val="0.0"/>
+		<syn_gradual_k1_to_model val="14.0"/>
+		<syn_gradual_k2_to_model val="4.0"/>
+
+		<g_virtual_to_real_fast val="0.0"/>
+		<syn_gradual_vfast_to_living val="0.0"/>
+		<g_virtual_to_real_slow val="0.04"/>
+		<syn_gradual_vslow_to_living val="15.0"/>
+		<syn_gradual_k1_to_living val="14.0"/>
+		<syn_gradual_k2_to_living val="4.0"/>
+
+		
 	</synapse>
-	<calib type="0">
-	</calib>
+
+	<calib type="0"></calib>
+
 	<freq val="10"/>
+
 	<times>
-		<before val="2"/>
+		<before val="0"/>
 		<duration val="10"/>
-		<after val="10"/>
+		<after val="0"/>
 	</times>
-	<output val="0,1"/>
+
+	<output val="0"/>
+
 	<input val="0"/>
+
 	<imp val="0"/>
+
 	<firing_rate val="-1"/>
+
 	<anti val="0"/>
+
 </clamp>
