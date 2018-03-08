@@ -6,6 +6,21 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
     nm->type = model;
 
     switch (model) {
+        case EMPTY_NEURON:
+            nm->dim = 1;
+            nm->vars = (double *) malloc (sizeof(double) * nm->dim);
+            nm->vars[X] = 0.0;
+
+            nm->n_params = 0;
+            nm->params = NULL;
+
+            nm->max = 1.0;
+            nm->min = 0.0;
+
+            nm->func = &empty;
+            nm->set_pts_burst = &empty_set_pts_burst;
+
+            break;
         case IZ:
             nm->dim = 2;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
@@ -68,6 +83,17 @@ void free_neuron_model (neuron_model * nm) {
 }
 
 /* Models functions */
+
+/* EMPTY */
+
+void empty (neuron_model nm, double syn) {
+    return;
+}
+
+void empty_set_pts_burst (double pts_live, neuron_model * nm) {
+    nm->pts_burst = pts_live;
+    return;
+}
 
 /* IZHIKEVICH */
 

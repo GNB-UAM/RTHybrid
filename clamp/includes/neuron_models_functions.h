@@ -10,9 +10,10 @@ extern "C" {
 
 /* Macros */
 
-#define IZ 0
-#define HR 1
-#define RLK 2
+#define EMPTY_NEURON 0
+#define IZ 1
+#define HR 2
+#define RLK 3
 
 #define X 0
 #define Y 1
@@ -53,9 +54,15 @@ void free_neuron_model (neuron_model * nm);
 
 /* Models functions */
 
+/* EMPTY */
+
+void empty (neuron_model nm, double syn);
+
+void empty_set_pts_burst (double pts_live, neuron_model * nm);
+
 /* IZHIKEVICH */
 
-void izh_f (double * vars, double * ret, double * params, double syn);
+//void izh_f (double * vars, double * ret, double * params, double syn);
 
 void izhikevich (neuron_model nm, double syn);
 
@@ -64,7 +71,7 @@ void iz_set_pts_burst (double pts_live, neuron_model * nm);
 
 /* HINDMARSH-ROSE */
 
-void hr_f (double * vars, double * ret, double * params, double syn);
+//void hr_f (double * vars, double * ret, double * params, double syn);
 
 void hindmarsh_rose (neuron_model nm, double syn);
 
@@ -73,7 +80,7 @@ void hr_set_pts_burst (double pts_live, neuron_model * nm);
 
 /* RULKOV MAP */
 
-void rlk_f (double * vars, double * ret, double * params, double syn);
+//void rlk_f (double * vars, double * ret, double * params, double syn);
 
 void rulkov_map (neuron_model nm, double syn);
 

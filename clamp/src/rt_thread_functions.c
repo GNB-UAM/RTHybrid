@@ -307,6 +307,10 @@ void * rt_thread(void * arg) {
 
     //Synapse type
     switch (args->sm_live_to_model.type) {
+        case EMPTY_SYN:
+        {
+            break;
+        }
         case ELECTRIC:
         {
             elec_set_online_params(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual);
@@ -642,7 +646,7 @@ void * rt_thread(void * arg) {
             args->sm_model_to_live.calibrate = SYN_CALIB_PRE;
             args->sm_model_to_live.func(ret_values[X], args->nm.vars[X], &(args->sm_model_to_live), &c_model);
             msg.c_model = -c_model;
-            msg.v_model = ((syn_gl_params*)(args->sm_model_to_live.type_params))->ms_old; //ms de la sinapsis
+            msg.v_model = args->nm.vars[X];
             //printf("c_model = %f\n", msg.c_model);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
