@@ -16,6 +16,7 @@ def events_to_file(events, file_name):
 def regularity(events):
 	acc, counter, var = 0, 0, 0
 	times, periods, res = [], [], []
+	num_events = 20
 
 	for i in range(len(events)-1):
 		periods.append (events[i+1]-events[i])
@@ -23,12 +24,12 @@ def regularity(events):
 		counter += 1
 		if counter == 1:
 			time = events[i]
-		if counter == 5:
-			mean = acc / 5
-			for j in range(5):
+		if counter == num_events:
+			mean = acc / num_events
+			for j in range(num_events):
 				tmp = periods[i]-mean
 				var += tmp*tmp
-			var /= 5
+			var /= num_events
 			#res.append (mean)
 			res.append (math.sqrt(var)/mean*100)
 			times.append (events[i])
@@ -36,8 +37,35 @@ def regularity(events):
 
 	return times, res
 
+def regularity2(events):
+	num_events = 40
+	coefs, times = [], []
+	for i in range(len(events)-num_events):
+		sub_events = events[i:i+num_events]
+		r = cal_coef_var(sub_events)
+		coefs.append(r)
+		times.append ( (events[i]+events[i+num_events]) / 2 )
+	return times, coefs
+
+def cal_coef_var(events, print_on=False):
+	acc, counter, var = 0, 0, 0
+	periods = []
+	for i in range(len(events)-1):
+		periods.append (events[i+1]-events[i])
+		acc += events[i+1]-events[i]
+		counter += 1
+	mean = acc / counter
+	for p in periods:
+		tmp = p - mean
+		var += tmp*tmp
+	var = var / len(periods)
+	if print_on==True:
+		print(math.sqrt(var)/mean*100)
+	return math.sqrt(var)/mean*100
+
+
 def periodo(t, t_ms, v, freq, plot_on=False, all_events=False):
-	s_interval = 5
+	s_interval = 20
 	times, times_ms, events, minis, maxis = [], [], [], [], [] 
 	up = None
 
@@ -69,7 +97,7 @@ def periodo(t, t_ms, v, freq, plot_on=False, all_events=False):
 	return times, times_ms, events, minis, maxis
 
 def periodo_internal(t, t_ms, v, base_time, freq, up, all_events, plot_on=False):
-	porcentaje_min = 0.1
+	porcentaje_min = 0.2
 	porcentaje_max = 0.75
 
 	########PARA COGER TODOS

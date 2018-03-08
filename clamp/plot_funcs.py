@@ -65,12 +65,27 @@ def plot_voltage_g_current(data1, data2, args):
 	plt.show()
 
 def plot_regularity(data1, data2, args):
+	t_exp  = (5+480) * args.freq
+	t_post = (5+480+480) * args.freq
+
+	times = pa.periodo(data1.time[:t_exp], data1.time_ms[:t_exp], data1.data_in[0][:t_exp], args.freq)[0]
+	pa.cal_coef_var(times, True)
+
+	times = pa.periodo(data1.time[t_exp:t_post], data1.time_ms[t_exp:t_post], data1.data_in[0][t_exp:t_post], args.freq)[0]
+	pa.cal_coef_var(times, True)	
+
+	times = pa.periodo(data1.time[t_post:], data1.time_ms[t_post:], data1.data_in[0][t_post:], args.freq)[0]
+	pa.cal_coef_var(times, True)
+
+	##############################
+	##############################
+
 	times = pa.periodo(data1.time, data1.time_ms, data1.v_model_scaled, args.freq)[0]
-	times1, res1 = pa.regularity(times)
+	times1, res1 = pa.regularity2(times)
 
 	times = pa.periodo(data1.time, data1.time_ms, data1.data_in[0], args.freq)[0]
-	times2, res2 = pa.regularity(times)
-	
+	times2, res2 = pa.regularity2(times)
+
 	#Crete and size
 	plt.figure(figsize=(12,8))
 

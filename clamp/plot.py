@@ -13,7 +13,7 @@ args  = aux.arguments()
 data1 = aux.DataStruct1(args)
 data2 = aux.DataStruct2(args)
 
-funcs.save_events(data1, data2, args)
+#funcs.save_events(data1, data2, args)
 
 autocal.plot_autocal(data1, data2, args)
 funcs.plot_regularity(data1, data2, args)
