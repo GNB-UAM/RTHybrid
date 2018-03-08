@@ -61,6 +61,8 @@ void RTHybrid::on_simulate_clicked()
     strcpy(args.output, aux_out.c_str());
 
     switch (args.model) {
+        case EMPTY_NEURON:
+            break;
         case IZ: //Izhikevich
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 6);
@@ -113,6 +115,8 @@ void RTHybrid::on_simulate_clicked()
 
     if (ui->autocalPages->currentIndex() == 0 || ui->autocalPages->currentIndex() == 3){
         switch (args.synapse) {
+            case EMPTY_SYN:
+                break;
             case ELECTRIC: //Electrical
                 {
                 /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);

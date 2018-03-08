@@ -2,7 +2,7 @@
 
 int main () {
 	clamp_args args;
-	char file[] = "xml/clamp_args_2.xml";
+	char file[] = "xml/clamp_args_1.xml";
 
 	xml_clamp_parser(file, &args);
 
@@ -10,30 +10,30 @@ int main () {
 	printf("Model = %d\n", args.model);
 
 	switch (args.model) {
-		case IZHIKEVICH:
-			printf("A = %f\n", args.params[A_IZ]);
-			printf("B = %f\n", args.params[B_IZ]);
-			printf("C = %f\n", args.params[C_IZ]);
-			printf("D = %f\n", args.params[D_IZ]);
-			printf("I = %f\n", args.params[I_IZ]);
+		case IZ:
+			printf("A = %f\n", args.params[IZ_A]);
+			printf("B = %f\n", args.params[IZ_B]);
+			printf("C = %f\n", args.params[IZ_C]);
+			printf("D = %f\n", args.params[IZ_D]);
+			printf("I = %f\n", args.params[IZ_I]);
 			printf("X = %f\n", args.vars[X]);
 			printf("Y = %f\n", args.vars[Y]);
 
 			break;
 		case HR:
-			printf("R = %f\n", args.params[R_HR]);
-			printf("S = %f\n", args.params[S_HR]);
-			printf("I = %f\n", args.params[I_HR]);
+			printf("R = %f\n", args.params[HR_R]);
+			printf("S = %f\n", args.params[HR_S]);
+			printf("I = %f\n", args.params[HR_I]);
 			printf("X = %f\n", args.vars[X]);
 			printf("Y = %f\n", args.vars[Y]);
 			printf("Z = %f\n", args.vars[Z]);
 
 			break;
 		case RLK:
-			printf("ALPHA = %f\n", args.params[ALPHA_RLK]);
-			printf("MU = %f\n", args.params[MU_RLK]);
-			printf("SIGMA = %f\n", args.params[SIGMA_RLK]);
-			printf("I = %f\n", args.params[I_RLK]);
+			printf("ALPHA = %f\n", args.params[RLK_ALPHA]);
+			printf("MU = %f\n", args.params[RLK_MU]);
+			printf("SIGMA = %f\n", args.params[RLK_SIGMA]);
+			printf("I = %f\n", args.params[RLK_I]);
 			printf("X = %f\n", args.vars[X]);
 			printf("Y = %f\n", args.vars[Y]);
 
@@ -47,17 +47,25 @@ int main () {
 
 	switch (args.synapse) {
 		case ELECTRIC:
+		{
 			printf("G_V_R = %f\n", args.g_virtual_to_real[0]);
 			printf("G_R_V = %f\n", args.g_real_to_virtual[0]);
 
 			break;
-		case CHEMICAL:
-			printf("G_V_R_S = %f\n", args.g_virtual_to_real[G_SLOW]);
-			printf("G_V_R_F = %f\n", args.g_virtual_to_real[G_FAST]);
-			printf("G_R_V_S = %f\n", args.g_real_to_virtual[G_SLOW]);
-			printf("G_R_V_F = %f\n", args.g_real_to_virtual[G_FAST]);
+		}
+		case GOLOWASCH:
+		{
+		    syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
+            syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
+
+			printf("G_to_model_S = %f\n", args_live_to_model_gl->g[GL_G_SLOW]);
+			printf("G_to_model_F = %f\n", args_live_to_model_gl->g[GL_G_FAST]);
+
+			printf("G_to_living_S = %f\n", args_model_to_live_gl->g[GL_G_SLOW]);
+			printf("G_to_living_F = %f\n", args_model_to_live_gl->g[GL_G_FAST]);
 
 			break;
+		}
 		default:
 			break;
 	}
@@ -77,15 +85,15 @@ int main () {
 
 
 	printf("\nTIMES: Before %d  Duration %d  After %d\n", args.before, args.time_var, args.after);
-	printf("Freq %.0f   Antiphase %d   Important %d   Calibration %d\n", args.freq, args.anti, args.imp, args.mode_auto_cal);
+	printf("Freq %.0f   Important %d   Calibration %d\n", args.freq, args.imp, args.mode_auto_cal);
 
 	printf("\nINPUT: %s  OUTPUT: %s\n", args.input, args.output);
 
 
 	free(args.vars);
 	free(args.params);
-	free(args.g_real_to_virtual);
-	free(args.g_virtual_to_real);
+	/*free(args.g_real_to_virtual);
+	free(args.g_virtual_to_real);*/
 	free(args.input);
 	free(args.output);
 

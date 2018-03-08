@@ -6,6 +6,15 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
     sm->type = model;
 
     switch (model) {
+        case EMPTY_SYN:
+        {
+            sm->type_params = NULL;
+            sm->g = NULL;
+
+            sm->func = &empty_syn;
+
+            break;
+        }
         case ELECTRIC:
         {
             syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args;
@@ -55,6 +64,15 @@ void free_synapse_model (synapse_model * sm) {
     free_pointers(2, &sm->g, &sm->type_params);
     return;
 }
+
+
+ /* EMPTY */
+
+void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
+    *ret = 0.0;
+    return;
+}
+
 
 
  /* ELECTRICAL */

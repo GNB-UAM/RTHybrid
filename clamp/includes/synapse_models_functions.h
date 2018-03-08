@@ -11,8 +11,9 @@ extern "C" {
 
 /* MACROS */
 
-#define ELECTRIC 0
-#define GOLOWASCH 1
+#define EMPTY_SYN 0
+#define ELECTRIC 1
+#define GOLOWASCH 2
 
 /* General */
 #define SYN_MODEL_TO_LIVE 0
@@ -57,6 +58,9 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args);
 
 void free_synapse_model (synapse_model * sm);
 
+ /* Empty */
+
+void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
 
 /* Electrical */
 
