@@ -1,16 +1,9 @@
 #ifndef QUEUE_FUNCTIONS_H__
 #define QUEUE_FUNCTIONS_H__
 
-/*#include <sys/ipc.h>
-#include <sys/msg.h>*/
-#include <stdio.h>
-#include <stdlib.h>
 #include <mqueue.h>
 #include <sys/types.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <syslog.h>
+
 #include "types_clamp.h"
 #include "time_functions.h"
 
@@ -46,9 +39,9 @@ typedef struct {
 
 int open_queue (void ** msqid);
 
-int send_to_queue (void * msqid, message * msg);
+int send_to_queue_no_block (void * msqid, void * msg);
 
-int receive_from_queue (void * msqid, message * msg);
+int receive_from_queue_block (void * msqid, void * msg);
 
 int close_queue (void ** msqid);
 

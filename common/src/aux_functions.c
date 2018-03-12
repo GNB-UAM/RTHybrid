@@ -1,5 +1,15 @@
+/**
+ * @file aux_functions.c
+ * @brief Source file with basic auxiliary functions.
+ */
+
 #include "../includes/types.h"
 
+/**
+ * @brief Frees a variable number of pointers. The pointers will be freed and set to NULL. If a pointer to NULL is passed nothing happens.
+ * @param[in] n Number of pointers that will be freed.
+ * @param[in] ... Variable number of parameters, indicated by n. Pointers to the pointers to be freed (i.e. &ptr) 
+ */
 
 void free_pointers (int n, ...) {
     va_list l;
@@ -19,7 +29,12 @@ void free_pointers (int n, ...) {
 }
 
 
-
+/**
+ * @brief Copies the content of a one dimension double array into another one, which is already allocated.
+ * @param[in] src Pointer to the source array
+ * @param[out] dst Pointer to the destination array
+ * @param[in] n_elems Number of elements in the arrays.
+ */
 
 void copy_1d_array (double * src, double * dst, int n_elems) {
     int i;
@@ -32,7 +47,15 @@ void copy_1d_array (double * src, double * dst, int n_elems) {
 }
 
 
-/* INTEGRATION FUNCTIONS */
+/**
+ * @brief Order 6 Runge-Kutta integration function.
+ * @param[in] f Pointer to the model function
+ * @param[in] dim Dimension of the model
+ * @param[in] dt Integration step
+ * @param[in,out] vars Variables to be integrated
+ * @param[in] params Parameters of the model
+ * @param[in] aux Auxiliary value
+*/
 
 void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
@@ -92,9 +115,6 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
                    k[4][j]*0.308641975308641-
                    k[5][j]*0.035714285714285;
     }
-
-
-    //printf("rk %f\n", vars[0]);
 
     return;
 }

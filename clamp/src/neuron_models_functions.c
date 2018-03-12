@@ -1,6 +1,22 @@
+/**
+ * @file neuron_models_functions.c
+ * @brief Source file with the neuron models functions.
+ */
+
 #include "../includes/neuron_models_functions.h"
 
 /* General functions */
+
+/**
+ * @brief Initializates a neuron model.
+ *
+ * Sets the starting values of its variables and parameters to the introduced by the user, as well as its minimum and maximum values.
+ * @param[in] nm Pointer to a neuron model structure
+ * @param[in] model Type of the neuron model
+ * @param[in] vars Array of doubles with the initial values of the variables of the model
+ * @param[in] params Array of doubles with the parameters of the model
+ */
+
 
 void init_neuron_model (neuron_model * nm, int model, double * vars, double * params) {
     nm->type = model;
@@ -76,6 +92,10 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
     return;
 }
 
+/**
+ * @brief Frees a neuron model.
+ * @param[in] nm Pointer to the neuron model structure
+ */
 
 void free_neuron_model (neuron_model * nm) {
     free_pointers(2, &(nm->vars), &(nm->params));
@@ -84,18 +104,45 @@ void free_neuron_model (neuron_model * nm) {
 
 /* Models functions */
 
-/* EMPTY */
+/** @name Empty
+ *  Empty neuron model. 
+ */
+///@{
 
+/**
+ * @brief Empty neuron model function. Does not compute anything.
+ * @param[in] nm Neuron model structure
+ * @param[in] syn Synapse input current value
+ */
 void empty (neuron_model nm, double syn) {
     return;
 }
 
+/**
+ * @brief Sets the empty model number of points per burst.
+ * @param[in] pts_live Number of points in a living neuron burst
+ * @param[in] nm Pointer to the neuron model structure
+ */
 void empty_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
     return;
 }
 
-/* IZHIKEVICH */
+///@}
+
+
+/** @name Izhikevich
+ *  Izhikevich neuron model from (Izhikevich, 2003). 
+ */
+///@{
+
+/**
+ * @brief Izhikevich neuron model differential equations.
+ * @param[in] vars Neuron model variables
+ * @param[out] ret Return values array
+ * @param[in] params Neuron models parameters
+ * @param[in] syn Synapse input current value
+ */
 
 void izh_f (double * vars, double * ret, double * params, double syn) {
 	ret[0] = 0.04 * vars[0]*vars[0] + 5*vars[0] + 140 - vars[1] + params[IZ_I] - syn;
@@ -104,6 +151,12 @@ void izh_f (double * vars, double * ret, double * params, double syn) {
 	return;
 }
 
+
+/**
+ * @brief Izhikevich neuron model.
+ * @param[in] nm Neuron model structure
+ * @param[in] syn Synapse input current value
+ */
 
 void izhikevich (neuron_model nm, double syn) {
 	runge_kutta_6 (izh_f, nm.dim, nm.params[IZ_DT], nm.vars, nm.params, syn);
@@ -116,13 +169,33 @@ void izhikevich (neuron_model nm, double syn) {
 	return;
 }
 
+
+/**
+ * @brief Sets Izhikevich model number of points per burst.
+ * @param[in] pts_live Number of points in a living neuron burst
+ * @param[in] nm Pointer to the neuron model structure
+ */
+
 void iz_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = 59324.0;
     return;
 }
 
+///@}
 
-/* HINDMARSH-ROSE */
+
+/** @name Hindmarsh-Rose
+ *  Hindmarsh-Rose neuron model from (Hindmarsh and Rose, 1984). 
+ */
+///@{
+
+/**
+ * @brief Hindmarsh-Rose neuron model differential equations.
+ * @param[in] vars Neuron model variables
+ * @param[out] ret Return values array
+ * @param[in] params Neuron models parameters
+ * @param[in] syn Synapse input current value
+ */
 
 void hr_f (double * vars, double * ret, double * params, double syn) {
     ret[0] = vars[1] + 3.0 * (vars[0]*vars[0]) - (vars[0]*vars[0]*vars[0]) - vars[2] + params[HR_I] - syn;
@@ -132,20 +205,46 @@ void hr_f (double * vars, double * ret, double * params, double syn) {
     return;
 }
 
+
+/**
+ * @brief Hindmarsh-Rose neuron model.
+ * @param[in] nm Neuron model structure
+ * @param[in] syn Synapse input current value
+ */
+
 void hindmarsh_rose (neuron_model nm, double syn) {
 	runge_kutta_6 (hr_f, nm.dim, nm.params[HR_DT], nm.vars, nm.params, syn);
 
 	return;
 }
 
+
+/**
+ * @brief Sets Hindmarsh-Rose model number of points per burst.
+ * @param[in] pts_live Number of points in a living neuron burst
+ * @param[in] nm Pointer to the neuron model structure
+ */
+
 void hr_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = 260166.0;
     return;
 }
 
+///@}
 
 
-/* RULKOV MAP */
+/** @name Rulkov map
+ *  Rulkov neuron model from (Rulkov, 2001). 
+ */
+///@{
+
+/**
+ * @brief Rulkov neuron model equations.
+ * @param[in] vars Neuron model variables
+ * @param[out] ret Return values array
+ * @param[in] params Neuron models parameters
+ * @param[in] syn Synapse input current value
+ */
 
 void rlk_f (double * vars, double * ret, double * params, double syn) {
     double y_old;
@@ -165,6 +264,13 @@ void rlk_f (double * vars, double * ret, double * params, double syn) {
 
     return;
 }
+
+
+/**
+ * @brief Rulkov neuron model.
+ * @param[in] nm Neuron model structure
+ * @param[in] syn Synapse input current value
+ */
 
 void rulkov_map (neuron_model nm, double syn) {
     double ret[2];
@@ -190,8 +296,17 @@ void rulkov_map (neuron_model nm, double syn) {
     return;
 }
 
+
+/**
+ * @brief Sets Rulkov model number of points per burst.
+ * @param[in] pts_live Number of points in a living neuron burst
+ * @param[in] nm Pointer to the neuron model structure
+ */
+
 void rlk_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
     nm->params[RLK_J] = ((nm->pts_burst - 400) / 400) + 1;
     return;
 }
+
+///@}

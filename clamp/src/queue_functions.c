@@ -1,63 +1,16 @@
+/**
+ * @file queue_functions.c
+ * @brief Source file with functions to manage POSIX IPC message queues.
+ */
+
 #include "../includes/queue_functions.h"
 
 
-/*int open_queue (void ** msqid) {
-	int ret = 0;
-	key_t key_q;
-
-	*msqid = (void *)malloc(sizeof(int));
-
-	key_q = ftok("/bin/ls", 28);
-    if (key_q == (key_t) -1) {
-        perror("Error obtaining message queue key.");
-        return ERR;
-    }
-
-    ret = msgget(key_q, 0600 | IPC_CREAT);
-    *(int*)(*msqid) = ret;
-    if (ret == -1) {
-        perror("Error obtaining message queue ID.");
-        return ERR;
-    }
-
-    return OK;
-}
-
-int send_to_queue (void * msqid, message * msg) {
-	int id = *(int*)msqid;
-
-	if (msgsnd(id, (struct msgbuf *) msg, sizeof((*msg)) - sizeof(long), IPC_NOWAIT) == -1) {
-		return ERR;
-	}
-
-	return OK;
-}
-
-
-
-int receive_from_queue (void * msqid, message * msg) {
-	int id = *(int*)msqid;
-
-	if (msgrcv(id, (struct msgbuf *) msg, sizeof((*msg)) - sizeof(long), 1, 0) == -1) {
-		return ERR;
-	}
-
-	return OK;
-}
-
-int close_queue (void ** msqid) {
-	int id = *(int*)(*msqid);
-
-
-	if (msgctl(id, IPC_RMID, (struct msqid_ds *)NULL) != 0) {
-		return ERR;
-	}
-
-	free(*msqid);
-
-	return OK;
-}*/
-
+/**
+ * @brief Returns the number of digits of a process ID.
+ * @param[in] id Process ID
+ * @return Number of digits of the ID
+ */
 
 int integer_length (pid_t id) {
     int count = 0;
@@ -72,6 +25,11 @@ int integer_length (pid_t id) {
 
 }
 
+/**
+ * @brief Opens an IPC message queue.
+ * @param[out] msqid Pointer to a void pointer that will be casted and filled to the queue descriptor type (mqd_t) and filled with the queue ID 
+ * @return #OK if it works, #ERR if there is an error
+ */
 
 int open_queue (void ** msqid) {
 	mqd_t id;
@@ -99,7 +57,14 @@ int open_queue (void ** msqid) {
     return OK;
 }
 
-int send_to_queue (void * msqid, message * msg) {
+/**
+ * @brief Sends a message to the queue pointed by msqid. It is non-blocking: if the queue is full, the message will not be sended and the function will continue.
+ * @param[in] msqid Pointer to the message queue descriptor 
+ * @param[in] msg Pointer to the message
+ * @return #OK if it works, #ERR if there is an error inserting the message in the queue (e.g. the queue is full)
+ */
+
+int send_to_queue_no_block (void * msqid, void * msg) {
 	mqd_t id = *(mqd_t*)msqid;
     struct timespec ts1;
 
@@ -114,8 +79,14 @@ int send_to_queue (void * msqid, message * msg) {
 }
 
 
+/**
+ * @brief Receives a message from the queue pointed by msqid. It is blocking: if the queue is empty, the functions will wait until there is a message.
+ * @param[in] msqid Pointer to the message queue descriptor 
+ * @param[out] msg Pointer where the message will be stored
+ * @return #OK if it works, #ERR if there is an error
+ */
 
-int receive_from_queue (void * msqid, message * msg) {
+int receive_from_queue_block (void * msqid, void * msg) {
 	mqd_t id = *(mqd_t*)msqid;
 
     /*while(1) {
@@ -131,6 +102,13 @@ int receive_from_queue (void * msqid, message * msg) {
 
 	return OK;
 }
+
+
+/**
+ * @brief Closes the queue pointed by msqid.
+ * @param[in] msqid Pointer to the message queue descriptor 
+ * @return #OK if it works, #ERR if there is an error
+ */
 
 int close_queue (void ** msqid) {
 	mqd_t id = *(mqd_t*)(*msqid);
