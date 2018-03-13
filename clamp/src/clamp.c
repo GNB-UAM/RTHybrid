@@ -134,12 +134,11 @@ int clamp (clamp_args * args) {
     r_args.freq = args->freq;
     r_args.filename = filename;
     r_args.calibration = args->mode_auto_cal;
-    r_args.firing_rate = args->firing_rate;
+    r_args.sec_per_burst = args->sec_per_burst;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
 
     w_args.path = path;
     w_args.filename = filename;
-    w_args.s_points = r_args.s_points;
     w_args.msqid = msqid;
     w_args.type_syn = args->synapse;
     w_args.model = args->model;

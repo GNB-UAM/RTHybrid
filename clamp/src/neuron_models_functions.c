@@ -120,6 +120,8 @@ void empty (neuron_model nm, double syn) {
 
 /**
  * @brief Sets the empty model number of points per burst.
+ *
+ * The number of points per burst of the model is equalized to the number of points per burst of the living neuron.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
  */
@@ -154,6 +156,9 @@ void izh_f (double * vars, double * ret, double * params, double syn) {
 
 /**
  * @brief Izhikevich neuron model.
+ *
+ * This model calculates a two-dimensional differential equation using order 6 Runge-Kutta integration method.
+ * Additionaly, a non-linear condition is also introduced.
  * @param[in] nm Neuron model structure
  * @param[in] syn Synapse input current value
  */
@@ -172,6 +177,8 @@ void izhikevich (neuron_model nm, double syn) {
 
 /**
  * @brief Sets Izhikevich model number of points per burst.
+ *
+ * The number of points per burst of the model is set to 59324.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
  */
@@ -208,6 +215,8 @@ void hr_f (double * vars, double * ret, double * params, double syn) {
 
 /**
  * @brief Hindmarsh-Rose neuron model.
+ *
+ * This model calculates a three-dimensional differential equation using order 6 Runge-Kutta integration method.
  * @param[in] nm Neuron model structure
  * @param[in] syn Synapse input current value
  */
@@ -221,6 +230,8 @@ void hindmarsh_rose (neuron_model nm, double syn) {
 
 /**
  * @brief Sets Hindmarsh-Rose model number of points per burst.
+ *
+ * The number of points per burst of the model is set to 260166.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
  */
@@ -268,6 +279,9 @@ void rlk_f (double * vars, double * ret, double * params, double syn) {
 
 /**
  * @brief Rulkov neuron model.
+ *
+ * This model does not have differential equations and computes a map instead. 
+ * Since only around 400 points are needed to build a burst, additional points need to be interpolated.
  * @param[in] nm Neuron model structure
  * @param[in] syn Synapse input current value
  */
@@ -299,6 +313,8 @@ void rulkov_map (neuron_model nm, double syn) {
 
 /**
  * @brief Sets Rulkov model number of points per burst.
+ *
+ * The number of points per burst of the model is equalized to the number of points per burst of the living neuron.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
  */

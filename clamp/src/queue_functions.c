@@ -64,7 +64,7 @@ int open_queue (void ** msqid) {
  * @return #OK if it works, #ERR if there is an error inserting the message in the queue (e.g. the queue is full)
  */
 
-int send_to_queue_no_block (void * msqid, void * msg) {
+int send_to_queue_no_block (void * msqid, message * msg) {
 	mqd_t id = *(mqd_t*)msqid;
     struct timespec ts1;
 
@@ -86,7 +86,7 @@ int send_to_queue_no_block (void * msqid, void * msg) {
  * @return #OK if it works, #ERR if there is an error
  */
 
-int receive_from_queue_block (void * msqid, void * msg) {
+int receive_from_queue_block (void * msqid, message * msg) {
 	mqd_t id = *(mqd_t*)msqid;
 
     /*while(1) {
