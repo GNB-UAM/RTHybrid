@@ -10,7 +10,7 @@ extern "C" {
 #ifndef TYPES_CLAMP_H__
 #define TYPES_CLAMP_H__
 
-#include <syslog.h>
+
 #include "../../common/includes/types.h"
 
 

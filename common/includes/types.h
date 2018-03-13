@@ -23,6 +23,9 @@ extern "C" {
 
 #include <sys/types.h>
 #include <signal.h>
+#include <sched.h>
+#include <pthread.h>
+#include <unistd.h>
 
 /* Basic types */
 #define ERR -1
