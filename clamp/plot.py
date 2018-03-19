@@ -16,7 +16,7 @@ data2 = aux.DataStruct2(args)
 #funcs.save_events(data1, data2, args)
 
 autocal.plot_autocal(data1, data2, args)
-funcs.plot_regularity(data1, data2, args)
+#funcs.plot_regularity(data1, data2, args)
 
 funcs.plot_voltage(data1, data2, args)
 #funcs.plot_voltage_g_current(data1, data2, args)
