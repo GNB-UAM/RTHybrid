@@ -19,23 +19,37 @@ WRITER THREAD MANAGEMENT
 ************************/
 
 int create_writer_thread (pthread_t * thread, void *arg) {
-    pthread_attr_t attr;
-    int err;
+	int err;
+	pthread_attr_t attr;
+	#ifndef __XENO__   
+	    pthread_attr_init(&attr);
+	    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	    err = pthread_create(thread, &attr, &writer_thread, arg);
+	    if (err != 0) {
+	        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
+	        return ERR;
+	    }
+    #else /* __XENO__ */
+	    __real_pthread_attr_init(&attr);
+	    __real_pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    err = pthread_create(thread, &attr, &writer_thread, arg);
-    if (err != 0) {
-        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
-        return ERR;
-    }
+	    err = __real_pthread_create(thread, &attr, &writer_thread, arg);
+	    if (err != 0) {
+	        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
+	        return ERR;
+	    }
+    #endif /* __XENO__ */
 
     return OK;
 }
 
 int join_writer_thread (pthread_t thread) {
-    return pthread_join(thread, NULL);
+	#ifndef __XENO__
+    	return pthread_join(thread, NULL);
+    #else /* __XENO__ */
+    	return __real_pthread_join(thread, NULL);
+    #endif /* __XENO__ */
 }
 
 

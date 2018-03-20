@@ -394,7 +394,9 @@ obj/comedi_functions.o: clamp/src/comedi_functions.c clamp/includes/device_funct
 obj/main.o: gui/main.cpp gui/rthybrid.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
 
-obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c 
+obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_functions.o clamp/src/neuron_models_functions.c
 
 obj/synapse_models_functions.o: clamp/src/synapse_models_functions.c clamp/includes/synapse_models_functions.h \
