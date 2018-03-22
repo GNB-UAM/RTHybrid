@@ -26,11 +26,12 @@ int main (int argc, char * argv[]) {
 	while ((ret = getopt_long(argc, argv, "x:h", main_opts, NULL)) >= 0) {
 		switch (ret) {
 		case 'x':
+			printf("%s\n", optarg);
 			ret = xml_clamp_parser(optarg, &args);
-			if (ret != OK) {
+			/*if (ret != OK) {
 				printf("CLAMP: Error reading XML file %s.\n", optarg);
 				return -1;
-			}
+			}*/
 
 			break;
 		case 'h':
