@@ -1,6 +1,21 @@
+/**
+ * @file synapse_models_functions.c
+ * @brief Source file with the synapse models functions.
+ */
+
+
 #include "../includes/synapse_models_functions.h"
 
 /* General functions */
+
+/**
+ * @brief Initializates a synapse model.
+ *
+ * Sets the conductances and parameters to the values introduced by the user.
+ * @param[in] sm Pointer to a synapse model structure
+ * @param[in] model Type of the synapse model
+ * @param[in] syn_args Pointer to an structure with the specific parameters for each kind of model
+ */
 
 void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
     sm->type = model;
@@ -60,22 +75,55 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
 }
 
 
+/**
+ * @brief Frees a synapse model.
+ * @param[in] sm Pointer to the syanpse model structure
+ */
+
 void free_synapse_model (synapse_model * sm) {
     free_pointers(2, &sm->g, &sm->type_params);
     return;
 }
 
 
- /* EMPTY */
+
+/* Models functions */
+
+/** @name Empty
+ *  Empty synapse model. 
+ */
+///@{
+
+/**
+ * @brief Empty synapse model function. 
+ * 
+ * Always returns 0.
+ * @param[in] v_post Post-synaptic neuron membrane potential
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ * @param[in] sm Pointer to synapse neuron model
+ * @param[out] ret Pointer to the return value
+ */
 
 void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
     *ret = 0.0;
     return;
 }
 
+///@}
 
 
- /* ELECTRICAL */
+/** @name Electrical
+ *  Electrical synapse model. 
+ */
+///@{
+
+
+/**
+ * @brief Sets the amplitude scale and offset parameters of the electrical synapse model according to the living neuron signal.
+ * @param[in] sm Pointer to synapse neuron model
+ * @param[in] scale Amplitude scale of the living neuron signal regarding to the neuron model
+ * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
+ */
 
 void elec_set_online_params (synapse_model * sm, double scale, double offset) {
     sm->scale = scale;
@@ -83,6 +131,17 @@ void elec_set_online_params (synapse_model * sm, double scale, double offset) {
 
     return;
 }
+
+
+/**
+ * @brief Electric synapse model function.
+ *
+ * It returns the difference of potential between the post and pre synaptic voltages, multiplied to the conductance: g * (v_post - v_pre).
+ * @param[in] v_post Post-synaptic neuron membrane potential
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ * @param[in] sm Pointer to synapse neuron model
+ * @param[out] ret Pointer to the return value
+ */
 
 void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
     syn_elec_params * aux_elec_params = sm->type_params;
@@ -97,8 +156,22 @@ void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
     return;
 }
 
+///@}
 
-/* GOLOWASCH */
+
+/** @name Golowasch
+ *  Graded chemical synapse model from (Golowasch et al, 1999). 
+ */
+///@{
+
+/**
+ * @brief Sets the amplitude mininum, maximum, scale and offset parameters of the (Golowasch et al, 1999) synapse model according to the living neuron signal.
+ * @param[in] sm Pointer to synapse neuron model
+ * @param[in] scale Amplitude scale of the living neuron signal regarding to the neuron model
+ * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
+ * @param[in] min Minimum value of the living neuron signal voltage
+ * @param[in] max Maximum value of the living neuron signal voltage
+ */
 
 void gl_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
     syn_gl_params * aux_gl_params = sm->type_params;
@@ -110,6 +183,15 @@ void gl_set_online_params (synapse_model * sm, double scale, double offset, doub
 
     return;
 }
+
+
+/**
+ * @brief Golowasch m_slow differential equation.
+ * @param[in] vars Synapse model variables
+ * @param[out] ret Return values array
+ * @param[in] params Synapse model parameters
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ */
 
 void gl_ms_f (double * vars, double * ret, double * params, double v_pre) {
     double p1, p2, p3;
@@ -127,6 +209,15 @@ void gl_ms_f (double * vars, double * ret, double * params, double v_pre) {
 }
     
 
+/**
+ * @brief Golowasch fast synapse equation.
+ * @param[in] v_post Post-synaptic neuron membrane potential
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ * @param[in] g Conductance
+ * @param[in] params Structure with the synapse auxiliary parameters
+ * @return Synaptic current
+ */
+
 double gl_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
     double e_syn;
     double v_f;
@@ -143,6 +234,16 @@ double gl_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
 
     return (g * (v_post - e_syn)) / (1.0 + exp(s_f * (v_f - v_pre)));
 }
+
+
+/**
+ * @brief Golowasch slow synapse equation.
+ * @param[in] v_post Post-synaptic neuron membrane potential
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ * @param[in] g Conductance
+ * @param[in] params Structure with the synapse auxiliary parameters
+ * @return Synaptic current
+ */
 
 double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
     double vars[1] = {params->ms_old};
@@ -173,6 +274,17 @@ double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
 
     return ret;
 }
+
+
+/**
+ * @brief Golowasch synapse model function.
+ *
+ * It computes a graded chemical synapse model as detailed in (Golowasch et al, 1999).
+ * @param[in] v_post Post-synaptic neuron membrane potential
+ * @param[in] v_pre Pre-synaptic neuron membrane potential
+ * @param[in] sm Pointer to synapse neuron model
+ * @param[out] ret Pointer to the return value
+ */
 
 void golowasch_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
     double min, max;
@@ -207,3 +319,5 @@ void golowasch_syn (double v_post, double v_pre, synapse_model * sm, double * re
 
     return;
 }
+
+///@}

@@ -13,9 +13,16 @@ RTHybrid::RTHybrid(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
 
-    movie = new QMovie("resources/neuron.gif");
+    /*movie = new QMovie("resources/neuron.gif");
     ui->label_gif->setMovie(movie);
-    movie->stop();
+    movie->stop();*/
+
+    ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
+    ui->centralWidget->repaint();
+
+    QPixmap pixmapTarget = QPixmap("resources/interaccion.png");
+    pixmapTarget = pixmapTarget.scaled(261, 147, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_gif->setPixmap(pixmapTarget);
 }
 
 RTHybrid::~RTHybrid()
@@ -46,9 +53,9 @@ void RTHybrid::on_simulate_clicked()
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();
     if (!ui->autoDetect->isChecked()) {
-        args.firing_rate = ui->doubleSecPerBurst->value();
+        args.sec_per_burst = ui->doubleSecPerBurst->value();
     } else {
-        args.firing_rate = -1;
+        args.sec_per_burst = -1;
     }
 
     aux_in = ui->textChannelInput->toPlainText().toStdString();
@@ -278,12 +285,15 @@ void RTHybrid::on_simulate_clicked()
 
 
 
-    movie->start();
+    //movie->start();
+    ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
+    //ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
+    ui->centralWidget->repaint();
+
+    int ret = clamp(&args);
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
-    int ret = clamp(&args);
-    ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
-    movie->stop();
+    //movie->stop();
 
     if(ui->checksound->isChecked())
         QSound::play("resources/epic_alarm.wav");

@@ -1,3 +1,8 @@
+/**
+ * @file synapse_models_functions.h
+ * @brief Header file for the synapse models functions.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -26,13 +31,66 @@ extern "C" {
 #define SYN_CALIB_PRE 0
 #define SYN_CALIB_POST 1
 
-/* Electrical */
+
+/* General */
+void init_synapse_model (synapse_model * sm, int model, void * syn_args);
+
+void free_synapse_model (synapse_model * sm);
+
+
+/** @name Empty
+ *  Empty synapse model. 
+ */
+///@{
+
+void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
+
+///@}
+
+
+/** @name Electrical
+ *  Electrical synapse model. 
+ */
+///@{
+
 #define ELEC_N_G 1
 #define ELEC_G 0
 
-#define ELEC_ANTI 3
 
-/*Golowash*/
+/**
+ * @brief Structure that stores the arguments specified by the user.
+ *
+ * It is specific for the electrical synapse and will be used as argument in #init_synapse_model.
+ */	
+typedef struct {
+    double g[ELEC_N_G]; /**< Conductances array with length #ELEC_N_G*/
+    int anti;           /**< Antiphase multiplier value */
+} syn_elec_args;
+
+
+/**
+ * @brief Structure that stores the parameters of the electrical synapse model.
+ *
+ * It is initialized in #init_synapse_model and is part of #synapse_model.
+ */ 
+typedef struct {
+    int anti; /**< Antiphase multiplier value */
+} syn_elec_params;
+
+
+
+void elec_set_online_params (synapse_model * sm, double scale, double offset);
+
+void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
+
+///@}
+
+
+/** @name Golowasch
+ *  Graded chemical synapse model from (Golowasch et al, 1999). 
+ */
+///@{
+
 #define GL_G_FAST 0
 #define GL_G_SLOW 1
 #define GL_N_G 2
@@ -53,63 +111,43 @@ extern "C" {
 #define GL_MS_VS 3
 
 
-/* General */
-void init_synapse_model (synapse_model * sm, int model, void * syn_args);
-
-void free_synapse_model (synapse_model * sm);
-
- /* Empty */
-
-void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
-
-/* Electrical */
-
-/* Struct to take the params from the GUI to Clamp */	
+/**
+ * @brief Structure that stores the arguments specified by the user.
+ *
+ * It is specific for (Golowasch et al, 1999) synapse and will be used as argument in #init_synapse_model.
+ */ 	
 typedef struct {
-    double g[ELEC_N_G];
-    int anti;
-} syn_elec_args;
-
-
-/* Struct to take the params from Clamp to RT */	
-typedef struct {
-    int anti;
-} syn_elec_params;
-
-
-void elec_set_online_params (synapse_model * sm, double scale, double offset);
-
-void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
-
-
-/*Golowash*/
-
-/* Struct to take the params from the GUI to Clamp */	
-typedef struct {
-    double g[GL_N_G];
-    double v_fast;
-    double v_slow;
-    double k1;
-    double k2;
+    double g[GL_N_G];   /**< Conductances array with length #GL_N_G*/
+    double v_fast;      /**< Voltage threshold for the fast synapse*/
+    double v_slow;      /**< Voltage threshold for the slow synapse*/
+    double k1;          /**< Temporal parameter for the slow conductance*/
+    double k2;          /**< Temporal parameter for the slow conductance*/
 } syn_gl_args;
 
 
-/* Struct to take the params from Clamp to RT */	
+/**
+ * @brief Structure that stores the parameters of the (Golowasch et al, 1999) synapse model.
+ *
+ * It is initialized in #init_synapse_model and is part of #synapse_model.
+ */ 	
 typedef struct {
-    double min;
-    double max;
-    double k1;
-    double k2;
-    double v_fast;
-    double v_slow;
-    double ms_old;
-    double dt;
+    double min;     /**< Minimum value of the living neuron signal voltage*/ 
+    double max;     /**< Maximum value of the living neuron signal voltage*/
+    double k1;      /**< Temporal parameter for the slow conductance*/
+    double k2;      /**< Temporal parameter for the slow conductance*/
+    double v_fast;  /**< Voltage threshold for the fast synapse*/
+    double v_slow;  /**< Voltage threshold for the slow synapse*/
+    double ms_old;  /**< Last value of m_slow*/
+    double dt;      /**< Integration step*/
 } syn_gl_params;
+
 
 
 void gl_set_online_params (synapse_model * sm, double scale, double offset, double min, double max);
 
 void golowasch_syn (double v_post, double v_pre, synapse_model * params, double * ret);
+
+///@}
 
 
 

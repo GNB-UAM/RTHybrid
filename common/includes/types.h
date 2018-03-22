@@ -1,3 +1,8 @@
+/**
+ * @file types.h
+ * @brief Header file with the basic includes, defines and functions.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -15,6 +20,12 @@ extern "C" {
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+
+#include <sys/types.h>
+#include <signal.h>
+#include <sched.h>
+#include <pthread.h>
+#include <unistd.h>
 
 /* Basic types */
 #define ERR -1

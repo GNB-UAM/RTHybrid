@@ -1,3 +1,8 @@
+/**
+ * @file time_functions.h
+ * @brief Header file with time management functions and macros.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -5,21 +10,8 @@ extern "C" {
 #ifndef TIME_FUNCTIONS_H
 #define TIME_FUNCTIONS_H
 
-//#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <sys/time.h>
-#include <sched.h>
-#include <sys/mman.h>
-#include <pthread.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <getopt.h>
+
 
 #define MSEC_PER_SEC (1000) /* The number of millisecs per sec. */
 #define USEC_PER_SEC (1000000) /* The number of microsecs per sec. */
@@ -34,9 +26,9 @@ extern "C" {
 
 void ts_substraction (struct timespec * start, struct timespec * stop, struct timespec * result);
 
-void ts_assign (struct timespec * ts1,  struct timespec ts2);
+void ts_assign (struct timespec * dst,  struct timespec src);
 
-void ts_add_time (struct timespec * ts, int sec, int nsec);
+void ts_add_time (struct timespec * ts, unsigned int sec, unsigned int nsec);
 
 void ts_convert_time (struct timespec * ts, unsigned int unit, double * res);
 

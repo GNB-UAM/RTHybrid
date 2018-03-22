@@ -143,6 +143,7 @@ void * rt_thread(void * arg) {
 
     /* Loop variables */
     unsigned long loop_points = 0, i=0;
+    int s_points;
     int infinite_loop = FALSE;
 
     /* Current variables */
@@ -217,7 +218,7 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: ini_recibido done");
 
         //printf("Periodo disparo = %f\n", period_disp_real);
-        if (args->firing_rate != -1) period_disp_real = args->firing_rate;
+        if (args->sec_per_burst != -1) period_disp_real = args->sec_per_burst;
 
         calcula_escala (min_abs_model, max_abs_model, min_abs_real, max_abs_real, &scale_virtual_to_real, &scale_real_to_virtual, &offset_virtual_to_real, &offset_real_to_virtual);
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: calcula_escala done");
@@ -234,16 +235,16 @@ void * rt_thread(void * arg) {
         rafaga_viva_pts = args->freq * period_disp_real;
         args->nm.set_pts_burst(rafaga_viva_pts, &(args->nm));
 
-        args->s_points = args->nm.pts_burst / rafaga_viva_pts;
+        s_points = args->nm.pts_burst / rafaga_viva_pts;
 
-        if (args->s_points == 0) args->s_points = 1;
+        if (s_points == 0) s_points = 1;
     } else {
         /*MODO SIN ENTRADA*/
         scale_real_to_virtual = 1;
         scale_virtual_to_real = 1;
         offset_virtual_to_real = 0;
         offset_real_to_virtual = 0;
-        args->s_points = 1;
+        s_points = 1;
         period_disp_real = 0;
     }
 
@@ -254,10 +255,10 @@ void * rt_thread(void * arg) {
 
 
     /*CALIBRADO TEMPORAL*/
-    msg2.i = args->s_points;
+    msg2.i = s_points;
     msg2.t_unix = period_disp_real;
     msg2.id = 1;
-    send_to_queue(args->msqid, &msg2);
+    send_to_queue_no_block(args->msqid, &msg2);
 
     //printf("\n - Phase 1 OK\n - Phase 2 START\n\n");
     /*fflush(stdout);
@@ -406,9 +407,9 @@ void * rt_thread(void * arg) {
     /************************
     BEFORE CONTROL RECORD
     ************************/
-    loop_points = args->before * args->freq * args->s_points;
+    loop_points = args->before * args->freq * s_points;
     for (i = 0; i < loop_points; i++) {
-        if (i % args->s_points == 0) {
+        if (i % s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
@@ -442,7 +443,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -465,9 +466,9 @@ void * rt_thread(void * arg) {
     INITIAL INTERACTION
     ************************/
 
-    loop_points = t_obs * args->freq * args->s_points;
+    loop_points = t_obs * args->freq * s_points;
     for (i = 0; i < loop_points; i++) {
-        if (i % args->s_points == 0) {
+        if (i % s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
@@ -530,7 +531,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -613,7 +614,7 @@ void * rt_thread(void * arg) {
     INTERACTION
     ************************/
 
-    loop_points = args->time_var * args->freq * args->s_points;
+    loop_points = args->time_var * args->freq * s_points;
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %ld", loop_points);
 
@@ -622,7 +623,7 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop = %ld\n", i);
 
 
-        if (i % args->s_points == 0) {
+        if (i % s_points == 0) {
             /*ESPERA HASTA EL MOMENTO DETERMINADO*/
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
@@ -697,7 +698,7 @@ void * rt_thread(void * arg) {
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");
 
             /*GUARDAR INFO*/
-            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
 
             /*TIEMPO*/
             ts_add_time(&ts_target, 0, args->period);
@@ -790,9 +791,9 @@ void * rt_thread(void * arg) {
     AFTER CONTROL RECORD
     ************************/
 
-    loop_points = args->before * args->freq * args->s_points;
+    loop_points = args->before * args->freq * s_points;
     for (i = 0; i < loop_points; i++) {
-        if (i % args->s_points == 0) {
+        if (i % s_points == 0) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
@@ -825,7 +826,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -860,7 +861,7 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
 
     msg.id = 2;
-    if (send_to_queue(args->msqid, &msg) == ERR) {
+    if (send_to_queue_no_block(args->msqid, &msg) == ERR) {
         perror("Closing message not sent");
     }
 
