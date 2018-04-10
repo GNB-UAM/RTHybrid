@@ -83,7 +83,7 @@ int auto_calibration(
 		
         //Electrica en fase - ecm
 		int ret_ecm = calc_ecm(args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
-        msg->ecm = *ecm_result;
+        //msg->ecm = *ecm_result;
 
         if(cal_on && ret_ecm==1){
         	int is_syn=FALSE;
@@ -117,16 +117,16 @@ int auto_calibration(
             /*Guardamos info*/
             lectura_b[aux_counter]=args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real;
             lectura_a[aux_counter]=ret_values[0];
-            lectura_t[aux_counter]=msg->t_absol;
-            msg->ecm = res_phase;
+            //lectura_t[aux_counter]=msg->t_absol;
+            //msg->ecm = res_phase;
             aux_counter++;
         }else{
             /*Ejecuta metrica*/
             int is_syn = 0;
             //is_syn = calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, cs->max_real_relativo, cs->min_real, &res_phase, args->anti);
-            msg->ecm = res_phase;
+            //msg->ecm = res_phase;
 
-            printf("var = %f\n", msg->ecm);
+            //printf("var = %f\n", msg->ecm);
             if(cal_on){
                 if (is_syn==TRUE){
                     printf("CALIBRATION END: g=%f\n", syn_params_model_to_live.g[0]);
@@ -149,8 +149,8 @@ int auto_calibration(
             aux_counter=0;
         }
         calc_ecm(args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
-        msg->ecm = *ecm_result;
-        msg->extra = args->nm.params[HR_R];
+        //msg->ecm = *ecm_result;
+        //msg->extra = args->nm.params[HR_R];
         
     }else if(args->calibration==7){
         calibration_args * cs = cal_args;
@@ -247,15 +247,15 @@ int auto_calibration(
                 }
             }
         }
-        msg->ecm = aux_gl->k1;
-        msg->extra = aux_gl->k2;
+        //msg->ecm = aux_gl->k1;
+        //msg->extra = aux_gl->k2;
     } else if (args->calibration == 9) {
         regularity_control_args * cs = cal_args;
         cs->v = ret_values[0];
         cs->ts = ts;
         regularity_control(cs);
 
-        msg->ecm = cs->var;
+        //msg->ecm = cs->var;
     }
     return FALSE;
 

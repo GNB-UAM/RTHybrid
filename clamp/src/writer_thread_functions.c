@@ -30,6 +30,10 @@ int create_writer_thread (pthread_t * thread, void *arg) {
 	        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
 	        return ERR;
 	    }
+
+        if (pthread_setname_np((*thread), "RTHybrid - Writer Thread") != 0) {
+            perror("Setting Writer Thread name");
+        }
     #else /* __XENO__ */
 	    __real_pthread_attr_init(&attr);
 	    __real_pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
@@ -175,13 +179,13 @@ void * writer_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first rcv");
     
-    s_points = msg2.i;
+    /*s_points = msg2.i;
 
-    fprintf(summary, "Model jump points = %d\n", s_points);
+    fprintf(summary, "Model jump points = %d\n", s_points);*/
 
-    fprintf(summary, "Burst duration = %.3f s\n", msg2.t_unix);
+    fprintf(summary, "Burst duration = %s s\n", msg2.data);
 
-    printf("Firing rate = %.3f s/burst\n", msg2.t_unix);
+    printf("Firing rate = %s s/burst\n", msg2.data);
 
     fprintf(summary, "\n=================================\n\n");
 
@@ -204,12 +208,14 @@ void * writer_thread(void * arg) {
         //Stop
         if (msg.id == 2) {
             //free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
-            if (DEBUG == 1) if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Closing message received");
+            if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Closing message received");
             break;
         }
 
-        //Headers
-        if (i == 0) {
+
+        fprintf(f1, "%s\n", msg.data);
+
+        /*if (i == 0) {
             fprintf(f1, "%d %d\n", msg.n_in_chan, msg.n_out_chan);
             //if(msg.autocal==1){
             fprintf(f2, "%d %d\n", msg.autocal, msg.n_g * 2);
@@ -218,7 +224,6 @@ void * writer_thread(void * arg) {
             i++;
         }
 
-        //Write file 1
         fprintf(f1, "%f %f %d %ld %f %f %f %f", msg.t_unix, msg.t_absol, msg.i, msg.lat, msg.v_model, msg.v_model_scaled, msg.c_model, msg.c_real);
         for (j = 0; j < msg.n_in_chan; ++j) {
             fprintf(f1, " %f", msg.data_in[j]);
@@ -228,7 +233,6 @@ void * writer_thread(void * arg) {
         }
         fprintf(f1, "\n");
 
-        //Write file 2
         fprintf(f2, "%f %d", msg.t_absol, msg.i);
         fprintf(f2, " %f", msg.ecm);
         fprintf(f2, " %f", msg.extra);
@@ -236,13 +240,12 @@ void * writer_thread(void * arg) {
             fprintf(f2, " %f", msg.g_real_to_virtual[j]);
             fprintf(f2, " %f", msg.g_virtual_to_real[j]);
         }
-        fprintf(f2, "\n");
+        fprintf(f2, "\n");*/
 
-        //Write drift
         fprintf(f_drift, "%f %f\n", msg.min_window, msg.max_window);
 
         //Free
-        free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
+        //free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
 
     }
 

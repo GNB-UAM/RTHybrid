@@ -35,6 +35,10 @@ int create_rt_thread (pthread_t * thread, void *arg) {
         return ERR;
     }
 
+    if (pthread_setname_np((*thread), "RTHybrid - RT Thread") != 0) {
+        perror("Setting RT Thread name");
+    }
+
     return OK;
 }
 
@@ -99,7 +103,7 @@ void rt_cleanup () {
         daq_close_device ((void**) &dsc);
     }
 
-    free_pointers(11, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values, &(msg.data_in), &(msg.data_out), &(msg.g_real_to_virtual), &(msg.g_virtual_to_real));
+    free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
 
     printf("\n" PRINT_CYAN "rt_thread terminated." PRINT_RESET "\n");
     pthread_exit(NULL);
@@ -149,11 +153,14 @@ void * rt_thread(void * arg) {
     /* Current variables */
     double c_real = 0, c_model = 0;
 
+    double t_elapsed, c_real_aux, v_model_scaled;
+    long lat;
+
     double ecm_result = 0;
 
     id = pthread_self();
     args = arg;
-    msg.c_real = c_real;
+    //msg.c_real = c_real;
 
     int calib_chan = 0;
 
@@ -161,13 +168,13 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After signal");
 
-    msg.n_in_chan = args->n_in_chan;
+    /*msg.n_in_chan = args->n_in_chan;
     msg.n_out_chan = args->n_out_chan;
     msg.autocal = args->calibration;
     msg.data_in = NULL;
     msg.data_out = NULL;
     msg.g_virtual_to_real = NULL;
-    msg.g_real_to_virtual = NULL;
+    msg.g_real_to_virtual = NULL;*/
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before Comedi");
 
@@ -255,9 +262,8 @@ void * rt_thread(void * arg) {
 
 
     /*CALIBRADO TEMPORAL*/
-    msg2.i = s_points;
-    msg2.t_unix = period_disp_real;
     msg2.id = 1;
+    sprintf(msg2.data, "%.3f", period_disp_real);
     send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg2);
 
     //printf("\n - Phase 1 OK\n - Phase 2 START\n\n");
@@ -323,7 +329,7 @@ void * rt_thread(void * arg) {
                 args->sm_model_to_live.g[0] = 0.0;
                 args->sm_live_to_model.g[0] = 0.0;
             }
-            msg.n_g = ELEC_N_G;
+            //msg.n_g = ELEC_N_G;
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Elec set finalized");
         
             break;
@@ -360,7 +366,7 @@ void * rt_thread(void * arg) {
                 syn_aux_params[SC_MS_K2] = ini_k2;/
             }*/
 
-            msg.n_g = GL_N_G;
+            //msg.n_g = GL_N_G;
             
             break;
         }
@@ -404,6 +410,10 @@ void * rt_thread(void * arg) {
         pthread_exit(NULL);
     }
 
+    msg.id = 0;
+    sprintf(msg.data, "%d %d", args->n_in_chan, args->n_out_chan);
+    if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
+
     /************************
     BEFORE CONTROL RECORD
     ************************/
@@ -414,34 +424,17 @@ void * rt_thread(void * arg) {
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
             ts_substraction(&ts_target, &ts_iter, &ts_result);
-            msg.id = 1;
-            msg.extra = 0;
-            msg.i = cont_send;
-            cont_send++;
-            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->nm.vars[X];
-            msg.c_model = 0;
-            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+            lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
             ts_substraction(&ts_start, &ts_iter, &ts_result);
-            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
-            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+            t_elapsed = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
 
-            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
-            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+            if (args->n_out_chan >= 1) out_values[0] = 0.0;
+            if (args->n_out_chan >= 2) out_values[1] = v_model_scaled;
 
-            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
-            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
-
-            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
-            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
-
-
-            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
-            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-
-            copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
+            
+            sprintf(msg.data, "%f %ld %f %f %f %f", t_elapsed, lat, v_model_scaled, ret_values[0], 0.0, 0.0);
 
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
@@ -456,7 +449,7 @@ void * rt_thread(void * arg) {
             }
 
         }
-        msg.c_real = 0;
+        //msg.c_real = 0;
         args->nm.func(args->nm, c_real);
     }
 
@@ -472,28 +465,18 @@ void * rt_thread(void * arg) {
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
-            ts_substraction(&ts_target, &ts_iter, &ts_result);
-            msg.id = 1;
-            msg.extra = 0;
-            msg.i = cont_send;
-            cont_send++;
-            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->nm.vars[X];
-            msg.c_model = 0;
-            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+        ts_substraction(&ts_target, &ts_iter, &ts_result);
+            lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
             ts_substraction(&ts_start, &ts_iter, &ts_result);
-            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
-            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+            t_elapsed = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
 
-            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
-            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+            if (args->n_out_chan >= 1) out_values[0] = 0.0;
+            if (args->n_out_chan >= 2) out_values[1] = v_model_scaled;
 
-            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
-            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
-
-            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
-            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
+            
+            sprintf(msg.data, "%f %ld %f %f %f %f", t_elapsed, lat, v_model_scaled, ret_values[0], 0.0, 0.0);
 
             if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
                 fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
@@ -501,35 +484,31 @@ void * rt_thread(void * arg) {
                 pthread_exit(NULL);
             }
 
-            /*CALIBRACION*/
+            
             if(args->calibration == 1){
                 //Electrica en fase
                 double ecm_old=ecm_result;
                 calc_ecm(args->nm.vars[0] * scale_virtual_to_real + offset_virtual_to_real, ret_values[0], rafaga_viva_pts, &ecm_result);
-                msg.ecm = ecm_result;
+                //msg.ecm = ecm_result;
                 if(ecm_result!=0 && ecm_old!=ecm_result){
                     sum_ecm+=ecm_result;
                     sum_ecm_cont++;
                 }
             }else if(args->calibration  == 4){
                  if(cont_lectura<size_lectura){
-                    /*Guardamos info*/
+                    
                     lectura_b[cont_lectura]=args->nm.vars[0] * scale_virtual_to_real + offset_virtual_to_real;
                     lectura_a[cont_lectura]=ret_values[0];
-                    lectura_t[cont_lectura]=msg.t_absol;
+                    lectura_t[cont_lectura]=t_elapsed;
                     cont_lectura++;
-                }else{ /*Calchange*/
+                }else{ 
                     calc_phase (lectura_b, lectura_a, lectura_t, size_lectura, max_rel_real, min_rel_real, &res_phase, args->sm_live_to_model);
-                    msg.ecm = res_phase;
+                    //msg.ecm = res_phase;
                     cont_lectura=0;
                 }
             }
 
-            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
-            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
 
-            copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
@@ -543,7 +522,7 @@ void * rt_thread(void * arg) {
                 pthread_exit(NULL);
             }
 
-            /* Fix drift */
+            
             if (min_window > ret_values[0]) min_window = ret_values[0];
             if (max_window < ret_values[0]) max_window = ret_values[0];
 
@@ -575,7 +554,7 @@ void * rt_thread(void * arg) {
 
             drift_counter++;
         }
-        msg.c_real = 0;
+        //msg.c_real = 0;
         args->nm.func(args->nm, c_real);
     }
 
@@ -619,75 +598,49 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Interaction started. Points = %ld", loop_points);
 
     for (i = 0; i < loop_points || infinite_loop == TRUE; i++) {
-        /*TOCA INTERACCION*/
         if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop = %ld\n", i);
 
 
         if (i % s_points == 0) {
-            /*ESPERA HASTA EL MOMENTO DETERMINADO*/
+            
             clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
             ts_substraction(&ts_target, &ts_iter, &ts_result);
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside the loop and the if = %ld\n", i);
 
-            /*GUARDAR INFO*/
-            msg.id = 1;
-            msg.extra = 0;
-            msg.i = cont_send;
-            cont_send++;
+
+            ts_substraction(&ts_target, &ts_iter, &ts_result);
+            lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing stuff at the loop");
 
-            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
-
-            /* Synapse from model to live scaled to live range */
             args->sm_model_to_live.calibrate = SYN_CALIB_PRE;
             args->sm_model_to_live.func(ret_values[X], args->nm.vars[X], &(args->sm_model_to_live), &c_model);
-            msg.c_model = -c_model;
-            msg.v_model = args->nm.vars[X];
-            //printf("c_model = %f\n", msg.c_model);
+            
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Doing more stuff at the loop");
 
-            /*GUARDAR INFO*/
             ts_substraction(&ts_start, &ts_iter, &ts_result);
-            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
-            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+            t_elapsed = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
 
-            /*ENVIO POR LA TARJETA*/
-            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
-            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+            if (args->n_out_chan >= 1) out_values[0] = 0.0;
+            if (args->n_out_chan >= 2) out_values[1] = v_model_scaled;
 
-            /*GUARDAR INFO*/
-            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
-            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
-            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
-            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
 
-            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
-            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-            copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
+            sprintf(msg.data, "%f %ld %f %f %f %f", t_elapsed, lat, v_model_scaled, ret_values[0], -c_model, -c_real_aux);
+
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Before writing to device");
 
-            /*ENVIO POR LA TARJETA*/
             if (daq_write(session, args->n_out_chan, args->out_channels, out_values) != OK) {
                 fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
                 daq_close_device ((void**) &dsc);
                 pthread_exit(NULL);
             }
 
-            /*CALIBRACION*/ /*Calchange*/
-            /*end_loop = auto_calibration(
-                                args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
-                                &msg, args->sm_model_to_live.g, args->sm_live_to_model.g,
-                                lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
-                                syn_aux_params, ini_k1, ini_k2
-                                );*/
             end_loop = auto_calibration(
                                 args, cal_struct, ret_values, rafaga_viva_pts, &ecm_result,
                                 &msg, lectura_a, lectura_b, lectura_t, size_lectura, cont_send,
@@ -697,20 +650,15 @@ void * rt_thread(void * arg) {
 
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");
 
-            /*GUARDAR INFO*/
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
-            /*TIEMPO*/
             ts_add_time(&ts_target, 0, args->period);
 
-            /*END*/
             if(end_loop==TRUE)
                 break;
 
-            /*LECTURA DE LA TARJETA*/
             if (daq_read(session, args->n_in_chan, args->in_channels, ret_values) != 0) {
 
-                /*ALGO FALLO*/
                 for (i = 0; i < args->n_out_chan; i++) {
                     out_values[i] = 0;
                 }
@@ -728,14 +676,11 @@ void * rt_thread(void * arg) {
                 pthread_exit(NULL);
             }
 
-            /* Synapse from live to model scaled to live range */
             args->sm_live_to_model.calibrate = SYN_CALIB_POST;
-            args->sm_live_to_model.func(args->nm.vars[0], ret_values[0], &(args->sm_live_to_model), &(msg.c_real));
-            msg.c_real = -msg.c_real;
+            args->sm_live_to_model.func(args->nm.vars[0], ret_values[0], &(args->sm_live_to_model), &c_real_aux);
 
 
 
-            /* Fix drift */
             if (min_window > ret_values[0]) min_window = ret_values[0];
             if (max_window < ret_values[0]) max_window = ret_values[0];
 
@@ -768,7 +713,6 @@ void * rt_thread(void * arg) {
         }
 
 
-        /* Synapse from live to model scaled to model range */
         args->sm_live_to_model.calibrate = SYN_CALIB_PRE;
         args->sm_live_to_model.func(args->nm.vars[0], ret_values[0], &(args->sm_live_to_model), &c_real);
 
@@ -798,33 +742,17 @@ void * rt_thread(void * arg) {
             clock_gettime(CLOCK_MONOTONIC, &ts_iter);
 
             ts_substraction(&ts_target, &ts_iter, &ts_result);
-            msg.id = 1;
-            msg.extra = 0;
-            msg.i = cont_send;
-            cont_send++;
-            msg.v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            msg.v_model = 0;//args->nm.vars[X];
-            msg.c_model = 0;
-            msg.lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+            lat = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
 
             ts_substraction(&ts_start, &ts_iter, &ts_result);
-            msg.t_absol = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
-            msg.t_unix = (ts_iter.tv_sec * NSEC_PER_SEC + ts_iter.tv_nsec) * 0.000001;
+            t_elapsed = (ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec) * 0.000001;
+            v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
 
-            if (args->n_out_chan >= 1) out_values[0] = msg.c_model;
-            if (args->n_out_chan >= 2) out_values[1] = msg.v_model_scaled;
+            if (args->n_out_chan >= 1) out_values[0] = 0.0;
+            if (args->n_out_chan >= 2) out_values[1] = v_model_scaled;
 
-            msg.data_in = (double *) malloc (sizeof(double) * args->n_in_chan);
-            msg.data_out = (double *) malloc (sizeof(double) * args->n_out_chan);
-
-            copy_1d_array(ret_values, msg.data_in, args->n_in_chan);
-            copy_1d_array(out_values, msg.data_out, args->n_out_chan);
-
-
-            msg.g_real_to_virtual = (double *) malloc (sizeof(double) * msg.n_g);
-            msg.g_virtual_to_real = (double *) malloc (sizeof(double) * msg.n_g);
-            copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
-            copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
+            
+            sprintf(msg.data, "%f %ld %f %f %f %f", t_elapsed, lat, v_model_scaled, ret_values[0], 0.0, 0.0);
 
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
@@ -839,7 +767,6 @@ void * rt_thread(void * arg) {
             }
 
         }
-        msg.c_real = 0;
         args->nm.func(args->nm, c_real);
     }
 

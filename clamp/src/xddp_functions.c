@@ -181,8 +181,9 @@ int send_to_queue_rt_no_block (void * msqid, message * msg) {
 
 int send_to_queue_rt_block (void * msqid, message * msg) {
 	int id = *(int*)msqid;
+	int ret = ERR;
 
-    if (sendto(id, (const char *) msg, sizeof(*msg), 0, NULL, 0) == -1) {
+	if (sendto(id, (const char *) msg, sizeof(*msg), 0, NULL, 0) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}

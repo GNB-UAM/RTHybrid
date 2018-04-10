@@ -11,7 +11,7 @@ import plot_autocal as autocal
 
 args  = aux.arguments()
 data1 = aux.DataStruct1(args)
-data2 = aux.DataStruct2(args)
+#data2 = aux.DataStruct2(args)
 
 #funcs.plot_voltage(data1, data2, args)
 #funcs.save_events(data1, data2, args)
@@ -22,7 +22,7 @@ data2 = aux.DataStruct2(args)
 
 #funcs.plot_voltage_g_current(data1, data2, args)
 
-funcs.plot_voltage_current(data1, data2, args)
+#funcs.plot_voltage_current(data1, data2, args)
 
 funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)

@@ -15,6 +15,14 @@
 
 
 typedef struct {
+    unsigned int id;
+    char data[128];
+    double min_window;
+    double max_window;
+} message;
+
+
+typedef struct {
     long id;
     int i; // Also s_points
     double t_unix; // Also period_disp_real
@@ -41,7 +49,7 @@ typedef struct {
     /* Deriva */
     double min_window;
     double max_window;
-} message;
+} message_2;
 
 
 int open_queue (void ** rt_msqid, void ** nrt_msqid);

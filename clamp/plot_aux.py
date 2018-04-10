@@ -71,9 +71,10 @@ class DataStruct1():
 		self.v_model        = data[:,4]
 		self.v_model_scaled = data[:,5]
 		self.c_model        = data[:,6]
-		self.c_viva         = data[:,7]
-		self.v_live         = data[:, 8]
+		#self.c_viva         = data[:,7]
+		#self.v_live         = data[:, 8]
 
+		'''
 		self.data_in = []
 		for j in range(8, 8 + self.n_in_chan):
 			self.data_in.append(data[:, j])
@@ -81,6 +82,7 @@ class DataStruct1():
 		self.data_out = []
 		for j in range(8 + self.n_in_chan, 8 + self.n_in_chan + self.n_out_chan):
 			self.data_out.append(data[:, j])
+		'''
 
 		if args.drift == 1:
 			#READ DATA
