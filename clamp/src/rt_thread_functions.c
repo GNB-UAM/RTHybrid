@@ -258,7 +258,7 @@ void * rt_thread(void * arg) {
     msg2.i = s_points;
     msg2.t_unix = period_disp_real;
     msg2.id = 1;
-    send_to_queue_no_block(args->msqid, &msg2);
+    send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg2);
 
     //printf("\n - Phase 1 OK\n - Phase 2 START\n\n");
     /*fflush(stdout);
@@ -443,7 +443,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -531,7 +531,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -698,7 +698,7 @@ void * rt_thread(void * arg) {
             if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: After ret_auto_cal");
 
             /*GUARDAR INFO*/
-            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
             /*TIEMPO*/
             ts_add_time(&ts_target, 0, args->period);
@@ -826,7 +826,7 @@ void * rt_thread(void * arg) {
             copy_1d_array(args->sm_live_to_model.g, msg.g_real_to_virtual, msg.n_g);
             copy_1d_array(args->sm_model_to_live.g, msg.g_virtual_to_real, msg.n_g);
 
-            if (send_to_queue_no_block(args->msqid, &msg) == ERR) lost_msg++;
+            if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
             ts_add_time(&ts_target, 0, args->period);
 
@@ -861,7 +861,7 @@ void * rt_thread(void * arg) {
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
 
     msg.id = 2;
-    if (send_to_queue_no_block(args->msqid, &msg) == ERR) {
+    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
         perror("Closing message not sent");
     }
 

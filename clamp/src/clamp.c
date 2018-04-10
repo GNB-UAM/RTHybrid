@@ -1,7 +1,7 @@
 #include "../includes/clamp.h"
 
 /* Global variables */
-void * msqid = NULL;
+void * msqid_rt = NULL, * msqid_nrt = NULL;
 pthread_t writer, rt;
 
 void clamp_cleanup () {
@@ -119,14 +119,14 @@ int clamp (clamp_args * args) {
     sigaddset(&set, SIGINT);
     if (pthread_sigmask(SIG_BLOCK, &set, NULL) != 0) syslog(LOG_INFO, "Error blocking SIGINT at main.\n");
 
-    if (open_queue(&msqid) != OK) {
-        syslog(LOG_INFO, "Error opening queue.");
+    if (open_queue(&msqid_rt, &msqid_nrt) != OK) {
+        syslog(LOG_INFO, "Error opening rt queue.");
     	return ERR;
     }
 
     syslog(LOG_INFO, "CLAMP: Queue opened");
 
-    r_args.msqid = msqid;
+    r_args.msqid = msqid_rt;
     r_args.time_var = args->time_var;
     r_args.before = args->before;
     r_args.after = args->after;
@@ -139,7 +139,7 @@ int clamp (clamp_args * args) {
 
     w_args.path = path;
     w_args.filename = filename;
-    w_args.msqid = msqid;
+    w_args.msqid = msqid_nrt;
     w_args.type_syn = args->synapse;
     w_args.model = args->model;
     w_args.freq = args->freq;
@@ -176,8 +176,8 @@ int clamp (clamp_args * args) {
     syslog(LOG_INFO, "CLAMP: Threads joined");
     
 
-    if (msqid != NULL) {
-        if (close_queue(&msqid) != OK) syslog(LOG_INFO, "Error closing queue.\n");
+    if (msqid_nrt != NULL || msqid_rt != NULL) {
+        if (close_queue(&msqid_rt, &msqid_nrt) != OK) syslog(LOG_INFO, "Error closing queue.\n");
     }
 
     free_neuron_model (&(r_args.nm));

@@ -171,7 +171,7 @@ void * writer_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Before first rcv");
 
-    receive_from_queue_block(args->msqid, &msg2);
+    receive_from_queue(args->msqid, NRT_QUEUE, BLOCK_QUEUE, &msg2);
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: After first rcv");
     
@@ -199,7 +199,7 @@ void * writer_thread(void * arg) {
 
     while(1) {
         //Receive
-        receive_from_queue_block(args->msqid, &msg);
+        receive_from_queue(args->msqid, NRT_QUEUE, BLOCK_QUEUE, &msg);
 
         //Stop
         if (msg.id == 2) {

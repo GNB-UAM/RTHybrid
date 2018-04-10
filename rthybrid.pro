@@ -32,6 +32,7 @@ exists(/usr/xenomai/bin/xeno-config) {
 
     SOURCES += \ 
         clamp/src/analogy_functions.c \
+        clamp/src/xddp_functions.c \
 
 } else {
     KERNEL_VERSION = $$system(uname -r)
@@ -41,6 +42,7 @@ exists(/usr/xenomai/bin/xeno-config) {
 
     SOURCES += \ 
         clamp/src/comedi_functions.c \
+        clamp/src/queue_functions.c \
 }
 
 
@@ -67,7 +69,6 @@ SOURCES += gui/main.cpp \
     clamp/src/calibrate_functions_phase1.c \
     clamp/src/calibrate_functions_phase2.c \
     clamp/src/time_functions.c \
-    clamp/src/queue_functions.c \
     clamp/src/clamp.c \
     common/src/aux_functions.c \
     gui/rthybrid.cpp

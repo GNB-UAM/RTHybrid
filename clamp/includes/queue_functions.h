@@ -1,11 +1,17 @@
 #ifndef QUEUE_FUNCTIONS_H__
 #define QUEUE_FUNCTIONS_H__
 
-#include <mqueue.h>
+
 #include <sys/types.h>
 
 #include "types_clamp.h"
 #include "time_functions.h"
+
+
+#define RT_QUEUE 0
+#define NRT_QUEUE 1
+#define BLOCK_QUEUE 0
+#define NO_BLOCK_QUEUE 1
 
 
 typedef struct {
@@ -37,13 +43,22 @@ typedef struct {
     double max_window;
 } message;
 
-int open_queue (void ** msqid);
+
+int open_queue (void ** rt_msqid, void ** nrt_msqid);
+
+int open_queue_rt (void ** msqid);
+
+int open_queue_nrt (void ** msqid);
 
 int send_to_queue_no_block (void * msqid, message * msg);
 
 int receive_from_queue_block (void * msqid, message * msg);
 
-int close_queue (void ** msqid);
+int send_to_queue (void * msqid, unsigned int is_rt, unsigned int is_blocking, message * msg);
+
+int receive_from_queue (void * msqid, unsigned int is_rt, unsigned int is_blocking, message * msg);
+
+int close_queue (void ** rt_msqid, void ** nrt_msqid);
 
 
 #endif /* queue_functions.h */

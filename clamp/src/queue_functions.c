@@ -4,6 +4,7 @@
  */
 
 #include "../includes/queue_functions.h"
+#include <mqueue.h>
 
 
 /**
@@ -25,13 +26,47 @@ int integer_length (pid_t id) {
 
 }
 
+
 /**
  * @brief Opens an IPC message queue.
  * @param[out] msqid Pointer to a void pointer that will be casted and filled to the queue descriptor type (mqd_t) and filled with the queue ID 
  * @return #OK if it works, #ERR if there is an error
  */
 
-int open_queue (void ** msqid) {
+int open_queue_rt (void ** msqid) {
+	mqd_t id;
+	struct mq_attr attr, *attrp;
+    int size = integer_length(getpid()) + 10;
+	char name[size];
+
+    sprintf(name, "/rt_queue%d", getpid());
+
+	attrp = NULL;
+    attr.mq_maxmsg = 2000;
+    attr.mq_msgsize = sizeof(message);
+    attrp = &attr;
+
+    id = mq_open(name, O_CREAT | O_RDWR, 0666, attrp);
+
+	if (id == -1) {
+		perror("Error opening queue");
+		return ERR;
+	}
+
+	*msqid = (void *)malloc(sizeof(mqd_t));
+	*(mqd_t*)(*msqid) = id;
+
+    return OK;
+}
+
+
+/**
+ * @brief Opens an IPC message queue.
+ * @param[out] msqid Pointer to a void pointer that will be casted and filled to the queue descriptor type (mqd_t) and filled with the queue ID 
+ * @return #OK if it works, #ERR if there is an error
+ */
+
+int open_queue_nrt (void ** msqid) {
 	mqd_t id;
 	struct mq_attr attr, *attrp;
     int size = integer_length(getpid()) + 10;
