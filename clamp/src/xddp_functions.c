@@ -9,6 +9,10 @@
 
 #define XDDP_PORT 0
 
+unsigned static int first = 0;
+static int fd_rt = -1;
+static int fd_nrt = -1;
+
 /**
  * @brief Returns the number of digits of a process ID.
  * @param[in] id Process ID
@@ -51,6 +55,13 @@ int open_queue_rt (void ** msqid) {
     struct sockaddr_ipc saddr;
     int ret, s, n = 0, len;
     size_t poolsz;
+
+
+    if (first != 0) {
+    	*msqid = (void *)malloc(sizeof(int));
+		*(int*)(*msqid) = fd_rt;
+ 		return OK;  	
+    }
 
 	/*
 	* Get a datagram socket to bind to the RT endpoint. Each
@@ -97,6 +108,9 @@ int open_queue_rt (void ** msqid) {
     *msqid = (void *)malloc(sizeof(int));
 	*(int*)(*msqid) = s;
 
+	fd_rt = s;
+	first = 1;
+
     return OK;
 }
 
@@ -109,6 +123,13 @@ int open_queue_rt (void ** msqid) {
 
 int open_queue_nrt (void ** msqid) {
     int fd;
+
+    if (first > 1) {
+    	*msqid = (void *)malloc(sizeof(int));
+		*(int*)(*msqid) = fd_nrt;
+ 		return OK;  	
+    }
+
     char * devname;
     if (asprintf(&devname, "/dev/rtp%d", XDDP_PORT) < 0) {
     	perror("Error opening queue");
@@ -124,6 +145,9 @@ int open_queue_nrt (void ** msqid) {
 
     *msqid = (void *)malloc(sizeof(int));
 	*(int*)(*msqid) = fd;
+
+	fd_nrt = fd;
+	first = 2;
 
     return OK;
 }
@@ -351,8 +375,8 @@ int close_queue (void ** rt_msqid, void ** nrt_msqid) {
 	int rt_id = *(int*) rt_msqid;
 	int nrt_id = *(int*) nrt_msqid;
 
-	shutdown(rt_id, 2);
-	close(nrt_id);
+	//shutdown(rt_id, 2);
+	//close(nrt_id);
 
 	free(*rt_msqid);
 	free(*nrt_msqid);

@@ -96,8 +96,8 @@ int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_re
     signal_average (lectura, size_lectura, media, size_media);
     *period_signal = signal_period_2 (segs_observo, lectura, size_lectura, *max_rel_real, *min_rel_real);
     //printf("Perido signal = %f\n", *period_signal);
-    array_to_file(lectura, size_lectura, filename, "lectura_ini");
-    array_to_file(convolution, size_lectura, filename, "lectura_ini_filtro");
+    //array_to_file(lectura, size_lectura, filename, "lectura_ini");
+    //array_to_file(convolution, size_lectura, filename, "lectura_ini_filtro");
 
     //printf("PERIODO= %f\n", *period_signal);
 
