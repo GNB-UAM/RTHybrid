@@ -80,7 +80,7 @@ int open_queue_rt (void ** msqid) {
     * convey datagrams will be pulled from this pool, instead of
     * Xenomai's system pool.
     */
-    poolsz = 16384; /* bytes */
+    poolsz = 8*16384; /* bytes */
     ret = setsockopt(s, SOL_XDDP, XDDP_POOLSZ, &poolsz, sizeof(poolsz));
     if (ret) {
     	perror("Error setting socket");

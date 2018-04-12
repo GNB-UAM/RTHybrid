@@ -15,10 +15,8 @@
 
 
 typedef struct {
-    unsigned int id;
+    short id;
     char data[128];
-    double min_window;
-    double max_window;
 } message;
 
 

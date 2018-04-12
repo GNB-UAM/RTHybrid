@@ -13,6 +13,8 @@ char * filename_drift = NULL;
 
 void * writer_thread(void * arg);
 
+void * writer_thread2(void * arg);
+
 
 /************************
 WRITER THREAD MANAGEMENT
@@ -21,7 +23,8 @@ WRITER THREAD MANAGEMENT
 int create_writer_thread (pthread_t * thread, void *arg) {
 	int err;
 	pthread_attr_t attr;
-	#ifndef __XENO__   
+	
+    /*#ifndef __XENO__   
 	    pthread_attr_init(&attr);
 	    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
@@ -30,11 +33,7 @@ int create_writer_thread (pthread_t * thread, void *arg) {
 	        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
 	        return ERR;
 	    }
-
-        if (pthread_setname_np((*thread), "RTHybrid - Writer Thread") != 0) {
-            perror("Setting Writer Thread name");
-        }
-    #else /* __XENO__ */
+    #else
 	    __real_pthread_attr_init(&attr);
 	    __real_pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
@@ -43,17 +42,34 @@ int create_writer_thread (pthread_t * thread, void *arg) {
 	        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
 	        return ERR;
 	    }
-    #endif /* __XENO__ */
+    #endif*/
+
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    err = pthread_create(thread, &attr, &writer_thread2, arg);
+    if (err != 0) {
+        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
+        return ERR;
+    }
+
+    #ifdef __XENO__
+        if (pthread_setname_np((*thread), "RTHybrid - RT Writer Thread") != 0) {
+            perror("Setting RT Thread name");
+        }
+    #endif
 
     return OK;
 }
 
 int join_writer_thread (pthread_t thread) {
-	#ifndef __XENO__
+	/*#ifndef __XENO__
     	return pthread_join(thread, NULL);
-    #else /* __XENO__ */
+    #else
     	return __real_pthread_join(thread, NULL);
-    #endif /* __XENO__ */
+    #endif*/
+
+    return pthread_join(thread, NULL);
 }
 
 
@@ -242,7 +258,7 @@ void * writer_thread(void * arg) {
         }
         fprintf(f2, "\n");*/
 
-        fprintf(f_drift, "%f %f\n", msg.min_window, msg.max_window);
+        //fprintf(f_drift, "%f %f\n", msg.min_window, msg.max_window);
 
         //Free
         //free_pointers(4, &msg.data_in, &msg.data_out, &msg.g_virtual_to_real, &msg.g_real_to_virtual);
@@ -255,6 +271,28 @@ void * writer_thread(void * arg) {
     fclose(f2);
     fclose(f_drift);
     free_pointers(4, &filename_1, &filename_2, &filename_summary, &filename_drift);
+
+    if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: End.\n");
+    pthread_exit(NULL);
+}
+
+
+
+void * writer_thread2(void * arg) {
+    message msg;
+    writer_args * args;
+    args = arg;
+
+    for (;;) {
+        receive_from_queue(args->msqid, NRT_QUEUE, BLOCK_QUEUE, &msg);
+
+        if (msg.id < 0) {
+            if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: Closing message received");
+            break;
+        } else {
+            fprintf(get_fd_by_index(msg.id), "%s\n", msg.data);
+        }
+    }
 
     if (DEBUG == 1) syslog(LOG_INFO, "WRITER_THREAD: End.\n");
     pthread_exit(NULL);

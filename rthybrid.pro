@@ -23,7 +23,7 @@ exists(/usr/xenomai/bin/xeno-config) {
     message("Compiling for Xenomai "$$XEN_VERSION)
 
     QMAKE_LIBS += -lanalogy $(shell /usr/xenomai/bin/xeno-config --skin=posix --ldflags)
-    QMAKE_CFLAGS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags)
+    QMAKE_CFLAGS += $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) -D__XENO__
     QMAKE_CC = $(shell /usr/xenomai/bin/xeno-config --cc)
 
     contains(XEN_VERSION, '.*2\.[0-9]\.[0-9].*') {
@@ -71,6 +71,7 @@ SOURCES += gui/main.cpp \
     clamp/src/time_functions.c \
     clamp/src/clamp.c \
     common/src/aux_functions.c \
+    common/src/file_selector_functions.c \
     gui/rthybrid.cpp
 
 HEADERS += \
@@ -87,6 +88,7 @@ HEADERS += \
     clamp/includes/writer_thread_functions.h \
     clamp/includes/clamp.h \
     clamp/includes/types_clamp.h \
+    common/includes/file_selector_functions.h \
     gui/rthybrid.h
 
 FORMS += \

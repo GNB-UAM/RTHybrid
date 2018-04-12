@@ -12,6 +12,7 @@ extern "C" {
 
 
 #include "../../common/includes/types.h"
+#include "../../common/includes/file_selector_functions.h"
 
 
 /* Neuron model struct */
@@ -71,6 +72,8 @@ typedef struct {
     
     char * filename;				/**< Output filename*/
     void * msqid;					/**< Message queue identifier*/
+    unsigned short data_file_id;    /**< Data recording file descriptor*/
+    unsigned short events_file_id;  /**< Events recording file descriptor*/
 
     int period;						/**< Real-time period (duration of the interval) in seconds*/
     int freq;						/**< Real-time frequency (points per second) in Hz*/

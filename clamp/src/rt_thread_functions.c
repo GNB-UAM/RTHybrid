@@ -35,9 +35,11 @@ int create_rt_thread (pthread_t * thread, void *arg) {
         return ERR;
     }
 
-    if (pthread_setname_np((*thread), "RTHybrid - RT Thread") != 0) {
-        perror("Setting RT Thread name");
-    }
+    #ifdef __XENO__
+        if (pthread_setname_np((*thread), "RTHybrid - RT Thread") != 0) {
+            perror("Setting RT Thread name");
+        }
+    #endif
 
     return OK;
 }
@@ -255,15 +257,16 @@ void * rt_thread(void * arg) {
         period_disp_real = 0;
     }
 
-    msg.min_window = min_abs_real;
-    msg.max_window = max_abs_real;
+    /*msg.min_window = min_abs_real;
+    msg.max_window = max_abs_real;*/
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Create calibration struct");
 
 
     /*CALIBRADO TEMPORAL*/
-    msg2.id = 1;
-    sprintf(msg2.data, "%.3f", period_disp_real);
+    msg2.id = args->events_file_id;
+    sprintf(msg2.data, "******* Clamp experiment %s ******* Model = %d Synapse = %d Firing rate = %.3f", 
+                        args->filename, args->nm.type, args->sm_live_to_model.type, period_disp_real);
     send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg2);
 
     //printf("\n - Phase 1 OK\n - Phase 2 START\n\n");
@@ -410,7 +413,7 @@ void * rt_thread(void * arg) {
         pthread_exit(NULL);
     }
 
-    msg.id = 0;
+    msg.id = args->data_file_id;
     sprintf(msg.data, "%d %d", args->n_in_chan, args->n_out_chan);
     if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
@@ -545,8 +548,8 @@ void * rt_thread(void * arg) {
 
                 fix_drift(fx_args);
 
-                msg.min_window = min_window;
-                msg.max_window = max_window;
+                /*msg.min_window = min_window;
+                msg.max_window = max_window;*/
 
                 max_window = -999999;
                 min_window = 999999;
@@ -702,8 +705,8 @@ void * rt_thread(void * arg) {
 
                 fix_drift(fx_args);
 
-                msg.min_window = min_window;
-                msg.max_window = max_window;
+                /*msg.min_window = min_window;
+                msg.max_window = max_window;*/
 
                 max_window = -999999;
                 min_window = 999999;
@@ -787,7 +790,7 @@ void * rt_thread(void * arg) {
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Deviced closed");
 
-    msg.id = 2;
+    msg.id = -1;
     if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
         perror("Closing message not sent");
     }
@@ -796,7 +799,7 @@ void * rt_thread(void * arg) {
 
     free_pointers(7, &(args->in_channels), &(args->out_channels), &lectura_a, &lectura_b, &lectura_t, &ret_values, &out_values);
 
-    if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: End. Not sent messages: %d\n", lost_msg);
+    printf("RT_THREAD: End. Not sent messages: %d\n", lost_msg);
 
     pthread_exit(NULL);
 }

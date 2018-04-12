@@ -41,10 +41,11 @@ int clamp (clamp_args * args) {
 
 	time_t t;
 	struct tm tm;
-	char path [50];
-	char path_b [50];
-	char hour [50];
-	char filename [50];
+	char * path = NULL;
+	char * hour = NULL;
+	char filename[50];
+    char * filename_data = NULL;
+    char * filename_events = NULL;
 
 
 	writer_args w_args;
@@ -85,12 +86,14 @@ int clamp (clamp_args * args) {
     init_synapse_model(&(r_args.sm_live_to_model), args->synapse, args->syn_args_live_to_model);
 
 
+    /*
+     * Create and open recording files
+     */
+
     t = time(NULL);
 	tm = *localtime(&t);
-	sprintf(path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
-	sprintf(path_b, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
-	strcpy(filename, path);
+    asprintf(&path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
 
 	struct stat st = {0};
@@ -103,11 +106,35 @@ int clamp (clamp_args * args) {
 		mkdir(path, 0777);
 	}
 
-	sprintf(hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
-	strcat(filename, hour);  
+	asprintf(&hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
+	asprintf(&filename_data, "%s%s_data.txt", path, hour);
+    sprintf(filename, "%s%s", path, hour);
 
-    printf(" - File: %s\n", filename);
+    if (init_file_selector() == ERR) {
+        syslog(LOG_INFO, "Error starting file selector.");
+        return ERR;
+    }
 
+    if (add_file(filename_data, &(r_args.data_file_id)) == ERR) {
+        syslog(LOG_INFO, "Error opening data file.");
+        return ERR;
+    }
+
+    if (add_file("log.txt", &(r_args.events_file_id)) == ERR) {
+        syslog(LOG_INFO, "Error opening data file.");
+        return ERR;
+    }
+
+    printf(" - File: %s\n", filename_data);
+
+    free_pointers(4, &path, &hour, &filename_data, &filename_events);
+
+    /* End of opening recording files */
+
+
+    /*
+     * Set threads
+     */
 
     pthread_attr_init(&attr_rt);
     pthread_attr_init(&attr_wr);
@@ -149,13 +176,6 @@ int clamp (clamp_args * args) {
     w_args.sm_model_to_live = r_args.sm_model_to_live;
     w_args.sm_model_to_live = r_args.sm_model_to_live;
 
-    /*err = pthread_create(&(writer), &attr_wr, &writer_thread, (void *) &w_args);
-    if (err != 0)
-        syslog(LOG_INFO, "Can't create writer_thread :[%s]", strerror(err));
-
-    err = pthread_create(&(rt), &attr_rt, &rt_thread, (void *) &r_args);
-    if (err != 0)
-        syslog(LOG_INFO, "Can't create rt_thread :[%s]", strerror(err));*/
 
     create_writer_thread(&(writer), (void *) &w_args);
     create_rt_thread(&(rt), (void *) &r_args);
@@ -167,14 +187,17 @@ int clamp (clamp_args * args) {
 
     syslog(LOG_INFO, "CLAMP: Signals set");
 
-
-    /*pthread_join(writer, NULL);
-    pthread_join(rt, NULL);*/
     join_writer_thread(writer);
     join_rt_thread(rt);
 
     syslog(LOG_INFO, "CLAMP: Threads joined");
+
+    /* End setting threads*/
     
+
+    /*
+     * Free and close the resources before the end
+     */
 
     if (msqid_nrt != NULL || msqid_rt != NULL) {
         if (close_queue(&msqid_rt, &msqid_nrt) != OK) syslog(LOG_INFO, "Error closing queue.\n");
@@ -184,6 +207,12 @@ int clamp (clamp_args * args) {
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
     free_pointers(6 , &args->input, &args->output, &args->vars, &args->params, &args->g_real_to_virtual, &args->g_virtual_to_real);
+
+
+    if (destroy_file_selector() == ERR) {
+        syslog(LOG_INFO, "Error destroying file selector.");
+        return ERR; 
+    }
 
 
     syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp_cli finished." PRINT_RESET "\n");

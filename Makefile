@@ -13,7 +13,7 @@ MAKEFILE      = Makefile
 CC            = $(shell /usr/xenomai/bin/xeno-config --cc)
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -D_GNU_SOURCE $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe -D_GNU_SOURCE $(shell /usr/xenomai/bin/xeno-config --skin=posix --cflags) -D__XENO__ -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -61,6 +61,7 @@ SOURCES       = clamp/src/analogy_functions.c \
 		clamp/src/time_functions.c \
 		clamp/src/clamp.c \
 		common/src/aux_functions.c \
+		common/src/file_selector_functions.c \
 		gui/rthybrid.cpp moc/moc_rthybrid.cpp
 OBJECTS       = obj/analogy_functions.o \
 		obj/xddp_functions.o \
@@ -75,6 +76,7 @@ OBJECTS       = obj/analogy_functions.o \
 		obj/time_functions.o \
 		obj/clamp.o \
 		obj/aux_functions.o \
+		obj/file_selector_functions.o \
 		obj/rthybrid.o \
 		obj/moc_rthybrid.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -155,6 +157,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/includes/writer_thread_functions.h \
 		clamp/includes/clamp.h \
 		clamp/includes/types_clamp.h \
+		common/includes/file_selector_functions.h \
 		gui/rthybrid.h clamp/src/analogy_functions.c \
 		clamp/src/xddp_functions.c \
 		gui/main.cpp \
@@ -168,6 +171,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/src/time_functions.c \
 		clamp/src/clamp.c \
 		common/src/aux_functions.c \
+		common/src/file_selector_functions.c \
 		gui/rthybrid.cpp
 QMAKE_TARGET  = RTHybrid
 DESTDIR       = #avoid trailing-slash linebreak
@@ -356,8 +360,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/neuron_models_functions.h clamp/includes/synapse_models_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h gui/rthybrid.h $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/src/analogy_functions.c clamp/src/xddp_functions.c gui/main.cpp clamp/src/neuron_models_functions.c clamp/src/synapse_models_functions.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/clamp.c common/src/aux_functions.c gui/rthybrid.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/neuron_models_functions.h clamp/includes/synapse_models_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h common/includes/types.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h common/includes/file_selector_functions.h gui/rthybrid.h $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/src/analogy_functions.c clamp/src/xddp_functions.c gui/main.cpp clamp/src/neuron_models_functions.c clamp/src/synapse_models_functions.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/clamp.c common/src/aux_functions.c common/src/file_selector_functions.c gui/rthybrid.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/rthybrid.ui $(DISTDIR)/
 
 
@@ -409,12 +413,14 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 obj/analogy_functions.o: clamp/src/analogy_functions.c clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
-		common/includes/types.h
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/analogy_functions.o clamp/src/analogy_functions.c
 
 obj/xddp_functions.o: clamp/src/xddp_functions.c clamp/includes/queue_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xddp_functions.o clamp/src/xddp_functions.c
 
@@ -423,12 +429,14 @@ obj/main.o: gui/main.cpp gui/rthybrid.h
 
 obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
-		common/includes/types.h
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_functions.o clamp/src/neuron_models_functions.c
 
 obj/synapse_models_functions.o: clamp/src/synapse_models_functions.c clamp/includes/synapse_models_functions.h \
 		clamp/includes/types_clamp.h \
-		common/includes/types.h
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/synapse_models_functions.o clamp/src/synapse_models_functions.c
 
 obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
@@ -436,6 +444,7 @@ obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thr
 		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
@@ -448,6 +457,7 @@ obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/include
 		clamp/includes/queue_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/writer_thread_functions.o clamp/src/writer_thread_functions.c
 
@@ -456,6 +466,7 @@ obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c cla
 		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/time_functions.h
@@ -465,6 +476,7 @@ obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/i
 		clamp/includes/device_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
 
@@ -472,6 +484,7 @@ obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/i
 		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/synapse_models_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
 
@@ -484,6 +497,7 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
@@ -496,6 +510,9 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 obj/aux_functions.o: common/src/aux_functions.c common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/aux_functions.o common/src/aux_functions.c
 
+obj/file_selector_functions.o: common/src/file_selector_functions.c 
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/file_selector_functions.o common/src/file_selector_functions.c
+
 obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		ui_rthybrid.h \
 		clamp/includes/clamp.h \
@@ -504,6 +521,7 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		clamp/includes/neuron_models_functions.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		clamp/includes/synapse_models_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
