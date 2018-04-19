@@ -42,6 +42,8 @@ int integer_length (pid_t id) {
 
 int open_queue (void ** rt_msqid, void ** nrt_msqid) {
 	if (open_queue_rt(rt_msqid) == ERR || open_queue_nrt(nrt_msqid) == ERR) return ERR;
+
+	return OK;
 }
 
 
@@ -53,7 +55,7 @@ int open_queue (void ** rt_msqid, void ** nrt_msqid) {
 
 int open_queue_rt (void ** msqid) {
     struct sockaddr_ipc saddr;
-    int ret, s, n = 0, len;
+    int ret, s;
     size_t poolsz;
 
 
@@ -163,7 +165,7 @@ int open_queue_nrt (void ** msqid) {
 int send_to_queue_rt_no_block (void * msqid, message * msg) {
 	int id = *(int*)msqid;
 
-    if (sendto(id, (const char *) msg, sizeof(*msg), MSG_DONTWAIT, NULL, 0) == -1) {
+    if (sendto(id, (void * restrict) msg, sizeof(*msg), MSG_DONTWAIT, NULL, 0) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}
@@ -183,7 +185,7 @@ int send_to_queue_rt_block (void * msqid, message * msg) {
 	int id = *(int*)msqid;
 	int ret = ERR;
 
-	if (sendto(id, (const char *) msg, sizeof(*msg), 0, NULL, 0) == -1) {
+	if (sendto(id, (void * restrict) msg, sizeof(*msg), 0, NULL, 0) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}
@@ -240,7 +242,7 @@ int send_to_queue_nrt_block (void * msqid, message * msg) {
 int receive_from_queue_rt_no_block (void * msqid, message * msg) {
 	int id = *(int*)msqid;
 
-    if (recvfrom(id, (const char *) msg, sizeof(*msg), MSG_DONTWAIT, NULL, 0) == -1) {
+    if (recvfrom(id, (void * restrict) msg, sizeof(*msg), MSG_DONTWAIT, NULL, 0) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}
@@ -259,7 +261,7 @@ int receive_from_queue_rt_no_block (void * msqid, message * msg) {
 int receive_from_queue_rt_block (void * msqid, message * msg) {
 	int id = *(int*)msqid;
 
-    if (recvfrom(id, (const char *) msg, sizeof(*msg), 0, NULL, 0) == -1) {
+    if (recvfrom(id, (void * restrict) msg, sizeof(*msg), 0, NULL, 0) == -1) {
 		//perror("Error sending message to queue");
 		return ERR;
 	}

@@ -510,7 +510,8 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 obj/aux_functions.o: common/src/aux_functions.c common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/aux_functions.o common/src/aux_functions.c
 
-obj/file_selector_functions.o: common/src/file_selector_functions.c 
+obj/file_selector_functions.o: common/src/file_selector_functions.c common/includes/file_selector_functions.h \
+		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/file_selector_functions.o common/src/file_selector_functions.c
 
 obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \

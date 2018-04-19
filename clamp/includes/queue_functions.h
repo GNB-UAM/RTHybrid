@@ -52,14 +52,6 @@ typedef struct {
 
 int open_queue (void ** rt_msqid, void ** nrt_msqid);
 
-int open_queue_rt (void ** msqid);
-
-int open_queue_nrt (void ** msqid);
-
-int send_to_queue_no_block (void * msqid, message * msg);
-
-int receive_from_queue_block (void * msqid, message * msg);
-
 int send_to_queue (void * msqid, unsigned int is_rt, unsigned int is_blocking, message * msg);
 
 int receive_from_queue (void * msqid, unsigned int is_rt, unsigned int is_blocking, message * msg);

@@ -122,6 +122,23 @@ int daq_close_device (void ** device) {
 }
 
 
+
+
+int read_single_data_analogy (Daq_session * session, int idx_chan, unsigned char * buf) {
+	int err = 0;
+
+
+	err = a4l_sync_read(session->device, session->idx_subd_in, CHAN(idx_chan), 0, buf, sizeof(double));
+
+	if (err < 0) {
+		fprintf(stderr, "Analogy read: a4l_sync_read failed (err=%d)\n", err);
+		return ERR;
+	}
+
+	return OK;
+}
+
+
 int daq_read (Daq_session * session, int n_channels, int * channels, double * ret) {
 	int i, err = 0;
 	a4l_sbinfo_t * sbinfo;
@@ -166,21 +183,19 @@ int daq_read (Daq_session * session, int n_channels, int * channels, double * re
 }
 
 
-int read_single_data_analogy (Daq_session * session, int idx_chan, unsigned char * buf) {
+int write_single_data_analogy (Daq_session * session, int idx_chan, int value) {
 	int err = 0;
 
 
-	err = a4l_sync_read(session->device, session->idx_subd_in, CHAN(idx_chan), 0, buf, sizeof(double));
+	err = a4l_sync_write(session->device, session->idx_subd_out, CHAN(idx_chan), 0, &value, sizeof(double));
 
 	if (err < 0) {
-		fprintf(stderr, "Analogy read: a4l_sync_read failed (err=%d)\n", err);
+		fprintf(stderr, "Analogy write: a4l_sync_write failed (err=%d)\n", err);
 		return ERR;
 	}
 
 	return OK;
 }
-
-
 
 
 int daq_write (Daq_session * session, int n_channels, int * channels, double * values) {
@@ -220,21 +235,6 @@ int daq_write (Daq_session * session, int n_channels, int * channels, double * v
 			fprintf(stderr, "Analogy write: error writing to channel %d at iter %d\n", channels[i], i);
 			return ERR;
 		}
-	}
-
-	return OK;
-}
-
-
-int write_single_data_analogy (Daq_session * session, int idx_chan, int value) {
-	int err = 0;
-
-
-	err = a4l_sync_write(session->device, session->idx_subd_out, CHAN(idx_chan), 0, &value, sizeof(double));
-
-	if (err < 0) {
-		fprintf(stderr, "Analogy write: a4l_sync_write failed (err=%d)\n", err);
-		return ERR;
 	}
 
 	return OK;

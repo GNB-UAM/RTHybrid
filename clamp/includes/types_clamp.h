@@ -51,7 +51,7 @@ struct synapse_model {
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */
     double offset;											/**< Amplitude offset of the living neuron signal regarding to the neuron model */
-    unsigned int calibrate;									/**< Indicates the reference neuron for the amplitude calibration of the synapse. It can be the pre-synaptic one (#SYN_CALIB_PRE) or the post-synaptic (#SYN_CALIB_POST)*/
+    unsigned int calibrate;									/**< Indicates the neuron which amplitude will be calibrated to the other one range. It can be the pre-synaptic one (#SYN_CALIB_PRE) or the post-synaptic (#SYN_CALIB_POST)*/
     void * type_params;										/**< Pointer to the structure storing the specific parameters for a type of synapse (defined in synapse_models_functions.h)*/
 };
 

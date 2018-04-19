@@ -18,7 +18,9 @@ QMAKE_CLEAN += $$TARGET
 QMAKE_LIBS += -lpthread -lrt -lm
 QMAKE_CFLAGS += -D_GNU_SOURCE
 
-exists(/usr/xenomai/bin/xeno-config) {
+
+IPIPE = $$system(dmesg | grep -i xenomai)
+contains( IPIPE, Xenomai ): {
     XEN_VERSION = $$system(/usr/xenomai/bin/xeno-config --version)
     message("Compiling for Xenomai "$$XEN_VERSION)
 

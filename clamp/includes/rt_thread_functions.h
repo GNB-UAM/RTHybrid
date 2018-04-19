@@ -10,6 +10,7 @@
 #include "calibrate_functions_phase2.h"
 
 #include <pthread.h>
+#include <locale.h>
 
 int create_rt_thread (pthread_t * thread, void *arg);
 

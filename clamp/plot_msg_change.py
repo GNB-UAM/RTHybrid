@@ -9,7 +9,7 @@ import plot_aux as aux
 import plot_funcs as funcs
 import plot_autocal as autocal
 
-filename = "data/2018y_4m_12d/18h_28m_6s_data.txt"
+filename = "data/2018y_4m_19d/16h_37m_30s_data.txt"
 dataset = pd.read_csv(filename, delimiter=' ', header=1)
 data = dataset.values
 
