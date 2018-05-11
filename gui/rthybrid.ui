@@ -1178,6 +1178,11 @@
       <string>Rulkov Map</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>(Ghigliazza and Holmes, 2004)</string>
+     </property>
+    </item>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -1257,7 +1262,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="page"/>
      <widget class="QWidget" name="pageIz">
@@ -1889,6 +1894,7 @@
        </property>
       </widget>
      </widget>
+     <widget class="QWidget" name="pageGh"/>
     </widget>
    </widget>
    <widget class="QLabel" name="label_43">

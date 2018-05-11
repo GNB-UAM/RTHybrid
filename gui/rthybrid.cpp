@@ -114,6 +114,31 @@ void RTHybrid::on_simulate_clicked()
             args.params[RLK_INTER] = 0.0;
 
             break;
+        case GH: //Ghigliazza-Holmes
+            args.vars = (double*) malloc (sizeof(double) * 3);
+            args.params = (double *) malloc (sizeof(double) * 20);
+
+            args.vars[X] = -35.0;
+
+            args.params[GH_I] = 35.6;
+            args.params[GH_G_CA] = 4.4;
+            args.params[GH_G_K] = 9.0;
+            args.params[GH_G_L] = 2.0;
+            args.params[GH_G_KS] = 0.25;
+            args.params[GH_CM] = 1.2;
+            args.params[GH_E_CA] = 120.0;
+            args.params[GH_E_K] = -80.0;
+            args.params[GH_E_L] = -60.0;
+            args.params[GH_EPSILON] = 4.9;
+            args.params[GH_DELTA] = 0.052;
+            args.params[GH_K_CA] = 0.11;
+            args.params[GH_K_K] = 0.2;
+            args.params[GH_K_KS] = 0.8;
+            args.params[GH_VTH_CA] = -1.2;
+            args.params[GH_VTH_K] = 2.0;
+            args.params[GH_VTH_KS] = -27.0;
+
+            break;
         default:
             break;
     }

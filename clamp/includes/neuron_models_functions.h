@@ -19,6 +19,7 @@ extern "C" {
 #define IZ 1
 #define HR 2
 #define RLK 3
+#define GH 4
 
 #define X 0
 #define Y 1
@@ -99,6 +100,42 @@ void hr_set_pts_burst (double pts_live, neuron_model * nm);
 void rulkov_map (neuron_model nm, double syn);
 
 void rlk_set_pts_burst (double pts_live, neuron_model * nm);
+
+///@}
+
+
+/** @name Ghigliazza-Holmes
+ *  Ghigliazza and Holmes neuron model from (Ghigliazza and Holmes, 2004). 
+ */
+///@{
+
+#define GH_I 0
+#define GH_DT 1
+#define GH_G_CA 2
+#define GH_G_K 3
+#define GH_G_L 4
+#define GH_G_KS 5
+#define GH_CM 6
+#define GH_E_CA 7
+#define GH_E_K 8
+#define GH_E_L 9
+#define GH_EPSILON 10
+#define GH_DELTA 11
+#define GH_K_CA 12
+#define GH_K_K 13
+#define GH_K_KS 14
+#define GH_VTH_CA 15
+#define GH_VTH_K 16
+#define GH_VTH_KS 17
+ 
+#define GH_M 1
+#define GH_C 2
+
+double ghigliazza_holmes_inf (double v, double vth, double k);
+
+void ghigliazza_holmes (neuron_model nm, double syn);
+
+void ghigliazza_holmes_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 
