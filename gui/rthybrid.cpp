@@ -52,11 +52,15 @@ void RTHybrid::on_simulate_clicked()
     args.time_var = ui->intTime->value();
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();
-    if (!ui->autoDetect->isChecked()) {
+
+    /*if (!ui->autoDetect->isChecked()) {
         args.sec_per_burst = ui->doubleSecPerBurst->value();
     } else {
         args.sec_per_burst = -1;
-    }
+    }*/
+
+    args.sec_per_burst = (!ui->autoDetect->isChecked()) ?  ui->doubleSecPerBurst->value() : -1;
+    args.check_drift = (ui->checkDrift->isChecked()) ? 1 : 0;
 
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
@@ -322,13 +326,12 @@ void RTHybrid::on_simulate_clicked()
 
     if(ui->checksound->isChecked())
         QSound::play("resources/epic_alarm.wav");
-    QMessageBox msgBox;
-    msgBox.setText("Clamp finished");
 
+    QMessageBox msgBox;
     if (ret == 1) {
-        msgBox.setInformativeText("OK");
+        msgBox.setText("Finished");
     } else {
-        msgBox.setInformativeText("ERR");
+        msgBox.setText("Error");
     }
 
     msgBox.exec();

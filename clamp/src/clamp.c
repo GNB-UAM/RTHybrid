@@ -162,6 +162,7 @@ int clamp (clamp_args * args) {
     r_args.filename = filename;
     r_args.calibration = args->mode_auto_cal;
     r_args.sec_per_burst = args->sec_per_burst;
+    r_args.check_drift = args->check_drift;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
 
     w_args.path = path;

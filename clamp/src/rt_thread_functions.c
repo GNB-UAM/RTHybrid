@@ -532,32 +532,34 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
 
             /* Recalculate the minimum and maximum thresholds and fix drift */
-            if (min_window > input_values[0]) min_window = input_values[0];
-            if (max_window < input_values[0]) max_window = input_values[0];
+            if (args->check_drift == 1) {
+                if (min_window > input_values[0]) min_window = input_values[0];
+                if (max_window < input_values[0]) max_window = input_values[0];
 
-            if (drift_counter >= (drift_n_burst * external_pts_per_burst)) {
-                drift_counter = 0;
-                
-                fx_args.scale_virtual_to_real = &scale_virtual_to_real;
-			    fx_args.scale_real_to_virtual = &scale_real_to_virtual;
-			    fx_args.offset_virtual_to_real = &offset_virtual_to_real;
-			    fx_args.offset_real_to_virtual = &offset_real_to_virtual;
-			    fx_args.max_window = &max_window;
-			    fx_args.min_window = &min_window;
-			    fx_args.max_rel_real = &max_rel_real;
-			    fx_args.min_rel_real = &min_rel_real;
-			    fx_args.max_abs_model = max_abs_model;
-			    fx_args.min_abs_model = min_abs_model;
-			    fx_args.sm_live_to_model = &(args->sm_live_to_model);
-			    fx_args.sm_model_to_live = &(args->sm_model_to_live);
+                if (drift_counter >= (drift_n_burst * external_pts_per_burst)) {
+                    drift_counter = 0;
 
-                fix_drift(fx_args);
+                    fx_args.scale_virtual_to_real = &scale_virtual_to_real;
+                    fx_args.scale_real_to_virtual = &scale_real_to_virtual;
+                    fx_args.offset_virtual_to_real = &offset_virtual_to_real;
+                    fx_args.offset_real_to_virtual = &offset_real_to_virtual;
+                    fx_args.max_window = &max_window;
+                    fx_args.min_window = &min_window;
+                    fx_args.max_rel_real = &max_rel_real;
+                    fx_args.min_rel_real = &min_rel_real;
+                    fx_args.max_abs_model = max_abs_model;
+                    fx_args.min_abs_model = min_abs_model;
+                    fx_args.sm_live_to_model = &(args->sm_live_to_model);
+                    fx_args.sm_model_to_live = &(args->sm_model_to_live);
 
-                max_window = -999999;
-                min_window = 999999;
+                    fix_drift(fx_args);
+
+                    max_window = -999999;
+                    min_window = 999999;
+                }
+
+                drift_counter++;
             }
-
-            drift_counter++;
 
             if (lp->interaction == TRUE) {
                 /* Calculate the input synapse (scaled to the external range) */

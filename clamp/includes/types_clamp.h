@@ -78,6 +78,7 @@ typedef struct {
     int period;						/**< Real-time period (duration of the interval) in seconds*/
     int freq;						/**< Real-time frequency (points per second) in Hz*/
 	double sec_per_burst;			/**< Duration of a burst wanted in seconds. If this value is -1, then the duration is the one from the living neuron*/
+    unsigned short check_drift;     /**< Signal drift compensation is on (1) or off (0)*/
 
     unsigned int n_in_chan;			/**< Number of DAQ input channels*/
     unsigned int n_out_chan;		/**< Number of DAQ output channels*/
@@ -181,6 +182,7 @@ typedef struct {
     double step_v_to_r;
     double step_r_to_v;
     double sec_per_burst;
+    unsigned short check_drift;
     double auto_cal_val_1;
     void * syn_args_model_to_live;
     void * syn_args_live_to_model;
