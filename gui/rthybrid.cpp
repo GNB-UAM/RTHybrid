@@ -20,9 +20,9 @@ RTHybrid::RTHybrid(QWidget *parent) :
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
 
-    QPixmap pixmapTarget = QPixmap("resources/interaccion.png");
+    /*QPixmap pixmapTarget = QPixmap("resources/interaccion.png");
     pixmapTarget = pixmapTarget.scaled(261, 147, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->label_gif->setPixmap(pixmapTarget);
+    ui->label_gif->setPixmap(pixmapTarget);*/
 }
 
 RTHybrid::~RTHybrid()
@@ -118,25 +118,25 @@ void RTHybrid::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 20);
 
-            args.vars[X] = -35.0;
+            args.vars[X] = ui->doubleGhX0->value();
 
-            args.params[GH_I] = 35.6;
-            args.params[GH_G_CA] = 4.4;
-            args.params[GH_G_K] = 9.0;
-            args.params[GH_G_L] = 2.0;
-            args.params[GH_G_KS] = 0.25;
-            args.params[GH_CM] = 1.2;
-            args.params[GH_E_CA] = 120.0;
-            args.params[GH_E_K] = -80.0;
-            args.params[GH_E_L] = -60.0;
-            args.params[GH_EPSILON] = 4.9;
-            args.params[GH_DELTA] = 0.052;
-            args.params[GH_K_CA] = 0.11;
-            args.params[GH_K_K] = 0.2;
-            args.params[GH_K_KS] = 0.8;
-            args.params[GH_VTH_CA] = -1.2;
-            args.params[GH_VTH_K] = 2.0;
-            args.params[GH_VTH_KS] = -27.0;
+            args.params[GH_I] = ui->doubleGhIext->value();
+            args.params[GH_G_CA] = ui->doubleGhGca->value();
+            args.params[GH_G_K] = ui->doubleGhGk->value();
+            args.params[GH_G_L] = ui->doubleGhGl->value();
+            args.params[GH_G_KS] = ui->doubleGhGks->value();
+            args.params[GH_CM] = ui->doubleGhC->value();
+            args.params[GH_E_CA] = ui->doubleGhEca->value();
+            args.params[GH_E_K] = ui->doubleGhEk->value();
+            args.params[GH_E_L] = ui->doubleGhEl->value();
+            args.params[GH_EPSILON] = ui->doubleGhEpsilon->value();
+            args.params[GH_DELTA] = ui->doubleGhDelta->value();
+            args.params[GH_K_CA] = ui->doubleGhKca->value();
+            args.params[GH_K_K] = ui->doubleGhKk->value();
+            args.params[GH_K_KS] = ui->doubleGhKks->value();
+            args.params[GH_VTH_CA] = ui->doubleGhVthca->value();
+            args.params[GH_VTH_K] = ui->doubleGhVthk->value();
+            args.params[GH_VTH_KS] = ui->doubleGhVthks->value();
 
             break;
         default:
