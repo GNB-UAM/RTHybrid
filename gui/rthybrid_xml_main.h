@@ -1,9 +1,6 @@
 #ifndef RTHYBRID_XML_MAIN_H
 #define RTHYBRID_XML_MAIN_H
 
-//#include "../clamp/includes/clamp.h"
-
-
 
 class rthybrid_xml_main
 {

@@ -15,9 +15,13 @@ OBJECTS_DIR = obj/
 MOC_DIR = moc/
 QMAKE_CLEAN += $$TARGET
 
-QMAKE_LIBS += -lpthread -lrt -lm -lxml2
-QMAKE_CFLAGS += -D_GNU_SOURCE -I/usr/include/libxml2
-QMAKE_CXXFLAGS += -I/usr/include/libxml2
+#QMAKE_LIBS += -lpthread -lrt -lm -lxml2
+#QMAKE_CFLAGS += -D_GNU_SOURCE -I/usr/include/libxml2
+#QMAKE_CXXFLAGS += -I/usr/include/libxml2
+
+QMAKE_LIBS += -lpthread -lrt -lm $(shell xml2-config --libs)
+QMAKE_CFLAGS += -D_GNU_SOURCE $(shell xml2-config --cflags)
+QMAKE_CXXFLAGS += $(shell xml2-config --cflags)
 
 
 IPIPE = $$system(dmesg | grep -i xenomai)

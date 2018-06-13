@@ -1,13 +1,12 @@
 #include "rthybrid.h"
-
-#include "ui_rthybrid.h"
-//#include "clamp_launcher.h"
 #include "../clamp/includes/clamp.h"
 
 #include <QMessageBox>
 #include <string>
 #include <QSound>
 #include <QMovie>
+#include <QMainWindow>
+
 
 RTHybrid::RTHybrid(QWidget *parent) :
     QMainWindow(parent),

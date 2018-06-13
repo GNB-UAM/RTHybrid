@@ -13,8 +13,8 @@ MAKEFILE      = Makefile
 CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -D_GNU_SOURCE -I/usr/include/libxml2 -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -I/usr/include/libxml2 -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe -D_GNU_SOURCE $(shell xml2-config --cflags) -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe $(shell xml2-config --cflags) -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -36,7 +36,7 @@ DISTNAME      = RTHybrid1.0.0
 DISTDIR = /home/skynet/workspace/RTHybrid/obj/RTHybrid1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lrt -lm -lxml2 -lcomedi -lQt5Multimedia -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lrt -lm $(shell xml2-config --libs) -lcomedi -lQt5Multimedia -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -383,7 +383,8 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc/moc_rthybrid.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc/moc_rthybrid.cpp
-moc/moc_rthybrid.cpp: gui/rthybrid.h \
+moc/moc_rthybrid.cpp: ui_rthybrid.h \
+		gui/rthybrid.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/rthybrid.h -o moc/moc_rthybrid.cpp
 
@@ -420,6 +421,7 @@ obj/queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_function
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/queue_functions.o clamp/src/queue_functions.c
 
 obj/main.o: gui/main.cpp gui/rthybrid.h \
+		ui_rthybrid.h \
 		gui/rthybrid_xml_main.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
 

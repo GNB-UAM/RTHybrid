@@ -1,8 +1,8 @@
 #ifndef RTHYBRID_H
 #define RTHYBRID_H
 
-
-#include <QMainWindow>
+#include "ui_rthybrid.h"
+//#include "clamp_launcher.h"
 
 namespace Ui {
 class RTHybrid;

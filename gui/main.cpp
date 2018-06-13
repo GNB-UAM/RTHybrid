@@ -5,10 +5,10 @@
 
 int main(int argc, char *argv[])
 {
-    /*if ((argc > 3) && (strcmp("-xml", argv[1]) == 0)) {
+    if ((argc >= 3) && (strcmp("-xml", argv[1]) == 0)) {
         rthybrid_xml_main xml;
         return xml.xml_init(argv[2]);
-    }*/
+    }
 
     QApplication a(argc, argv);
     RTHybrid w;
