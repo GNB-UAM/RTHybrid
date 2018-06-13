@@ -1,8 +1,11 @@
 #include "rthybrid.h"
+
 #include "ui_rthybrid.h"
+//#include "clamp_launcher.h"
+#include "../clamp/includes/clamp.h"
+
 #include <QMessageBox>
 #include <string>
-#include "clamp/includes/clamp.h"
 #include <QSound>
 #include <QMovie>
 
@@ -120,7 +123,7 @@ void RTHybrid::on_simulate_clicked()
             break;
         case GH: //Ghigliazza-Holmes
             args.vars = (double*) malloc (sizeof(double) * 3);
-            args.params = (double *) malloc (sizeof(double) * 20);
+            args.params = (double *) malloc (sizeof(double) * 18);
 
             args.vars[X] = ui->doubleGhX0->value();
 
@@ -320,6 +323,8 @@ void RTHybrid::on_simulate_clicked()
     ui->centralWidget->repaint();
 
     int ret = clamp(&args);
+    /*clamp_launcher cl;
+    int ret = cl.start(&args);*/
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
     //movie->stop();

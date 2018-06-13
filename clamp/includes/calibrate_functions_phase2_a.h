@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef CALIBRATE_FUNCTIONS_PHASE2_A_H__
 #define CALIBRATE_FUNCTIONS_PHASE2_A_H__
 
@@ -47,3 +51,7 @@ void fix_drift (fix_drift_args args);
 void regularity_control (regularity_control_args * args);
 
 #endif 
+
+#ifdef __cplusplus
+}
+#endif

@@ -15,40 +15,17 @@
 #define CALIB "calib"
 #define INPUT "input"
 #define OUTPUT "output"
-#define FIRING "firing_rate"
+#define FIRING "sec_per_burst"
 #define AUTOCAL_VAL_1 "autocal_val_1"
+#define DRIFT "drift"
 
 #define VARS "vars"
+#define PARAMS "params"
+
 #define X_VAR "x"
 #define Y_VAR "y"
 #define Z_VAR "z"
-#define PARAMS "params"
-#define A "a"
-#define B "b"
-#define C "c"
-#define D "d"
-#define R "r"
-#define S "s"
-#define ALPHA "alpha"
-#define SIGMA "sigma"
-#define MU "mu"
-#define I "i"
 
-#define G_VIRTUAL_TO_REAL "g_virtual_to_real"
-#define G_REAL_TO_VIRTUAL "g_real_to_virtual"
-#define G_VIRTUAL_TO_REAL_SLOW "g_virtual_to_real_slow"
-#define G_VIRTUAL_TO_REAL_FAST "g_virtual_to_real_fast"
-#define G_REAL_TO_VIRTUAL_SLOW "g_real_to_virtual_slow"
-#define G_REAL_TO_VIRTUAL_FAST "g_real_to_virtual_fast"
-
-#define SYN_GRADUAL_K1_TO_MODEL "syn_gradual_k1_to_model"
-#define SYN_GRADUAL_K2_TO_MODEL "syn_gradual_k2_to_model"
-#define SYN_GRADUAL_K1_TO_LIVING "syn_gradual_k1_to_living"
-#define SYN_GRADUAL_K2_TO_LIVING "syn_gradual_k2_to_living"
-#define SYN_GL_VFAST_TO_MODEL "syn_gradual_vfast_to_model"
-#define SYN_GL_VSLOW_TO_MODEL "syn_gradual_vslow_to_model"
-#define SYN_GL_VFAST_TO_LIVING "syn_gradual_vfast_to_living"
-#define SYN_GL_VSLOW_TO_LIVING "syn_gradual_vslow_to_living"
 #define STEP_V_TO_R "step_v_to_r"
 #define STEP_R_TO_V "step_r_to_v"
 
@@ -65,8 +42,8 @@ static int parse_clamp_syn_elec (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_firing_rate (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_drift (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_sec_per_burst (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
@@ -121,8 +98,8 @@ int xml_clamp_parser (char * file, clamp_args * args) {
         else if (xmlStrcmp(cur->name, (const xmlChar*) TIMES) == 0) {
             ret = parse_clamp_time(doc, cur, args);
         }
-        else if (xmlStrcmp(cur->name, (const xmlChar*) ANTI) == 0) {
-            ret = parse_clamp_antiphase(doc, cur, args);
+        else if (xmlStrcmp(cur->name, (const xmlChar*) DRIFT) == 0) {
+            ret = parse_clamp_drift(doc, cur, args);
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) IMP) == 0) {
             ret = parse_clamp_important(doc, cur, args);
@@ -137,10 +114,10 @@ int xml_clamp_parser (char * file, clamp_args * args) {
             ret = parse_clamp_output(doc, cur, args);
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) FIRING) == 0) {
-            ret = parse_clamp_firing_rate(doc, cur, args);
+            ret = parse_clamp_sec_per_burst(doc, cur, args);
         }
 
-        if (ret != OK) break;
+        if (ret == ERR) break;
 
         cur = cur->next;
     }
@@ -179,11 +156,11 @@ static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 			child = cur->xmlChildrenNode;
 
 			while (child != NULL) {
-				if (xmlStrcmp(child->name, (const xmlChar *) A) == 0) ret = parse_double(doc, child, &args->params[IZ_A], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) B) == 0) ret = parse_double(doc, child, &args->params[IZ_B], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) C) == 0) ret = parse_double(doc, child, &args->params[IZ_C], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) D) == 0) ret = parse_double(doc, child, &args->params[IZ_D], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) I) == 0) ret = parse_double(doc, child, &args->params[IZ_I], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "a") == 0) ret = parse_double(doc, child, &args->params[IZ_A], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "b") == 0) ret = parse_double(doc, child, &args->params[IZ_B], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "c") == 0) ret = parse_double(doc, child, &args->params[IZ_C], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "d") == 0) ret = parse_double(doc, child, &args->params[IZ_D], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[IZ_I], (const xmlChar*) VALUE);
 				args->params[IZ_DT] = 0.001;
 
 				if (ret != OK) return ret;
@@ -226,9 +203,9 @@ static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 			child = cur->xmlChildrenNode;
 
 			while (child != NULL) {
-				if (xmlStrcmp(child->name, (const xmlChar *) R) == 0) ret = parse_double(doc, child, &args->params[HR_R], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) S) == 0) ret = parse_double(doc, child, &args->params[HR_S], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) I) == 0) ret = parse_double(doc, child, &args->params[HR_I], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "r") == 0) ret = parse_double(doc, child, &args->params[HR_R], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "s") == 0) ret = parse_double(doc, child, &args->params[HR_S], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[HR_I], (const xmlChar*) VALUE);
 				args->params[HR_DT] = 0.001;
 
 				if (ret != OK) return ret;
@@ -270,10 +247,70 @@ static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 			child = cur->xmlChildrenNode;
 
 			while (child != NULL) {
-				if (xmlStrcmp(child->name, (const xmlChar *) ALPHA) == 0) ret = parse_double(doc, child, &args->params[RLK_ALPHA], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) MU) == 0) ret = parse_double(doc, child, &args->params[RLK_MU], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) SIGMA) == 0) ret = parse_double(doc, child, &args->params[RLK_SIGMA], (const xmlChar*) VALUE);
-				if (xmlStrcmp(child->name, (const xmlChar *) I) == 0) ret = parse_double(doc, child, &args->params[RLK_I], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "alpha") == 0) ret = parse_double(doc, child, &args->params[RLK_ALPHA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "mu") == 0) ret = parse_double(doc, child, &args->params[RLK_MU], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "sigma") == 0) ret = parse_double(doc, child, &args->params[RLK_SIGMA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[RLK_I], (const xmlChar*) VALUE);
+
+				if (ret != OK) return ret;
+
+				child = child->next;
+			}
+		}
+
+	cur = cur->next;
+	}
+
+	return OK;
+}
+
+
+static int parse_clamp_model_gh (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	xmlNodePtr child =  NULL;
+	int ret = OK;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	args->vars = (double*) malloc (sizeof(double) * 3);
+    args->params = (double *) malloc (sizeof(double) * 18);
+
+	while (cur != NULL) {
+		if (xmlStrcmp(cur->name, (const xmlChar *) VARS) == 0) {
+			child = cur->xmlChildrenNode;
+
+			while (child != NULL) {
+				if (xmlStrcmp(child->name, (const xmlChar *) X_VAR) == 0) ret = parse_double(doc, child, &args->vars[X], (const xmlChar*) VALUE);
+
+				if (ret != OK) return ret;
+
+				child = child->next;
+			}
+		}
+		else if (xmlStrcmp(cur->name, (const xmlChar *) PARAMS) == 0) {
+			child = cur->xmlChildrenNode;
+
+			while (child != NULL) {
+				if (xmlStrcmp(child->name, (const xmlChar *) "gca") == 0) ret = parse_double(doc, child, &args->params[GH_G_CA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "eca") == 0) ret = parse_double(doc, child, &args->params[GH_E_CA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "vthca") == 0) ret = parse_double(doc, child, &args->params[GH_VTH_CA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "kca") == 0) ret = parse_double(doc, child, &args->params[GH_K_CA], (const xmlChar*) VALUE);
+
+				if (xmlStrcmp(child->name, (const xmlChar *) "gk") == 0) ret = parse_double(doc, child, &args->params[GH_G_K], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "ek") == 0) ret = parse_double(doc, child, &args->params[GH_E_K], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "vthk") == 0) ret = parse_double(doc, child, &args->params[GH_VTH_K], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "kk") == 0) ret = parse_double(doc, child, &args->params[GH_K_K], (const xmlChar*) VALUE);
+
+				if (xmlStrcmp(child->name, (const xmlChar *) "gks") == 0) ret = parse_double(doc, child, &args->params[GH_G_KS], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "vthks") == 0) ret = parse_double(doc, child, &args->params[GH_VTH_KS], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "kks") == 0) ret = parse_double(doc, child, &args->params[GH_K_KS], (const xmlChar*) VALUE);
+
+				if (xmlStrcmp(child->name, (const xmlChar *) "gl") == 0) ret = parse_double(doc, child, &args->params[GH_G_L], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "el") == 0) ret = parse_double(doc, child, &args->params[GH_E_L], (const xmlChar*) VALUE);
+
+				if (xmlStrcmp(child->name, (const xmlChar *) "c") == 0) ret = parse_double(doc, child, &args->params[GH_CM], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "epsilon") == 0) ret = parse_double(doc, child, &args->params[GH_EPSILON], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "delta") == 0) ret = parse_double(doc, child, &args->params[GH_DELTA], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[GH_I], (const xmlChar*) VALUE);
 
 				if (ret != OK) return ret;
 
@@ -307,6 +344,9 @@ static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) 
 		case RLK:
 			ret = parse_clamp_model_rlk(doc, cur->xmlChildrenNode, args);
 			break;
+		case GH:
+			ret = parse_clamp_model_gh(doc, cur->xmlChildrenNode, args);
+			break;
 		default:
 			return ERR;
 	}
@@ -318,16 +358,29 @@ static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) 
 static int parse_clamp_syn_elec (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;
 	int ret = OK;
+	int antiphase = 0;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	args->g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-    args->g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
+	args->syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+    args->syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
+
+    syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args->syn_args_live_to_model;
+    syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args->syn_args_model_to_live;
 
 
     while (cur != NULL) {
-		if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL) == 0) ret = parse_double(doc, cur, &args->g_virtual_to_real[0], (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL) == 0) ret = parse_double(doc, cur, &args->g_real_to_virtual[0], (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "g_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_elec->g[ELEC_G]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "g_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_elec->g[ELEC_G]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "antiphase") == 0) ret = parse_int(doc, cur, &antiphase, (const xmlChar*) VALUE);
+
+		if (antiphase) {
+	        args_model_to_live_elec->anti = -1;
+	        args_live_to_model_elec->anti = -1;
+	    } else {
+	        args_model_to_live_elec->anti = 1;
+	        args_live_to_model_elec->anti = 1;
+	    }
 
 		if (ret != OK) return ret;
 
@@ -346,9 +399,6 @@ static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args 
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	//args->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-    //args->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
-
     args->syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
     args->syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
 
@@ -357,19 +407,19 @@ static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args 
 
 
     while (cur != NULL) {
-    	if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL_SLOW) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->g[GL_G_SLOW]), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) G_REAL_TO_VIRTUAL_FAST) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->g[GL_G_FAST]), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K1_TO_MODEL) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->k1), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K2_TO_MODEL) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->k2), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GL_VFAST_TO_MODEL) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_fast), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GL_VSLOW_TO_MODEL) == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_slow), (const xmlChar*) VALUE);
+    	if (xmlStrcmp(cur->name, (const xmlChar *) "g_real_to_virtual_slow") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->g[GL_G_SLOW]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "g_real_to_virtual_fast") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->g[GL_G_FAST]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "k1_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->k1), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "k2_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->k2), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "vfast_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_fast), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "vslow_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_slow), (const xmlChar*) VALUE);
 
-    	if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL_SLOW) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_SLOW]), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) G_VIRTUAL_TO_REAL_FAST) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_FAST]), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K1_TO_LIVING) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->k1), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GRADUAL_K2_TO_LIVING) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->k2), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GL_VFAST_TO_LIVING) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_fast), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) SYN_GL_VSLOW_TO_LIVING) == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_slow), (const xmlChar*) VALUE);
+    	if (xmlStrcmp(cur->name, (const xmlChar *) "g_virtual_to_real_slow") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_SLOW]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "g_virtual_to_real_fast") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_FAST]), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "k1_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->k1), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "k2_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->k2), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "vfast_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_fast), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "vslow_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_slow), (const xmlChar*) VALUE);
 
 		if (ret != OK) return ret;
 		cur = cur->next;
@@ -406,7 +456,7 @@ static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_double(doc, cur, &args->freq, (const xmlChar*) VALUE);
-	args->freq *= 1000;
+	if (ret == OK) args->freq *= 1000;
 
 	return ret;
 }
@@ -432,26 +482,30 @@ static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	return ret;
 }
 
-static int parse_clamp_antiphase (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+
+static int parse_clamp_sec_per_burst (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	//ret = parse_int(doc, cur, &args->anti, (const xmlChar*) VALUE);
+	ret = parse_double(doc, cur, &args->sec_per_burst, (const xmlChar*) VALUE);
+	if (ret == 0) args->sec_per_burst = -1;
 
 	return ret;
 }
 
 
-static int parse_clamp_firing_rate (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_drift (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	ret = parse_double(doc, cur, &args->firing_rate, (const xmlChar*) VALUE);
+	ret = parse_int(doc, cur, &args->check_drift, (const xmlChar*) VALUE);
+	if (ret == 0) args->check_drift = 1;
 
 	return ret;
 }
+
 
 static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
@@ -459,6 +513,7 @@ static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_int(doc, cur, &args->imp, (const xmlChar*) VALUE);
+	if (ret == 0) args->imp = 0;
 
 	return ret;
 }

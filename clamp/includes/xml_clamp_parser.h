@@ -1,6 +1,6 @@
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 extern "C" {
-#endif
+#endif*/
 
 #ifndef XML_CLAMP_PARSER_H__
 #define XML_CLAMP_PARSER_H__
@@ -14,6 +14,6 @@ int xml_clamp_parser (char * file, clamp_args * args);
 
 #endif // XML_CLAMP_PARSER_H__
 
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 }
-#endif
+#endif*/

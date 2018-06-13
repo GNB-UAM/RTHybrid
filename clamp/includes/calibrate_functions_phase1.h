@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef CALIBRATE_FUNCTIONS_PHASE1_H__
 #define CALIBRATE_FUNCTIONS_PHASE1_H__
 
@@ -29,4 +33,8 @@ double signal_period_2(int seg_observacion, double * signal, int size, double th
 
 void array_to_file(double * array, int size, char * filename_date, char * tittle);
 
-#endif 
+#endif //CALIBRATE_FUNCTIONS_PHASE1_H__
+
+#ifdef __cplusplus
+}
+#endif

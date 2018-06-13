@@ -1,6 +1,12 @@
 #include "../includes/file_selector_functions.h"
 
 
+FILE * __FS_files[32];
+char * __FS_filenames[32];
+unsigned short __FS_file_index;
+pthread_mutex_t __FS_lock;
+
+
 int __FS_mutex_init (pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr) {
 	#ifndef __XENO__
 		return pthread_mutex_init(mutex, attr);

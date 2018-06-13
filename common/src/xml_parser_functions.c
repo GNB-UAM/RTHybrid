@@ -8,7 +8,7 @@ int parse_int (xmlDocPtr doc, xmlNodePtr cur, int * num, const xmlChar * label) 
      
     val = xmlGetProp(cur, label);
      
-    if(val == NULL) return ERR;
+    if(val == NULL) return 0;
      
     *num = (int) strtol(val, NULL, 10);
     xmlFree(val);
@@ -24,7 +24,7 @@ int parse_double (xmlDocPtr doc, xmlNodePtr cur, double * num, const xmlChar * l
      
     val = xmlGetProp(cur, label);
      
-    if(val == NULL) return ERR;
+    if(val == NULL) return 0;
      
     *num = strtof(val, NULL);
     xmlFree(val);
@@ -40,7 +40,7 @@ int parse_string (xmlDocPtr doc, xmlNodePtr cur, char ** str, const xmlChar * la
      
     val = xmlGetProp(cur, label);
      
-    if(val == NULL) return ERR;
+    if(val == NULL) return 0;
     
     *str = (char *) malloc (xmlStrlen(val) + 1);
     strcpy(*str, (char *) val);

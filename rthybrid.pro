@@ -15,8 +15,9 @@ OBJECTS_DIR = obj/
 MOC_DIR = moc/
 QMAKE_CLEAN += $$TARGET
 
-QMAKE_LIBS += -lpthread -lrt -lm
-QMAKE_CFLAGS += -D_GNU_SOURCE
+QMAKE_LIBS += -lpthread -lrt -lm -lxml2
+QMAKE_CFLAGS += -D_GNU_SOURCE -I/usr/include/libxml2
+QMAKE_CXXFLAGS += -I/usr/include/libxml2
 
 
 IPIPE = $$system(dmesg | grep -i xenomai)
@@ -72,9 +73,13 @@ SOURCES += gui/main.cpp \
     clamp/src/calibrate_functions_phase2.c \
     clamp/src/time_functions.c \
     clamp/src/clamp.c \
+    clamp/src/xml_clamp_parser.c \
     common/src/aux_functions.c \
     common/src/file_selector_functions.c \
-    gui/rthybrid.cpp
+    common/src/xml_parser_functions.c \
+    gui/rthybrid.cpp \
+    gui/rthybrid_xml_main.cpp \
+    gui/clamp_launcher.cpp
 
 HEADERS += \
     clamp/includes/calibrate_functions_phase1.h \
@@ -86,12 +91,16 @@ HEADERS += \
     clamp/includes/queue_functions.h \
     clamp/includes/rt_thread_functions.h \
     clamp/includes/time_functions.h \
-    common/includes/types.h \
+    clamp/includes/xml_clamp_parser.h \
     clamp/includes/writer_thread_functions.h \
     clamp/includes/clamp.h \
     clamp/includes/types_clamp.h \
     common/includes/file_selector_functions.h \
-    gui/rthybrid.h
+    common/includes/xml_parser_functions.h \
+    common/includes/types.h \
+    gui/rthybrid.h \
+    gui/rthybrid_xml_main.h \
+    gui/clamp_launcher.h
 
 FORMS += \
     gui/rthybrid.ui

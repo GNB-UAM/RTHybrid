@@ -93,7 +93,7 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
             copy_1d_array(vars, nm->vars, nm->dim);
 
-            nm->n_params = 20;
+            nm->n_params = 18;
             nm->params = (double *) malloc (sizeof(double) * nm->n_params);
             copy_1d_array(params, nm->params, nm->n_params);
 

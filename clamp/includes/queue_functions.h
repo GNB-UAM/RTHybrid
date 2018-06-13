@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef QUEUE_FUNCTIONS_H__
 #define QUEUE_FUNCTIONS_H__
 
@@ -60,3 +64,7 @@ int close_queue (void ** rt_msqid, void ** nrt_msqid);
 
 
 #endif /* queue_functions.h */
+
+#ifdef __cplusplus
+}
+#endif

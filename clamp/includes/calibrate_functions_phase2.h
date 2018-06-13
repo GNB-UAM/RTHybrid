@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef CALIBRATE_FUNCTIONS_PHASE2_H__
 #define CALIBRATE_FUNCTIONS_PHASE2_H__
 
@@ -19,3 +23,7 @@ int is_syn_by_variance(double val_sin);
 void change_g (double *g);
 
 #endif 
+
+#ifdef __cplusplus
+}
+#endif

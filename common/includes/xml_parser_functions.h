@@ -1,6 +1,6 @@
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 extern "C" {
-#endif
+#endif*/
 
 #ifndef XML_PARSER_FUNCTIONS_H__
 #define XML_PARSER_FUNCTIONS_H__
@@ -16,6 +16,6 @@ int parse_string (xmlDocPtr doc, xmlNodePtr cur, char ** str, const xmlChar * la
 
 #endif // XML_PARSER_FUNCTIONS_H__
 
-#ifdef __cplusplus
+/*#ifdef __cplusplus
 }
-#endif
+#endif*/
