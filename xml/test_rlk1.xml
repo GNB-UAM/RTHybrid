@@ -1,0 +1,44 @@
+<clamp>
+
+	<model type="3">
+		<vars>
+			<x val="-1.701750"/>
+			<y val="-4.919230"/>
+		</vars>
+		<params>
+			<alpha val="6.0"/>
+			<sigma val="0.1"/>
+			<mu val="0.001"/>
+			<i val="1.0"/>
+		</params>
+	</model>
+
+	<synapse type="1">
+		<g_real_to_virtual val="0.2"/>
+		<g_virtual_to_real val="0.2"/>
+		<antiphase val="1"/>
+
+		
+	</synapse>
+
+	<calib type="0"></calib>
+
+	<freq val="10"/>
+
+	<times>
+		<before val="5"/>
+		<duration val="300"/>
+		<after val="5"/>
+	</times>
+
+	<output val="0,1"/>
+
+	<input val="0"/>
+
+	<imp val="0"/>
+
+	<drift val="1"/>
+
+	<sec_per_burst val="-1"/>
+
+</clamp>

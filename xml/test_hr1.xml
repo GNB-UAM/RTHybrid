@@ -1,36 +1,20 @@
 <clamp>
 
-	<model type="4">
+	<model type="2">
 		<vars>
-			<x val="30.24"/>
+			<x val="-0.712841"/>
+			<y val="-1.936880"/>
+			<z val="3.165680"/>
 		</vars>
 		<params>
-			<gca val="4.4"/>
-			<eca val="120"/>
-			<vthca val="-1.2"/>
-			<kca val="0.11"/>
-
-			<gk val="9"/>
-			<ek val="-80"/>
-			<vthk val="2.0"/>
-			<kk val="0.2"/>
-
-			<gks val="0.25"/>
-			<vthks val="-27"/>
-			<kks val="0.8"/>
-
-			<gl val="2.0"/>
-			<el val="-60"/>
-
-			<c val="1.2"/>
-			<epsilon val="4.9"/>
-			<delta val="0.052"/>
-			<i val="35.6"/>
+			<r val="0.0021"/>
+			<s val="4.0"/>
+			<i val="3.0"/>
 		</params>
 	</model>
 
 	<synapse type="2">
-		<g_real_to_virtual_fast val="0.4"/>
+		<g_real_to_virtual_fast val="0.8"/>
 		<vfast_real_to_virtual val="25.0"/>
 		
 		<g_real_to_virtual_slow val="0.0"/>
@@ -41,7 +25,7 @@
 		<g_virtual_to_real_fast val="0.0"/>
 		<vfast_virtual_to_real val="0.0"/>
 
-		<g_virtual_to_real_slow val="0.04"/>
+		<g_virtual_to_real_slow val="0.08"/>
 		<vslow_virtual_to_real val="15.0"/>
 		<k1_virtual_to_real val="14.0"/>
 		<k2_virtual_to_real val="4.0"/>
@@ -55,7 +39,7 @@
 
 	<times>
 		<before val="5"/>
-		<duration val="30"/>
+		<duration val="300"/>
 		<after val="5"/>
 	</times>
 
@@ -67,6 +51,6 @@
 
 	<drift val="1"/>
 
-	<sec_per_burst val="-1"/>
+	<sec_per_burst val="0.25"/>
 
 </clamp>

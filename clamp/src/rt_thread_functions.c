@@ -392,6 +392,7 @@ void * rt_thread(void * arg) {
     ts_add_time(&ts_target, 0, args->period);
 
 
+
     for (i = 0; i < n_loops; i++) {
         experiment_loop(&(lp[i]), s_points);
     }
@@ -532,7 +533,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
 
             /* Recalculate the minimum and maximum thresholds and fix drift */
-            if (args->check_drift == 1) {
+            if (args->check_drift == TRUE) {
                 if (min_window > input_values[0]) min_window = input_values[0];
                 if (max_window < input_values[0]) max_window = input_values[0];
 

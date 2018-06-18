@@ -62,7 +62,7 @@ void RTHybrid::on_simulate_clicked()
     }*/
 
     args.sec_per_burst = (!ui->autoDetect->isChecked()) ?  ui->doubleSecPerBurst->value() : -1;
-    args.check_drift = (ui->checkDrift->isChecked()) ? 1 : 0;
+    args.check_drift = (ui->checkDrift->isChecked()) ? TRUE : FALSE;
 
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
