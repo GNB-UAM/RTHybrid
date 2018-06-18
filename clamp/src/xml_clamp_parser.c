@@ -456,7 +456,7 @@ static int parse_clamp_freq (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_double(doc, cur, &args->freq, (const xmlChar*) VALUE);
-	if (ret == OK) args->freq *= 1000;
+	//if (ret == OK) args->freq *= 1000;
 
 	return ret;
 }

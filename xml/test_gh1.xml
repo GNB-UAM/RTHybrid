@@ -30,7 +30,7 @@
 	</model>
 
 	<synapse type="2">
-		<g_real_to_virtual_fast val="0.4"/>
+		<g_real_to_virtual_fast val="0.1"/>
 		<vfast_real_to_virtual val="25.0"/>
 		
 		<g_real_to_virtual_slow val="0.0"/>
@@ -41,7 +41,7 @@
 		<g_virtual_to_real_fast val="0.0"/>
 		<vfast_virtual_to_real val="0.0"/>
 
-		<g_virtual_to_real_slow val="0.04"/>
+		<g_virtual_to_real_slow val="0.2"/>
 		<vslow_virtual_to_real val="15.0"/>
 		<k1_virtual_to_real val="14.0"/>
 		<k2_virtual_to_real val="4.0"/>
@@ -51,11 +51,11 @@
 
 	<calib type="0"></calib>
 
-	<freq val="10"/>
+	<freq val="20"/>
 
 	<times>
 		<before val="5"/>
-		<duration val="30"/>
+		<duration val="300"/>
 		<after val="5"/>
 	</times>
 

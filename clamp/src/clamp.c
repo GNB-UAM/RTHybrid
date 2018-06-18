@@ -204,16 +204,22 @@ int clamp (clamp_args * args) {
         if (close_queue(&msqid_rt, &msqid_nrt) != OK) syslog(LOG_INFO, "Error closing queue.\n");
     }
 
+    syslog(LOG_INFO, "CLAMP: Queue closed");
+
     free_neuron_model (&(r_args.nm));
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
-    free_pointers(6 , &args->input, &args->output, &args->vars, &args->params, &args->g_real_to_virtual, &args->g_virtual_to_real);
+    free_pointers(6 , &(args->input), &(args->output), &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live));
+
+    syslog(LOG_INFO, "CLAMP: Pointers freed");
 
 
     if (destroy_file_selector() == ERR) {
         syslog(LOG_INFO, "Error destroying file selector.");
         return ERR; 
     }
+
+    syslog(LOG_INFO, "CLAMP: File selector destroyed");
 
 
     syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp_cli finished." PRINT_RESET "\n");

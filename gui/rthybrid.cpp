@@ -41,8 +41,8 @@ void RTHybrid::on_simulate_clicked()
     args.output = NULL;
     args.vars = NULL;
     args.params = NULL;
-    args.g_real_to_virtual = NULL;
-    args.g_virtual_to_real = NULL;
+    args.syn_args_live_to_model = NULL;
+    args.syn_args_model_to_live = NULL;
 
     args.model = ui->neuronModelPages->currentIndex();
     args.synapse = ui->synapseModelPages->currentIndex();
@@ -157,12 +157,6 @@ void RTHybrid::on_simulate_clicked()
                 break;
             case ELECTRIC: //Electrical
                 {
-                /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);
-                args.g_virtual_to_real[0] = ui->doubleSynElec_gMtoE->value();
-                args.g_real_to_virtual[0] = ui->doubleSynElec_gEtoM->value();
-                args.anti = ui->checkAnti->isChecked();*/
-
                 args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
                 args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
 
@@ -180,14 +174,10 @@ void RTHybrid::on_simulate_clicked()
                     args_live_to_model_elec->anti = 1;
                 }
 
-
                 break;
                 }
             case GOLOWASCH: //Gradual chemical
                 {
-                /*args.g_virtual_to_real = (double *) malloc (sizeof(double) * 1);
-                args.g_real_to_virtual = (double *) malloc (sizeof(double) * 1);*/
-
                 args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
                 args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
 
@@ -207,15 +197,6 @@ void RTHybrid::on_simulate_clicked()
                 args_model_to_live_gl->v_slow = ui->spinBox_gl_MtoE_slow_vth->value();
                 args_model_to_live_gl->k1 = ui->doubleSpinBox_gl_MtoE_slow_k1->value();
                 args_model_to_live_gl->k2 = ui->doubleSpinBox_gl_MtoE_slow_k2->value();
-
-
-                /*args.g_virtual_to_real[0] = ui
-                args.g_real_to_virtual[0] = ui->doubleSynGrad_gEtoM_fast->value();
-
-                args.syn_gradual_k1 = ui->doubleSynGrad_k1->value();
-                args.syn_gradual_k2 = ui->doubleSynGrad_k2->value();
-                args.syn_gradual_vfast = ui->doubleSynGrad_vfast->value();
-                args.syn_gradual_vslow = ui->doubleSynGrad_vslow->value();*/
 
                 break;
             }

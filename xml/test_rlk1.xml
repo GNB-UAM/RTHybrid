@@ -23,7 +23,7 @@
 
 	<calib type="0"></calib>
 
-	<freq val="10"/>
+	<freq val="20000"/>
 
 	<times>
 		<before val="5"/>
