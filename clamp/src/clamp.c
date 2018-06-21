@@ -60,13 +60,15 @@ int clamp (clamp_args * args) {
 	r_args.n_out_chan = 0;
 	r_args.in_channels = NULL;
 	r_args.out_channels = NULL;
+    r_args.input_factor = args->input_factor;
+    r_args.output_factor = args->output_factor;
 
 	/*Delete queue*/
 	//system("rm -rf /dev/mqueue/rt_queue* > /dev/null 2>&1");
 
 	/*Parse channels*/
-    if (args->input != NULL) parse_channels(args->input, &(r_args.in_channels), &(r_args.n_in_chan));
-    if (args->output != NULL) parse_channels(args->output, &(r_args.out_channels), &(r_args.n_out_chan));
+    if (args->input_channels != NULL) parse_channels(args->input_channels, &(r_args.in_channels), &(r_args.n_in_chan));
+    if (args->output_channels != NULL) parse_channels(args->output_channels, &(r_args.out_channels), &(r_args.n_out_chan));
 
 
     /*Calchange*/
@@ -120,7 +122,7 @@ int clamp (clamp_args * args) {
         return ERR;
     }
 
-    if (add_file("log.txt", &(r_args.events_file_id)) == ERR) {
+    if (add_file("data/log.txt", &(r_args.events_file_id)) == ERR) {
         syslog(LOG_INFO, "Error opening data file.");
         return ERR;
     }
@@ -209,7 +211,7 @@ int clamp (clamp_args * args) {
     free_neuron_model (&(r_args.nm));
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
-    free_pointers(6 , &(args->input), &(args->output), &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live));
+    free_pointers(6 , &(args->input_channels), &(args->output_channels), &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live));
 
     syslog(LOG_INFO, "CLAMP: Pointers freed");
 

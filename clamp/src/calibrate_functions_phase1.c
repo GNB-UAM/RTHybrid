@@ -1,6 +1,6 @@
 #include "../includes/calibrate_functions_phase1.h"
 
-int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename){
+int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename, double input_factor){
     
     /*TIEMPO OBSERVACION*/
     int segs_observo = 10; 
@@ -39,7 +39,7 @@ int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_re
         if (daq_read(session, n_channels, in_channels, ret_values) != 0) {
             return -1;
         }
-        retval = ret_values[0];
+        retval = (ret_values[0] * 1000.0) / input_factor;
         lectura[i] = retval;
         
         /*COMPROBAR DATOS*/

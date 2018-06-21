@@ -37,8 +37,8 @@ void RTHybrid::on_simulate_clicked()
     clamp_args args;
     std::string aux_in, aux_out;
 
-    args.input = NULL;
-    args.output = NULL;
+    args.input_channels = NULL;
+    args.output_channels = NULL;
     args.vars = NULL;
     args.params = NULL;
     args.syn_args_live_to_model = NULL;
@@ -67,11 +67,14 @@ void RTHybrid::on_simulate_clicked()
     aux_in = ui->textChannelInput->toPlainText().toStdString();
     aux_out = ui->textChannelOutput->toPlainText().toStdString();
 
-    args.input = (char *) malloc (sizeof(char) * aux_in.length() + 1);
-    args.output = (char *) malloc (sizeof(char) * aux_out.length() + 1);
+    args.input_channels = (char *) malloc (sizeof(char) * aux_in.length() + 1);
+    args.output_channels = (char *) malloc (sizeof(char) * aux_out.length() + 1);
 
-    strcpy(args.input, aux_in.c_str());
-    strcpy(args.output, aux_out.c_str());
+    strcpy(args.input_channels, aux_in.c_str());
+    strcpy(args.output_channels, aux_out.c_str());
+
+    args.input_factor = ui->doubleInputFactor->value();
+    args.output_factor = ui->doubleOutputFactor->value();
 
     switch (args.model) {
         case EMPTY_NEURON:

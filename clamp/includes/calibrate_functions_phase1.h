@@ -21,7 +21,7 @@ extern "C" {
 #include "device_functions.h"
 #include "time_functions.h"
 
-int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename);
+int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename, double input_factor);
 
 int signal_convolution (double * lectura, int size_l, double * result, int size_r);
 

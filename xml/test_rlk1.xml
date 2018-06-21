@@ -35,6 +35,10 @@
 
 	<input val="0"/>
 
+	<input_factor val="1"/>
+
+	<output_factor val="1"/>
+
 	<imp val="0"/>
 
 	<drift val="1"/>

@@ -84,6 +84,8 @@ typedef struct {
     unsigned int n_out_chan;		/**< Number of DAQ output channels*/
     int * in_channels;				/**< Array of DAQ input channels identifiers*/
     int * out_channels;				/**< Array of DAQ output channels identifiers*/
+    double input_factor;			/**< Input scaling factor due to the experimental setup*/
+    double output_factor;			/**< Output voltage/current conversion factor due to the experimental setup*/
 
     int calibration;				/**< Auto-calibration or exploration mode selected*/
     double step_v_to_r;				/**< Auxiliar parameter for exploration*/
@@ -173,8 +175,8 @@ typedef struct {
     int synapse;
     int mode_auto_cal;
     int imp;
-    char * input;
-    char * output;
+    char * input_channels;
+    char * output_channels;
     double * vars;
     double * params;
     double * g_virtual_to_real;
@@ -186,6 +188,8 @@ typedef struct {
     double auto_cal_val_1;
     void * syn_args_model_to_live;
     void * syn_args_live_to_model;
+    double input_factor;			/**< Input scaling factor due to the experimental setup*/
+    double output_factor;			/**< Output voltage/current conversion factor due to the experimental setup*/
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

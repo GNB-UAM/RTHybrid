@@ -244,7 +244,7 @@ void * rt_thread(void * arg) {
 
     if (args->n_in_chan > 0) {
 
-        if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &external_firing_rate, session, calib_chan, args->period, args->freq, args->filename) == -1 ) {
+        if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &external_firing_rate, session, calib_chan, args->period, args->freq, args->filename, args->input_factor) == -1 ) {
             free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
             pthread_exit(NULL);
@@ -485,7 +485,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
             /* Send the model current and voltage (scaled) to the DAQ */
             v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
-            if (args->n_out_chan >= 1) output_values[0] = -c_model;
+            if (args->n_out_chan >= 1) output_values[0] = -c_model / args->output_factor;
             if (args->n_out_chan >= 2) output_values[1] = v_model_scaled;
 
 
@@ -530,6 +530,8 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
                 pthread_exit(NULL);
             }
+
+            input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
 
 
             /* Recalculate the minimum and maximum thresholds and fix drift */

@@ -13,8 +13,10 @@
 #define ANTI "anti"
 #define IMP "imp"
 #define CALIB "calib"
-#define INPUT "input"
-#define OUTPUT "output"
+#define INPUT_CHANNELS "input_channels"
+#define OUTPUT_CHANNELS "output_channels"
+#define INPUT_FACTOR "input_factor"
+#define OUTPUT_FACTOR "output_factor"
 #define FIRING "sec_per_burst"
 #define AUTOCAL_VAL_1 "autocal_val_1"
 #define DRIFT "drift"
@@ -46,8 +48,10 @@ static int parse_clamp_drift (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_sec_per_burst (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_output (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_input_channels (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_output_channels (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_input_factor (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_output_factor (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 
 
 /* CLAMP PARSER */
@@ -80,8 +84,8 @@ int xml_clamp_parser (char * file, clamp_args * args) {
     }
 
 
-    args->input = NULL;
-    args->output = NULL;
+    args->input_channels = NULL;
+    args->output_channels = NULL;
 
     cur = cur->xmlChildrenNode;
 
@@ -107,11 +111,17 @@ int xml_clamp_parser (char * file, clamp_args * args) {
         else if (xmlStrcmp(cur->name, (const xmlChar*) CALIB) == 0) {
             ret = parse_clamp_calibration(doc, cur, args);
         }
-        else if (xmlStrcmp(cur->name, (const xmlChar*) INPUT) == 0) {
-            ret = parse_clamp_input(doc, cur, args);
+        else if (xmlStrcmp(cur->name, (const xmlChar*) INPUT_CHANNELS) == 0) {
+            ret = parse_clamp_input_channels(doc, cur, args);
         }
-        else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT) == 0) {
-            ret = parse_clamp_output(doc, cur, args);
+        else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT_CHANNELS) == 0) {
+            ret = parse_clamp_output_channels(doc, cur, args);
+        }
+        else if (xmlStrcmp(cur->name, (const xmlChar*) INPUT_FACTOR) == 0) {
+            ret = parse_clamp_input_factor(doc, cur, args);
+        }
+        else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT_FACTOR) == 0) {
+            ret = parse_clamp_output_factor(doc, cur, args);
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) FIRING) == 0) {
             ret = parse_clamp_sec_per_burst(doc, cur, args);
@@ -555,22 +565,44 @@ static int parse_clamp_calibration (xmlDocPtr doc, xmlNodePtr cur, clamp_args * 
 	return ret;
 }
 
-static int parse_clamp_input (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_input_channels (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	ret = parse_string(doc, cur, &args->input, (const xmlChar*) VALUE);
+	ret = parse_string(doc, cur, &args->input_channels, (const xmlChar*) VALUE);
 
 	return ret;
 }
 
-static int parse_clamp_output (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_output_channels (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	ret = parse_string(doc, cur, &args->output, (const xmlChar*) VALUE);
+	ret = parse_string(doc, cur, &args->output_channels, (const xmlChar*) VALUE);
 
 	return ret;
 }
+
+
+static int parse_clamp_input_factor (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	int ret = ERR;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_double(doc, cur, &args->input_factor, (const xmlChar*) VALUE);
+
+	return ret;
+}
+
+static int parse_clamp_output_factor (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+	int ret = ERR;
+
+	if ((!doc) || (!cur) || (!args)) return ERR;
+
+	ret = parse_double(doc, cur, &args->output_factor, (const xmlChar*) VALUE);
+
+	return ret;
+}
+
