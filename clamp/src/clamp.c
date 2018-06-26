@@ -3,11 +3,14 @@
 /* Global variables */
 void * msqid_rt = NULL, * msqid_nrt = NULL;
 pthread_t writer, rt;
+rt_args r_args;
 
 void clamp_cleanup () {
 
-	if (pthread_kill(writer, SIGUSR2) != 0) perror("Error sending SIGUSR2 at main");
-	if (pthread_kill(rt, SIGUSR1) != 0) perror("Error sending SIGUSR1 at main");
+    syslog(LOG_INFO, "CLAMP: Ctrl+C");
+
+    if (pthread_kill(writer, SIGUSR2) != 0)  syslog(LOG_INFO, "Error sending SIGUSR2 at main");
+    if (pthread_kill(rt, SIGUSR1) != 0)  syslog(LOG_INFO, "Error sending SIGUSR1 at main");
 }
 
 void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
@@ -49,7 +52,6 @@ int clamp (clamp_args * args) {
 
 
 	writer_args w_args;
-	rt_args r_args;
 
 
 	int c_a = FALSE;
@@ -224,6 +226,6 @@ int clamp (clamp_args * args) {
     syslog(LOG_INFO, "CLAMP: File selector destroyed");
 
 
-    syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp_cli finished." PRINT_RESET "\n");
+    syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp finished." PRINT_RESET "\n");
 	return 1;
 }
