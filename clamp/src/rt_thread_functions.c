@@ -244,7 +244,7 @@ void * rt_thread(void * arg) {
 
     if (args->n_in_chan > 0) {
 
-        if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &external_firing_rate, session, calib_chan, args->period, args->freq, args->filename, args->input_factor) == -1 ) {
+        if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &external_firing_rate, session, calib_chan, args->period, args->freq, args->filename, args->input_factor, args->observation) == -1 ) {
             free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
             pthread_exit(NULL);

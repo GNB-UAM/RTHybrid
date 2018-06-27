@@ -153,6 +153,7 @@ int clamp (clamp_args * args) {
     r_args.time_var = args->time_var;
     r_args.before = args->before;
     r_args.after = args->after;
+    r_args.observation = args->observation;
     r_args.period =  (1 / args->freq) * NSEC_PER_SEC;
     r_args.freq = args->freq;
     r_args.filename = filename;

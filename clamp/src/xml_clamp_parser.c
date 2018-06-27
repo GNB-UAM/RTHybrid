@@ -10,6 +10,7 @@
 #define BEFORE "before"
 #define DURATION "duration"
 #define AFTER "after"
+#define OBSERVATION "observation"
 #define ANTI "anti"
 #define IMP "imp"
 #define CALIB "calib"
@@ -483,6 +484,7 @@ static int parse_clamp_time (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 		if (xmlStrcmp(child->name, (const xmlChar *) BEFORE) == 0) ret = parse_int(doc, child, &args->before, (const xmlChar*) VALUE);
 		if (xmlStrcmp(child->name, (const xmlChar *) DURATION) == 0) ret = parse_int(doc, child, &args->time_var, (const xmlChar*) VALUE);
 		if (xmlStrcmp(child->name, (const xmlChar *) AFTER) == 0) ret = parse_int(doc, child, &args->after, (const xmlChar*) VALUE);
+        if (xmlStrcmp(child->name, (const xmlChar *) OBSERVATION) == 0) ret = parse_int(doc, child, &args->observation, (const xmlChar*) VALUE);
 
 		if (ret != OK) return ret;
 

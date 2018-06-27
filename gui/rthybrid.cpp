@@ -53,6 +53,7 @@ void RTHybrid::on_buttonStart_clicked()
     args.time_var = ui->intTime->value();
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();
+    args.observation = ui->intTimeObservation->value();
 
     /*if (!ui->autoDetect->isChecked()) {
         args.sec_per_burst = ui->doubleSecPerBurst->value();
@@ -335,13 +336,6 @@ void RTHybrid::clampEnd() {
 void RTHybrid::on_buttonStop_clicked()
 {
     kill(cl->getPid(), SIGINT);
-
-    /*ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
-    ui->centralWidget->repaint();
-    //movie->stop();
-
-    ui->buttonStart->setEnabled(true);
-    ui->buttonStop->setEnabled(false);*/
 }
 
 void RTHybrid::on_neuronModelCombo_activated(int index)

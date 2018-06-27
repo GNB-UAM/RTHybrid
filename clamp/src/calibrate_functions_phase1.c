@@ -1,9 +1,9 @@
 #include "../includes/calibrate_functions_phase1.h"
 
-int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename, double input_factor){
+int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename, double input_factor, int observation_time){
     
     /*TIEMPO OBSERVACION*/
-    int segs_observo = 10; 
+    int segs_observo = observation_time;
 
     /*VARIABLES CALCULO DE RANGOS*/
     int i=0;

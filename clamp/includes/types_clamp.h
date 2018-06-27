@@ -69,6 +69,7 @@ typedef struct {
     long time_var;					/**< Duration of the interaction*/
     int before;						/**< Before interaction control time*/
     int after;						/**< After interaction control time*/
+    int observation;                /**< Duration of the pre-calibration observation*/
     
     char * filename;				/**< Output filename*/
     void * msqid;					/**< Message queue identifier*/
@@ -168,6 +169,7 @@ typedef struct {
 
 typedef struct {
     double freq;
+    int observation;
     int after;
     int time_var;
     int before;

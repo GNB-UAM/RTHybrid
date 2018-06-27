@@ -1044,7 +1044,7 @@
     <property name="geometry">
      <rect>
       <x>1069</x>
-      <y>99</y>
+      <y>133</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -1057,7 +1057,7 @@
     <property name="geometry">
      <rect>
       <x>1068</x>
-      <y>230</y>
+      <y>251</y>
       <width>261</width>
       <height>20</height>
      </rect>
@@ -1078,7 +1078,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>260</y>
+      <y>281</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -1091,7 +1091,7 @@
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>310</y>
+      <y>331</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -1104,7 +1104,7 @@
     <property name="geometry">
      <rect>
       <x>1190</x>
-      <y>260</y>
+      <y>281</y>
       <width>104</width>
       <height>31</height>
      </rect>
@@ -1117,7 +1117,7 @@
     <property name="geometry">
      <rect>
       <x>1190</x>
-      <y>310</y>
+      <y>331</y>
       <width>104</width>
       <height>31</height>
      </rect>
@@ -3300,7 +3300,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1069</x>
-      <y>133</y>
+      <y>167</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -3313,7 +3313,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>172</y>
+      <y>206</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -3341,8 +3341,8 @@ Step</string>
    <widget class="QSpinBox" name="intTime">
     <property name="geometry">
      <rect>
-      <x>1203</x>
-      <y>92</y>
+      <x>1204</x>
+      <y>126</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -3360,8 +3360,8 @@ Step</string>
    <widget class="QSpinBox" name="intTimeBefore">
     <property name="geometry">
      <rect>
-      <x>1203</x>
-      <y>132</y>
+      <x>1204</x>
+      <y>166</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -3379,8 +3379,8 @@ Step</string>
    <widget class="QSpinBox" name="intTimeAfter">
     <property name="geometry">
      <rect>
-      <x>1203</x>
-      <y>172</y>
+      <x>1205</x>
+      <y>206</y>
       <width>81</width>
       <height>31</height>
      </rect>
@@ -3399,7 +3399,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1070</x>
-      <y>550</y>
+      <y>571</y>
       <width>61</width>
       <height>15</height>
      </rect>
@@ -3412,7 +3412,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1216</x>
-      <y>546</y>
+      <y>567</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -3431,7 +3431,7 @@ Step</string>
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>545</y>
+      <y>566</y>
       <width>68</width>
       <height>24</height>
      </rect>
@@ -3546,7 +3546,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>580</y>
+       <y>599</y>
        <width>82</width>
        <height>23</height>
       </rect>
@@ -3559,7 +3559,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>580</y>
+       <y>601</y>
        <width>88</width>
        <height>21</height>
       </rect>
@@ -3572,7 +3572,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>620</y>
+       <y>641</y>
        <width>111</width>
        <height>21</height>
       </rect>
@@ -3610,7 +3610,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>485</y>
+       <y>506</y>
        <width>181</width>
        <height>21</height>
       </rect>
@@ -3626,7 +3626,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>350</y>
+       <y>371</y>
        <width>181</width>
        <height>16</height>
       </rect>
@@ -3639,7 +3639,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>420</y>
+       <y>441</y>
        <width>231</width>
        <height>16</height>
       </rect>
@@ -3652,7 +3652,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>370</y>
+       <y>391</y>
        <width>111</width>
        <height>24</height>
       </rect>
@@ -3671,7 +3671,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>440</y>
+       <y>461</y>
        <width>111</width>
        <height>24</height>
       </rect>
@@ -3690,7 +3690,7 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>140</x>
-       <y>445</y>
+       <y>466</y>
        <width>61</width>
        <height>15</height>
       </rect>
@@ -3706,13 +3706,45 @@ Step</string>
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>620</y>
+       <y>639</y>
        <width>82</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>Stop</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_100">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>76</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Observation (s)</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="intTimeObservation">
+     <property name="geometry">
+      <rect>
+       <x>153</x>
+       <y>69</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>99999</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
+     </property>
+     <property name="value">
+      <number>10</number>
      </property>
     </widget>
    </widget>

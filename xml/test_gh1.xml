@@ -57,6 +57,7 @@
 		<before val="5"/>
 		<duration val="10"/>
 		<after val="5"/>
+		<observation val="10"/>
 	</times>
 
 	<output_channels val="0,1"/>
