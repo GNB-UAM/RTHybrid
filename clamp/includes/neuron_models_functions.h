@@ -21,9 +21,9 @@ extern "C" {
 #define RLK 3
 #define GH 4
 
-#define X 0
-#define Y 1
-#define Z 2
+#define VAR_X 0
+#define VAR_Y 1
+#define VAR_Z 2
 
 /* General functions */
 

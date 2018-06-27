@@ -480,11 +480,11 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
             if (lp->interaction == TRUE) {
                 /* Calculate synapse from the model to the external neuron (scaled to external range) */
                 args->sm_model_to_live.calibrate = SYN_CALIB_PRE;
-                args->sm_model_to_live.func(input_values[X], args->nm.vars[X], &(args->sm_model_to_live), &c_model);
+                args->sm_model_to_live.func(input_values[VAR_X], args->nm.vars[VAR_X], &(args->sm_model_to_live), &c_model);
             }
 
             /* Send the model current and voltage (scaled) to the DAQ */
-            v_model_scaled = args->nm.vars[X] * scale_virtual_to_real + offset_virtual_to_real;
+            v_model_scaled = args->nm.vars[VAR_X] * scale_virtual_to_real + offset_virtual_to_real;
             if (args->n_out_chan >= 1) output_values[0] = -c_model / args->output_factor;
             if (args->n_out_chan >= 2) output_values[1] = v_model_scaled;
 

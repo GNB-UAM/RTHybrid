@@ -2,7 +2,7 @@
 #define RTHYBRID_H
 
 #include "ui_rthybrid.h"
-//#include "clamp_launcher.h"
+#include "clamplauncher.h"
 
 namespace Ui {
 class RTHybrid;
@@ -17,7 +17,9 @@ public:
     ~RTHybrid();
 
 private slots:
-    void on_simulate_clicked();
+    void on_buttonStart_clicked();
+
+    void on_buttonStop_clicked();
 
     void on_neuronModelCombo_activated(int index);
 
@@ -27,9 +29,13 @@ private slots:
 
     void on_autoDetect_clicked();
 
+    void clampEnd();
+
+
 private:
     Ui::RTHybrid *ui;
     QMovie *movie;
+    ClampLauncher * cl;
 };
 
 #endif // RTHYBRID_H

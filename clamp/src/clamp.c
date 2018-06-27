@@ -54,8 +54,6 @@ int clamp (clamp_args * args) {
 	writer_args w_args;
 
 
-	int c_a = FALSE;
-
 	sigset_t set;
 
 	r_args.n_in_chan = 0;
@@ -78,12 +76,6 @@ int clamp (clamp_args * args) {
         r_args.step_v_to_r = args->step_v_to_r;
         r_args.step_r_to_v = args->step_r_to_v;
     }
-
-	if(!c_a){
-		c_a=TRUE;
-	}else{
-		printf("DON'T USE -a AND -c AT THE SAME TIME\n");
-	}
 
     init_neuron_model(&(r_args.nm), args->model, args->vars, args->params);
     init_synapse_model(&(r_args.sm_model_to_live), args->synapse, args->syn_args_model_to_live);
@@ -227,5 +219,5 @@ int clamp (clamp_args * args) {
 
 
     syslog(LOG_INFO, PRINT_YELLOW "CLAMP: clamp finished." PRINT_RESET "\n");
-	return 1;
+    return OK;
 }

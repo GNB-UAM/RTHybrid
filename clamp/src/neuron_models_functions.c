@@ -25,7 +25,7 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
         case EMPTY_NEURON:
             nm->dim = 1;
             nm->vars = (double *) malloc (sizeof(double) * nm->dim);
-            nm->vars[X] = 0.0;
+            nm->vars[VAR_X] = 0.0;
 
             nm->n_params = 0;
             nm->params = NULL;
@@ -250,9 +250,9 @@ void iz_set_pts_burst (double pts_live, neuron_model * nm) {
  */
 
 void hr_f (double * vars, double * ret, double * params, double syn) {
-    ret[0] = vars[1] + 3.0 * (vars[0]*vars[0]) - (vars[0]*vars[0]*vars[0]) - vars[2] + params[HR_I] - syn;
-    ret[1] = 1.0 - 5.0 * (vars[0]*vars[0]) - vars[1];
-    ret[2] = (-vars[2] + params[HR_S] * (vars[0] + 1.6)) * params[HR_R];
+    ret[0] = vars[VAR_Y] + 3.0 * (vars[VAR_X]*vars[VAR_X]) - (vars[VAR_X]*vars[VAR_X]*vars[VAR_X]) - vars[VAR_Z] + params[HR_I] - syn;
+    ret[1] = 1.0 - 5.0 * (vars[VAR_X]*vars[VAR_X]) - vars[VAR_Y];
+    ret[2] = (-vars[VAR_Z] + params[HR_S] * (vars[VAR_X] + 1.6)) * params[HR_R];
 
     return;
 }
@@ -325,13 +325,13 @@ void hr_set_pts_burst (double pts_live, neuron_model * nm) {
 void rlk_f (double * vars, double * ret, double * params, double syn) {
     double u;
 
-    ret[1] = vars[1] - params[RLK_MU] * (vars[0] + 1) + params[RLK_MU] * params[RLK_SIGMA];
-    u = vars[1] - syn * params[RLK_I];
+    ret[1] = vars[VAR_Y] - params[RLK_MU] * (vars[VAR_X] + 1) + params[RLK_MU] * params[RLK_SIGMA];
+    u = vars[VAR_Y] - syn * params[RLK_I];
 
 
-    if (vars[0] <= 0) {
-        ret[0] = params[RLK_ALPHA] / (1 - vars[0]) + u;
-    } else if (vars[0] >= params[RLK_ALPHA] + u) {
+    if (vars[VAR_X] <= 0) {
+        ret[0] = params[RLK_ALPHA] / (1 - vars[VAR_X]) + u;
+    } else if (vars[VAR_X] >= params[RLK_ALPHA] + u) {
         ret[0] = -1;
     } else {
         ret[0] = params[RLK_ALPHA] + u;
@@ -357,11 +357,11 @@ void rulkov_map (neuron_model nm, double syn) {
     double inter_pts = (nm.pts_burst - 334) / 334;
 
     if (nm.params[RLK_J] >= inter_pts) {
-        nm.vars[X] = nm.params[RLK_OLD];
+        nm.vars[VAR_X] = nm.params[RLK_OLD];
         rlk_f(nm.vars, ret, nm.params, syn);
-        nm.vars[X] = ret[0];
-        nm.vars[Y] = ret[1];
-        nm.params[RLK_OLD] = nm.vars[0];
+        nm.vars[VAR_X] = ret[0];
+        nm.vars[VAR_Y] = ret[1];
+        nm.params[RLK_OLD] = nm.vars[VAR_X];
         nm.params[RLK_J] = 1;
 
         /* Next point for interpolation */
@@ -375,12 +375,12 @@ void rulkov_map (neuron_model nm, double syn) {
         x0 = nm.params[RLK_OLD];
         x1 = nm.params[RLK_INTER];
         ret[0] = x0 + ((t - t0) * ((x1 - x0) / (t1 - t0)));
-        ret[1] = nm.vars[1];
+        ret[1] = nm.vars[VAR_Y];
 
         nm.params[RLK_J]++;
 
-        nm.vars[0] = ret[0];
-        nm.vars[1] = ret[1];
+        nm.vars[VAR_X] = ret[0];
+        nm.vars[VAR_Y] = ret[1];
     }
 
     return;
@@ -424,22 +424,22 @@ double ghigliazza_holmes_inf (double v, double vth, double k) {
 }
 
 void ghigliazza_holmes_ica_f (double * vars, double * params, double * ret) {
-    *ret = params[GH_G_CA] * ghigliazza_holmes_inf(vars[X], params[GH_VTH_CA], params[GH_K_CA]) * (vars[X] - params[GH_E_CA]);
+    *ret = params[GH_G_CA] * ghigliazza_holmes_inf(vars[VAR_X], params[GH_VTH_CA], params[GH_K_CA]) * (vars[VAR_X] - params[GH_E_CA]);
     return;
 }
 
 void ghigliazza_holmes_il_f (double * vars, double * params, double * ret) {
-    *ret = params[GH_G_L] * (vars[X] - params[GH_E_L]);
+    *ret = params[GH_G_L] * (vars[VAR_X] - params[GH_E_L]);
     return;
 }
 
 void ghigliazza_holmes_ik_f (double * vars, double * params, double * ret) {
-    *ret = params[GH_G_K] * vars[GH_M] * (vars[X] - params[GH_E_K]);
+    *ret = params[GH_G_K] * vars[GH_M] * (vars[VAR_X] - params[GH_E_K]);
     return;
 }
 
 void ghigliazza_holmes_iks_f (double * vars, double * params, double * ret) {
-    *ret = params[GH_G_KS] * vars[GH_C] * (vars[X] - params[GH_E_K]);
+    *ret = params[GH_G_KS] * vars[GH_C] * (vars[VAR_X] - params[GH_E_K]);
     return;
 }
 
@@ -452,8 +452,8 @@ void ghigliazza_holmes_f (double * vars, double * ret, double * params, double s
     ghigliazza_holmes_iks_f(vars, params, &iks);
 
     ret[0] = (-(ica + ik + il + iks) + params[GH_I] - syn) / params[GH_CM];
-    ret[1] = (params[GH_EPSILON] / 0.8) * (ghigliazza_holmes_inf(vars[X], params[GH_VTH_K], params[GH_K_K]) - vars[GH_M]);
-    ret[2] = (params[GH_DELTA] / 0.8) * (ghigliazza_holmes_inf(vars[X], params[GH_VTH_KS], params[GH_K_KS]) - vars[GH_C]);
+    ret[1] = (params[GH_EPSILON] / 0.8) * (ghigliazza_holmes_inf(vars[VAR_X], params[GH_VTH_K], params[GH_K_K]) - vars[GH_M]);
+    ret[2] = (params[GH_DELTA] / 0.8) * (ghigliazza_holmes_inf(vars[VAR_X], params[GH_VTH_KS], params[GH_K_KS]) - vars[GH_C]);
 
     //printf("%f = (- (%f + %f + %f + %f) + %f - %f) / %f\n\n", ret[0], ica, ik, il, iks, params[GH_I], syn, params[GH_CM]);
 

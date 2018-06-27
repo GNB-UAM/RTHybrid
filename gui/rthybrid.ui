@@ -3542,11 +3542,11 @@ Step</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="simulate">
+    <widget class="QPushButton" name="buttonStart">
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>600</y>
+       <y>580</y>
        <width>82</width>
        <height>23</height>
       </rect>
@@ -3697,6 +3697,22 @@ Step</string>
      </property>
      <property name="text">
       <string>nA / V</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonStop">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>620</y>
+       <width>82</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stop</string>
      </property>
     </widget>
    </widget>

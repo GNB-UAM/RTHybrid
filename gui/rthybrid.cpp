@@ -1,5 +1,4 @@
 #include "rthybrid.h"
-#include "../clamp/includes/clamp.h"
 
 #include <QMessageBox>
 #include <string>
@@ -32,7 +31,7 @@ RTHybrid::~RTHybrid()
     delete ui;
 }
 
-void RTHybrid::on_simulate_clicked()
+void RTHybrid::on_buttonStart_clicked()
 {
     clamp_args args;
     std::string aux_in, aux_out;
@@ -83,8 +82,8 @@ void RTHybrid::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 6);
 
-            args.vars[X] = ui->doubleIzVini->value();
-            args.vars[Y] = ui->doubleIzUini->value();
+            args.vars[VAR_X] = ui->doubleIzVini->value();
+            args.vars[VAR_Y] = ui->doubleIzUini->value();
 
             args.params[IZ_A] = ui->doubleIzA->value();
             args.params[IZ_B] = ui->doubleIzB->value();
@@ -98,9 +97,9 @@ void RTHybrid::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 4);
 
-            args.vars[X] = ui->doubleHrXIni->value();
-            args.vars[Y] = ui->doubleHrYIni->value();
-            args.vars[Z] = ui->doubleHrZIni->value();
+            args.vars[VAR_X] = ui->doubleHrXIni->value();
+            args.vars[VAR_Y] = ui->doubleHrYIni->value();
+            args.vars[VAR_Z] = ui->doubleHrZIni->value();
 
             args.params[HR_R] = ui->doubleHrR->value();
             args.params[HR_S] = ui->doubleHrS->value();
@@ -112,8 +111,8 @@ void RTHybrid::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 8);
 
-            args.vars[X] = ui->doubleRlkXIni->value();
-            args.vars[Y] = ui->doubleRlkYIni->value();
+            args.vars[VAR_X] = ui->doubleRlkXIni->value();
+            args.vars[VAR_Y] = ui->doubleRlkYIni->value();
 
             args.params[RLK_ALPHA] = ui->doubleRlkAlpha->value();
             args.params[RLK_SIGMA] = ui->doubleRlkSigma->value();
@@ -127,7 +126,7 @@ void RTHybrid::on_simulate_clicked()
             args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 18);
 
-            args.vars[X] = ui->doubleGhX0->value();
+            args.vars[VAR_X] = ui->doubleGhX0->value();
 
             args.params[GH_I] = ui->doubleGhIext->value();
             args.params[GH_G_CA] = ui->doubleGhGca->value();
@@ -305,24 +304,39 @@ void RTHybrid::on_simulate_clicked()
     //ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
 
-    int ret = clamp(&args);
-    /*clamp_launcher cl;
-    int ret = cl.start(&args);*/
+    //int ret = clamp(&args);
+    cl = new ClampLauncher(args);
+    cl->setObjectName("ClampLauncher");
+    connect(cl, &ClampLauncher::finished, cl, &QObject::deleteLater);
+    connect(cl, &ClampLauncher::finished, this, &RTHybrid::clampEnd);
+    ui->buttonStart->setEnabled(false);
+
+    cl->start();
+    ui->buttonStop->setEnabled(true);
+}
+
+void RTHybrid::clampEnd() {
+
+
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
     //movie->stop();
+
+    ui->buttonStart->setEnabled(true);
+    ui->buttonStop->setEnabled(false);
 
     if(ui->checksound->isChecked())
         QSound::play("resources/epic_alarm.wav");
 
     QMessageBox msgBox;
-    if (ret == 1) {
-        msgBox.setText("Finished");
-    } else {
-        msgBox.setText("Error");
-    }
-
+    msgBox.setText("Finished");
     msgBox.exec();
+
+}
+
+void RTHybrid::on_buttonStop_clicked()
+{
+
 }
 
 void RTHybrid::on_neuronModelCombo_activated(int index)

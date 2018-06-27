@@ -83,7 +83,7 @@ SOURCES += gui/main.cpp \
     common/src/xml_parser_functions.c \
     gui/rthybrid.cpp \
     gui/rthybrid_xml_main.cpp \
-    gui/clamp_launcher.cpp
+    gui/clamplauncher.cpp
 
 HEADERS += \
     clamp/includes/calibrate_functions_phase1.h \
@@ -104,7 +104,7 @@ HEADERS += \
     common/includes/types.h \
     gui/rthybrid.h \
     gui/rthybrid_xml_main.h \
-    gui/clamp_launcher.h
+    gui/clamplauncher.h
 
 FORMS += \
     gui/rthybrid.ui
