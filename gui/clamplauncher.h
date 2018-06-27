@@ -17,9 +17,11 @@ void run() override {
 
 public:
     ClampLauncher(clamp_args args);
+    pid_t getPid();
 
 private:
     clamp_args args;
+    pid_t pid;
 };
 
 #endif // CLAMPLAUNCHER_H
