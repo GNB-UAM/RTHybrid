@@ -5,6 +5,7 @@
 #include <QSound>
 #include <QMovie>
 #include <QMainWindow>
+#include <QCloseEvent>
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -29,6 +30,26 @@ RTHybrid::RTHybrid(QWidget *parent) :
 RTHybrid::~RTHybrid()
 {
     delete ui;
+}
+
+void RTHybrid::closeEvent (QCloseEvent *event)
+{
+    if (this->isClampRunning) {
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "RTHybrid",
+                                                                    tr("An experiment is running. Are you sure you want to exit?\n"),
+                                                                    QMessageBox::No | QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+        if (resBtn != QMessageBox::Yes) {
+            event->ignore();
+        } else {
+            kill(cl->getPid(), SIGINT);
+            event->accept();
+        }
+    } else {
+        event->accept();
+    }
+
+
 }
 
 void RTHybrid::on_buttonStart_clicked()
@@ -312,6 +333,7 @@ void RTHybrid::on_buttonStart_clicked()
     connect(cl, &ClampLauncher::finished, this, &RTHybrid::clampEnd);
     ui->buttonStart->setEnabled(false);
 
+    this->isClampRunning = true;
     cl->start();
     ui->buttonStop->setEnabled(true);
 }
@@ -320,6 +342,8 @@ void RTHybrid::clampEnd() {
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(13, 71, 161, 255), stop:1 rgba(95, 134, 194, 255)); }");
     ui->centralWidget->repaint();
     //movie->stop();
+
+    this->isClampRunning = false;
 
     ui->buttonStart->setEnabled(true);
     ui->buttonStop->setEnabled(false);

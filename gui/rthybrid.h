@@ -15,6 +15,7 @@ class RTHybrid : public QMainWindow
 public:
     explicit RTHybrid(QWidget *parent = 0);
     ~RTHybrid();
+    void closeEvent (QCloseEvent *event);
 
 private slots:
     void on_buttonStart_clicked();
@@ -36,6 +37,7 @@ private:
     Ui::RTHybrid *ui;
     QMovie *movie;
     ClampLauncher * cl;
+    unsigned short isClampRunning = false;
 };
 
 #endif // RTHYBRID_H
