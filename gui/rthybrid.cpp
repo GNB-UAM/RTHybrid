@@ -42,7 +42,7 @@ void RTHybrid::closeEvent (QCloseEvent *event)
         if (resBtn != QMessageBox::Yes) {
             event->ignore();
         } else {
-            kill(cl->getPid(), SIGINT);
+            if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
             event->accept();
         }
     } else {
@@ -359,7 +359,7 @@ void RTHybrid::clampEnd() {
 
 void RTHybrid::on_buttonStop_clicked()
 {
-    kill(cl->getPid(), SIGINT);
+    if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
 }
 
 void RTHybrid::on_neuronModelCombo_activated(int index)

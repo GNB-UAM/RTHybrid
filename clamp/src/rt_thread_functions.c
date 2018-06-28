@@ -77,10 +77,13 @@ int create_rt_thread (pthread_t * thread, void *arg) {
     return OK;
 }
 
-int join_rt_thread (pthread_t thread) {
-    return pthread_join(thread, NULL);
+int join_rt_thread (pthread_t thread, void ** value_ptr) {
+    return pthread_join(thread, value_ptr);
 }
 
+int kill_rt_thread(pthread_t thread, int sig) {
+	return pthread_kill(thread, sig);
+}
 
 
 void prepare_real_time (pthread_t id) {
@@ -209,12 +212,22 @@ void * rt_thread(void * arg) {
 
     if (daq_open_device((void**) &dsc) != OK) {
         fprintf(stderr, "RT_THREAD: error opening device.\n");
+
+        msg.id = -1;
+	    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+	        perror("Closing message not sent");
+	    }
         pthread_exit(NULL);
     }
 
     if (daq_create_session ((void**) &dsc, &session) != OK) {
         fprintf(stderr, "RT_THREAD: error creating DAQ session.\n");
         daq_close_device ((void**) &dsc);
+
+        msg.id = -1;
+	    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+	        perror("Closing message not sent");
+	    }
         pthread_exit(NULL);
     }
 
@@ -228,6 +241,11 @@ void * rt_thread(void * arg) {
     if (daq_write(session, args->n_out_chan, args->out_channels, output_values) != OK) {
         fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
         daq_close_device ((void**) &dsc);
+
+        msg.id = -1;
+	    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+	        perror("Closing message not sent");
+	    }
         pthread_exit(NULL);
     }
 
@@ -247,6 +265,11 @@ void * rt_thread(void * arg) {
         if ( ini_recibido (&min_rel_real, &min_abs_real, &max_abs_real, &max_rel_real, &external_firing_rate, session, calib_chan, args->period, args->freq, args->filename, args->input_factor, args->observation) == -1 ) {
             free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
+
+            msg.id = -1;
+		    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+		        perror("Closing message not sent");
+		    }
             pthread_exit(NULL);
         }
 
@@ -373,6 +396,11 @@ void * rt_thread(void * arg) {
         default:
             free_pointers(1, &session);
             daq_close_device ((void**) &dsc);
+
+            msg.id = -1;
+		    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+		        perror("Closing message not sent");
+		    }
             pthread_exit(NULL);
     }
 
@@ -409,6 +437,11 @@ void * rt_thread(void * arg) {
     if (daq_write(session, args->n_out_chan, args->out_channels, output_values) != OK) {
         fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
         daq_close_device ((void**) &dsc);
+
+        msg.id = -1;
+	    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
+	        perror("Closing message not sent");
+	    }
         pthread_exit(NULL);
     }
 

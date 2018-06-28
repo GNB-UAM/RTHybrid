@@ -31,8 +31,12 @@ int create_writer_thread (pthread_t * thread, void *arg) {
     return OK;
 }
 
-int join_writer_thread (pthread_t thread) {
-    return pthread_join(thread, NULL);
+int join_writer_thread (pthread_t thread, void ** value_ptr) {
+    return pthread_join(thread, value_ptr);
+}
+
+int kill_writer_thread(pthread_t thread, int sig) {
+    return pthread_kill(thread, sig);
 }
 
 

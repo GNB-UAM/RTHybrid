@@ -9,8 +9,8 @@ void clamp_cleanup () {
 
     syslog(LOG_INFO, "CLAMP: Ctrl+C");
 
-    if (pthread_kill(writer, SIGUSR2) != 0)  syslog(LOG_INFO, "Error sending SIGUSR2 at main");
-    if (pthread_kill(rt, SIGUSR1) != 0)  syslog(LOG_INFO, "Error sending SIGUSR1 at main");
+    if (kill_writer_thread(writer, SIGUSR2) != 0)  syslog(LOG_INFO, "Error sending SIGUSR2 at main");
+    if (kill_rt_thread(rt, SIGUSR1) != 0)  syslog(LOG_INFO, "Error sending SIGUSR1 at main");
 }
 
 void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
@@ -185,8 +185,8 @@ int clamp (clamp_args * args) {
 
     syslog(LOG_INFO, "CLAMP: Signals set");
 
-    join_writer_thread(writer);
-    join_rt_thread(rt);
+    join_writer_thread(writer, NULL);
+    join_rt_thread(rt, NULL);
 
     syslog(LOG_INFO, "CLAMP: Threads joined");
 

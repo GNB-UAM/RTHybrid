@@ -12,7 +12,9 @@ extern "C" {
 
 int create_writer_thread (pthread_t * thread, void *arg);
 
-int join_writer_thread (pthread_t thread);
+int join_writer_thread (pthread_t thread, void ** value_ptr);
+
+int kill_writer_thread(pthread_t thread, int sig);
 
 #endif //WRITER_THREAD_FUNCTIONS_H__
 

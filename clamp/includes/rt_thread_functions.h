@@ -14,6 +14,8 @@
 
 int create_rt_thread (pthread_t * thread, void *arg);
 
-int join_rt_thread (pthread_t thread);
+int join_rt_thread (pthread_t thread, void ** value_ptr);
+
+int kill_rt_thread(pthread_t thread, int sig);
 
 #endif
