@@ -60,6 +60,7 @@ void RTHybrid::on_buttonStart_clicked()
 {
     clamp_args args;
     std::string aux_in, aux_out;
+    int autocalIndex = ui->autocalPages->currentIndex();
 
     args.input_channels = NULL;
     args.output_channels = NULL;
@@ -79,6 +80,11 @@ void RTHybrid::on_buttonStart_clicked()
     args.before = ui->intTimeBefore->value();
     args.after = ui->intTimeAfter->value();
     args.observation = ui->intTimeObservation->value();
+
+    /* Mientras no se use la autocal */
+    autocalIndex = 0;
+
+
 
     /*if (!ui->autoDetect->isChecked()) {
         args.sec_per_burst = ui->doubleSecPerBurst->value();
@@ -179,7 +185,7 @@ void RTHybrid::on_buttonStart_clicked()
 
     //args.anti = false;
 
-    if (ui->autocalPages->currentIndex() == 0 || ui->autocalPages->currentIndex() == 3){
+    if (autocalIndex == 0 || autocalIndex == 3){
         switch (args.synapse) {
             case EMPTY_SYN:
                 break;
@@ -234,7 +240,7 @@ void RTHybrid::on_buttonStart_clicked()
     }
 
 
-    switch (ui->autocalPages->currentIndex()) {
+    switch (autocalIndex) {
         case 1: //Electric conductance MSE
         {
             args.synapse = ELECTRIC;
@@ -455,10 +461,6 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
     default:
         break;
     }
-
-    /*QPixmap pixmapTarget = QPixmap("resources/interaccion.png");
-    pixmapTarget = pixmapTarget.scaled(451, 265, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->label_interaction_img->setPixmap(pixmapTarget);*/
 }
 
 void RTHybrid::on_autocalCombo_activated(int index)
