@@ -70,7 +70,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_2"/>
      <widget class="QWidget" name="pageSynElec">
@@ -1037,7 +1037,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Frequency (kHz)</string>
+     <string>Frequency (Hz)</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -1165,17 +1165,17 @@
     </item>
     <item>
      <property name="text">
-      <string>Izhikevich</string>
+      <string>(Izhikevich, 2003)</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Hindmarsh-Rose</string>
+      <string>(Hindmarsh and Rose, 1984)</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Rulkov Map</string>
+      <string>(Rulkov, 2002)</string>
      </property>
     </item>
     <item>
@@ -1228,12 +1228,7 @@
     </item>
     <item>
      <property name="text">
-      <string>Golowasch</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Prinz</string>
+      <string>(Golowasch et al, 1999)</string>
      </property>
     </item>
    </widget>
@@ -2629,7 +2624,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="pageOff">
       <widget class="QTextBrowser" name="textBrowser">
@@ -3294,6 +3289,88 @@ Step</string>
        </property>
       </widget>
      </widget>
+     <widget class="QWidget" name="page_3">
+      <widget class="QLabel" name="label_interaction_living">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>40</y>
+         <width>121</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_interaction_model">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>40</y>
+         <width>121</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_interaction_syn_both">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>80</y>
+         <width>181</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_interaction_syn_living_to_model">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>20</y>
+         <width>261</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_interaction_syn_model_to_living">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>120</y>
+         <width>261</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="label_35">
@@ -3331,11 +3408,14 @@ Step</string>
       <height>31</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>99999</number>
+    </property>
     <property name="singleStep">
      <number>10</number>
     </property>
     <property name="value">
-     <number>10</number>
+     <number>10000</number>
     </property>
    </widget>
    <widget class="QSpinBox" name="intTime">
@@ -3495,7 +3575,7 @@ Step</string>
     </property>
     <widget class="QComboBox" name="autocalCombo">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="geometry">
       <rect>

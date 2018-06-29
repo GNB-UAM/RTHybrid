@@ -33,6 +33,14 @@ private slots:
     void clampEnd();
 
 
+    void on_doubleSpinBox_gl_EtoM_fast_g_valueChanged(double arg1);
+
+    void on_doubleSpinBox_gl_EtoM_slow_g_valueChanged(double arg1);
+
+    void on_doubleSpinBox_gl_MtoE_fast_g_valueChanged(double arg1);
+
+    void on_doubleSpinBox_gl_MtoE_slow_g_valueChanged(double arg1);
+
 private:
     Ui::RTHybrid *ui;
     QMovie *movie;
