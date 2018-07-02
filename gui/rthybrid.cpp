@@ -359,7 +359,7 @@ void RTHybrid::clampEnd() {
     ui->buttonStop->setEnabled(false);
 
     if(ui->checksound->isChecked())
-        QSound::play("resources/epic_alarm.wav");
+        QSound::play("resources/alarm_beep.wav");
 
     QMessageBox msgBox;
     msgBox.setText("Finished");
@@ -403,7 +403,7 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
 
 void RTHybrid::on_synapseModelCombo_activated(int index)
 {
-    std::string res = "";
+    std::string res = "", legend = "resources/interaction_none.png";
     QPixmap pixmapTarget;
 
     res = "resources/interaction_none.png";
@@ -423,7 +423,20 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
 
     switch (index) {
     case ELECTRIC:
-        res = "resources/interaction_syn_elec.png";
+
+        if (ui->doubleSynElec_gEtoM->value() != 0) {
+            if (ui->doubleSynElec_gMtoE->value() != 0) {
+                res = "resources/interaction_syn_elec_both.png";
+            } else {
+                res = "resources/interaction_syn_elec_ltm.png";
+            }
+        } else {
+            if (ui->doubleSynElec_gMtoE->value() != 0) {
+                res = "resources/interaction_syn_elec_mtl.png";
+            } else {
+                res = "resources/interaction_none.png";
+            }
+        }
 
         pixmapTarget = QPixmap(res.c_str());
         pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -432,12 +445,12 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
     case GOLOWASCH:
         if (ui->doubleSpinBox_gl_EtoM_fast_g->value() != 0.0) {
             if (ui->doubleSpinBox_gl_EtoM_slow_g->value() != 0.0) {
-                res = "resources/interaction_syn_ltm_fs.png";
+                res = "resources/interaction_syn_gl_ltm_fs.png";
             } else {
-                res = "resources/interaction_syn_ltm_f.png";
+                res = "resources/interaction_syn_gl_ltm_f.png";
             }
         } else if (ui->doubleSpinBox_gl_EtoM_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_ltm_s.png";
+            res = "resources/interaction_syn_gl_ltm_s.png";
         }
 
         pixmapTarget = QPixmap(res.c_str());
@@ -446,21 +459,28 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
 
         if (ui->doubleSpinBox_gl_MtoE_fast_g->value() != 0.0) {
             if (ui->doubleSpinBox_gl_MtoE_slow_g->value() != 0.0) {
-                res = "resources/interaction_syn_mtl_fs.png";
+                res = "resources/interaction_syn_gl_mtl_fs.png";
             } else {
-                res = "resources/interaction_syn_mtl_f.png";
+                res = "resources/interaction_syn_gl_mtl_f.png";
             }
         } else if (ui->doubleSpinBox_gl_MtoE_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_mtl_s.png";
+            res = "resources/interaction_syn_gl_mtl_s.png";
         }
 
         pixmapTarget = QPixmap(res.c_str());
         pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
+
+        legend = "resources/interaction_syn_gl_legend.png";
+
         break;
     default:
         break;
     }
+
+    pixmapTarget = QPixmap(legend.c_str());
+    pixmapTarget = pixmapTarget.scaled(151, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_legend->setPixmap(pixmapTarget);
 }
 
 void RTHybrid::on_autocalCombo_activated(int index)
@@ -522,13 +542,13 @@ void RTHybrid::on_doubleSpinBox_gl_EtoM_fast_g_valueChanged(double arg1)
 
     if (arg1 != 0.0) {
         if (ui->doubleSpinBox_gl_EtoM_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_ltm_fs.png";
+            res = "resources/interaction_syn_gl_ltm_fs.png";
         } else {
-            res = "resources/interaction_syn_ltm_f.png";
+            res = "resources/interaction_syn_gl_ltm_f.png";
         }
     } else {
         if (ui->doubleSpinBox_gl_EtoM_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_ltm_s.png";
+            res = "resources/interaction_syn_gl_ltm_s.png";
         } else {
             res = "resources/interaction_none.png";
         }
@@ -546,13 +566,13 @@ void RTHybrid::on_doubleSpinBox_gl_EtoM_slow_g_valueChanged(double arg1)
 
     if (ui->doubleSpinBox_gl_EtoM_fast_g->value() != 0.0) {
         if (arg1 != 0.0) {
-            res = "resources/interaction_syn_ltm_fs.png";
+            res = "resources/interaction_syn_gl_ltm_fs.png";
         } else {
-            res = "resources/interaction_syn_ltm_f.png";
+            res = "resources/interaction_syn_gl_ltm_f.png";
         }
     } else {
         if (arg1 != 0.0) {
-            res = "resources/interaction_syn_ltm_s.png";
+            res = "resources/interaction_syn_gl_ltm_s.png";
         } else {
             res = "resources/interaction_none.png";
         }
@@ -570,13 +590,13 @@ void RTHybrid::on_doubleSpinBox_gl_MtoE_fast_g_valueChanged(double arg1)
 
     if (arg1 != 0.0) {
         if (ui->doubleSpinBox_gl_MtoE_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_mtl_fs.png";
+            res = "resources/interaction_syn_gl_mtl_fs.png";
         } else {
-            res = "resources/interaction_syn_mtl_f.png";
+            res = "resources/interaction_syn_gl_mtl_f.png";
         }
     } else {
         if (ui->doubleSpinBox_gl_MtoE_slow_g->value() != 0.0) {
-            res = "resources/interaction_syn_mtl_s.png";
+            res = "resources/interaction_syn_gl_mtl_s.png";
         } else {
             res = "resources/interaction_none.png";
         }
@@ -594,13 +614,13 @@ void RTHybrid::on_doubleSpinBox_gl_MtoE_slow_g_valueChanged(double arg1)
 
     if (ui->doubleSpinBox_gl_MtoE_fast_g->value() != 0.0) {
         if (arg1 != 0.0) {
-            res = "resources/interaction_syn_mtl_fs.png";
+            res = "resources/interaction_syn_gl_mtl_fs.png";
         } else {
-            res = "resources/interaction_syn_mtl_f.png";
+            res = "resources/interaction_syn_gl_mtl_f.png";
         }
     } else {
         if (arg1 != 0.0) {
-            res = "resources/interaction_syn_mtl_s.png";
+            res = "resources/interaction_syn_gl_mtl_s.png";
         } else {
             res = "resources/interaction_none.png";
         }
@@ -609,4 +629,54 @@ void RTHybrid::on_doubleSpinBox_gl_MtoE_slow_g_valueChanged(double arg1)
     pixmapTarget = QPixmap(res.c_str());
     pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
+}
+
+void RTHybrid::on_doubleSynElec_gMtoE_valueChanged(double arg1)
+{
+    std::string res = "";
+    QPixmap pixmapTarget;
+
+    if (ui->doubleSynElec_gEtoM->value() != 0.0) {
+        if (arg1 != 0.0) {
+            res = "resources/interaction_syn_elec_both.png";
+        } else {
+            res = "resources/interaction_syn_elec_ltm.png";
+        }
+    } else {
+        if (arg1 != 0.0) {
+            res = "resources/interaction_syn_elec_mtl.png";
+        } else {
+            res = "resources/interaction_none.png";
+        }
+    }
+
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
+}
+
+void RTHybrid::on_doubleSynElec_gEtoM_valueChanged(double arg1)
+{
+    std::string res = "";
+    QPixmap pixmapTarget;
+
+    if (ui->doubleSynElec_gMtoE->value() != 0.0) {
+        if (arg1 != 0.0) {
+            res = "resources/interaction_syn_elec_both.png";
+        } else {
+            res = "resources/interaction_syn_elec_mtl.png";
+        }
+    } else {
+        if (arg1 != 0.0) {
+            res = "resources/interaction_syn_elec_ltm.png";
+        } else {
+            res = "resources/interaction_none.png";
+        }
+    }
+
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
 }

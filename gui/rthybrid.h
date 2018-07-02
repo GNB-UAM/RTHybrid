@@ -41,6 +41,10 @@ private slots:
 
     void on_doubleSpinBox_gl_MtoE_slow_g_valueChanged(double arg1);
 
+    void on_doubleSynElec_gMtoE_valueChanged(double arg1);
+
+    void on_doubleSynElec_gEtoM_valueChanged(double arg1);
+
 private:
     Ui::RTHybrid *ui;
     QMovie *movie;
