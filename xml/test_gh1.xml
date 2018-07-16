@@ -45,8 +45,6 @@
 		<vslow_virtual_to_real val="15.0"/>
 		<k1_virtual_to_real val="1.4"/>
 		<k2_virtual_to_real val="0.4"/>
-
-		
 	</synapse>
 
 	<calib type="0"></calib>

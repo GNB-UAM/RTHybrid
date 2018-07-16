@@ -18,8 +18,6 @@
 		<g_real_to_virtual val="0.4"/>
 		<g_virtual_to_real val="0.4"/>
 		<antiphase val="1"/>
-
-		
 	</synapse>
 
 	<calib type="0"></calib>
@@ -28,13 +26,14 @@
 
 	<times>
 		<before val="5"/>
-		<duration val="300"/>
+		<duration val="10"/>
 		<after val="5"/>
+		<observation val="10"/>
 	</times>
 
-	<output val="0,1"/>
+	<output_channels val="0,1"/>
 
-	<input val="0"/>
+	<input_channels val="0"/>
 
 	<input_factor val="1"/>
 

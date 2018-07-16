@@ -29,8 +29,6 @@
 		<vslow_virtual_to_real val="15.0"/>
 		<k1_virtual_to_real val="14.0"/>
 		<k2_virtual_to_real val="4.0"/>
-
-		
 	</synapse>
 
 	<calib type="0"></calib>
@@ -39,13 +37,14 @@
 
 	<times>
 		<before val="5"/>
-		<duration val="300"/>
+		<duration val="10"/>
 		<after val="5"/>
+		<observation val="10"/>
 	</times>
 
-	<output val="0,1"/>
+	<output_channels val="0,1"/>
 
-	<input val="0"/>
+	<input_channels val="0"/>
 
 	<input_factor val="1"/>
 
