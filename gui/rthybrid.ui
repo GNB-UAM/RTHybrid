@@ -1165,22 +1165,27 @@
     </item>
     <item>
      <property name="text">
-      <string>(Izhikevich, 2003)</string>
+      <string>Izhikevich, 2003</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>(Hindmarsh and Rose, 1984)</string>
+      <string>Hindmarsh and Rose, 1984</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>(Rulkov, 2002)</string>
+      <string>Rulkov, 2002</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>(Ghigliazza and Holmes, 2004)</string>
+      <string>Ghigliazza and Holmes, 2004</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Wang, 1993</string>
      </property>
     </item>
    </widget>
@@ -1228,7 +1233,7 @@
     </item>
     <item>
      <property name="text">
-      <string>(Golowasch et al, 1999)</string>
+      <string>Golowasch et al, 1999</string>
      </property>
     </item>
    </widget>
@@ -2568,6 +2573,7 @@
        </property>
       </widget>
      </widget>
+     <widget class="QWidget" name="page_4"/>
     </widget>
    </widget>
    <widget class="QLabel" name="label_43">
