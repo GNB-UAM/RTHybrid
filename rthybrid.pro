@@ -24,6 +24,12 @@ QMAKE_CXXFLAGS += -I/usr/include/libxml2
 #QMAKE_CXXFLAGS += $(shell xml2-config --cflags)
 
 
+isol_core {
+    message(Compiling with binding core $${CORE}...)
+    QMAKE_CFLAGS += -D__CORE__=$${CORE}
+}
+
+
 IPIPE = $$system(dmesg | grep -i xenomai)
 contains( IPIPE, Xenomai ): {
     XEN_VERSION = $$system(/usr/xenomai/bin/xeno-config --version)

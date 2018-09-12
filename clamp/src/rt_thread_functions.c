@@ -99,14 +99,15 @@ void prepare_real_time (pthread_t id) {
     }
 
     /* Set core affinity */
-    /*cpu_set_t mask;
+    #ifdef __CORE__
+    cpu_set_t mask;
     CPU_ZERO(&mask);
-    CPU_SET(CORE, &mask);
+    CPU_SET(__CORE__, &mask);
     if (pthread_setaffinity_np(id, sizeof(mask), &mask) != 0) {
         perror("Affinity set failure\n");
         exit(-2);
-    }*/
-
+    }
+    #endif
     /* Lock memory */
 
     if(mlockall(MCL_CURRENT|MCL_FUTURE) == -1) {
