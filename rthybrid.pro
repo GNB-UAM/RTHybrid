@@ -89,7 +89,8 @@ SOURCES += gui/main.cpp \
     common/src/xml_parser_functions.c \
     gui/rthybrid.cpp \
     gui/rthybrid_xml_main.cpp \
-    gui/clamplauncher.cpp
+    gui/clamplauncher.cpp \
+    gui/model_library/Izhikevich/nm_izhikevich.cpp
 
 HEADERS += \
     clamp/includes/calibrate_functions_phase1.h \
@@ -110,7 +111,9 @@ HEADERS += \
     common/includes/types.h \
     gui/rthybrid.h \
     gui/rthybrid_xml_main.h \
-    gui/clamplauncher.h
+    gui/clamplauncher.h \
+    gui/model_library/Izhikevich/nm_izhikevich.h
 
 FORMS += \
-    gui/rthybrid.ui
+    gui/rthybrid.ui \
+    gui/model_library/Izhikevich/nm_izhikevich.ui

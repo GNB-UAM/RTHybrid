@@ -1484,6 +1484,19 @@
         <double>-5.544592000000000</double>
        </property>
       </widget>
+      <widget class="QPushButton" name="buttonIzConfig">
+       <property name="geometry">
+        <rect>
+         <x>650</x>
+         <y>50</y>
+         <width>82</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Configure</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="pageHr">
       <widget class="QLabel" name="label_20">

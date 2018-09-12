@@ -6,6 +6,7 @@
 #include <QMovie>
 #include <QMainWindow>
 #include <QCloseEvent>
+#include "model_library/Izhikevich/nm_izhikevich.h"
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -14,6 +15,9 @@ RTHybrid::RTHybrid(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
+
+    this->args.vars = NULL;
+    this->args.params = NULL;
 
     /*movie = new QMovie("resources/neuron.gif");
     ui->label_gif->setMovie(movie);
@@ -58,14 +62,13 @@ void RTHybrid::closeEvent (QCloseEvent *event)
 
 void RTHybrid::on_buttonStart_clicked()
 {
-    clamp_args args;
     std::string aux_in, aux_out;
     int autocalIndex = ui->autocalPages->currentIndex();
 
     args.input_channels = NULL;
     args.output_channels = NULL;
-    args.vars = NULL;
-    args.params = NULL;
+    /*args.vars = NULL;
+    args.params = NULL;*/
     args.syn_args_live_to_model = NULL;
     args.syn_args_model_to_live = NULL;
 
@@ -111,7 +114,7 @@ void RTHybrid::on_buttonStart_clicked()
         case EMPTY_NEURON:
             break;
         case IZ: //Izhikevich
-            args.vars = (double*) malloc (sizeof(double) * 2);
+            /*args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 6);
 
             args.vars[VAR_X] = ui->doubleIzVini->value();
@@ -122,7 +125,9 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[IZ_C] = ui->doubleIzC->value();
             args.params[IZ_D] = ui->doubleIzD->value();
             args.params[IZ_I] = ui->doubleIzI->value();
-            args.params[IZ_DT] = 0.001;
+            args.params[IZ_DT] = 0.001;*/
+
+            printf("4args %p vars %p\n", &(this->args), this->args.vars);
 
             break;
         case HR: //Hindmarsh-Rose
@@ -402,8 +407,15 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
 
     switch (index) {
     case IZ:
+    {
         res = "resources/interaction_model_izhikevich.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_Izhikevich * nmiz = new NM_Izhikevich(&(this->args));
+        nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nmiz->setWindowModality(Qt::ApplicationModal);
+        nmiz->show();
         break;
+    }
     case HR:
         res = "resources/interaction_model_hindmarsh_rose.png";
         break;
@@ -701,4 +713,15 @@ void RTHybrid::on_doubleSynElec_gEtoM_valueChanged(double arg1)
     pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_syn_both->setPixmap(pixmapTarget);
 
+}
+
+void RTHybrid::on_buttonIzConfig_clicked()
+{
+    printf("args %p vars %p\n", &(this->args), this->args.vars);
+    NM_Izhikevich * nmiz = new NM_Izhikevich(&(this->args));
+    nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+    nmiz->setWindowModality(Qt::ApplicationModal);
+    nmiz->show();
+
+    printf("3args %p vars %p\n", &(this->args), this->args.vars);
 }

@@ -45,11 +45,14 @@ private slots:
 
     void on_doubleSynElec_gEtoM_valueChanged(double arg1);
 
+    void on_buttonIzConfig_clicked();
+
 private:
     Ui::RTHybrid *ui;
     QMovie *movie;
     ClampLauncher * cl;
     unsigned short isClampRunning = false;
+    clamp_args args;
 };
 
 #endif // RTHYBRID_H

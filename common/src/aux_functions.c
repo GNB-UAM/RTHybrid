@@ -83,7 +83,7 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
     (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[3][j] = dt * retorno[j];
-        apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.675 - k[2][j] * 0.6 + k[2][j] * 0.75;
+        apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.675 - k[2][j] * 0.6 + k[3][j] * 0.75;
     }
 
     (*f)(apoyo, retorno, params, aux);
