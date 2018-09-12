@@ -70,6 +70,9 @@ class DataStruct1():
 		self.c_viva         = data[:,5]
 		self.data_in.append(data[:,3])
 
+		if (self.n_in_chan > 1):
+			self.extra_rec = data[:,6]
+
 
 class DataStruct2():
 	def __init__(self, args):

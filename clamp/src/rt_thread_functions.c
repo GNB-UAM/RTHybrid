@@ -529,7 +529,12 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
             }
 
             /* Send data to the message queue */
-            sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled);
+            if (args->n_in_chan > 1) {
+                sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled, input_values[1]);
+            } else {
+                sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled);
+            }
+
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
 
 

@@ -41,6 +41,25 @@ def plot_voltage_current(data1, data2, args):
 	plt.tight_layout()
 	plt.show()
 
+def plot_voltage_current_extra(data1, data2, args):
+	#Crete and size
+	plt.figure(figsize=(12,12))
+
+	#Plots
+	ax1 = plt.subplot(3, 1, 1)
+	plot_line_voltage(data1, data2, args)
+
+	ax2 = plt.subplot(3, 1, 2, sharex=ax1)
+	plot_line_current(data1, data2, args)
+
+	ax3 = plt.subplot(3, 1, 3, sharex=ax1)
+	plot_line_extra(data1, data2, args)
+	
+	#Details
+	plt.xlabel("Time (s)")
+	plt.tight_layout()
+	plt.show()
+
 def plot_voltage_g_current(data1, data2, args):
 	plt.figure(figsize=(12,8))
 
@@ -128,6 +147,11 @@ def plot_line_current(data1, data2, args):
 	plt.plot(data1.time, data1.c_viva, label="Current real to model", linewidth=0.8)
 	plt.plot(data1.time, data1.c_model, label="Current model to real", linewidth=0.8)
 	plt.ylabel("Current")
+	plt.legend(loc=1, framealpha=1.0)
+
+def plot_line_extra(data1, data2, args):
+	plt.plot(data1.time, data1.extra_rec, label="Extra", linewidth=0.8)
+	plt.ylabel("Voltage")
 	plt.legend(loc=1, framealpha=1.0)
 
 ##################

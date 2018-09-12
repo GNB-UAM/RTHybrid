@@ -25,6 +25,8 @@ data2 = []
 
 funcs.plot_voltage_current(data1, data2, args)
 
+#funcs.plot_voltage_current_extra(data1, data2, args)
+
 funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)
 
