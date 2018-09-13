@@ -50,49 +50,53 @@ OBJECTS_DIR   = obj/
 
 SOURCES       = clamp/src/comedi_functions.c \
 		clamp/src/queue_functions.c \
-		gui/main.cpp \
-		clamp/src/neuron_models_functions.c \
-		clamp/src/synapse_models_functions.c \
-		clamp/src/rt_thread_functions.c \
-		clamp/src/writer_thread_functions.c \
-		clamp/src/calibrate_functions_phase2_a.c \
-		clamp/src/calibrate_functions_phase1.c \
-		clamp/src/calibrate_functions_phase2.c \
-		clamp/src/time_functions.c \
-		clamp/src/clamp.c \
-		clamp/src/xml_clamp_parser.c \
 		common/src/aux_functions.c \
 		common/src/file_selector_functions.c \
 		common/src/xml_parser_functions.c \
 		gui/rthybrid.cpp \
 		gui/rthybrid_xml_main.cpp \
 		gui/clamplauncher.cpp \
-		gui/model_library/Izhikevich/nm_izhikevich.cpp moc/moc_rthybrid.cpp \
+		gui/main.cpp \
+		model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
+		model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp \
+		clamp/src/calibrate_functions_phase1.c \
+		clamp/src/calibrate_functions_phase2.c \
+		clamp/src/calibrate_functions_phase2_a.c \
+		clamp/src/clamp.c \
+		clamp/src/neuron_models_functions.c \
+		clamp/src/rt_thread_functions.c \
+		clamp/src/synapse_models_functions.c \
+		clamp/src/time_functions.c \
+		clamp/src/writer_thread_functions.c \
+		clamp/src/xml_clamp_parser.c moc/moc_rthybrid.cpp \
 		moc/moc_clamplauncher.cpp \
-		moc/moc_nm_izhikevich.cpp
+		moc/moc_nm_gui_hindmarsh_rose_1986.cpp \
+		moc/moc_nm_gui_izhikevich_2003.cpp
 OBJECTS       = obj/comedi_functions.o \
 		obj/queue_functions.o \
-		obj/main.o \
-		obj/neuron_models_functions.o \
-		obj/synapse_models_functions.o \
-		obj/rt_thread_functions.o \
-		obj/writer_thread_functions.o \
-		obj/calibrate_functions_phase2_a.o \
-		obj/calibrate_functions_phase1.o \
-		obj/calibrate_functions_phase2.o \
-		obj/time_functions.o \
-		obj/clamp.o \
-		obj/xml_clamp_parser.o \
 		obj/aux_functions.o \
 		obj/file_selector_functions.o \
 		obj/xml_parser_functions.o \
 		obj/rthybrid.o \
 		obj/rthybrid_xml_main.o \
 		obj/clamplauncher.o \
-		obj/nm_izhikevich.o \
+		obj/main.o \
+		obj/nm_gui_hindmarsh_rose_1986.o \
+		obj/nm_gui_izhikevich_2003.o \
+		obj/calibrate_functions_phase1.o \
+		obj/calibrate_functions_phase2.o \
+		obj/calibrate_functions_phase2_a.o \
+		obj/clamp.o \
+		obj/neuron_models_functions.o \
+		obj/rt_thread_functions.o \
+		obj/synapse_models_functions.o \
+		obj/time_functions.o \
+		obj/writer_thread_functions.o \
+		obj/xml_clamp_parser.o \
 		obj/moc_rthybrid.o \
 		obj/moc_clamplauncher.o \
-		obj/moc_nm_izhikevich.o
+		obj/moc_nm_gui_hindmarsh_rose_1986.o \
+		obj/moc_nm_gui_izhikevich_2003.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -155,45 +159,48 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		rthybrid.pro clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/device_functions.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/synapse_models_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/rt_thread_functions.h \
-		clamp/includes/time_functions.h \
-		clamp/includes/xml_clamp_parser.h \
-		clamp/includes/writer_thread_functions.h \
-		clamp/includes/clamp.h \
-		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
+		rthybrid.pro common/includes/file_selector_functions.h \
 		common/includes/xml_parser_functions.h \
 		common/includes/types.h \
 		gui/rthybrid.h \
 		gui/rthybrid_xml_main.h \
 		gui/clamplauncher.h \
-		gui/model_library/Izhikevich/nm_izhikevich.h clamp/src/comedi_functions.c \
+		clamp/includes/calibrate_functions_phase1.h \
+		clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/calibrate_functions_phase2_a.h \
+		clamp/includes/clamp.h \
+		clamp/includes/device_functions.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/rt_thread_functions.h \
+		clamp/includes/synapse_models_functions.h \
+		clamp/includes/time_functions.h \
+		clamp/includes/types_clamp.h \
+		clamp/includes/writer_thread_functions.h \
+		clamp/includes/xml_clamp_parser.h \
+		moc/moc_predefs.h \
+		model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
+		model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h clamp/src/comedi_functions.c \
 		clamp/src/queue_functions.c \
-		gui/main.cpp \
-		clamp/src/neuron_models_functions.c \
-		clamp/src/synapse_models_functions.c \
-		clamp/src/rt_thread_functions.c \
-		clamp/src/writer_thread_functions.c \
-		clamp/src/calibrate_functions_phase2_a.c \
-		clamp/src/calibrate_functions_phase1.c \
-		clamp/src/calibrate_functions_phase2.c \
-		clamp/src/time_functions.c \
-		clamp/src/clamp.c \
-		clamp/src/xml_clamp_parser.c \
 		common/src/aux_functions.c \
 		common/src/file_selector_functions.c \
 		common/src/xml_parser_functions.c \
 		gui/rthybrid.cpp \
 		gui/rthybrid_xml_main.cpp \
 		gui/clamplauncher.cpp \
-		gui/model_library/Izhikevich/nm_izhikevich.cpp
+		gui/main.cpp \
+		model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
+		model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp \
+		clamp/src/calibrate_functions_phase1.c \
+		clamp/src/calibrate_functions_phase2.c \
+		clamp/src/calibrate_functions_phase2_a.c \
+		clamp/src/clamp.c \
+		clamp/src/neuron_models_functions.c \
+		clamp/src/rt_thread_functions.c \
+		clamp/src/synapse_models_functions.c \
+		clamp/src/time_functions.c \
+		clamp/src/writer_thread_functions.c \
+		clamp/src/xml_clamp_parser.c
 QMAKE_TARGET  = RTHybrid
 DESTDIR       = 
 TARGET        = RTHybrid
@@ -202,7 +209,7 @@ TARGET        = RTHybrid
 first: all
 ####### Build rules
 
-$(TARGET): ui_rthybrid.h ui_nm_izhikevich.h $(OBJECTS)  
+$(TARGET): ui_rthybrid.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: rthybrid.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -356,9 +363,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/device_functions.h clamp/includes/neuron_models_functions.h clamp/includes/synapse_models_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h clamp/includes/xml_clamp_parser.h clamp/includes/writer_thread_functions.h clamp/includes/clamp.h clamp/includes/types_clamp.h common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h gui/model_library/Izhikevich/nm_izhikevich.h $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c gui/main.cpp clamp/src/neuron_models_functions.c clamp/src/synapse_models_functions.c clamp/src/rt_thread_functions.c clamp/src/writer_thread_functions.c clamp/src/calibrate_functions_phase2_a.c clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/time_functions.c clamp/src/clamp.c clamp/src/xml_clamp_parser.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/model_library/Izhikevich/nm_izhikevich.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/rthybrid.ui gui/model_library/Izhikevich/nm_izhikevich.ui $(DISTDIR)/
+	$(COPY_FILE) --parents common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/clamp.h clamp/includes/device_functions.h clamp/includes/neuron_models_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/synapse_models_functions.h clamp/includes/time_functions.h clamp/includes/types_clamp.h clamp/includes/writer_thread_functions.h clamp/includes/xml_clamp_parser.h moc/moc_predefs.h model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/main.cpp model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/calibrate_functions_phase2_a.c clamp/src/clamp.c clamp/src/neuron_models_functions.c clamp/src/rt_thread_functions.c clamp/src/synapse_models_functions.c clamp/src/time_functions.c clamp/src/writer_thread_functions.c clamp/src/xml_clamp_parser.c $(DISTDIR)/
+	$(COPY_FILE) --parents gui/rthybrid.ui model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui model_library/Izhikevich_2003/nm_gui_izhikevich_2003.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -385,9 +392,9 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_izhikevich.cpp
+compiler_moc_header_make_all: moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_izhikevich.cpp
+	-$(DEL_FILE) moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp
 moc/moc_rthybrid.cpp: ui_rthybrid.h \
 		gui/clamplauncher.h \
 		clamp/includes/clamp.h \
@@ -426,26 +433,34 @@ moc/moc_clamplauncher.cpp: clamp/includes/clamp.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/clamplauncher.h -o moc/moc_clamplauncher.cpp
 
-moc/moc_nm_izhikevich.cpp: clamp/includes/types_clamp.h \
+moc/moc_nm_gui_hindmarsh_rose_1986.cpp: model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h -o moc/moc_nm_gui_hindmarsh_rose_1986.cpp
+
+moc/moc_nm_gui_izhikevich_2003.cpp: clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		clamp/includes/neuron_models_functions.h \
-		gui/model_library/Izhikevich/nm_izhikevich.h \
+		model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include gui/model_library/Izhikevich/nm_izhikevich.h -o moc/moc_nm_izhikevich.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h -o moc/moc_nm_gui_izhikevich_2003.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_rthybrid.h ui_nm_izhikevich.h
+compiler_uic_make_all: ui_rthybrid.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_rthybrid.h ui_nm_izhikevich.h
+	-$(DEL_FILE) ui_rthybrid.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h
 ui_rthybrid.h: gui/rthybrid.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic gui/rthybrid.ui -o ui_rthybrid.h
 
-ui_nm_izhikevich.h: gui/model_library/Izhikevich/nm_izhikevich.ui \
+ui_nm_gui_hindmarsh_rose_1986.h: model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic gui/model_library/Izhikevich/nm_izhikevich.ui -o ui_nm_izhikevich.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui -o ui_nm_gui_hindmarsh_rose_1986.h
+
+ui_nm_gui_izhikevich_2003.h: model_library/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/Izhikevich_2003/nm_gui_izhikevich_2003.ui -o ui_nm_gui_izhikevich_2003.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -469,115 +484,6 @@ obj/queue_functions.o: clamp/src/queue_functions.c clamp/includes/queue_function
 		common/includes/file_selector_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/queue_functions.o clamp/src/queue_functions.c
-
-obj/main.o: gui/main.cpp gui/rthybrid.h \
-		ui_rthybrid.h \
-		gui/clamplauncher.h \
-		clamp/includes/clamp.h \
-		clamp/includes/rt_thread_functions.h \
-		clamp/includes/time_functions.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/synapse_models_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/device_functions.h \
-		clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/writer_thread_functions.h \
-		gui/rthybrid_xml_main.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
-
-obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_functions.o clamp/src/neuron_models_functions.c
-
-obj/synapse_models_functions.o: clamp/src/synapse_models_functions.c clamp/includes/synapse_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/synapse_models_functions.o clamp/src/synapse_models_functions.c
-
-obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
-		clamp/includes/time_functions.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/synapse_models_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/device_functions.h \
-		clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/calibrate_functions_phase2.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/rt_thread_functions.o clamp/src/rt_thread_functions.c
-
-obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/writer_thread_functions.o clamp/src/writer_thread_functions.c
-
-obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/synapse_models_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
-
-obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/device_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
-
-obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/synapse_models_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
-
-obj/time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/time_functions.o clamp/src/time_functions.c
-
-obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
-		clamp/includes/rt_thread_functions.h \
-		clamp/includes/time_functions.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/types_clamp.h \
-		common/includes/types.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/synapse_models_functions.h \
-		clamp/includes/queue_functions.h \
-		clamp/includes/calibrate_functions_phase1.h \
-		clamp/includes/device_functions.h \
-		clamp/includes/calibrate_functions_phase2_a.h \
-		clamp/includes/calibrate_functions_phase2.h \
-		clamp/includes/writer_thread_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/clamp.o clamp/src/clamp.c
-
-obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h \
-		common/includes/xml_parser_functions.h \
-		common/includes/types.h \
-		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
-		clamp/includes/neuron_models_functions.h \
-		clamp/includes/synapse_models_functions.h
-	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xml_clamp_parser.o clamp/src/xml_clamp_parser.c
 
 obj/aux_functions.o: common/src/aux_functions.c common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/aux_functions.o common/src/aux_functions.c
@@ -607,7 +513,7 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		clamp/includes/calibrate_functions_phase2_a.h \
 		clamp/includes/calibrate_functions_phase2.h \
 		clamp/includes/writer_thread_functions.h \
-		gui/model_library/Izhikevich/nm_izhikevich.h
+		model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/rthybrid.o gui/rthybrid.cpp
 
 obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
@@ -646,13 +552,126 @@ obj/clamplauncher.o: gui/clamplauncher.cpp gui/clamplauncher.h \
 		clamp/includes/writer_thread_functions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/clamplauncher.o gui/clamplauncher.cpp
 
-obj/nm_izhikevich.o: gui/model_library/Izhikevich/nm_izhikevich.cpp gui/model_library/Izhikevich/nm_izhikevich.h \
+obj/main.o: gui/main.cpp gui/rthybrid.h \
+		ui_rthybrid.h \
+		gui/clamplauncher.h \
+		clamp/includes/clamp.h \
+		clamp/includes/rt_thread_functions.h \
+		clamp/includes/time_functions.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/synapse_models_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/calibrate_functions_phase1.h \
+		clamp/includes/device_functions.h \
+		clamp/includes/calibrate_functions_phase2_a.h \
+		clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/writer_thread_functions.h \
+		gui/rthybrid_xml_main.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o gui/main.cpp
+
+obj/nm_gui_hindmarsh_rose_1986.o: model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
+		ui_nm_gui_hindmarsh_rose_1986.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_hindmarsh_rose_1986.o model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp
+
+obj/nm_gui_izhikevich_2003.o: model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		clamp/includes/neuron_models_functions.h \
-		ui_nm_izhikevich.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_izhikevich.o gui/model_library/Izhikevich/nm_izhikevich.cpp
+		ui_nm_gui_izhikevich_2003.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_izhikevich_2003.o model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp
+
+obj/calibrate_functions_phase1.o: clamp/src/calibrate_functions_phase1.c clamp/includes/calibrate_functions_phase1.h \
+		clamp/includes/device_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase1.o clamp/src/calibrate_functions_phase1.c
+
+obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/synapse_models_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
+
+obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
+		clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/synapse_models_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
+
+obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
+		clamp/includes/rt_thread_functions.h \
+		clamp/includes/time_functions.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/synapse_models_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/calibrate_functions_phase1.h \
+		clamp/includes/device_functions.h \
+		clamp/includes/calibrate_functions_phase2_a.h \
+		clamp/includes/calibrate_functions_phase2.h \
+		clamp/includes/writer_thread_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/clamp.o clamp/src/clamp.c
+
+obj/neuron_models_functions.o: clamp/src/neuron_models_functions.c clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_functions.o clamp/src/neuron_models_functions.c
+
+obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thread_functions.h \
+		clamp/includes/time_functions.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/synapse_models_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/calibrate_functions_phase1.h \
+		clamp/includes/device_functions.h \
+		clamp/includes/calibrate_functions_phase2_a.h \
+		clamp/includes/calibrate_functions_phase2.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/rt_thread_functions.o clamp/src/rt_thread_functions.c
+
+obj/synapse_models_functions.o: clamp/src/synapse_models_functions.c clamp/includes/synapse_models_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/synapse_models_functions.o clamp/src/synapse_models_functions.c
+
+obj/time_functions.o: clamp/src/time_functions.c clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/time_functions.o clamp/src/time_functions.c
+
+obj/writer_thread_functions.o: clamp/src/writer_thread_functions.c clamp/includes/writer_thread_functions.h \
+		clamp/includes/queue_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/time_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/writer_thread_functions.o clamp/src/writer_thread_functions.c
+
+obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_parser.h \
+		common/includes/xml_parser_functions.h \
+		common/includes/types.h \
+		clamp/includes/types_clamp.h \
+		common/includes/file_selector_functions.h \
+		clamp/includes/neuron_models_functions.h \
+		clamp/includes/synapse_models_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xml_clamp_parser.o clamp/src/xml_clamp_parser.c
 
 obj/moc_rthybrid.o: moc/moc_rthybrid.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_rthybrid.o moc/moc_rthybrid.cpp
@@ -660,8 +679,11 @@ obj/moc_rthybrid.o: moc/moc_rthybrid.cpp
 obj/moc_clamplauncher.o: moc/moc_clamplauncher.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_clamplauncher.o moc/moc_clamplauncher.cpp
 
-obj/moc_nm_izhikevich.o: moc/moc_nm_izhikevich.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_nm_izhikevich.o moc/moc_nm_izhikevich.cpp
+obj/moc_nm_gui_hindmarsh_rose_1986.o: moc/moc_nm_gui_hindmarsh_rose_1986.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_nm_gui_hindmarsh_rose_1986.o moc/moc_nm_gui_hindmarsh_rose_1986.cpp
+
+obj/moc_nm_gui_izhikevich_2003.o: moc/moc_nm_gui_izhikevich_2003.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_nm_gui_izhikevich_2003.o moc/moc_nm_gui_izhikevich_2003.cpp
 
 ####### Install
 

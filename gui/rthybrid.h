@@ -47,6 +47,8 @@ private slots:
 
     void on_buttonIzConfig_clicked();
 
+    void on_textChannelInput_textChanged();
+
 private:
     Ui::RTHybrid *ui;
     QMovie *movie;

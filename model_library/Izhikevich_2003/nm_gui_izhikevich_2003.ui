@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NM_Izhikevich</class>
- <widget class="QWidget" name="NM_Izhikevich">
+ <class>NM_GUI_Izhikevich_2003</class>
+ <widget class="QWidget" name="NM_GUI_Izhikevich_2003">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Izhikevich (2003) neuron model</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">

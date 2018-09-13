@@ -1,9 +1,9 @@
-#include "nm_izhikevich.h"
-#include "ui_nm_izhikevich.h"
+#include "nm_gui_izhikevich_2003.h"
+#include "ui_nm_gui_izhikevich_2003.h"
 
-NM_Izhikevich::NM_Izhikevich(clamp_args * args, QWidget *parent) :
+NM_GUI_Izhikevich_2003::NM_GUI_Izhikevich_2003(clamp_args * args, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::NM_Izhikevich)
+    ui(new Ui::NM_GUI_Izhikevich_2003)
 {
     this->settings = new QSettings("RTHybrid", "Izhikevich");
 
@@ -11,16 +11,14 @@ NM_Izhikevich::NM_Izhikevich(clamp_args * args, QWidget *parent) :
     ui->setupUi(this);
 
     loadSettings();
-
-    printf("args %p vars %p\n", this->args, this->args->vars);
 }
 
-NM_Izhikevich::~NM_Izhikevich()
+NM_GUI_Izhikevich_2003::~NM_GUI_Izhikevich_2003()
 {
     delete ui;
 }
 
-void NM_Izhikevich::on_pushButton_accept_clicked()
+void NM_GUI_Izhikevich_2003::on_pushButton_accept_clicked()
 {
     args->vars = (double*) malloc (sizeof(double) * 2);
     args->params = (double *) malloc (sizeof(double) * 6);
@@ -41,7 +39,7 @@ void NM_Izhikevich::on_pushButton_accept_clicked()
 }
 
 
-void NM_Izhikevich::saveSettings() {
+void NM_GUI_Izhikevich_2003::saveSettings() {
     settings->setValue("VIni", ui->doubleIzVIni->value());
     settings->setValue("UIni", ui->doubleIzUIni->value());
     settings->setValue("A", ui->doubleIzA->value());
@@ -52,7 +50,7 @@ void NM_Izhikevich::saveSettings() {
     settings->setValue("DT", ui->comboBoxIntegration->currentIndex());
 }
 
-void NM_Izhikevich::loadSettings() {
+void NM_GUI_Izhikevich_2003::loadSettings() {
     if (settings->value("DT", -1).toInt() == -1) return;
 
     //printf("value %s\n", settings->fileName().toStdString().c_str());

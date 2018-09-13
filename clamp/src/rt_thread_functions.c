@@ -236,9 +236,13 @@ void * rt_thread(void * arg) {
     output_values = (double *) malloc (sizeof(double) * args->n_out_chan);
 
 
+    for (i = 0; i < args->n_in_chan; i++) {
+        input_values[i] = 0;
+    }
     for (i = 0; i < args->n_out_chan; i++) {
         output_values[i] = 0;
     }
+
     if (daq_write(session, args->n_out_chan, args->out_channels, output_values) != OK) {
         fprintf(stderr, "RT_THREAD: error writing to DAQ.\n");
         daq_close_device ((void**) &dsc);
@@ -290,12 +294,12 @@ void * rt_thread(void * arg) {
         if (DEBUG == 1) syslog(LOG_INFO,"RT_THREAD: max_rel_real=%f\n", max_rel_real);
 
 
-        external_pts_per_burst = args->freq * external_firing_rate;
+        /*external_pts_per_burst = args->freq * external_firing_rate;
         args->nm.set_pts_burst(external_pts_per_burst, &(args->nm));
 
         s_points = args->nm.pts_burst / external_pts_per_burst;
 
-        if (s_points == 0) s_points = 1;
+        if (s_points == 0) s_points = 1;*/
 
     } else {
 
@@ -304,10 +308,20 @@ void * rt_thread(void * arg) {
         scale_virtual_to_real = 1;
         offset_virtual_to_real = 0;
         offset_real_to_virtual = 0;
-        s_points = 1;
-        external_firing_rate = 0;
+        external_firing_rate = args->sec_per_burst;
+        lp[1].interaction = FALSE;
+
+        /*s_points = 1;
+        external_firing_rate = 0;*/
 
     }
+
+    external_pts_per_burst = args->freq * external_firing_rate;
+    args->nm.set_pts_burst(external_pts_per_burst, &(args->nm));
+
+    s_points = args->nm.pts_burst / external_pts_per_burst;
+
+    if (s_points == 0) s_points = 1;
 
 
     msg.id = args->events_file_id;
@@ -570,7 +584,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                 pthread_exit(NULL);
             }
 
-            input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
+            if (args->n_in_chan > 0) input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
 
 
             /* Recalculate the minimum and maximum thresholds and fix drift */

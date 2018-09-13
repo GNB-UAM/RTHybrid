@@ -6,7 +6,7 @@
 #include <QMovie>
 #include <QMainWindow>
 #include <QCloseEvent>
-#include "model_library/Izhikevich/nm_izhikevich.h"
+#include "model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h"
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -126,8 +126,6 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[IZ_D] = ui->doubleIzD->value();
             args.params[IZ_I] = ui->doubleIzI->value();
             args.params[IZ_DT] = 0.001;*/
-
-            printf("4args %p vars %p\n", &(this->args), this->args.vars);
 
             break;
         case HR: //Hindmarsh-Rose
@@ -410,9 +408,8 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
     {
         res = "resources/interaction_model_izhikevich.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_Izhikevich * nmiz = new NM_Izhikevich(&(this->args));
+        NM_GUI_Izhikevich_2003 * nmiz = new NM_GUI_Izhikevich_2003(&(this->args));
         nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nmiz->setWindowModality(Qt::ApplicationModal);
         nmiz->show();
         break;
     }
@@ -717,11 +714,21 @@ void RTHybrid::on_doubleSynElec_gEtoM_valueChanged(double arg1)
 
 void RTHybrid::on_buttonIzConfig_clicked()
 {
-    printf("args %p vars %p\n", &(this->args), this->args.vars);
-    NM_Izhikevich * nmiz = new NM_Izhikevich(&(this->args));
+    NM_GUI_Izhikevich_2003 * nmiz = new NM_GUI_Izhikevich_2003(&(this->args));
     nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-    nmiz->setWindowModality(Qt::ApplicationModal);
     nmiz->show();
+}
 
-    printf("3args %p vars %p\n", &(this->args), this->args.vars);
+void RTHybrid::on_textChannelInput_textChanged()
+{
+    if (ui->textChannelInput->toPlainText().isEmpty()) {
+        ui->doubleSecPerBurst->setEnabled(true);
+        ui->autoDetect->setChecked(false);
+        ui->autoDetect->setEnabled(false);
+        ui->checkDrift->setChecked(false);
+        ui->checkDrift->setEnabled(false);
+    } else if (ui->autoDetect->isEnabled() == false) {
+        ui->autoDetect->setEnabled(true);
+        ui->checkDrift->setEnabled(true);
+    }
 }

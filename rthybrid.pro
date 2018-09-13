@@ -73,47 +73,52 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += gui/main.cpp \
-    clamp/src/neuron_models_functions.c \
-    clamp/src/synapse_models_functions.c \
-    clamp/src/rt_thread_functions.c \
-    clamp/src/writer_thread_functions.c \
-    clamp/src/calibrate_functions_phase2_a.c \
-    clamp/src/calibrate_functions_phase1.c \
-    clamp/src/calibrate_functions_phase2.c \
-    clamp/src/time_functions.c \
-    clamp/src/clamp.c \
-    clamp/src/xml_clamp_parser.c \
+SOURCES += \
     common/src/aux_functions.c \
     common/src/file_selector_functions.c \
     common/src/xml_parser_functions.c \
     gui/rthybrid.cpp \
     gui/rthybrid_xml_main.cpp \
     gui/clamplauncher.cpp \
-    gui/model_library/Izhikevich/nm_izhikevich.cpp
+    gui/main.cpp \
+    model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
+    model_library/Izhikevich_2003/nm_gui_izhikevich_2003.cpp \
+    clamp/src/calibrate_functions_phase1.c \
+    clamp/src/calibrate_functions_phase2.c \
+    clamp/src/calibrate_functions_phase2_a.c \
+    clamp/src/clamp.c \
+    clamp/src/neuron_models_functions.c \
+    clamp/src/rt_thread_functions.c \
+    clamp/src/synapse_models_functions.c \
+    clamp/src/time_functions.c \
+    clamp/src/writer_thread_functions.c \
+    clamp/src/xml_clamp_parser.c
 
 HEADERS += \
-    clamp/includes/calibrate_functions_phase1.h \
-    clamp/includes/calibrate_functions_phase2.h \
-    clamp/includes/calibrate_functions_phase2_a.h \
-    clamp/includes/device_functions.h \
-    clamp/includes/neuron_models_functions.h \
-    clamp/includes/synapse_models_functions.h \
-    clamp/includes/queue_functions.h \
-    clamp/includes/rt_thread_functions.h \
-    clamp/includes/time_functions.h \
-    clamp/includes/xml_clamp_parser.h \
-    clamp/includes/writer_thread_functions.h \
-    clamp/includes/clamp.h \
-    clamp/includes/types_clamp.h \
     common/includes/file_selector_functions.h \
     common/includes/xml_parser_functions.h \
     common/includes/types.h \
     gui/rthybrid.h \
     gui/rthybrid_xml_main.h \
     gui/clamplauncher.h \
-    gui/model_library/Izhikevich/nm_izhikevich.h
+    clamp/includes/calibrate_functions_phase1.h \
+    clamp/includes/calibrate_functions_phase2.h \
+    clamp/includes/calibrate_functions_phase2_a.h \
+    clamp/includes/clamp.h \
+    clamp/includes/device_functions.h \
+    clamp/includes/neuron_models_functions.h \
+    clamp/includes/queue_functions.h \
+    clamp/includes/rt_thread_functions.h \
+    clamp/includes/synapse_models_functions.h \
+    clamp/includes/time_functions.h \
+    clamp/includes/types_clamp.h \
+    clamp/includes/writer_thread_functions.h \
+    clamp/includes/xml_clamp_parser.h \
+    moc/moc_predefs.h \
+    model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
+    model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h
 
 FORMS += \
     gui/rthybrid.ui \
-    gui/model_library/Izhikevich/nm_izhikevich.ui
+    model_library/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui \
+    model_library/Izhikevich_2003/nm_gui_izhikevich_2003.ui
