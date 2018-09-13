@@ -23,6 +23,11 @@ QMAKE_CXXFLAGS += -I/usr/include/libxml2
 #QMAKE_CFLAGS += -D_GNU_SOURCE $(shell xml2-config --cflags)
 #QMAKE_CXXFLAGS += $(shell xml2-config --cflags)
 
+isol_core {
+    message(Compiling with binding with isolated core $${CORE}...)
+    QMAKE_CFLAGS += -D__CORE__=$${CORE}
+}
+
 
 IPIPE = $$system(dmesg | grep -i xenomai)
 contains( IPIPE, Xenomai ): {

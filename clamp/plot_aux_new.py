@@ -65,10 +65,16 @@ class DataStruct1():
 		self.data_in = []
 		self.time           = data[:,0] / 1000
 		self.lat            = data[:,1]
-		self.v_model_scaled        = data[:,2]
-		self.c_model        = data[:,4]
-		self.c_viva         = data[:,5]
-		self.data_in.append(data[:,3])
+		self.syn_ml            = data[:,2]
+		self.read            = data[:,3]
+		self.drift            = data[:,4]
+		self.syn_lm1            = data[:,5]
+		self.syn_lm2            = data[:,6]
+		self.neuron            = data[:,7]
+		self.send            = data[:,8]
+		self.wait            = 100000 - (self.lat+self.syn_ml+self.read+self.drift+self.syn_lm1+self.syn_lm2+self.neuron+self.send)
+		self.v_model_scaled        = data[:,9]
+		self.data_in.append(data[:,10])
 
 
 class DataStruct2():

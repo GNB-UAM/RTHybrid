@@ -1,0 +1,59 @@
+<clamp>
+
+	<model type="3">
+		<vars>
+			<x val="-1.701750"/>
+			<y val="-4.919230"/>
+		</vars>
+		<params>
+			<alpha val="6.0"/>
+			<sigma val="0.1"/>
+			<mu val="0.001"/>
+			<i val="1.0"/>
+		</params>
+	</model>
+	
+	<synapse type="2">
+		<g_real_to_virtual_fast val="0.02"/>
+		<vfast_real_to_virtual val="25.0"/>
+		
+		<g_real_to_virtual_slow val="0.0"/>
+		<vslow_real_to_virtual val="0.0"/>
+		<k1_real_to_virtual val="14.0"/>
+		<k2_real_to_virtual val="4.0"/>
+
+		<g_virtual_to_real_fast val="0.0"/>
+		<vfast_virtual_to_real val="0.0"/>
+
+		<g_virtual_to_real_slow val="0.02"/>
+		<vslow_virtual_to_real val="15.0"/>
+		<k1_virtual_to_real val="1.4"/>
+		<k2_virtual_to_real val="0.4"/>
+	</synapse>
+
+	<calib type="0"></calib>
+
+	<freq val="10000"/>
+
+	<times>
+		<before val="0"/>
+		<duration val="300"/>
+		<after val="0"/>
+		<observation val="10"/>
+	</times>
+
+	<output_channels val="0,1"/>
+
+	<input_channels val="0"/>
+
+	<input_factor val="1000"/>
+
+	<output_factor val="1"/>
+
+	<imp val="0"/>
+
+	<drift val="1"/>
+
+	<sec_per_burst val="1.0"/>
+
+</clamp>

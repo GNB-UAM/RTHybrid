@@ -15,6 +15,8 @@ data2 = []
 #data2 = aux.DataStruct2(args)
 
 #funcs.plot_voltage(data1, data2, args)
+
+funcs.plot_voltage_current(data1, data2, args)
 #funcs.save_events(data1, data2, args)
 
 #autocal.plot_autocal(data1, data2, args)
@@ -23,10 +25,13 @@ data2 = []
 
 #funcs.plot_voltage_g_current(data1, data2, args)
 
-funcs.plot_voltage_current(data1, data2, args)
+#funcs.plot_voltage_current(data1, data2, args)
 
-funcs.plot_lat_dist(data1)
+#funcs.plot_lat_dist(data1)
 funcs.plot_lat(data1)
+
+funcs.plot_times_measures(data1)
+#funcs.plot_times_stacked(data1)
 
 
 

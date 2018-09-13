@@ -99,13 +99,15 @@ void prepare_real_time (pthread_t id) {
     }
 
     /* Set core affinity */
-    /*cpu_set_t mask;
+    #ifdef __CORE__
+    cpu_set_t mask;
     CPU_ZERO(&mask);
-    CPU_SET(CORE, &mask);
+    CPU_SET(__CORE__, &mask);
     if (pthread_setaffinity_np(id, sizeof(mask), &mask) != 0) {
         perror("Affinity set failure\n");
         exit(-2);
-    }*/
+    }
+    #endif
 
     /* Lock memory */
 
@@ -295,6 +297,7 @@ void * rt_thread(void * arg) {
         s_points = args->nm.pts_burst / external_pts_per_burst;
 
         if (s_points == 0) s_points = 1;
+        printf("spoints %d\n", s_points);
 
     } else {
 
@@ -310,8 +313,8 @@ void * rt_thread(void * arg) {
 
 
     msg.id = args->events_file_id;
-    sprintf(msg.data, "\n******* Clamp experiment %s ******* \nModel = %d \nSynapse = %d \nFiring rate = %.3f \n*************", 
-                        args->filename, args->nm.type, args->sm_live_to_model.type, external_firing_rate);
+    sprintf(msg.data, "\n******* Clamp experiment %s ******* \nModel = %d \nSynapse = %d \nFiring rate = %.3f\n*************", 
+                        args->filename, args->nm.type, args->sm_live_to_model.type);
     send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg);
 
 
@@ -479,6 +482,11 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
 	struct timespec ts_iter, ts_result;
 
+	/*Extra measurements*/
+	struct timespec ts_syn_ml, ts_write, ts_msg_send, ts_read, ts_drift, ts_syn_lm1, ts_syn_lm2, ts_neuron;
+	long t_syn_ml, t_write, t_msg_send = 0, t_read, t_drift, t_syn_lm1, t_syn_lm2, t_neuron;
+	double input_value_aux;
+
 	int end_loop = FALSE;
 
     fix_drift_args fx_args;
@@ -516,6 +524,10 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                 args->sm_model_to_live.func(input_values[VAR_X], args->nm.vars[VAR_X], &(args->sm_model_to_live), &c_model);
             }
 
+            clock_gettime(CLOCK_MONOTONIC, &ts_syn_ml);
+            ts_substraction(&ts_iter, &ts_syn_ml, &ts_result);
+            t_syn_ml = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
             /* Send the model current and voltage (scaled) to the DAQ */
             v_model_scaled = args->nm.vars[VAR_X] * scale_virtual_to_real + offset_virtual_to_real;
             if (args->n_out_chan >= 1) output_values[0] = -c_model / args->output_factor;
@@ -528,9 +540,13 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                 pthread_exit(NULL);
             }
 
-            /* Send data to the message queue */
-            sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled);
-            if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
+            /*clock_gettime(CLOCK_MONOTONIC, &ts_write);
+            ts_substraction(&ts_syn_ml, &ts_write, &ts_result);
+            t_write = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;*/
+
+            input_value_aux = input_values[0];
+
+            
 
 
             /* Auto calibration */
@@ -566,6 +582,10 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
             input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
 
+            clock_gettime(CLOCK_MONOTONIC, &ts_read);
+            ts_substraction(&ts_syn_ml, &ts_read, &ts_result);
+            t_read = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
 
             /* Recalculate the minimum and maximum thresholds and fix drift */
             if (args->check_drift == TRUE) {
@@ -597,11 +617,19 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                 drift_counter++;
             }
 
+            clock_gettime(CLOCK_MONOTONIC, &ts_drift);
+            ts_substraction(&ts_read, &ts_drift, &ts_result);
+            t_drift = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
             if (lp->interaction == TRUE) {
                 /* Calculate the input synapse (scaled to the external range) */
                 args->sm_live_to_model.calibrate = SYN_CALIB_POST;
                 args->sm_live_to_model.func(args->nm.vars[0], input_values[0], &(args->sm_live_to_model), &c_external_scaled);
             }
+
+            clock_gettime(CLOCK_MONOTONIC, &ts_syn_lm1);
+            ts_substraction(&ts_drift, &ts_syn_lm1, &ts_result);
+            t_syn_lm1 = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
         }
 
         if (lp->interaction == TRUE) {
@@ -610,7 +638,26 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
             args->sm_live_to_model.func(args->nm.vars[0], input_values[0], &(args->sm_live_to_model), &c_external);
         }
 
+        clock_gettime(CLOCK_MONOTONIC, &ts_syn_lm2);
+        ts_substraction(&ts_syn_lm1, &ts_syn_lm2, &ts_result);
+        t_syn_lm2 = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
         /* Calculate neuron model */
         args->nm.func(args->nm, c_external);
+
+        clock_gettime(CLOCK_MONOTONIC, &ts_neuron);
+        ts_substraction(&ts_syn_lm2, &ts_neuron, &ts_result);
+        t_neuron = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
+
+        /* Send data to the message queue */
+        //sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_value_aux, -c_model, -c_external_scaled);
+        sprintf(msg.data, "%.3f %ld %ld %ld %ld %ld %ld %ld %ld %.3f %.3f", t_elapsed, lat, t_syn_ml, t_read, t_drift, t_syn_lm1, t_syn_lm2, t_neuron, t_msg_send, v_model_scaled, input_value_aux);
+        if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
+    
+        clock_gettime(CLOCK_MONOTONIC, &ts_msg_send);
+        ts_substraction(&ts_neuron, &ts_msg_send, &ts_result);
+        t_msg_send = ts_result.tv_sec * NSEC_PER_SEC + ts_result.tv_nsec;
+
     }
 }

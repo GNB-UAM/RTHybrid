@@ -83,7 +83,7 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
     (*f)(apoyo, retorno, params, aux);
     for(j = 0; j < dim; ++j) {
         k[3][j] = dt * retorno[j];
-        apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.675 - k[2][j] * 0.6 + k[2][j] * 0.75;
+        apoyo[j] = vars[j] + k[0][j] * 0.075 + k[1][j] * 0.675 - k[2][j] * 0.6 + k[3][j] * 0.75;
     }
 
     (*f)(apoyo, retorno, params, aux);
@@ -114,6 +114,114 @@ void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, d
                    k[3][j]*0.231481481481481+
                    k[4][j]*0.308641975308641-
                    k[5][j]*0.035714285714285;
+    }
+
+    return;
+}
+
+
+
+
+/**
+ * @brief Order 4 Runge-Kutta integration method.
+ * @param[in] f Pointer to the model function
+ * @param[in] dim Dimension of the model
+ * @param[in] dt Integration step
+ * @param[in,out] vars Variables to be integrated
+ * @param[in] params Parameters of the model
+ * @param[in] aux Auxiliary value
+*/
+
+void runge_kutta_4 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+    double apoyo[dim], retorno[dim];
+    double k[4][dim];
+    int j;
+
+    (*f)(vars, retorno, params, aux);
+    for(j = 0; j < dim; ++j) {
+        k[0][j] = dt * retorno[j];
+        apoyo[j] = vars[j] + k[0][j] * 0.5;
+    }
+
+    (*f)(apoyo, retorno, params, aux);
+    for(j = 0; j < dim; ++j) {
+        k[1][j] = dt * retorno[j];
+        apoyo[j] = vars[j] + k[1][j] * 0.5;
+    }
+
+    (*f)(apoyo, retorno, params, aux);
+    for(j = 0; j < dim; ++j) {
+        k[2][j] = dt * retorno[j];
+        apoyo[j] = vars[j] + k[2][j];
+    }
+
+    (*f)(apoyo, retorno, params, aux);
+    for(j = 0; j < dim; ++j) {
+        k[3][j] = dt * retorno[j];
+    }
+
+
+    for(j = 0; j < dim; ++j) {
+        vars[j] += (k[0][j] + k[1][j]*2 + k[2][j]*2 + k[3][j]) / 6.0;
+    }
+
+    //printf("hna rk %f\n\n", vars[1]);
+
+    return;
+}
+
+
+
+
+/**
+ * @brief Euler integration method.
+ * @param[in] f Pointer to the model function
+ * @param[in] dim Dimension of the model
+ * @param[in] dt Integration step
+ * @param[in,out] vars Variables to be integrated
+ * @param[in] params Parameters of the model
+ * @param[in] aux Auxiliary value
+*/
+
+void euler (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+    double apoyo[dim], retorno[dim];
+    double k[4][dim];
+    int j;
+
+    (*f)(vars, retorno, params, aux);
+
+    for(j = 0; j < dim; ++j) {
+        vars[j] += dt * retorno[j];
+    }
+
+    //printf("hna rk %f\n\n", vars[1]);
+
+    return;
+}
+
+
+/**
+ * @brief Heun integration method.
+ * @param[in] f Pointer to the model function
+ * @param[in] dim Dimension of the model
+ * @param[in] dt Integration step
+ * @param[in,out] vars Variables to be integrated
+ * @param[in] params Parameters of the model
+ * @param[in] aux Auxiliary value
+*/
+
+void heun (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+    double apoyo[dim], retorno_1[dim], retorno_2[dim];
+    int j;
+
+    (*f)(vars, retorno_1, params, aux);
+    for(j = 0; j < dim; ++j) {
+        apoyo[j] = vars[j] + (dt * retorno_1[j]);
+    }
+
+    (*f)(apoyo, retorno_2, params, aux);
+    for(j = 0; j < dim; ++j) {
+        vars[j] += dt/2.0 * (retorno_1[j] + retorno_2[j]);
     }
 
     return;

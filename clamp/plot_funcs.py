@@ -12,6 +12,202 @@ import plot_analysis as pa
 # STANDAR PLOTS  #
 ##################
 ##################
+
+def plot_times_measures(data):
+	syn_ml_max = np.max(data.syn_ml) / 1000
+	syn_ml_mean = np.mean(data.syn_ml) / 1000
+	syn_ml_std = np.std(data.syn_ml)/ 10000
+
+	read = data.read
+	read_max = np.max(data.read)/ 1000
+	read_mean = np.mean(data.read)/ 1000
+	read_std = np.std(data.read)/ 1000
+
+	drift = data.drift
+	drift_max = np.max(data.drift)/ 1000
+	drift_mean = np.mean(data.drift)/ 1000
+	drift_std = np.std(data.drift)/ 1000
+
+	syn_lm1_max = np.max(data.syn_lm1)/ 1000
+	syn_lm1_mean = np.mean(data.syn_lm1)/ 1000
+	syn_lm1_std = np.std(data.syn_lm1)/ 1000
+
+	syn_lm2_max = np.max(data.syn_lm2)/ 1000
+	syn_lm2_mean = np.mean(data.syn_lm2)/ 1000
+	syn_lm2_std = np.std(data.syn_lm2)/ 1000
+
+	neuron = data.neuron
+	neuron_max = np.max(data.neuron)/ 1000
+	neuron_mean = np.mean(data.neuron)/ 1000
+	neuron_std = np.std(data.neuron)/ 1000
+
+	send = data.send
+	send_max = np.max(data.send)/ 1000
+	send_mean = np.mean(data.send)/ 1000
+	send_std = np.std(data.send)/ 1000
+
+	wait = data.wait
+	wait_max = np.max(data.wait)/ 1000
+	wait_mean = np.mean(data.wait)/ 1000
+	wait_std = np.std(data.wait)/ 1000
+
+	lat = data.lat
+	lat_max = np.max(data.lat)/ 1000
+	lat_mean = np.mean(data.lat)/ 1000
+	lat_std = np.std(data.lat)/ 1000
+
+	syn = []
+	for i in range(len(data.syn_ml)):
+		syn.append(data.syn_ml[i] + data.syn_lm1[i] + data.syn_lm2[i])
+
+	syn_max = np.max(syn)/ 1000
+	syn_mean = np.mean(syn)/ 1000
+	syn_std = np.std(syn)/ 1000
+
+
+	N = 7
+
+	ind = np.arange(N)  # the x locations for the groups
+	width = .9       # the width of the bars
+
+	fig, ax = plt.subplots(figsize=(7,7))
+
+
+	maxt = (lat_max, read_max, drift_max, syn_max, neuron_max, send_max, wait_max)
+	means = (lat_mean, read_mean, drift_mean, syn_mean, neuron_mean, send_mean, wait_mean)
+	stds = (lat_std, read_std, drift_std, syn_std, neuron_std, send_std, wait_std)
+
+	rects1 = ax.bar(ind + width/2, maxt, width, color="#6699ff")
+	rects2 = ax.bar(ind + width/2, means, width, alpha=0.8, yerr=stds, capsize=10, ecolor="black", color="#000099")
+
+
+	font = {'family': 'serif',
+	        'color':  'black',
+	        'weight': 'normal',
+	        'size': 10,
+	        }
+
+	# add some text for labels, title and axes ticks
+	ax.set_ylabel('Time (us)')
+	ax.set_ylim(0, 150)
+	#ax.set_yscale('log')
+	ax.set_title('Time measures for each operation within a real-time interval')
+	ax.set_xticks(ind + width / 2)
+	ax.set_xticklabels(('Wake latency', 'DAQ read/write', 'Drift compensation', 'Synapse models', 'Neuron models', 'Send', 'Wait until next interval'))
+
+	ax.legend((rects1[0], rects2[0]), ('Max', 'Mean'))
+
+	'''
+	def autolabel(rects):
+	    for rect in rects:
+	        height = rect.get_height()
+	        ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+	                '%.2f' % float(height),
+	                ha='center', va='bottom', fontdict = font)
+	
+
+	autolabel(rects1)
+	autolabel(rects2)
+	'''
+
+	plt.tight_layout()
+	plt.show()
+
+
+def plot_times_stacked(data):
+	syn_ml_max = np.max(data.syn_ml) / 1000
+	syn_ml_mean = np.mean(data.syn_ml) / 1000
+	syn_ml_std = np.std(data.syn_ml)/ 10000
+
+	read = data.read
+	read_max = np.max(data.read)/ 1000
+	read_mean = np.mean(data.read)/ 1000
+	read_std = np.std(data.read)/ 1000
+
+	drift = data.drift
+	drift_max = np.max(data.drift)/ 1000
+	drift_mean = np.mean(data.drift)/ 1000
+	drift_std = np.std(data.drift)/ 1000
+
+	syn_lm1_max = np.max(data.syn_lm1)/ 1000
+	syn_lm1_mean = np.mean(data.syn_lm1)/ 1000
+	syn_lm1_std = np.std(data.syn_lm1)/ 1000
+
+	syn_lm2_max = np.max(data.syn_lm2)/ 1000
+	syn_lm2_mean = np.mean(data.syn_lm2)/ 1000
+	syn_lm2_std = np.std(data.syn_lm2)/ 1000
+
+	neuron = data.neuron
+	neuron_max = np.max(data.neuron)/ 1000
+	neuron_mean = np.mean(data.neuron)/ 1000
+	neuron_std = np.std(data.neuron)/ 1000
+
+	send = data.send
+	send_max = np.max(data.send)/ 1000
+	send_mean = np.mean(data.send)/ 1000
+	send_std = np.std(data.send)/ 1000
+
+	wait = data.wait
+	wait_max = np.max(data.wait)/ 1000
+	wait_mean = np.mean(data.wait)/ 1000
+	wait_std = np.std(data.wait)/ 1000
+
+	lat = data.lat
+	lat_max = np.max(data.lat)/ 1000
+	lat_mean = np.mean(data.lat)/ 1000
+	lat_std = np.std(data.lat)/ 1000
+
+	syn = []
+	for i in range(len(data.syn_ml)):
+		syn.append(data.syn_ml[i] + data.syn_lm1[i] + data.syn_lm2[i])
+
+	syn_max = np.max(syn)/ 1000
+	syn_mean = np.mean(syn)/ 1000
+	syn_std = np.std(syn)/ 1000
+
+
+	N = 1
+
+	ind = np.arange(N)    # the x locations for the groups
+	width = 0.35       # the width of the bars: can also be len(x) sequence
+
+	bottom3= lat_mean + read_mean
+	bottom4= bottom3 + drift_mean
+	bottom5= bottom4 + syn_mean
+	bottom6= bottom5 + neuron_mean
+	bottom7= bottom6 + send_mean
+
+	p1 = plt.barh(ind, lat_mean, width, color="#ff0000")
+	p2 = plt.barh(ind, read_mean, width,
+	             left=lat_mean, color="#ff9900")
+	p3 = plt.barh(ind, drift_mean, width,
+	             left=bottom3, color="#ffff66")
+	p4 = plt.barh(ind, syn_mean, width,
+	             left=bottom4, color="#ff6699")
+	p5 = plt.barh(ind, neuron_mean, width,
+	             left=bottom5, color="#00cc00")
+	p6 = plt.barh(ind, send_mean, width,
+	             left=bottom6, color="#cc33ff")
+	p7 = plt.barh(ind, wait_mean, width,
+	             left=bottom7, color="#3399ff")
+
+	font = {'family': 'serif',
+		        'color':  'black',
+		        'weight': 'normal',
+		        'size': 10,
+		        }
+
+	
+	plt.xlabel('Time (us)')
+	plt.title('Average time distribution over real-time intervals')
+	#plt.yticks(ind, (values_hr.model, values_rlk.model, values_gh.model, values_wang.model))
+	#plt.xticks(np.arange(0, 81, 10))
+	plt.xlim(0,100)
+	plt.legend((p1[0], p2[0], p3[0], p4[0], p5[0], p6[0]), ('Wake latency', 'DAQ read/write', 'Drift compensation', 'Synapse models', 'Neuron model', 'Send to msg queue', 'Wait until next interval'))
+
+	plt.tight_layout()
+	plt.show()
+
 def plot_voltage(data1, data2, args):
 	#Crete and size
 	fig = plt.figure(figsize=(12,4))
@@ -34,7 +230,8 @@ def plot_voltage_current(data1, data2, args):
 	plot_line_voltage(data1, data2, args)
 
 	ax2 = plt.subplot(2, 1, 2, sharex=ax1)
-	plot_line_current(data1, data2, args)
+	#plot_line_current(data1, data2, args)
+	plot_line_durneuron(data1, data2, args)
 	
 	#Details
 	plt.xlabel("Time (s)")
@@ -128,6 +325,12 @@ def plot_line_current(data1, data2, args):
 	plt.plot(data1.time, data1.c_viva, label="Current real to model", linewidth=0.8)
 	plt.plot(data1.time, data1.c_model, label="Current model to real", linewidth=0.8)
 	plt.ylabel("Current")
+	plt.legend(loc=1, framealpha=1.0)
+
+
+def plot_line_durneuron(data1, data2, args):
+	plt.plot(data1.time, data1.neuron, label="Model neuron", linewidth=0.8)
+	plt.ylabel("dur")
 	plt.legend(loc=1, framealpha=1.0)
 
 ##################

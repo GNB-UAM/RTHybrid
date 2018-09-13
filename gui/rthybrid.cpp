@@ -185,6 +185,7 @@ void RTHybrid::on_buttonStart_clicked()
 
             args.vars[VAR_X] = -66.5;
 
+            /*
             args.params[WANG_I] = 2.5;
             args.params[WANG_G_NA] = 52.0;
             args.params[WANG_G_NAP] = 0.1;
@@ -199,6 +200,22 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[WANG_PHI] = 28.57;
             args.params[WANG_RHO] = 0.6;
             args.params[WANG_TAUM] = 6.0;
+            */
+
+            args.params[WANG_I] = 1.2;
+            args.params[WANG_G_NA] = 52.0;
+            args.params[WANG_G_NAP] = 0.1;
+            args.params[WANG_G_K] = 20.0;
+            args.params[WANG_G_KS] = 14.0;
+            args.params[WANG_G_L] = 0.1;
+            args.params[WANG_CM] = 1.0;
+            args.params[WANG_V_NA] = 55.0;
+            args.params[WANG_V_K] = -90.0;
+            args.params[WANG_V_L] = -60.0;
+            args.params[WANG_SIGMA] = 1.0;
+            args.params[WANG_PHI] = 28.57;
+            args.params[WANG_RHO] = 0.6;
+            args.params[WANG_TAUM] = 50.0;
 
             break;
         default:
