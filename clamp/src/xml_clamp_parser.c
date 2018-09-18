@@ -424,6 +424,8 @@ static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args 
 		if (xmlStrcmp(cur->name, (const xmlChar *) "k2_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->k2), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "vfast_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_fast), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "vslow_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->v_slow), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "sfast_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->s_fast), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "sslow_real_to_virtual") == 0) ret = parse_double(doc, cur, &(args_live_to_model_gl->s_slow), (const xmlChar*) VALUE);
 
     	if (xmlStrcmp(cur->name, (const xmlChar *) "g_virtual_to_real_slow") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_SLOW]), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "g_virtual_to_real_fast") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->g[GL_G_FAST]), (const xmlChar*) VALUE);
@@ -431,6 +433,8 @@ static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args 
 		if (xmlStrcmp(cur->name, (const xmlChar *) "k2_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->k2), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "vfast_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_fast), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "vslow_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->v_slow), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "sfast_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->s_fast), (const xmlChar*) VALUE);
+		if (xmlStrcmp(cur->name, (const xmlChar *) "sslow_virtual_to_real") == 0) ret = parse_double(doc, cur, &(args_model_to_live_gl->s_slow), (const xmlChar*) VALUE);
 
 		if (ret != OK) return ret;
 		cur = cur->next;

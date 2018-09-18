@@ -32,17 +32,21 @@
 	<synapse type="2">
 		<g_real_to_virtual_fast val="0.01"/>
 		<vfast_real_to_virtual val="25.0"/>
+		<sfast_real_to_virtual val="5.0"/>
 		
 		<g_real_to_virtual_slow val="0.0"/>
 		<vslow_real_to_virtual val="0.0"/>
+		<sslow_real_to_virtual val="0.0"/>
 		<k1_real_to_virtual val="14.0"/>
 		<k2_real_to_virtual val="4.0"/>
 
 		<g_virtual_to_real_fast val="0.0"/>
 		<vfast_virtual_to_real val="0.0"/>
+		<sfast_virtual_to_real val="0.0"/>
 
 		<g_virtual_to_real_slow val="0.002"/>
 		<vslow_virtual_to_real val="15.0"/>
+		<sslow_virtual_to_real val="1.0"/>
 		<k1_virtual_to_real val="1.4"/>
 		<k2_virtual_to_real val="0.4"/>
 	</synapse>
