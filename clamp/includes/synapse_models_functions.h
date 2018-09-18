@@ -120,6 +120,8 @@ typedef struct {
     double g[GL_N_G];   /**< Conductances array with length #GL_N_G*/
     double v_fast;      /**< Voltage threshold for the fast synapse*/
     double v_slow;      /**< Voltage threshold for the slow synapse*/
+    double s_fast;      /**< Sigmoid scaling for the fast synapse*/
+    double s_slow;      /**< Sigmoid scaling for the slow synapse*/
     double k1;          /**< Temporal parameter for the slow conductance*/
     double k2;          /**< Temporal parameter for the slow conductance*/
 } syn_gl_args;
@@ -137,6 +139,8 @@ typedef struct {
     double k2;      /**< Temporal parameter for the slow conductance*/
     double v_fast;  /**< Voltage threshold for the fast synapse*/
     double v_slow;  /**< Voltage threshold for the slow synapse*/
+    double s_fast;  /**< Sigmoid scaling for the fast synapse*/
+    double s_slow;  /**< Sigmoid scaling for the slow synapse*/
     double ms_old;  /**< Last value of m_slow*/
     double dt;      /**< Integration step*/
 } syn_gl_params;

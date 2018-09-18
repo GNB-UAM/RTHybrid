@@ -59,6 +59,8 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
             aux_gl_params->v_fast = aux_syn_args->v_fast/100.0;
             aux_gl_params->v_slow = aux_syn_args->v_slow/100.0;
             aux_gl_params->ms_old = 0.0;
+            aux_gl_params->s_fast = aux_syn_args->s_fast/100.0;
+            aux_gl_params->s_slow = aux_syn_args->s_slow/100.0;
 
             sm->g = (double *) malloc (sizeof(GL_N_G));
             copy_1d_array(aux_syn_args->g, sm->g, GL_N_G);
@@ -228,7 +230,7 @@ double gl_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
     e_syn = params->min - v_range * 0.153846;
     v_f = params->min + v_range * params->v_fast;
 
-    s_f = 1.0 / (v_range * 0.05);
+    s_f = 1.0 / (v_range * params->s_fast);
 
     //printf("\nesyn %f vf %f sf %f g %f vpre %f vpost %f min %f max %f range %f\n", e_syn, v_f, s_f, g, v_pre, v_post, aux[GL_MIN], aux[GL_MAX], v_range);
 
@@ -258,7 +260,7 @@ double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
 
     params_ms[GL_MS_K1] = params->k1;
     params_ms[GL_MS_K2] = params->k2;
-    params_ms[GL_MS_SS] = 1.0 / (v_range * 0.01);
+    params_ms[GL_MS_SS] = 1.0 / (v_range * params->s_slow);
 
     //printf("vpre %f ms %f k1 %f k2 %f ss %f vs %f dt %f\n", v_pre, aux[GL_MS_OLD], params[MS_K1], params[MS_K2], params[MS_SS], params[MS_VS], aux[GL_DT]);
 

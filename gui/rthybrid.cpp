@@ -249,6 +249,8 @@ void RTHybrid::on_buttonStart_clicked()
                 args_live_to_model_gl->v_slow = ui->spinBox_gl_EtoM_slow_vth->value();
                 args_live_to_model_gl->k1 = ui->doubleSpinBox_gl_EtoM_slow_k1->value();
                 args_live_to_model_gl->k2 = ui->doubleSpinBox_gl_EtoM_slow_k2->value();
+                args_live_to_model_gl->s_fast = ui->spinBox_gl_EtoM_fast_s->value();
+                args_live_to_model_gl->s_slow = ui->spinBox_gl_EtoM_slow_s->value();
 
                 args_model_to_live_gl->g[GL_G_FAST] = ui->doubleSpinBox_gl_MtoE_fast_g->value();
                 args_model_to_live_gl->g[GL_G_SLOW] = ui->doubleSpinBox_gl_MtoE_slow_g->value();
@@ -256,6 +258,8 @@ void RTHybrid::on_buttonStart_clicked()
                 args_model_to_live_gl->v_slow = ui->spinBox_gl_MtoE_slow_vth->value();
                 args_model_to_live_gl->k1 = ui->doubleSpinBox_gl_MtoE_slow_k1->value();
                 args_model_to_live_gl->k2 = ui->doubleSpinBox_gl_MtoE_slow_k2->value();
+                args_model_to_live_gl->s_fast = ui->spinBox_gl_MtoE_fast_s->value();
+                args_model_to_live_gl->s_slow = ui->spinBox_gl_MtoE_slow_s->value();
 
                 break;
             }
