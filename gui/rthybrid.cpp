@@ -6,7 +6,12 @@
 #include <QMovie>
 #include <QMainWindow>
 #include <QCloseEvent>
-#include "model_library/Izhikevich_2003/nm_gui_izhikevich_2003.h"
+
+#include "model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h"
+#include "model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h"
+#include "model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h"
+#include "model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h"
+#include "model_library/neuron/Wang_1993/nm_gui_wang_1993.h"
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -129,7 +134,7 @@ void RTHybrid::on_buttonStart_clicked()
 
             break;
         case HR: //Hindmarsh-Rose
-            args.vars = (double*) malloc (sizeof(double) * 3);
+            /*args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 4);
 
             args.vars[VAR_X] = ui->doubleHrXIni->value();
@@ -139,11 +144,11 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[HR_R] = ui->doubleHrR->value();
             args.params[HR_S] = ui->doubleHrS->value();
             args.params[HR_I] = ui->doubleHrI->value();
-            args.params[HR_DT] = 0.001;
+            args.params[HR_DT] = 0.001;*/
 
             break;
         case RLK: //Rulkov
-            args.vars = (double*) malloc (sizeof(double) * 2);
+            /*args.vars = (double*) malloc (sizeof(double) * 2);
             args.params = (double *) malloc (sizeof(double) * 8);
 
             args.vars[VAR_X] = ui->doubleRlkXIni->value();
@@ -154,11 +159,11 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[RLK_MU] = ui->doubleRlkMu->value();
             args.params[RLK_I] = ui->doubleRlkI->value();
             args.params[RLK_OLD] = 0.0;
-            args.params[RLK_INTER] = 0.0;
+            args.params[RLK_INTER] = 0.0;*/
 
             break;
         case GH: //Ghigliazza-Holmes
-            args.vars = (double*) malloc (sizeof(double) * 3);
+            /*args.vars = (double*) malloc (sizeof(double) * 3);
             args.params = (double *) malloc (sizeof(double) * 18);
 
             args.vars[VAR_X] = ui->doubleGhX0->value();
@@ -179,11 +184,11 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[GH_K_KS] = ui->doubleGhKks->value();
             args.params[GH_VTH_CA] = ui->doubleGhVthca->value();
             args.params[GH_VTH_K] = ui->doubleGhVthk->value();
-            args.params[GH_VTH_KS] = ui->doubleGhVthks->value();
+            args.params[GH_VTH_KS] = ui->doubleGhVthks->value();*/
 
             break;
         case WANG:
-            args.vars = (double*) malloc (sizeof(double) * 6);
+            /*args.vars = (double*) malloc (sizeof(double) * 6);
             args.params = (double *) malloc (sizeof(double) * 15);
 
             args.vars[VAR_X] = -66.5;
@@ -201,7 +206,7 @@ void RTHybrid::on_buttonStart_clicked()
             args.params[WANG_SIGMA] = 0.0;
             args.params[WANG_PHI] = 28.57;
             args.params[WANG_RHO] = 0.6;
-            args.params[WANG_TAUM] = 6.0;
+            args.params[WANG_TAUM] = 6.0;*/
 
             break;
         default:
@@ -412,20 +417,47 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
     {
         res = "resources/interaction_model_izhikevich.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Izhikevich_2003 * nmiz = new NM_GUI_Izhikevich_2003(&(this->args));
-        nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nmiz->show();
+        NM_GUI_Izhikevich_2003 * nm = new NM_GUI_Izhikevich_2003(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
         break;
     }
     case HR:
+    {
         res = "resources/interaction_model_hindmarsh_rose.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Hindmarsh_Rose_1986 * nm = new NM_GUI_Hindmarsh_Rose_1986(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
         break;
+    }
     case RLK:
+    {
         res = "resources/interaction_model_rulkov.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Rulkov_2002 * nm = new NM_GUI_Rulkov_2002(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
         break;
+    }
     case GH:
+    {
         res = "resources/interaction_model_ghigliazza_holmes.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Ghigliazza_Holmes_2004 * nm = new NM_GUI_Ghigliazza_Holmes_2004(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
         break;
+    }
+    case WANG:
+    {
+        res = "resources/interaction_model_ghigliazza_holmes.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Wang_1993 * nm = new NM_GUI_Wang_1993(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
     default:
         res = "resources/interaction_none.png";
         break;

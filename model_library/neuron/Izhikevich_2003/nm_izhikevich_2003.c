@@ -10,6 +10,36 @@
  */
 ///@{
 
+
+/**
+ * @brief Initializes Izhikevich neuron model.
+ *
+ * @param[in/out] nm Pointer to the neuron model structure
+ * @param[in] vars Neuron model variables entered as input arguments
+ * @param[in] params Neuron model parameters entered as input arguments
+ */
+
+void iz_init (neuron_model * nm, double * vars, double * params) {
+    nm->dim = 2;
+    nm->vars = (double *) malloc (sizeof(double) * nm->dim);
+    copy_1d_array(vars, nm->vars, nm->dim);
+
+    nm->n_params = 6;
+    nm->params = (double *) malloc (sizeof(double) * nm->n_params);
+    copy_1d_array(params, nm->params, nm->n_params);
+
+    nm->max = 30.240470;
+    nm->min = -74.235106;
+    nm->pts_burst = -1.0;
+
+    nm->func = &izhikevich_2003;
+    nm->set_pts_burst = &iz_set_pts_burst;
+    nm->method = integration_method_selector(params[IZ_DT]);
+
+    return;
+}
+
+
 /**
  * @brief Izhikevich neuron model differential equations.
  * @param[in] vars Neuron model variables
@@ -18,9 +48,9 @@
  * @param[in] syn Synapse input current value
  */
 
-void izh_f (double * vars, double * ret, double * params, double syn) {
-    ret[0] = 0.04 * vars[0]*vars[0] + 5*vars[0] + 140 - vars[1] + params[IZ_I] - syn;
-    ret[1] = params[IZ_A] * (params[IZ_B] * vars[0] - vars[1]);
+void iz_f (double * vars, double * ret, double * params, double syn) {
+    ret[IZ_V] = 0.04 * vars[IZ_V]*vars[IZ_V] + 5*vars[IZ_V] + 140 - vars[IZ_U] + params[IZ_I] - syn;
+    ret[IZ_U] = params[IZ_A] * (params[IZ_B] * vars[IZ_V] - vars[IZ_U]);
 
     return;
 }
@@ -35,12 +65,12 @@ void izh_f (double * vars, double * ret, double * params, double syn) {
  * @param[in] syn Synapse input current value
  */
 
-void izhikevich (neuron_model nm, double syn) {
-    runge_kutta_6 (izh_f, nm.dim, nm.params[IZ_DT], nm.vars, nm.params, syn);
+void izhikevich_2003 (neuron_model nm, double syn) {
+    nm.method(iz_f, nm.dim, nm.params[IZ_DT], nm.vars, nm.params, syn);
 
-    if (nm.vars[0] >= 30) {
-        nm.vars[0] = nm.params[IZ_C];
-        nm.vars[1] += nm.params[IZ_D];
+    if (nm.vars[IZ_V] >= 30) {
+        nm.vars[IZ_V] = nm.params[IZ_C];
+        nm.vars[IZ_U] += nm.params[IZ_D];
     }
 
     return;
@@ -82,4 +112,4 @@ void iz_set_pts_burst (double pts_live, neuron_model * nm) {
     return;
 }
 
-///@} 
+///@}

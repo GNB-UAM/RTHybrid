@@ -3,8 +3,7 @@
 
 #include <QWidget>
 #include <QSettings>
-#include "../../clamp/includes/types_clamp.h"
-#include "../../clamp/includes/neuron_models_functions.h"
+#include "nm_izhikevich_2003.h"
 
 namespace Ui {
 class NM_GUI_Izhikevich_2003;

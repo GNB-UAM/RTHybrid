@@ -2,8 +2,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>NM_GUI_Hindmarsh_Rose_1986</class>
- <widget name="NM_GUI_Hindmarsh_Rose_1986" class="QWidget">
+ <class>NM_GUI_Wang_1993</class>
+ <widget name="NM_GUI_Wang_1993" class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

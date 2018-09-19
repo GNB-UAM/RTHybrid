@@ -53,8 +53,6 @@ void NM_GUI_Izhikevich_2003::saveSettings() {
 void NM_GUI_Izhikevich_2003::loadSettings() {
     if (settings->value("DT", -1).toInt() == -1) return;
 
-    //printf("value %s\n", settings->fileName().toStdString().c_str());
-
     ui->doubleIzVIni->setValue(settings->value("VIni").toDouble());
     ui->doubleIzUIni->setValue(settings->value("UIni").toDouble());
     ui->doubleIzA->setValue(settings->value("A").toDouble());

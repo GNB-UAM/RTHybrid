@@ -11,7 +11,8 @@ extern "C" {
 #define NM_IZHIKEVICH_2003_H
 
 #include <math.h>
-#include "types_clamp.h"
+#include "../../../clamp/includes/types_clamp.h"
+#include "../../integration_methods.h"
 
 
 /** @name Izhikevich
@@ -19,6 +20,7 @@ extern "C" {
  */
 ///@{
 
+//Params
 #define IZ_I 0
 #define IZ_DT 1
 #define IZ_A 2
@@ -26,7 +28,14 @@ extern "C" {
 #define IZ_C 4
 #define IZ_D 5
 
-void izhikevich (neuron_model nm, double syn);
+//Vars
+#define IZ_U 0
+#define IZ_V 1
+
+
+void iz_init (neuron_model * nm, double * vars, double * params);
+
+void izhikevich_2003 (neuron_model nm, double syn);
 
 void iz_set_pts_burst (double pts_live, neuron_model * nm);
 
