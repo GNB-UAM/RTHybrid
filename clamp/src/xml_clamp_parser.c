@@ -36,10 +36,12 @@
 #define TYPE "type"
 
 /*CLAMP PARSER FUNCTIONS */
-static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
-static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm_iz_2003 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm_hr_1986 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm_rlk_2002 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm_gh_2004 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm_wang_1993 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
+static int parse_clamp_nm (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_synapse (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_syn_elec (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
 static int parse_clamp_syn_golowasch (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args);
@@ -92,7 +94,7 @@ int xml_clamp_parser (char * file, clamp_args * args) {
 
     while(cur != NULL) {
         if (xmlStrcmp(cur->name, (const xmlChar*) MODEL) == 0) {
-            ret = parse_clamp_model(doc, cur, args);
+            ret = parse_clamp_nm(doc, cur, args);
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) SYNAPSE) == 0) {
         	ret = parse_clamp_synapse(doc, cur, args);
@@ -141,7 +143,9 @@ int xml_clamp_parser (char * file, clamp_args * args) {
 
 
 
-static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+
+
+static int parse_clamp_nm_iz_2003 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;
 	int ret = OK;
 
@@ -172,7 +176,7 @@ static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 				if (xmlStrcmp(child->name, (const xmlChar *) "c") == 0) ret = parse_double(doc, child, &args->params[IZ_C], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) "d") == 0) ret = parse_double(doc, child, &args->params[IZ_D], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[IZ_I], (const xmlChar*) VALUE);
-				args->params[IZ_DT] = 0.001;
+                if (xmlStrcmp(child->name, (const xmlChar *) "method") == 0) ret = parse_int(doc, child, &args->params[IZ_DT], (const xmlChar*) VALUE);
 
 				if (ret != OK) return ret;
 
@@ -187,7 +191,7 @@ static int parse_clamp_model_iz (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 }
 
 
-static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_nm_hr_1986 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;
 	int ret = OK;
 
@@ -217,7 +221,7 @@ static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 				if (xmlStrcmp(child->name, (const xmlChar *) "r") == 0) ret = parse_double(doc, child, &args->params[HR_R], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) "s") == 0) ret = parse_double(doc, child, &args->params[HR_S], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[HR_I], (const xmlChar*) VALUE);
-				args->params[HR_DT] = 0.001;
+                if (xmlStrcmp(child->name, (const xmlChar *) "method") == 0) ret = parse_int(doc, child, &args->params[HR_DT], (const xmlChar*) VALUE);
 
 				if (ret != OK) return ret;
 
@@ -232,7 +236,7 @@ static int parse_clamp_model_hr (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 }
 
 
-static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_nm_rlk_2002 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;
 	int ret = OK;
 
@@ -276,7 +280,7 @@ static int parse_clamp_model_rlk (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 }
 
 
-static int parse_clamp_model_gh (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+static int parse_clamp_nm_gh_2004 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;
 	int ret = OK;
 
@@ -323,6 +327,8 @@ static int parse_clamp_model_gh (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 				if (xmlStrcmp(child->name, (const xmlChar *) "delta") == 0) ret = parse_double(doc, child, &args->params[GH_DELTA], (const xmlChar*) VALUE);
 				if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[GH_I], (const xmlChar*) VALUE);
 
+                if (xmlStrcmp(child->name, (const xmlChar *) "method") == 0) ret = parse_int(doc, child, &args->params[GH_DT], (const xmlChar*) VALUE);
+
 				if (ret != OK) return ret;
 
 				child = child->next;
@@ -336,8 +342,66 @@ static int parse_clamp_model_gh (xmlDocPtr doc, xmlNodePtr cur, clamp_args * arg
 }
 
 
+static int parse_clamp_nm_wang_1993 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+    xmlNodePtr child =  NULL;
+    int ret = OK;
 
-static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
+    if ((!doc) || (!cur) || (!args)) return ERR;
+
+    args->vars = (double*) malloc (sizeof(double) * 6);
+    args->params = (double *) malloc (sizeof(double) * 15);
+
+    while (cur != NULL) {
+        if (xmlStrcmp(cur->name, (const xmlChar *) VARS) == 0) {
+            child = cur->xmlChildrenNode;
+
+            while (child != NULL) {
+                if (xmlStrcmp(child->name, (const xmlChar *) X_VAR) == 0) ret = parse_double(doc, child, &args->vars[WANG_V], (const xmlChar*) VALUE);
+
+                if (ret != OK) return ret;
+
+                child = child->next;
+            }
+        }
+        else if (xmlStrcmp(cur->name, (const xmlChar *) PARAMS) == 0) {
+            child = cur->xmlChildrenNode;
+
+            while (child != NULL) {
+                if (xmlStrcmp(child->name, (const xmlChar *) "g_na") == 0) ret = parse_double(doc, child, &args->params[WANG_G_NA], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "v_na") == 0) ret = parse_double(doc, child, &args->params[WANG_V_NA], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "g_nap") == 0) ret = parse_double(doc, child, &args->params[WANG_G_NAP], (const xmlChar*) VALUE);
+
+                if (xmlStrcmp(child->name, (const xmlChar *) "g_k") == 0) ret = parse_double(doc, child, &args->params[WANG_G_K], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "v_k") == 0) ret = parse_double(doc, child, &args->params[WANG_V_K], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "g_ks") == 0) ret = parse_double(doc, child, &args->params[WANG_G_KS], (const xmlChar*) VALUE);
+
+                if (xmlStrcmp(child->name, (const xmlChar *) "g_l") == 0) ret = parse_double(doc, child, &args->params[WANG_G_L], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "v_l") == 0) ret = parse_double(doc, child, &args->params[WANG_V_L], (const xmlChar*) VALUE);
+
+                if (xmlStrcmp(child->name, (const xmlChar *) "cm") == 0) ret = parse_double(doc, child, &args->params[WANG_CM], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "sigma") == 0) ret = parse_double(doc, child, &args->params[WANG_SIGMA], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "rho") == 0) ret = parse_double(doc, child, &args->params[WANG_RHO], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "phi") == 0) ret = parse_double(doc, child, &args->params[WANG_PHI], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "taum") == 0) ret = parse_double(doc, child, &args->params[WANG_TAUM], (const xmlChar*) VALUE);
+                if (xmlStrcmp(child->name, (const xmlChar *) "i") == 0) ret = parse_double(doc, child, &args->params[WANG_I], (const xmlChar*) VALUE);
+
+                if (xmlStrcmp(child->name, (const xmlChar *) "method") == 0) ret = parse_int(doc, child, &args->params[WANG_DT], (const xmlChar*) VALUE);
+
+                if (ret != OK) return ret;
+
+                child = child->next;
+            }
+        }
+
+    cur = cur->next;
+    }
+
+    return OK;
+}
+
+
+
+static int parse_clamp_nm (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	int ret = ERR;
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
@@ -346,18 +410,24 @@ static int parse_clamp_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) 
 
 
 	switch(args->model) {
+        case EMPTY_NEURON:
+            ret = OK;
+            break;
 		case IZ:
-			ret = parse_clamp_model_iz(doc, cur->xmlChildrenNode, args);
+            ret = parse_clamp_nm_iz_2003(doc, cur->xmlChildrenNode, args);
 			break;
 		case HR:
-			ret = parse_clamp_model_hr(doc, cur->xmlChildrenNode, args);
+            ret = parse_clamp_nm_hr_1986(doc, cur->xmlChildrenNode, args);
 			break;
 		case RLK:
-			ret = parse_clamp_model_rlk(doc, cur->xmlChildrenNode, args);
+            ret = parse_clamp_nm_rlk_2002(doc, cur->xmlChildrenNode, args);
 			break;
 		case GH:
-			ret = parse_clamp_model_gh(doc, cur->xmlChildrenNode, args);
+            ret = parse_clamp_nm_gh_2004(doc, cur->xmlChildrenNode, args);
 			break;
+        case WANG:
+            ret = parse_clamp_nm_wang_1993(doc, cur->xmlChildrenNode, args);
+            break;
 		default:
 			return ERR;
 	}
@@ -452,6 +522,9 @@ static int parse_clamp_synapse (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args
 
 
 	switch(args->synapse) {
+        case EMPTY_SYN:
+            ret = OK;
+            break;
 		case ELECTRIC:
 			ret = parse_clamp_syn_elec(doc, cur->xmlChildrenNode, args);
 			break;

@@ -11,6 +11,8 @@
 			<c val="-50.0"/>
 			<d val="2.0"/>
 			<i val="10.0"/>
+
+			<method val="3"/>
 		</params>
 	</model>
 

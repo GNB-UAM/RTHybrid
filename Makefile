@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -D_GNU_SOURCE -I/usr/include/libxml2 -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -I/usr/include/libxml2 -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtMultimedia -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -Iui -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -255,7 +255,7 @@ TARGET        = RTHybrid
 first: all
 ####### Build rules
 
-$(TARGET): ui_rthybrid.h ui_nm_gui_wang_1993.h ui_nm_gui_ghigliazza_holmes_2004.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h ui_nm_gui_rulkov_2002.h $(OBJECTS)  
+$(TARGET): ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: rthybrid.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -441,7 +441,7 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp
-moc/moc_rthybrid.cpp: ui_rthybrid.h \
+moc/moc_rthybrid.cpp: ui/ui_rthybrid.h \
 		gui/clamplauncher.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
@@ -539,32 +539,32 @@ moc/moc_nm_gui_rulkov_2002.cpp: model_library/neuron/Rulkov_2002/nm_rulkov_2002.
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_rthybrid.h ui_nm_gui_wang_1993.h ui_nm_gui_ghigliazza_holmes_2004.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h ui_nm_gui_rulkov_2002.h
+compiler_uic_make_all: ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_rthybrid.h ui_nm_gui_wang_1993.h ui_nm_gui_ghigliazza_holmes_2004.h ui_nm_gui_hindmarsh_rose_1986.h ui_nm_gui_izhikevich_2003.h ui_nm_gui_rulkov_2002.h
-ui_rthybrid.h: gui/rthybrid.ui \
+	-$(DEL_FILE) ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h
+ui/ui_rthybrid.h: gui/rthybrid.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic gui/rthybrid.ui -o ui_rthybrid.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic gui/rthybrid.ui -o ui/ui_rthybrid.h
 
-ui_nm_gui_wang_1993.h: model_library/neuron/Wang_1993/nm_gui_wang_1993.ui \
+ui/ui_nm_gui_wang_1993.h: model_library/neuron/Wang_1993/nm_gui_wang_1993.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Wang_1993/nm_gui_wang_1993.ui -o ui_nm_gui_wang_1993.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Wang_1993/nm_gui_wang_1993.ui -o ui/ui_nm_gui_wang_1993.h
 
-ui_nm_gui_ghigliazza_holmes_2004.h: model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui \
+ui/ui_nm_gui_ghigliazza_holmes_2004.h: model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui -o ui_nm_gui_ghigliazza_holmes_2004.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui -o ui/ui_nm_gui_ghigliazza_holmes_2004.h
 
-ui_nm_gui_hindmarsh_rose_1986.h: model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui \
+ui/ui_nm_gui_hindmarsh_rose_1986.h: model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui -o ui_nm_gui_hindmarsh_rose_1986.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui -o ui/ui_nm_gui_hindmarsh_rose_1986.h
 
-ui_nm_gui_izhikevich_2003.h: model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
+ui/ui_nm_gui_izhikevich_2003.h: model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui -o ui_nm_gui_izhikevich_2003.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui -o ui/ui_nm_gui_izhikevich_2003.h
 
-ui_nm_gui_rulkov_2002.h: model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui \
+ui/ui_nm_gui_rulkov_2002.h: model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui -o ui_nm_gui_rulkov_2002.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui -o ui/ui_nm_gui_rulkov_2002.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -601,7 +601,7 @@ obj/xml_parser_functions.o: common/src/xml_parser_functions.c common/includes/xm
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xml_parser_functions.o common/src/xml_parser_functions.c
 
 obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
-		ui_rthybrid.h \
+		ui/ui_rthybrid.h \
 		gui/clamplauncher.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
@@ -682,7 +682,7 @@ obj/clamplauncher.o: gui/clamplauncher.cpp gui/clamplauncher.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/clamplauncher.o gui/clamplauncher.cpp
 
 obj/main.o: gui/main.cpp gui/rthybrid.h \
-		ui_rthybrid.h \
+		ui/ui_rthybrid.h \
 		gui/clamplauncher.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
@@ -836,7 +836,7 @@ obj/nm_gui_wang_1993.o: model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp mode
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		model_library/integration_methods.h \
-		ui_nm_gui_wang_1993.h
+		ui/ui_nm_gui_wang_1993.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_wang_1993.o model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp
 
 obj/nm_gui_ghigliazza_holmes_2004.o: model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h \
@@ -845,7 +845,7 @@ obj/nm_gui_ghigliazza_holmes_2004.o: model_library/neuron/Ghigliazza_Holmes_2004
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		model_library/integration_methods.h \
-		ui_nm_gui_ghigliazza_holmes_2004.h
+		ui/ui_nm_gui_ghigliazza_holmes_2004.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_ghigliazza_holmes_2004.o model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp
 
 obj/nm_gui_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
@@ -854,7 +854,7 @@ obj/nm_gui_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_gu
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		model_library/integration_methods.h \
-		ui_nm_gui_hindmarsh_rose_1986.h
+		ui/ui_nm_gui_hindmarsh_rose_1986.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_hindmarsh_rose_1986.o model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp
 
 obj/nm_gui_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h \
@@ -863,7 +863,7 @@ obj/nm_gui_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_gui_izhike
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
 		model_library/integration_methods.h \
-		ui_nm_gui_izhikevich_2003.h
+		ui/ui_nm_gui_izhikevich_2003.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_izhikevich_2003.o model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp
 
 obj/nm_gui_rulkov_2002.o: model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h \
@@ -871,7 +871,7 @@ obj/nm_gui_rulkov_2002.o: model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cp
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		ui_nm_gui_rulkov_2002.h
+		ui/ui_nm_gui_rulkov_2002.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_rulkov_2002.o model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp
 
 obj/nm_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \

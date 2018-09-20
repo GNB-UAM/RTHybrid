@@ -94,12 +94,6 @@ void RTHybrid::on_buttonStart_clicked()
 
 
 
-    /*if (!ui->autoDetect->isChecked()) {
-        args.sec_per_burst = ui->doubleSecPerBurst->value();
-    } else {
-        args.sec_per_burst = -1;
-    }*/
-
     args.sec_per_burst = (!ui->autoDetect->isChecked()) ?  ui->doubleSecPerBurst->value() : -1;
     args.check_drift = (ui->checkDrift->isChecked()) ? TRUE : FALSE;
 
@@ -115,105 +109,6 @@ void RTHybrid::on_buttonStart_clicked()
     args.input_factor = ui->doubleInputFactor->value();
     args.output_factor = ui->doubleOutputFactor->value();
 
-    switch (args.model) {
-        case EMPTY_NEURON:
-            break;
-        case IZ: //Izhikevich
-            /*args.vars = (double*) malloc (sizeof(double) * 2);
-            args.params = (double *) malloc (sizeof(double) * 6);
-
-            args.vars[VAR_X] = ui->doubleIzVini->value();
-            args.vars[VAR_Y] = ui->doubleIzUini->value();
-
-            args.params[IZ_A] = ui->doubleIzA->value();
-            args.params[IZ_B] = ui->doubleIzB->value();
-            args.params[IZ_C] = ui->doubleIzC->value();
-            args.params[IZ_D] = ui->doubleIzD->value();
-            args.params[IZ_I] = ui->doubleIzI->value();
-            args.params[IZ_DT] = 0.001;*/
-
-            break;
-        case HR: //Hindmarsh-Rose
-            /*args.vars = (double*) malloc (sizeof(double) * 3);
-            args.params = (double *) malloc (sizeof(double) * 4);
-
-            args.vars[VAR_X] = ui->doubleHrXIni->value();
-            args.vars[VAR_Y] = ui->doubleHrYIni->value();
-            args.vars[VAR_Z] = ui->doubleHrZIni->value();
-
-            args.params[HR_R] = ui->doubleHrR->value();
-            args.params[HR_S] = ui->doubleHrS->value();
-            args.params[HR_I] = ui->doubleHrI->value();
-            args.params[HR_DT] = 0.001;*/
-
-            break;
-        case RLK: //Rulkov
-            /*args.vars = (double*) malloc (sizeof(double) * 2);
-            args.params = (double *) malloc (sizeof(double) * 8);
-
-            args.vars[VAR_X] = ui->doubleRlkXIni->value();
-            args.vars[VAR_Y] = ui->doubleRlkYIni->value();
-
-            args.params[RLK_ALPHA] = ui->doubleRlkAlpha->value();
-            args.params[RLK_SIGMA] = ui->doubleRlkSigma->value();
-            args.params[RLK_MU] = ui->doubleRlkMu->value();
-            args.params[RLK_I] = ui->doubleRlkI->value();
-            args.params[RLK_OLD] = 0.0;
-            args.params[RLK_INTER] = 0.0;*/
-
-            break;
-        case GH: //Ghigliazza-Holmes
-            /*args.vars = (double*) malloc (sizeof(double) * 3);
-            args.params = (double *) malloc (sizeof(double) * 18);
-
-            args.vars[VAR_X] = ui->doubleGhX0->value();
-
-            args.params[GH_I] = ui->doubleGhIext->value();
-            args.params[GH_G_CA] = ui->doubleGhGca->value();
-            args.params[GH_G_K] = ui->doubleGhGk->value();
-            args.params[GH_G_L] = ui->doubleGhGl->value();
-            args.params[GH_G_KS] = ui->doubleGhGks->value();
-            args.params[GH_CM] = ui->doubleGhC->value();
-            args.params[GH_E_CA] = ui->doubleGhEca->value();
-            args.params[GH_E_K] = ui->doubleGhEk->value();
-            args.params[GH_E_L] = ui->doubleGhEl->value();
-            args.params[GH_EPSILON] = ui->doubleGhEpsilon->value();
-            args.params[GH_DELTA] = ui->doubleGhDelta->value();
-            args.params[GH_K_CA] = ui->doubleGhKca->value();
-            args.params[GH_K_K] = ui->doubleGhKk->value();
-            args.params[GH_K_KS] = ui->doubleGhKks->value();
-            args.params[GH_VTH_CA] = ui->doubleGhVthca->value();
-            args.params[GH_VTH_K] = ui->doubleGhVthk->value();
-            args.params[GH_VTH_KS] = ui->doubleGhVthks->value();*/
-
-            break;
-        case WANG:
-            /*args.vars = (double*) malloc (sizeof(double) * 6);
-            args.params = (double *) malloc (sizeof(double) * 15);
-
-            args.vars[VAR_X] = -66.5;
-
-            args.params[WANG_I] = 2.5;
-            args.params[WANG_G_NA] = 52.0;
-            args.params[WANG_G_NAP] = 0.1;
-            args.params[WANG_G_K] = 20.0;
-            args.params[WANG_G_KS] = 14.0;
-            args.params[WANG_G_L] = 0.1;
-            args.params[WANG_CM] = 1.0;
-            args.params[WANG_V_NA] = 55.0;
-            args.params[WANG_V_K] = -90.0;
-            args.params[WANG_V_L] = -60.0;
-            args.params[WANG_SIGMA] = 0.0;
-            args.params[WANG_PHI] = 28.57;
-            args.params[WANG_RHO] = 0.6;
-            args.params[WANG_TAUM] = 6.0;*/
-
-            break;
-        default:
-            break;
-    }
-
-    //args.anti = false;
 
     if (autocalIndex == 0 || autocalIndex == 3){
         switch (args.synapse) {

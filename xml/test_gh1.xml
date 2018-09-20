@@ -26,6 +26,8 @@
 			<epsilon val="4.9"/>
 			<delta val="0.052"/>
 			<i val="35.6"/>
+
+			<method val="1"/>
 		</params>
 	</model>
 
@@ -66,7 +68,7 @@
 
 	<input_channels val="0"/>
 
-	<input_factor val="100"/>
+	<input_factor val="1000"/>
 
 	<output_factor val="1"/>
 
@@ -74,6 +76,6 @@
 
 	<drift val="1"/>
 
-	<sec_per_burst val="-1"/>
+	<sec_per_burst val="0.33"/>
 
 </clamp>

@@ -1,0 +1,34 @@
+<clamp>
+	
+	<model type="0">
+	</model>
+
+	<synapse type="0">
+	</synapse>
+
+	<calib type="0"></calib>
+
+	<freq val="10000"/>
+
+	<times>
+		<before val="5"/>
+		<duration val="10"/>
+		<after val="5"/>
+		<observation val="10"/>
+	</times>
+
+	<output_channels val="0,1"/>
+
+	<input_channels val="0"/>
+
+	<input_factor val="1000"/>
+
+	<output_factor val="1"/>
+
+	<imp val="0"/>
+
+	<drift val="1"/>
+
+	<sec_per_burst val="0.33"/>
+
+</clamp>

@@ -207,6 +207,7 @@ int clamp (clamp_args * args) {
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
     free_pointers(4 , &(args->input_channels), &(args->output_channels), /*&(args->vars), &(args->params),*/ &(args->syn_args_live_to_model), &(args->syn_args_model_to_live));
+    /* vars y params no se liberan al acabar porque si se vuelve a ejecutar el experimento sin cambiar de modelo pues petaria */
 
     syslog(LOG_INFO, "CLAMP: Pointers freed");
 

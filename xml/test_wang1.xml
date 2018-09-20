@@ -1,22 +1,34 @@
 <clamp>
 
-	<model type="2">
+	<model type="5">
 		<vars>
-			<x val="-0.712841"/>
-			<y val="-1.936880"/>
-			<z val="3.165680"/>
+			<x val="-66.5"/>
 		</vars>
 		<params>
-			<r val="0.0021"/>
-			<s val="4.0"/>
-			<i val="3.0"/>
+			<g_na val="52.0"/>
+            <v_na val="55.0"/>
+            <g_nap val="0.1"/>
 
-			<method val="3"/>
+            <g_k val="20.0"/>
+            <v_k val="-90.0"/>
+            <g_ks val="14.0"/>
+
+            <g_l val="0.1"/>
+            <v_l val="-60.0"/>
+
+            <cm val="1.0"/>
+            <sigma val="0.0"/>
+            <rho val="0.6"/>
+            <phi val="28.57"/>
+            <taum val="6.0"/>
+            <i val="2.5"/>
+
+            <method val="3"/>
 		</params>
 	</model>
 
 	<synapse type="2">
-		<g_real_to_virtual_fast val="0.8"/>
+		<g_real_to_virtual_fast val="0.01"/>
 		<vfast_real_to_virtual val="25.0"/>
 		<sfast_real_to_virtual val="5.0"/>
 		
@@ -30,7 +42,7 @@
 		<vfast_virtual_to_real val="0.0"/>
 		<sfast_virtual_to_real val="0.0"/>
 
-		<g_virtual_to_real_slow val="0.08"/>
+		<g_virtual_to_real_slow val="0.002"/>
 		<vslow_virtual_to_real val="15.0"/>
 		<sslow_virtual_to_real val="1.0"/>
 		<k1_virtual_to_real val="1.4"/>
@@ -39,7 +51,7 @@
 
 	<calib type="0"></calib>
 
-	<freq val="20000"/>
+	<freq val="10000"/>
 
 	<times>
 		<before val="5"/>
@@ -52,7 +64,7 @@
 
 	<input_channels val="0"/>
 
-	<input_factor val="1"/>
+	<input_factor val="1000"/>
 
 	<output_factor val="1"/>
 
@@ -60,6 +72,6 @@
 
 	<drift val="1"/>
 
-	<sec_per_burst val="0.25"/>
+	<sec_per_burst val="-1"/>
 
 </clamp>
