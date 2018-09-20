@@ -14,7 +14,7 @@ class NM_GUI_Hindmarsh_Rose_1986 : public QWidget
     Q_OBJECT
 
 public:
-    explicit NM_GUI_Hindmarsh_Rose_1986(QWidget *parent = 0);
+    explicit NM_GUI_Hindmarsh_Rose_1986(clamp_args * args = NULL, QWidget *parent = 0);
     ~NM_GUI_Hindmarsh_Rose_1986();
 
 private slots:

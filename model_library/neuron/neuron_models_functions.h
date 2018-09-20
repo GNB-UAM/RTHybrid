@@ -11,7 +11,7 @@ extern "C" {
 #define NEURON_MODELS_FUNCTIONS_H
 
 #include <math.h>
-#include "types_clamp.h"
+#include "../../clamp/includes/types_clamp.h"
 
 #include "Empty/nm_empty.h"
 #include "Izhikevich_2003/nm_izhikevich_2003.h"

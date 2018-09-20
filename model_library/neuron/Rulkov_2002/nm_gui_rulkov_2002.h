@@ -14,7 +14,7 @@ class NM_GUI_Rulkov_2002 : public QWidget
     Q_OBJECT
 
 public:
-    explicit NM_GUI_Rulkov_2002(QWidget *parent = 0);
+    explicit NM_GUI_Rulkov_2002(clamp_args * args = NULL, QWidget *parent = 0);
     ~NM_GUI_Rulkov_2002();
 
 private slots:

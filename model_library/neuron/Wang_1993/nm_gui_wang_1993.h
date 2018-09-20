@@ -14,8 +14,11 @@ class NM_GUI_Wang_1993 : public QWidget
     Q_OBJECT
 
 public:
-    explicit NM_GUI_Wang_1993(QWidget *parent = 0);
+    explicit NM_GUI_Wang_1993(clamp_args * args = NULL, QWidget *parent = 0);
     ~NM_GUI_Wang_1993();
+
+private slots:
+    void on_pushButton_accept_clicked();
 
 private:
     Ui::NM_GUI_Wang_1993 *ui;

@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Ghigliazza-Holmes (2004) neuron model</string>
   </property>
   <widget class="QLabel" name="label_34">
    <property name="geometry">

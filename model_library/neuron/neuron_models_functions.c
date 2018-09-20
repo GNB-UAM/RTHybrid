@@ -3,7 +3,7 @@
  * @brief Source file with the neuron models functions.
  */
 
-#include "../includes/neuron_models_functions.h"
+#include "neuron_models_functions.h"
 
 /* General functions */
 

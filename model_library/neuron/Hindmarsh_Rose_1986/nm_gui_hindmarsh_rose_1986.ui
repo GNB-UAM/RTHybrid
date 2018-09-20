@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Hindmarsh-Rose (1986) neuron model</string>
   </property>
   <widget class="QLabel" name="label_9">
    <property name="geometry">

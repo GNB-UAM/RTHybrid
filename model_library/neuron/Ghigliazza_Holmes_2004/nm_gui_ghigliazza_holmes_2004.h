@@ -14,7 +14,7 @@ class NM_GUI_Ghigliazza_Holmes_2004 : public QWidget
     Q_OBJECT
 
 public:
-    explicit NM_GUI_Ghigliazza_Holmes_2004(QWidget *parent = 0);
+    explicit NM_GUI_Ghigliazza_Holmes_2004(clamp_args * args = NULL, QWidget *parent = 0);
     ~NM_GUI_Ghigliazza_Holmes_2004();
 
 private slots:

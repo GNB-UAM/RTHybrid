@@ -34,7 +34,7 @@ void hr_init (neuron_model * nm, double * vars, double * params) {
     nm->min = -1.608734;
     nm->pts_burst = -1.0;
 
-    nm->func = &hindmarsh_rose;
+    nm->func = &hindmarsh_rose_1986;
     nm->set_pts_burst = &hr_set_pts_burst;
     nm->method = integration_method_selector(params[HR_DT]);
 

@@ -266,7 +266,7 @@ double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
 
     ret = g * params->ms_old * (v_post - e_syn);
 
-    runge_kutta_6(&gl_ms_f, 1, params->dt, vars, params_ms, v_pre);
+    runge_kutta_65(&gl_ms_f, 1, params->dt, vars, params_ms, v_pre);
     params->ms_old = vars[0];
     //printf("%f\n\n", aux[GL_MS_OLD]);
 

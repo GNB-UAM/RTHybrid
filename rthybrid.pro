@@ -100,7 +100,9 @@ SOURCES += \
     model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c \
     model_library/neuron/Rulkov_2002/nm_rulkov_2002.c \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c \
-    model_library/neuron/Wang_1993/nm_wang_1993.c
+    model_library/neuron/Wang_1993/nm_wang_1993.c \
+    model_library/neuron/neuron_models_functions.c \
+    model_library/neuron/Empty/nm_empty.c
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -132,7 +134,9 @@ HEADERS += \
     model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
     model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
-    model_library/neuron/Wang_1993/nm_wang_1993.h
+    model_library/neuron/Wang_1993/nm_wang_1993.h \
+    model_library/neuron/neuron_models_functions.h \
+    model_library/neuron/Empty/nm_empty.h
 
 FORMS += \
     gui/rthybrid.ui \

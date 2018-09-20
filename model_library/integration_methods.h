@@ -18,6 +18,7 @@ extern "C" {
 #define EULER 2
 #define HEUN 3
 
+void * integration_method_selector (unsigned int id);
 
 void runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux);
 

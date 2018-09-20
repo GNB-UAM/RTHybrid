@@ -7,7 +7,7 @@ extern "C" {
 
 #include "../../common/includes/xml_parser_functions.h"
 #include "types_clamp.h"
-#include "neuron_models_functions.h"
+#include "../../model_library/neuron/neuron_models_functions.h"
 #include "synapse_models_functions.h"
 
 #ifdef __cplusplus
