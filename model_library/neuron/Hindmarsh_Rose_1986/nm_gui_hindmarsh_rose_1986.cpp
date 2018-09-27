@@ -5,7 +5,7 @@ NM_GUI_Hindmarsh_Rose_1986::NM_GUI_Hindmarsh_Rose_1986(clamp_args * args, QWidge
     QWidget(parent),
     ui(new Ui::NM_GUI_Hindmarsh_Rose_1986)
 {
-    this->settings = new QSettings("RTHybrid", "Hindmarsh_Rose_1986");
+    this->settings = new QSettings("RTHybrid", "NM_Hindmarsh_Rose_1986");
     //printf("HR %s\n", settings->fileName().toStdString().c_str());
 
     this->args = args;

@@ -5,7 +5,7 @@ NM_GUI_Ghigliazza_Holmes_2004::NM_GUI_Ghigliazza_Holmes_2004(clamp_args * args, 
     QWidget(parent),
     ui(new Ui::NM_GUI_Ghigliazza_Holmes_2004)
 {
-    this->settings = new QSettings("RTHybrid", "Ghigliazza_Holmes_2004");
+    this->settings = new QSettings("RTHybrid", "NM_Ghigliazza_Holmes_2004");
     //printf("GH %s\n", settings->fileName().toStdString().c_str());
 
     this->args = args;

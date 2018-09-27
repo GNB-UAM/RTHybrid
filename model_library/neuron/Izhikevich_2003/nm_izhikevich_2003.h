@@ -29,8 +29,8 @@ extern "C" {
 #define IZ_D 5
 
 //Vars
-#define IZ_U 0
-#define IZ_V 1
+#define IZ_V 0
+#define IZ_U 1
 
 
 void iz_init (neuron_model * nm, double * vars, double * params);

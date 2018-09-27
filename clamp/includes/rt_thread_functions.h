@@ -3,7 +3,7 @@
 
 #include "time_functions.h"
 #include "../../model_library/neuron/neuron_models_functions.h"
-#include "synapse_models_functions.h"
+#include "../../model_library/synapse/synapse_models_functions.h"
 #include "queue_functions.h"
 #include "calibrate_functions_phase1.h"
 #include "calibrate_functions_phase2_a.h"

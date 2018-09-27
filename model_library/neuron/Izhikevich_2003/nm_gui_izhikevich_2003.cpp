@@ -5,7 +5,7 @@ NM_GUI_Izhikevich_2003::NM_GUI_Izhikevich_2003(clamp_args * args, QWidget *paren
     QWidget(parent),
     ui(new Ui::NM_GUI_Izhikevich_2003)
 {
-    this->settings = new QSettings("RTHybrid", "Izhikevich_2003");
+    this->settings = new QSettings("RTHybrid", "NM_Izhikevich_2003");
 
     this->args = args;
     ui->setupUi(this);

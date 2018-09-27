@@ -5,7 +5,7 @@ NM_GUI_Wang_1993::NM_GUI_Wang_1993(clamp_args * args, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NM_GUI_Wang_1993)
 {
-    this->settings = new QSettings("RTHybrid", "Wang_1993");
+    this->settings = new QSettings("RTHybrid", "NM_Wang_1993");
     //printf("Wang %s\n", settings->fileName().toStdString().c_str());
 
     this->args = args;

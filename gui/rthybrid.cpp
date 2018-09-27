@@ -355,6 +355,7 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
     }
     default:
         res = "resources/interaction_none.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
         break;
     }
 

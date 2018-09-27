@@ -1,26 +1,21 @@
-/**
- * @file synapse_models_functions.h
- * @brief Header file for the synapse models functions.
+ /**
+ * @file sm_golowasch_et_al_1999.h
+ * @brief Header file for the Golowasch et al. synapse model functions.
  */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef SYNAPSE_MODELS_FUNCTIONS_H
-#define SYNAPSE_MODELS_FUNCTIONS_H
+#ifndef SM_GOLOWASCH_ET_AL_1999_H
+#define SM_GOLOWASCH_ET_AL_1999_H
 
 #include <math.h>
-#include "types_clamp.h"
+#include "../../../clamp/includes/types_clamp.h"
+#include "../../integration_methods.h"
 
 
-/* MACROS */
-
-#define EMPTY_SYN 0
-#define ELECTRIC 1
-#define GOLOWASCH 2
-
-/* General */
+/* General quizas hay que hacer una funcion de syn general, o un types*/
 #define SYN_MODEL_TO_LIVE 0
 #define SYN_LIVE_TO_MODEL 1
 
@@ -30,60 +25,6 @@ extern "C" {
 
 #define SYN_CALIB_PRE 0
 #define SYN_CALIB_POST 1
-
-
-/* General */
-void init_synapse_model (synapse_model * sm, int model, void * syn_args);
-
-void free_synapse_model (synapse_model * sm);
-
-
-/** @name Empty
- *  Empty synapse model. 
- */
-///@{
-
-void empty_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
-
-///@}
-
-
-/** @name Electrical
- *  Electrical synapse model. 
- */
-///@{
-
-#define ELEC_N_G 1
-#define ELEC_G 0
-
-
-/**
- * @brief Structure that stores the arguments specified by the user.
- *
- * It is specific for the electrical synapse and will be used as argument in #init_synapse_model.
- */	
-typedef struct {
-    double g[ELEC_N_G]; /**< Conductances array with length #ELEC_N_G*/
-    int anti;           /**< Antiphase multiplier value */
-} syn_elec_args;
-
-
-/**
- * @brief Structure that stores the parameters of the electrical synapse model.
- *
- * It is initialized in #init_synapse_model and is part of #synapse_model.
- */ 
-typedef struct {
-    int anti; /**< Antiphase multiplier value */
-} syn_elec_params;
-
-
-
-void elec_set_online_params (synapse_model * sm, double scale, double offset);
-
-void elec_syn (double v_post, double v_pre, synapse_model * sm, double * ret);
-
-///@}
 
 
 /** @name Golowasch
@@ -146,18 +87,18 @@ typedef struct {
 } syn_gl_params;
 
 
+void golowasch_et_al_1999_init (synapse_model * sm, void * syn_args);
 
-void gl_set_online_params (synapse_model * sm, double scale, double offset, double min, double max);
-
-void golowasch_syn (double v_post, double v_pre, synapse_model * params, double * ret);
+void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * params, double * ret);
 
 ///@}
 
 
 
-#endif // SYNAPSE_MODELS_FUNCTIONS_H
+#endif // SM_GOLOWASCH_ET_AL_1999_H
 
 
 #ifdef __cplusplus
 }
-#endif
+#endif 
+

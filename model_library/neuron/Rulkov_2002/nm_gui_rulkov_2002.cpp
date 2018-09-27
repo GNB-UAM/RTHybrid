@@ -5,7 +5,7 @@ NM_GUI_Rulkov_2002::NM_GUI_Rulkov_2002(clamp_args * args, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NM_GUI_Rulkov_2002)
 {
-    this->settings = new QSettings("RTHybrid", "Rulkov_2002");
+    this->settings = new QSettings("RTHybrid", "NM_Rulkov_2002");
     //printf("Rulkov %s\n", settings->fileName().toStdString().c_str());
 
     this->args = args;

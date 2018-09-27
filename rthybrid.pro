@@ -87,7 +87,6 @@ SOURCES += \
     clamp/src/calibrate_functions_phase2_a.c \
     clamp/src/clamp.c \
     clamp/src/rt_thread_functions.c \
-    clamp/src/synapse_models_functions.c \
     clamp/src/time_functions.c \
     clamp/src/writer_thread_functions.c \
     clamp/src/xml_clamp_parser.c \
@@ -103,7 +102,11 @@ SOURCES += \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c \
     model_library/neuron/Wang_1993/nm_wang_1993.c \
     model_library/neuron/neuron_models_functions.c \
-    model_library/neuron/Empty/nm_empty.c
+    model_library/neuron/Empty/nm_empty.c \
+    model_library/synapse/Electrical/sm_gui_electrical.cpp \
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.cpp \
+    model_library/synapse/Empty/sm_empty.c \
+    model_library/synapse/synapse_models_functions.c
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -119,7 +122,6 @@ HEADERS += \
     clamp/includes/device_functions.h \
     clamp/includes/queue_functions.h \
     clamp/includes/rt_thread_functions.h \
-    clamp/includes/synapse_models_functions.h \
     clamp/includes/time_functions.h \
     clamp/includes/types_clamp.h \
     clamp/includes/writer_thread_functions.h \
@@ -137,7 +139,11 @@ HEADERS += \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
     model_library/neuron/Wang_1993/nm_wang_1993.h \
     model_library/neuron/neuron_models_functions.h \
-    model_library/neuron/Empty/nm_empty.h
+    model_library/neuron/Empty/nm_empty.h \
+    model_library/synapse/Electrical/sm_gui_electrical.h \
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
+    model_library/synapse/Empty/sm_empty.h \
+    model_library/synapse/synapse_models_functions.h
 
 FORMS += \
     gui/rthybrid.ui \
@@ -145,4 +151,6 @@ FORMS += \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui \
     model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui \
     model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
-    model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui
+    model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui \
+    model_library/synapse/Electrical/sm_gui_electrical.ui \
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.ui

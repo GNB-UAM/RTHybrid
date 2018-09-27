@@ -51,6 +51,8 @@ typedef struct synapse_model synapse_model;
  */ 
 struct synapse_model {
     void (*func)(double, double, synapse_model*, double*);	/**< Pointer to the main function of the model (defined in synapse_models_functions.h) */
+    void (*set_online_parameters)
+    	(synapse_model * sm, double scale, double offset);	/**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
     unsigned int type;										/**< Integer that identifies the model (using the macros defined in synapse_models_functions.h) */
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */

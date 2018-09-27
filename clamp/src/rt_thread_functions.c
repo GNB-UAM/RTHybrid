@@ -359,65 +359,8 @@ void * rt_thread(void * arg) {
     Initialize synapse models
     ****************************************************/
 
-    switch (args->sm_live_to_model.type) {
-        case EMPTY_SYN:
-        {
-            break;
-        }
-        case ELECTRIC:
-        {
-            elec_set_online_params(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual);
-            elec_set_online_params(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real);
-
-
-            if(args->calibration != 0 && args->calibration != 6){
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Inside autocal");
-                args->sm_model_to_live.g[0] = 0.0;
-                args->sm_live_to_model.g[0] = 0.0;
-            }
-
-            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Elec set finalized");
-        
-            break;
-        }
-        case GOLOWASCH:
-        {
-            gl_set_online_params(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real);
-            gl_set_online_params(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real, min_abs_model, max_abs_model);
-
-            if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Calibration mode = %i", args->calibration);
-
-            if(args->calibration == 7){
-                ((calibration_args*)cal_struct)->g_virtual_to_real = (double *) malloc (sizeof(double) * 2);
-                ((calibration_args*)cal_struct)->g_real_to_virtual = (double *) malloc (sizeof(double) * 2);
-                copy_1d_array(args->sm_model_to_live.g, ((calibration_args*)cal_struct)->g_virtual_to_real, 2);
-                copy_1d_array(args->sm_live_to_model.g, ((calibration_args*)cal_struct)->g_real_to_virtual, 2);
-
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_fast = %f", ((calibration_args*)cal_struct)->g_virtual_to_real[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_V-R_slow = %f", ((calibration_args*)cal_struct)->g_virtual_to_real[GL_G_SLOW]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_fast = %f", ((calibration_args*)cal_struct)->g_real_to_virtual[GL_G_FAST]);
-                if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Map g_R-V_slow = %f", ((calibration_args*)cal_struct)->g_real_to_virtual[GL_G_SLOW]);
-
-                args->sm_model_to_live.g[GL_G_FAST] = 0.0;
-                args->sm_model_to_live.g[GL_G_SLOW] = 0.0;
-                args->sm_live_to_model.g[GL_G_FAST] = 0.0;
-                args->sm_live_to_model.g[GL_G_SLOW] = 0.0;
-
-                lp[1].infinite = TRUE;
-            }
-            
-            break;
-        }
-        default:
-            free_pointers(1, &session);
-            daq_close_device ((void**) &dsc);
-
-            msg.id = -1;
-		    if (send_to_queue(args->msqid, RT_QUEUE, BLOCK_QUEUE, &msg) == ERR) {
-		        perror("Closing message not sent");
-		    }
-            pthread_exit(NULL);
-    }
+    args->sm_live_to_model.set_online_parameters(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real);
+    args->sm_model_to_live.set_online_parameters(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real, min_abs_model, max_abs_model);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn struct created");
 
