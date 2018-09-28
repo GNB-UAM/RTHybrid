@@ -19,7 +19,7 @@
  * @param[in] syn_args Synapse model parameters entered as input arguments
  */
 
-void electrical_init (synapse_model * sm, void * syn_args) {
+void sm_electrical_init (synapse_model * sm, void * syn_args) {
 	syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args;
     sm->type_params = (syn_elec_params *) malloc (sizeof(syn_elec_params));
     syn_elec_params * aux_elec_params = sm->type_params;
@@ -30,7 +30,7 @@ void electrical_init (synapse_model * sm, void * syn_args) {
     sm->g = (double *) malloc (sizeof(ELEC_N_G));
     copy_1d_array(aux_syn_args->g, sm->g, ELEC_N_G);
 
-    sm->func = &elec_syn;
+    sm->func = &sm_electrical;
     sm->set_online_parameters = &elec_set_online_params;
 }
 

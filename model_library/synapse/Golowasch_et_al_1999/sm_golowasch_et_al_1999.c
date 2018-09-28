@@ -18,7 +18,7 @@
  * @param[in] syn_args Synapse model parameters entered as input arguments
  */
 
-void golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
+void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
 	syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args;
     sm->type_params = (syn_gl_params *) malloc (sizeof(syn_gl_params));
     syn_gl_params * aux_gl_params = sm->type_params;
@@ -36,7 +36,7 @@ void golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
     sm->g = (double *) malloc (sizeof(GL_N_G));
     copy_1d_array(aux_syn_args->g, sm->g, GL_N_G);
 
-    sm->func = &golowasch_syn;
+    sm->func = &sm_golowasch_et_al_1999;
     sm->set_online_parameters = &gl_set_online_params;
 }
 
@@ -151,7 +151,7 @@ double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
  * @param[out] ret Pointer to the return value
  */
 
-void golowasch_syn (double v_post, double v_pre, synapse_model * sm, double * ret) {
+void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * sm, double * ret) {
     double min, max;
     syn_gl_params * aux_gl_params = sm->type_params;
 

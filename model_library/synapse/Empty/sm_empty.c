@@ -22,7 +22,7 @@ void empty_init (synapse_model * sm, void * syn_args) {
 	sm->type_params = NULL;
     sm->g = NULL;
 
-    sm->func = &empty_syn;
+    sm->func = &sm_empty;
     sm->set_online_parameters = &empty_set_online_params;
 }
 

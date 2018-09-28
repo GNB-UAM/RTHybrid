@@ -17,6 +17,9 @@ public:
     explicit SM_GUI_Golowasch_et_at_1999(void * args = NULL, QWidget *parent = 0);
     ~SM_GUI_Golowasch_et_at_1999();
 
+private slots:
+    void on_pushButton_accept_clicked();
+    
 private:
     Ui::SM_GUI_Golowasch_et_at_1999 *ui;
     void * args;

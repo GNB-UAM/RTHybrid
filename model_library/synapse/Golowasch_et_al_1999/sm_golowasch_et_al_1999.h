@@ -87,7 +87,7 @@ typedef struct {
 } syn_gl_params;
 
 
-void golowasch_et_al_1999_init (synapse_model * sm, void * syn_args);
+void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args);
 
 void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * params, double * ret);
 

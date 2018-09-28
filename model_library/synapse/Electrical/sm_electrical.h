@@ -56,7 +56,7 @@ typedef struct {
 
 
 
-void electrical_init (synapse_model * sm, void * syn_args);
+void sm_electrical_init (synapse_model * sm, void * syn_args);
 
 void sm_electrical (double v_post, double v_pre, synapse_model * sm, double * ret);
 

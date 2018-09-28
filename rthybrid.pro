@@ -106,7 +106,9 @@ SOURCES += \
     model_library/synapse/Electrical/sm_gui_electrical.cpp \
     model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.cpp \
     model_library/synapse/Empty/sm_empty.c \
-    model_library/synapse/synapse_models_functions.c
+    model_library/synapse/synapse_models_functions.c \
+    model_library/synapse/Electrical/sm_electrical.c \
+    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -143,7 +145,9 @@ HEADERS += \
     model_library/synapse/Electrical/sm_gui_electrical.h \
     model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
     model_library/synapse/Empty/sm_empty.h \
-    model_library/synapse/synapse_models_functions.h
+    model_library/synapse/synapse_models_functions.h \
+    model_library/synapse/Electrical/sm_electrical.h \
+    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h
 
 FORMS += \
     gui/rthybrid.ui \
