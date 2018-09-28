@@ -13,14 +13,22 @@ Rodriguez, Pablo Varona. Automatic adaptation of model neurons and
 connections to build hybrid circuits with living networks. bioRxiv 
 419622; doi: https://doi.org/10.1101/419622
 
+## Install
+Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory (https://github.com/GNB-UAM/RTHybrid/blob/master/docs/RTHybrid_User_Manual.pdf).
+
 ## Developed by
-Rodrigo Amaducci (rodrigo.amaducci@uam.es - [scholar](https://scholar.google.es/citations?user=Lq4ogOQAAAAJ))
+Rodrigo Amaducci (rodrigo.amaducci@uam.es - [Google scholar](https://scholar.google.es/citations?user=Lq4ogOQAAAAJ) - [ORCID](http://orcid.org/0000-0003-2489-5569))
 
-Manuel Reyes-Sanchez (manuel.reyes@uam.es - [scholar](https://scholar.google.es/citations?user=JlKzj1cAAAAJ))
+Manuel Reyes-Sanchez (manuel.reyes@uam.es - [Google scholar](https://scholar.google.es/citations?user=JlKzj1cAAAAJ) - [ORCID](http://orcid.org/0000-0003-2909-4664))
 
-Grupo de Neurocomputación Biológica [(GNB)](http://arantxa.ii.uam.es/~gnb/) - Escuela Politécnica Superior [(EPS)](http://www.uam.es/ss/Satellite/EscuelaPolitecnica/es/home.htm)
+##
+
+<center>
+  
+Grupo de Neurocomputación Biológica [(GNB)](http://arantxa.ii.uam.es/~gnb/)
+
+Escuela Politécnica Superior [(EPS)](http://www.uam.es/ss/Satellite/EscuelaPolitecnica/es/home.htm)
 
 Universidad Autónoma de Madrid [(UAM)](http://www.uam.es)
 
-## Install
-Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory (https://github.com/GNB-UAM/RTHybrid/blob/master/docs/RTHybrid_User_Manual.pdf).
+</center>
