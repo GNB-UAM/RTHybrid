@@ -16,9 +16,10 @@ extern "C" {
 
 /* MACROS */
 
-#define EMPTY_SYN 0
-#define ELECTRICAL 1
-#define GOLOWASCH_ET_AL_1999 2
+#define SM_EMPTY 0
+#define SM_ELECTRICAL 1
+#define SM_GOLOWASCH_ET_AL_1999 2
+
 
 
 

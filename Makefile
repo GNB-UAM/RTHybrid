@@ -567,11 +567,20 @@ moc/moc_nm_gui_rulkov_2002.cpp: model_library/neuron/Rulkov_2002/nm_rulkov_2002.
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h -o moc/moc_nm_gui_rulkov_2002.cpp
 
-moc/moc_sm_gui_electrical.cpp: model_library/synapse/Electrical/sm_gui_electrical.h \
+moc/moc_sm_gui_electrical.cpp: model_library/synapse/Electrical/sm_electrical.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/synapse/Electrical/sm_gui_electrical.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/synapse/Electrical/sm_gui_electrical.h -o moc/moc_sm_gui_electrical.cpp
 
-moc/moc_sm_gui_golowasch_et_at_1999.cpp: model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
+moc/moc_sm_gui_golowasch_et_at_1999.cpp: model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h -o moc/moc_sm_gui_golowasch_et_at_1999.cpp
 
@@ -677,7 +686,9 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h \
-		model_library/neuron/Wang_1993/nm_gui_wang_1993.h
+		model_library/neuron/Wang_1993/nm_gui_wang_1993.h \
+		model_library/synapse/Electrical/sm_gui_electrical.h \
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/rthybrid.o gui/rthybrid.cpp
 
 obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
@@ -694,13 +705,13 @@ obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
 		model_library/neuron/Wang_1993/nm_wang_1993.h \
-		clamp/includes/clamp.h \
-		clamp/includes/rt_thread_functions.h \
-		clamp/includes/time_functions.h \
 		model_library/synapse/synapse_models_functions.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		clamp/includes/clamp.h \
+		clamp/includes/rt_thread_functions.h \
+		clamp/includes/time_functions.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -886,7 +897,11 @@ obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_pa
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
-		model_library/neuron/Wang_1993/nm_wang_1993.h
+		model_library/neuron/Wang_1993/nm_wang_1993.h \
+		model_library/synapse/synapse_models_functions.h \
+		model_library/synapse/Empty/sm_empty.h \
+		model_library/synapse/Electrical/sm_electrical.h \
+		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xml_clamp_parser.o clamp/src/xml_clamp_parser.c
 
 obj/integration_methods.o: model_library/integration_methods.c model_library/integration_methods.h \
@@ -991,10 +1006,19 @@ obj/nm_empty.o: model_library/neuron/Empty/nm_empty.c model_library/neuron/Empty
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_empty.o model_library/neuron/Empty/nm_empty.c
 
 obj/sm_gui_electrical.o: model_library/synapse/Electrical/sm_gui_electrical.cpp model_library/synapse/Electrical/sm_gui_electrical.h \
+		model_library/synapse/Electrical/sm_electrical.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
 		ui/ui_sm_gui_electrical.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sm_gui_electrical.o model_library/synapse/Electrical/sm_gui_electrical.cpp
 
 obj/sm_gui_golowasch_et_at_1999.o: model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.cpp model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
+		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
 		ui/ui_sm_gui_golowasch_et_at_1999.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sm_gui_golowasch_et_at_1999.o model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.cpp
 

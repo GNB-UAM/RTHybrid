@@ -30,7 +30,7 @@ extern "C" {
  */
 ///@{
 
-void empty_init (synapse_model * sm, void * syn_args);
+void sm_empty_init (synapse_model * sm, void * syn_args);
 
 void sm_empty (double v_post, double v_pre, synapse_model * sm, double * ret);
 

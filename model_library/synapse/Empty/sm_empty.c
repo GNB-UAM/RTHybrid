@@ -12,19 +12,6 @@
  */
 ///@{
 
-/**
- * @brief Initializes the empty synapse model.
- * @param[in/out] sm Pointer to synapse neuron model
- * @param[in] syn_args Synapse model parameters entered as input arguments
- */
-
-void empty_init (synapse_model * sm, void * syn_args) {
-	sm->type_params = NULL;
-    sm->g = NULL;
-
-    sm->func = &sm_empty;
-    sm->set_online_parameters = &empty_set_online_params;
-}
 
 
 /**
@@ -34,7 +21,7 @@ void empty_init (synapse_model * sm, void * syn_args) {
  * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
  */
 
-void empty_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_empty_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
     return;
 }
 
@@ -53,6 +40,21 @@ void empty_set_online_params (synapse_model * sm, double scale, double offset, d
 void sm_empty (double v_post, double v_pre, synapse_model * sm, double * ret) {
     *ret = 0.0;
     return;
+}
+
+
+/**
+ * @brief Initializes the empty synapse model.
+ * @param[in/out] sm Pointer to synapse neuron model
+ * @param[in] syn_args Synapse model parameters entered as input arguments
+ */
+
+void sm_empty_init (synapse_model * sm, void * syn_args) {
+	sm->type_params = NULL;
+    sm->g = NULL;
+
+    sm->func = &sm_empty;
+    sm->set_online_parameters = &sm_empty_set_online_params;
 }
 
 ///@} 

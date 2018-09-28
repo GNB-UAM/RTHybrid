@@ -437,7 +437,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
 	struct timespec ts_iter, ts_result;
 
-	int end_loop = FALSE;
+    //int end_loop = FALSE;
 
     fix_drift_args fx_args;
 

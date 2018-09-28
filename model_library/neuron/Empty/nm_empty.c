@@ -18,7 +18,7 @@
  * @param[in] params Neuron model parameters entered as input arguments
  */
 
-void empty_init (neuron_model * nm, double * vars, double * params) {
+void nm_empty_init (neuron_model * nm, double * vars, double * params) {
     nm->dim = 1;
     nm->vars = (double *) malloc (sizeof(double) * nm->dim);
     nm->vars[0] = 0.0;
@@ -29,8 +29,8 @@ void empty_init (neuron_model * nm, double * vars, double * params) {
     nm->max = 1.0;
     nm->min = 0.0;
 
-    nm->func = &empty;
-    nm->set_pts_burst = &empty_set_pts_burst;
+    nm->func = &nm_empty;
+    nm->set_pts_burst = &nm_empty_set_pts_burst;
     nm->method = NULL;
 
     return;
@@ -41,7 +41,7 @@ void empty_init (neuron_model * nm, double * vars, double * params) {
  * @param[in] nm Neuron model structure
  * @param[in] syn Synapse input current value
  */
-void empty (neuron_model nm, double syn) {
+void nm_empty (neuron_model nm, double syn) {
     return;
 }
 
@@ -52,7 +52,7 @@ void empty (neuron_model nm, double syn) {
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
  */
-void empty_set_pts_burst (double pts_live, neuron_model * nm) {
+void nm_empty_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
     return;
 }

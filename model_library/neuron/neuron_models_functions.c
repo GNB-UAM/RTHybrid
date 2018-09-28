@@ -22,28 +22,28 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
     nm->type = model;
 
     switch (model) {
-        case EMPTY_NEURON:
-            empty_init(nm, vars, params);
+        case NM_EMPTY:
+            nm_empty_init(nm, vars, params);
 
             break;
-        case IZ:
-            iz_init(nm, vars, params);
+        case NM_IZHIKEVICH_2003:
+            nm_izhikevich_2003_init(nm, vars, params);
 
             break;
-        case HR:
-            hr_init(nm, vars, params);
+        case NM_HINDMARSH_ROSE_1986:
+            nm_hindmarsh_rose_1986_init(nm, vars, params);
 
             break;
-        case RLK:
-            rlk_init(nm, vars, params);
+        case NM_RULKOV_2002:
+            nm_rulkov_2002_init(nm, vars, params);
 
             break;
-        case GH:
-            gh_init(nm, vars, params);
+        case NM_GHIGLIAZZA_HOLMES_2004:
+            nm_ghigliazza_holmes_2004_init(nm, vars, params);
 
             break;
-        case WANG:
-            wang_init(nm, vars, params);
+        case NM_WANG_1993:
+            nm_wang_1993_init(nm, vars, params);
 
             break;
         default:

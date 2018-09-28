@@ -410,22 +410,22 @@ static int parse_clamp_nm (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 
 
 	switch(args->model) {
-        case EMPTY_NEURON:
+        case NM_EMPTY:
             ret = OK;
             break;
-		case IZ:
+        case NM_IZHIKEVICH_2003:
             ret = parse_clamp_nm_iz_2003(doc, cur->xmlChildrenNode, args);
 			break;
-		case HR:
+        case NM_HINDMARSH_ROSE_1986:
             ret = parse_clamp_nm_hr_1986(doc, cur->xmlChildrenNode, args);
 			break;
-		case RLK:
+        case NM_RULKOV_2002:
             ret = parse_clamp_nm_rlk_2002(doc, cur->xmlChildrenNode, args);
 			break;
-		case GH:
+        case NM_GHIGLIAZZA_HOLMES_2004:
             ret = parse_clamp_nm_gh_2004(doc, cur->xmlChildrenNode, args);
 			break;
-        case WANG:
+        case NM_WANG_1993:
             ret = parse_clamp_nm_wang_1993(doc, cur->xmlChildrenNode, args);
             break;
 		default:
@@ -518,17 +518,17 @@ static int parse_clamp_synapse (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	if (parse_int(doc, cur, &args->synapse, (const xmlChar*) TYPE) != OK) return ERR;
+    if (parse_int(doc, cur, &args->synapse_mtol, (const xmlChar*) TYPE) != OK) return ERR;
 
 
-	switch(args->synapse) {
-        case EMPTY_SYN:
+    switch(args->synapse_mtol) {
+        case SM_EMPTY:
             ret = OK;
             break;
-		case ELECTRIC:
+        case SM_ELECTRICAL:
 			ret = parse_clamp_syn_elec(doc, cur->xmlChildrenNode, args);
 			break;
-		case GOLOWASCH:
+        case SM_GOLOWASCH_ET_AL_1999:
 			ret = parse_clamp_syn_golowasch(doc, cur->xmlChildrenNode, args);
 			break;
 		default:

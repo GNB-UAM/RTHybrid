@@ -1,11 +1,20 @@
 #include "sm_gui_golowasch_et_at_1999.h"
 #include "ui_sm_gui_golowasch_et_at_1999.h"
 
-SM_GUI_Golowasch_et_at_1999::SM_GUI_Golowasch_et_at_1999(void * args, QWidget *parent) :
+SM_GUI_Golowasch_et_at_1999::SM_GUI_Golowasch_et_at_1999(void ** args, unsigned int direction, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SM_GUI_Golowasch_et_at_1999)
 {
-    this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_al_1999");
+    switch (direction) {
+        case 0:
+            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_at_1999_LtoM");
+            break;
+        case 1:
+            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_at_1999_MtoL");
+            break;
+        default:
+            return;
+    }
 
     this->args = args;
     ui->setupUi(this);
@@ -20,8 +29,8 @@ SM_GUI_Golowasch_et_at_1999::~SM_GUI_Golowasch_et_at_1999()
 
 void SM_GUI_Golowasch_et_at_1999::on_pushButton_accept_clicked()
 {
-    args = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-    syn_gl_args * aux_args = (syn_gl_args *) args;
+    (*args) = (syn_gl_args *) malloc (sizeof(syn_gl_args));
+    syn_gl_args * aux_args = (syn_gl_args *) (*args);
 
     aux_args->g[GL_G_FAST] = ui->double_gFast->value();
     aux_args->v_fast = ui->double_vthFast->value();
@@ -53,7 +62,7 @@ void SM_GUI_Golowasch_et_at_1999::saveSettings() {
 void SM_GUI_Golowasch_et_at_1999::loadSettings() {
     if (settings->value("vthSlow", -1).toDouble() == -2) return; //No settings saved yet
 
-    ui->double_gFast->setValue((settings->value("gFast").toDouble());
+    ui->double_gFast->setValue(settings->value("gFast").toDouble());
     ui->double_vthFast->setValue(settings->value("vthFast").toDouble());
     ui->double_sFast->setValue(settings->value("sFast").toDouble());
 

@@ -12,34 +12,6 @@
 ///@{
 
 
-/**
- * @brief Initializes graded chemical synapse model from (Golowasch et al, 1999).
- * @param[in/out] sm Pointer to synapse neuron model
- * @param[in] syn_args Synapse model parameters entered as input arguments
- */
-
-void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
-	syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args;
-    sm->type_params = (syn_gl_params *) malloc (sizeof(syn_gl_params));
-    syn_gl_params * aux_gl_params = sm->type_params;
-
-    sm->calibrate = SYN_CALIB_PRE;
-    aux_gl_params->dt = 0.001;
-    aux_gl_params->k1 = aux_syn_args->k1;
-    aux_gl_params->k2 = aux_syn_args->k2;
-    aux_gl_params->v_fast = aux_syn_args->v_fast/100.0;
-    aux_gl_params->v_slow = aux_syn_args->v_slow/100.0;
-    aux_gl_params->ms_old = 0.0;
-    aux_gl_params->s_fast = aux_syn_args->s_fast/100.0;
-    aux_gl_params->s_slow = aux_syn_args->s_slow/100.0;
-
-    sm->g = (double *) malloc (sizeof(GL_N_G));
-    copy_1d_array(aux_syn_args->g, sm->g, GL_N_G);
-
-    sm->func = &sm_golowasch_et_al_1999;
-    sm->set_online_parameters = &gl_set_online_params;
-}
-
 
 /**
  * @brief Sets the amplitude mininum, maximum, scale and offset parameters of the (Golowasch et al, 1999) synapse model according to the living neuron signal.
@@ -50,7 +22,7 @@ void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
  * @param[in] max Maximum value of the living neuron signal voltage
  */
 
-void gl_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
     syn_gl_params * aux_gl_params = sm->type_params;
 
     sm->scale = scale;
@@ -70,7 +42,7 @@ void gl_set_online_params (synapse_model * sm, double scale, double offset, doub
  * @param[in] v_pre Pre-synaptic neuron membrane potential
  */
 
-void gl_ms_f (double * vars, double * ret, double * params, double v_pre) {
+void sm_golowasch_et_al_1999_ms_f (double * vars, double * ret, double * params, double v_pre) {
     double p1, p2, p3;
 
     p1 = params[GL_MS_K1] * (1.0 - vars[0]);
@@ -92,7 +64,7 @@ void gl_ms_f (double * vars, double * ret, double * params, double v_pre) {
  * @return Synaptic current
  */
 
-double gl_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
+double sm_golowasch_et_al_1999_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
     double e_syn;
     double v_f;
     double s_f;
@@ -117,7 +89,7 @@ double gl_fast (double v_post, double v_pre, double g, syn_gl_params * params) {
  * @return Synaptic current
  */
 
-double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
+double sm_golowasch_et_al_1999_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
     double vars[1] = {params->ms_old};
     double params_ms[4];
     double e_syn;
@@ -134,7 +106,7 @@ double gl_slow (double v_post, double v_pre, double g, syn_gl_params * params) {
 
     ret = g * params->ms_old * (v_post - e_syn);
 
-    runge_kutta_65(&gl_ms_f, 1, params->dt, vars, params_ms, v_pre);
+    runge_kutta_65(&sm_golowasch_et_al_1999_ms_f, 1, params->dt, vars, params_ms, v_pre);
     params->ms_old = vars[0];
 
     return ret;
@@ -168,11 +140,11 @@ void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * sm, d
     }
 
     if (sm->g[GL_G_FAST] != 0.0) {
-        *ret += gl_fast(v_post, v_pre, sm->g[GL_G_FAST], aux_gl_params);
+        *ret += sm_golowasch_et_al_1999_fast(v_post, v_pre, sm->g[GL_G_FAST], aux_gl_params);
     }
 
     if (sm->g[GL_G_SLOW] != 0.0) {
-        *ret += gl_slow(v_post, v_pre, sm->g[GL_G_SLOW], aux_gl_params);
+        *ret += sm_golowasch_et_al_1999_slow(v_post, v_pre, sm->g[GL_G_SLOW], aux_gl_params);
     }
 
     aux_gl_params->min = min;
@@ -180,3 +152,34 @@ void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * sm, d
 
     return;
 }
+
+/**
+ * @brief Initializes graded chemical synapse model from (Golowasch et al, 1999).
+ * @param[in/out] sm Pointer to synapse neuron model
+ * @param[in] syn_args Synapse model parameters entered as input arguments
+ */
+
+void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
+    syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args;
+    sm->type_params = (syn_gl_params *) malloc (sizeof(syn_gl_params));
+    syn_gl_params * aux_gl_params = sm->type_params;
+
+    sm->calibrate = SYN_CALIB_PRE;
+    aux_gl_params->dt = 0.001;
+    aux_gl_params->k1 = aux_syn_args->k1;
+    aux_gl_params->k2 = aux_syn_args->k2;
+    aux_gl_params->v_fast = aux_syn_args->v_fast/100.0;
+    aux_gl_params->v_slow = aux_syn_args->v_slow/100.0;
+    aux_gl_params->ms_old = 0.0;
+    aux_gl_params->s_fast = aux_syn_args->s_fast/100.0;
+    aux_gl_params->s_slow = aux_syn_args->s_slow/100.0;
+
+    sm->g = (double *) malloc (sizeof(GL_N_G));
+    copy_1d_array(aux_syn_args->g, sm->g, GL_N_G);
+
+    sm->func = &sm_golowasch_et_al_1999;
+    sm->set_online_parameters = &sm_golowasch_et_al_1999_set_online_params;
+}
+
+
+///@} 

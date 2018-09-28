@@ -22,12 +22,12 @@ extern "C" {
 
 /* Macros */
 
-#define EMPTY_NEURON 0
-#define IZ 1
-#define HR 2
-#define RLK 3
-#define GH 4
-#define WANG 5
+#define NM_EMPTY 0
+#define NM_IZHIKEVICH_2003 1
+#define NM_HINDMARSH_ROSE_1986 2
+#define NM_RULKOV_2002 3
+#define NM_GHIGLIAZZA_HOLMES_2004 4
+#define NM_WANG_1993 5
 
 
 /* General functions */

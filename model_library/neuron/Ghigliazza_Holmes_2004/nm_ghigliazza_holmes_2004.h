@@ -46,13 +46,13 @@ extern "C" {
 #define GH_C 2
 
 
-void gh_init (neuron_model * nm, double * vars, double * params);
+void nm_ghigliazza_holmes_2004_init (neuron_model * nm, double * vars, double * params);
 
-double ghigliazza_holmes_inf (double v, double vth, double k);
+double nm_ghigliazza_holmes_2004_inf (double v, double vth, double k);
 
-void ghigliazza_holmes_2004 (neuron_model nm, double syn);
+void nm_ghigliazza_holmes_2004 (neuron_model nm, double syn);
 
-void ghigliazza_holmes_set_pts_burst (double pts_live, neuron_model * nm);
+void nm_ghigliazza_holmes_2004_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

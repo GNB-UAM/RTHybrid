@@ -13,6 +13,9 @@
 #include "model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h"
 #include "model_library/neuron/Wang_1993/nm_gui_wang_1993.h"
 
+#include "model_library/synapse/Electrical/sm_gui_electrical.h"
+#include "model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h"
+
 
 RTHybrid::RTHybrid(QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +26,8 @@ RTHybrid::RTHybrid(QWidget *parent) :
 
     this->args.vars = NULL;
     this->args.params = NULL;
+    this->args.syn_args_live_to_model = NULL;
+    this->args.syn_args_model_to_live = NULL;
 
     /*movie = new QMovie("resources/neuron.gif");
     ui->label_gif->setMovie(movie);
@@ -68,18 +73,19 @@ void RTHybrid::closeEvent (QCloseEvent *event)
 void RTHybrid::on_buttonStart_clicked()
 {
     std::string aux_in, aux_out;
-    int autocalIndex = ui->autocalPages->currentIndex();
+    //int autocalIndex = ui->autocalPages->currentIndex();
 
     args.input_channels = NULL;
     args.output_channels = NULL;
     /*args.vars = NULL;
-    args.params = NULL;*/
+    args.params = NULL;
     args.syn_args_live_to_model = NULL;
-    args.syn_args_model_to_live = NULL;
+    args.syn_args_model_to_live = NULL;*/
 
-    args.model = ui->neuronModelPages->currentIndex();
-    args.synapse = ui->synapseModelPages->currentIndex();
-    args.mode_auto_cal = ui->autocalPages->currentIndex();
+    args.model = ui->combo_neuron->currentIndex();
+    args.synapse_mtol = ui->combo_synMtoL->currentIndex();
+    args.synapse_ltom = ui->combo_synLtoM->currentIndex();
+    //args.mode_auto_cal = ui->autocalPages->currentIndex();
 
     args.imp = ui->checkImp->isChecked();
 
@@ -90,7 +96,7 @@ void RTHybrid::on_buttonStart_clicked()
     args.observation = ui->intTimeObservation->value();
 
     /* Mientras no se use la autocal */
-    autocalIndex = 0;
+    //autocalIndex = 0;
 
 
 
@@ -110,11 +116,11 @@ void RTHybrid::on_buttonStart_clicked()
     args.output_factor = ui->doubleOutputFactor->value();
 
 
-    if (autocalIndex == 0 || autocalIndex == 3){
+    /*if (autocalIndex == 0 || autocalIndex == 3){
         switch (args.synapse) {
             case EMPTY_SYN:
                 break;
-            case ELECTRIC: //Electrical
+            case ELECTRIC:
                 {
                 args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
                 args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
@@ -135,7 +141,7 @@ void RTHybrid::on_buttonStart_clicked()
 
                 break;
                 }
-            case GOLOWASCH: //Gradual chemical
+            case GOLOWASCH:
                 {
                 args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
                 args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
@@ -166,11 +172,11 @@ void RTHybrid::on_buttonStart_clicked()
             default:
                 break;
         }
-    }
+    }*/
 
 
-    switch (autocalIndex) {
-        case 1: //Electric conductance MSE
+    /*switch (autocalIndex) {
+        case 1:
         {
             args.synapse = ELECTRIC;
 
@@ -202,7 +208,7 @@ void RTHybrid::on_buttonStart_clicked()
             break;
         }
 
-        case 2: //Gradual MAP
+        case 2:
         {
             args.mode_auto_cal = 7;
             args.synapse = GOLOWASCH;
@@ -255,9 +261,7 @@ void RTHybrid::on_buttonStart_clicked()
         default:
             args.mode_auto_cal = 0;
             break;
-    }
-
-
+    }*/
 
 
     //movie->start();
@@ -301,7 +305,7 @@ void RTHybrid::on_buttonStop_clicked()
     if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
 }
 
-void RTHybrid::on_neuronModelCombo_activated(int index)
+/*void RTHybrid::on_neuronModelCombo_activated(int index)
 {
     std::string res = "";
 
@@ -362,9 +366,9 @@ void RTHybrid::on_neuronModelCombo_activated(int index)
     QPixmap pixmapTarget = QPixmap(res.c_str());
     pixmapTarget = pixmapTarget.scaled(121, 121, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_model->setPixmap(pixmapTarget);
-}
+}*/
 
-void RTHybrid::on_synapseModelCombo_activated(int index)
+/*void RTHybrid::on_synapseModelCombo_activated(int index)
 {
     std::string res = "", legend = "resources/interaction_none.png";
     QPixmap pixmapTarget;
@@ -444,9 +448,9 @@ void RTHybrid::on_synapseModelCombo_activated(int index)
     pixmapTarget = QPixmap(legend.c_str());
     pixmapTarget = pixmapTarget.scaled(151, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_legend->setPixmap(pixmapTarget);
-}
+}*/
 
-void RTHybrid::on_autocalCombo_activated(int index)
+/*void RTHybrid::on_autocalCombo_activated(int index)
 {
     ui->autocalPages->setCurrentIndex(index);
 
@@ -473,7 +477,7 @@ void RTHybrid::on_autocalCombo_activated(int index)
             break;
     }
 
-    /*if(index!=0){
+    if(index!=0){
         ui->synapseModelCombo->setEnabled(false);
         ui->frameSynapse->setEnabled(false);
 
@@ -486,8 +490,8 @@ void RTHybrid::on_autocalCombo_activated(int index)
         ui->synapseModelCombo->setEnabled(true);
         ui->frameSynapse->setEnabled(true);
         ui->intTime->setEnabled(true);
-    }*/
-}
+    }
+}*/
 
 void RTHybrid::on_autoDetect_clicked()
 {
@@ -498,7 +502,7 @@ void RTHybrid::on_autoDetect_clicked()
     }
 }
 
-void RTHybrid::on_doubleSpinBox_gl_EtoM_fast_g_valueChanged(double arg1)
+/*void RTHybrid::on_doubleSpinBox_gl_EtoM_fast_g_valueChanged(double arg1)
 {
     std::string res = "";
     QPixmap pixmapTarget;
@@ -642,14 +646,7 @@ void RTHybrid::on_doubleSynElec_gEtoM_valueChanged(double arg1)
     pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_syn_both->setPixmap(pixmapTarget);
 
-}
-
-void RTHybrid::on_buttonIzConfig_clicked()
-{
-    NM_GUI_Izhikevich_2003 * nmiz = new NM_GUI_Izhikevich_2003(&(this->args));
-    nmiz->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-    nmiz->show();
-}
+}*/
 
 void RTHybrid::on_textChannelInput_textChanged()
 {
@@ -663,4 +660,127 @@ void RTHybrid::on_textChannelInput_textChanged()
         ui->autoDetect->setEnabled(true);
         ui->checkDrift->setEnabled(true);
     }
+}
+
+
+std::string RTHybrid::neuron_models_switch(int index) {
+    std::string res = "";
+
+    switch (index) {
+    case NM_IZHIKEVICH_2003:
+    {
+        res = "resources/interaction_model_izhikevich.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Izhikevich_2003 * nm = new NM_GUI_Izhikevich_2003(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    case NM_HINDMARSH_ROSE_1986:
+    {
+        res = "resources/interaction_model_hindmarsh_rose.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Hindmarsh_Rose_1986 * nm = new NM_GUI_Hindmarsh_Rose_1986(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    case NM_RULKOV_2002:
+    {
+        res = "resources/interaction_model_rulkov.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Rulkov_2002 * nm = new NM_GUI_Rulkov_2002(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    case NM_GHIGLIAZZA_HOLMES_2004:
+    {
+        res = "resources/interaction_model_ghigliazza_holmes.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Ghigliazza_Holmes_2004 * nm = new NM_GUI_Ghigliazza_Holmes_2004(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    case NM_WANG_1993:
+    {
+        res = "resources/interaction_model_ghigliazza_holmes.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Wang_1993 * nm = new NM_GUI_Wang_1993(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    default:
+        res = "resources/interaction_none.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        break;
+    }
+
+    return res;
+}
+
+void RTHybrid::on_pushButton_neuron_config_clicked()
+{
+    int index = ui->combo_neuron->currentIndex();
+
+    neuron_models_switch(index);
+}
+
+void RTHybrid::on_combo_neuron_activated(int index)
+{
+    std::string res = neuron_models_switch(index);
+
+    QPixmap pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(121, 121, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_model->setPixmap(pixmapTarget);
+}
+
+
+void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int direction) {
+    switch (index) {
+    case SM_ELECTRICAL:
+    {
+        free_pointers(1, syn_args);
+        SM_GUI_Electrical * sm = new SM_GUI_Electrical(syn_args, direction);
+        sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        sm->show();
+        break;
+    }
+    case SM_GOLOWASCH_ET_AL_1999:
+    {
+        free_pointers(1, syn_args);
+        SM_GUI_Golowasch_et_at_1999 * sm = new SM_GUI_Golowasch_et_at_1999(syn_args, direction);
+        sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        sm->show();
+        break;
+    }
+    default:
+        free_pointers(1, syn_args);
+        break;
+    }
+
+}
+
+void RTHybrid::on_combo_synLtoM_activated(int index)
+{
+    synapse_models_switch(index, &(this->args.syn_args_live_to_model), 0);
+}
+
+void RTHybrid::on_combo_synMtoL_activated(int index)
+{
+    synapse_models_switch(index, &(this->args.syn_args_model_to_live), 1);
+}
+
+void RTHybrid::on_pushButton_synLtoM_config_clicked()
+{
+    int index = ui->combo_synLtoM->currentIndex();
+    synapse_models_switch(index, &(this->args.syn_args_live_to_model), 0);
+}
+
+void RTHybrid::on_pushButton_synMtoL_config_clicked()
+{
+    int index = ui->combo_synMtoL->currentIndex();
+    synapse_models_switch(index, &(this->args.syn_args_model_to_live), 1);
 }

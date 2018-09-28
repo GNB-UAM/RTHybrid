@@ -33,11 +33,11 @@ extern "C" {
 #define IZ_U 1
 
 
-void iz_init (neuron_model * nm, double * vars, double * params);
+void nm_izhikevich_2003_init (neuron_model * nm, double * vars, double * params);
 
-void izhikevich_2003 (neuron_model nm, double syn);
+void nm_izhikevich_2003 (neuron_model nm, double syn);
 
-void iz_set_pts_burst (double pts_live, neuron_model * nm);
+void nm_izhikevich_2003_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

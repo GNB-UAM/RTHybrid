@@ -32,11 +32,11 @@ extern "C" {
 #define HR_Z 2
 
 
-void hr_init (neuron_model * nm, double * vars, double * params);
+void nm_hindmarsh_rose_1986_init (neuron_model * nm, double * vars, double * params);
 
-void hindmarsh_rose_1986 (neuron_model nm, double syn);
+void nm_hindmarsh_rose_1986 (neuron_model nm, double syn);
 
-void hr_set_pts_burst (double pts_live, neuron_model * nm);
+void nm_hindmarsh_rose_1986_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

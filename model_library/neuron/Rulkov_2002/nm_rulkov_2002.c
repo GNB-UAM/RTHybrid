@@ -18,7 +18,7 @@
  * @param[in] params Neuron model parameters entered as input arguments
  */
 
-void rlk_init (neuron_model * nm, double * vars, double * params) {
+void nm_rulkov_2002_init (neuron_model * nm, double * vars, double * params) {
     nm->dim = 2;
     nm->vars = (double *) malloc (sizeof(double) * nm->dim);
     copy_1d_array(vars, nm->vars, nm->dim);
@@ -31,8 +31,8 @@ void rlk_init (neuron_model * nm, double * vars, double * params) {
     nm->min = -1.977;
     nm->pts_burst = -1.0;
 
-    nm->func = &rulkov_2002;
-    nm->set_pts_burst = &rlk_set_pts_burst;
+    nm->func = &nm_rulkov_2002;
+    nm->set_pts_burst = &nm_rulkov_2002_set_pts_burst;
     nm->method = NULL;
 
     return;
@@ -46,7 +46,7 @@ void rlk_init (neuron_model * nm, double * vars, double * params) {
  * @param[in] syn Synapse input current value
  */
 
-void rlk_f (double * vars, double * ret, double * params, double syn) {
+void nm_rulkov_2002_f (double * vars, double * ret, double * params, double syn) {
     double u;
 
     ret[RLK_Y] = vars[RLK_Y] - params[RLK_MU] * (vars[RLK_X] + 1) + params[RLK_MU] * params[RLK_SIGMA];
@@ -75,21 +75,21 @@ void rlk_f (double * vars, double * ret, double * params, double syn) {
  * @param[in] syn Synapse input current value
  */
 
-void rulkov_2002 (neuron_model nm, double syn) {
+void nm_rulkov_2002 (neuron_model nm, double syn) {
     double ret[2];
     double t0, t1, t, x0, x1;
     double inter_pts = (nm.pts_burst - 334) / 334;
 
     if (nm.params[RLK_J] >= inter_pts) {
         nm.vars[RLK_X] = nm.params[RLK_OLD];
-        rlk_f(nm.vars, ret, nm.params, syn);
+        nm_rulkov_2002_f(nm.vars, ret, nm.params, syn);
         nm.vars[RLK_X] = ret[RLK_X];
         nm.vars[RLK_Y] = ret[RLK_Y];
         nm.params[RLK_OLD] = nm.vars[RLK_X];
         nm.params[RLK_J] = 1;
 
         /* Next point for interpolation */
-        rlk_f(nm.vars, ret, nm.params, syn);
+        nm_rulkov_2002_f(nm.vars, ret, nm.params, syn);
         nm.params[RLK_INTER] = ret[RLK_X];     
     } else {
         /* Interpolation */
@@ -119,7 +119,7 @@ void rulkov_2002 (neuron_model nm, double syn) {
  * @param[in] nm Pointer to the neuron model structure
  */
 
-void rlk_set_pts_burst (double pts_live, neuron_model * nm) {
+void nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
     nm->params[RLK_J] = ((nm->pts_burst - 334) / 334) + 1;
     return;

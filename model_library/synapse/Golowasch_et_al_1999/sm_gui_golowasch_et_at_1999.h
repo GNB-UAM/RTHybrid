@@ -14,7 +14,7 @@ class SM_GUI_Golowasch_et_at_1999 : public QWidget
     Q_OBJECT
 
 public:
-    explicit SM_GUI_Golowasch_et_at_1999(void * args = NULL, QWidget *parent = 0);
+    explicit SM_GUI_Golowasch_et_at_1999(void ** args = NULL, unsigned int direction = 2, QWidget *parent = 0);
     ~SM_GUI_Golowasch_et_at_1999();
 
 private slots:
@@ -22,7 +22,7 @@ private slots:
 
 private:
     Ui::SM_GUI_Golowasch_et_at_1999 *ui;
-    void * args;
+    void ** args;
     QSettings * settings;
 
     void saveSettings();

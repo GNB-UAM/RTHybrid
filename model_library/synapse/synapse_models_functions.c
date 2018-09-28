@@ -19,14 +19,14 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
     sm->type = model;
 
     switch (model) {
-        case EMPTY_SYN:
-            empty_init(sm, syn_args);
+        case SM_EMPTY:
+            sm_empty_init(sm, syn_args);
             break;
-        case ELECTRICAL:
-            electrical_init(sm, syn_args);
+        case SM_ELECTRICAL:
+            sm_electrical_init(sm, syn_args);
             break;
-        case GOLOWASCH_ET_AL_1999:
-            golowasch_et_al_1999_init(sm, syn_args);
+        case SM_GOLOWASCH_ET_AL_1999:
+            sm_golowasch_et_al_1999_init(sm, syn_args);
             break;
         default:
             return;

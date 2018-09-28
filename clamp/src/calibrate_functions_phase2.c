@@ -51,10 +51,10 @@ int calc_phase (double * v_a, double * v_b, double * t, int size, double th_up, 
     int antifase;
 
     switch (params.type) {
-        case ELECTRIC:
+        case SM_ELECTRICAL:
             antifase = ((syn_elec_params*)params.type_params)->anti;
             break;
-        case GOLOWASCH:
+        case SM_GOLOWASCH_ET_AL_1999:
         default:
             antifase = 1;
             break;

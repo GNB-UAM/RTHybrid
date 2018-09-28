@@ -33,11 +33,11 @@ extern "C" {
 #define RLK_X 0
 #define RLK_Y 1
 
-void rlk_init (neuron_model * nm, double * vars, double * params);
+void nm_rulkov_2002_init (neuron_model * nm, double * vars, double * params);
 
-void rulkov_2002 (neuron_model nm, double syn);
+void nm_rulkov_2002 (neuron_model nm, double syn);
 
-void rlk_set_pts_burst (double pts_live, neuron_model * nm);
+void nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 
