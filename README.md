@@ -14,7 +14,7 @@ connections to build hybrid circuits with living networks. bioRxiv
 419622; doi: https://doi.org/10.1101/419622
 
 ## Install
-Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory (https://github.com/GNB-UAM/RTHybrid/blob/master/docs/RTHybrid_User_Manual.pdf).
+Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory: https://github.com/GNB-UAM/RTHybrid/blob/master/docs/RTHybrid_User_Manual.pdf
 
 ## Developed by
 Rodrigo Amaducci (rodrigo.amaducci@uam.es - [Google scholar](https://scholar.google.es/citations?user=Lq4ogOQAAAAJ) - [ORCID](http://orcid.org/0000-0003-2489-5569))
@@ -23,12 +23,10 @@ Manuel Reyes-Sanchez (manuel.reyes@uam.es - [Google scholar](https://scholar.goo
 
 ##
 
-<center>
-  
-Grupo de Neurocomputación Biológica [(GNB)](http://arantxa.ii.uam.es/~gnb/)
+[Grupo de Neurocomputación Biológica (GNB)](http://arantxa.ii.uam.es/~gnb/)
 
-Escuela Politécnica Superior [(EPS)](http://www.uam.es/ss/Satellite/EscuelaPolitecnica/es/home.htm)
+[Escuela Politécnica Superior (EPS)](http://www.uam.es/ss/Satellite/EscuelaPolitecnica/es/home.htm)
 
-Universidad Autónoma de Madrid [(UAM)](http://www.uam.es)
+[Universidad Autónoma de Madrid (UAM)](http://www.uam.es)
 
 </center>
