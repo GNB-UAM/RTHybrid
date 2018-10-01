@@ -1,16 +1,16 @@
-#include "sm_gui_golowasch_et_at_1999.h"
-#include "ui_sm_gui_golowasch_et_at_1999.h"
+#include "sm_gui_golowasch_et_al_1999.h"
+#include "ui_sm_gui_golowasch_et_al_1999.h"
 
-SM_GUI_Golowasch_et_at_1999::SM_GUI_Golowasch_et_at_1999(void ** args, unsigned int direction, QWidget *parent) :
+SM_GUI_Golowasch_et_al_1999::SM_GUI_Golowasch_et_al_1999(void ** args, unsigned int direction, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::SM_GUI_Golowasch_et_at_1999)
+    ui(new Ui::SM_GUI_Golowasch_et_al_1999)
 {
     switch (direction) {
         case 0:
-            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_at_1999_LtoM");
+            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_al_1999_LtoM");
             break;
         case 1:
-            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_at_1999_MtoL");
+            this->settings = new QSettings("RTHybrid", "SM_Golowasch_et_al_1999_MtoL");
             break;
         default:
             return;
@@ -22,12 +22,12 @@ SM_GUI_Golowasch_et_at_1999::SM_GUI_Golowasch_et_at_1999(void ** args, unsigned 
     loadSettings();
 }
 
-SM_GUI_Golowasch_et_at_1999::~SM_GUI_Golowasch_et_at_1999()
+SM_GUI_Golowasch_et_al_1999::~SM_GUI_Golowasch_et_al_1999()
 {
     delete ui;
 }
 
-void SM_GUI_Golowasch_et_at_1999::on_pushButton_accept_clicked()
+void SM_GUI_Golowasch_et_al_1999::on_pushButton_accept_clicked()
 {
     (*args) = (syn_gl_args *) malloc (sizeof(syn_gl_args));
     syn_gl_args * aux_args = (syn_gl_args *) (*args);
@@ -47,7 +47,7 @@ void SM_GUI_Golowasch_et_at_1999::on_pushButton_accept_clicked()
     this->close();
 }
 
-void SM_GUI_Golowasch_et_at_1999::saveSettings() {
+void SM_GUI_Golowasch_et_al_1999::saveSettings() {
     settings->setValue("gFast", ui->double_gFast->value());
     settings->setValue("vthFast", ui->double_vthFast->value());
     settings->setValue("sFast", ui->double_sFast->value());
@@ -59,7 +59,7 @@ void SM_GUI_Golowasch_et_at_1999::saveSettings() {
     settings->setValue("k2", ui->double_k2->value());
 }
 
-void SM_GUI_Golowasch_et_at_1999::loadSettings() {
+void SM_GUI_Golowasch_et_al_1999::loadSettings() {
     if (settings->value("vthSlow", -1).toDouble() == -2) return; //No settings saved yet
 
     ui->double_gFast->setValue(settings->value("gFast").toDouble());

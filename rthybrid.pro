@@ -104,7 +104,6 @@ SOURCES += \
     model_library/neuron/neuron_models_functions.c \
     model_library/neuron/Empty/nm_empty.c \
     model_library/synapse/Electrical/sm_gui_electrical.cpp \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.cpp \
     model_library/synapse/Empty/sm_empty.c \
     model_library/synapse/synapse_models_functions.c \
     model_library/synapse/Electrical/sm_electrical.c \
@@ -115,7 +114,8 @@ SOURCES += \
     model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c \
     model_library/neuron/Wang_1993/nm_xml_wang_1993.c \
     model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c \
-    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c
+    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c \
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -150,7 +150,6 @@ HEADERS += \
     model_library/neuron/neuron_models_functions.h \
     model_library/neuron/Empty/nm_empty.h \
     model_library/synapse/Electrical/sm_gui_electrical.h \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h \
     model_library/synapse/Empty/sm_empty.h \
     model_library/synapse/synapse_models_functions.h \
     model_library/synapse/Electrical/sm_electrical.h \
@@ -162,7 +161,8 @@ HEADERS += \
     model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h \
     model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
     model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
-    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h
+    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h \
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h
 
 FORMS += \
     gui/rthybrid.ui \
@@ -172,4 +172,4 @@ FORMS += \
     model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
     model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui \
     model_library/synapse/Electrical/sm_gui_electrical.ui \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.ui
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui

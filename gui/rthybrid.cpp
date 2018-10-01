@@ -14,7 +14,7 @@
 #include "model_library/neuron/Wang_1993/nm_gui_wang_1993.h"
 
 #include "model_library/synapse/Electrical/sm_gui_electrical.h"
-#include "model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_at_1999.h"
+#include "model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h"
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -751,7 +751,7 @@ void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int d
     case SM_GOLOWASCH_ET_AL_1999:
     {
         free_pointers(1, syn_args);
-        SM_GUI_Golowasch_et_at_1999 * sm = new SM_GUI_Golowasch_et_at_1999(syn_args, direction);
+        SM_GUI_Golowasch_et_al_1999 * sm = new SM_GUI_Golowasch_et_al_1999(syn_args, direction);
         sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
         sm->show();
         break;
