@@ -9,6 +9,9 @@ extern "C" {
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
+#define VALUE "val"
+#define TYPE "type"
+
 int parse_int (xmlDocPtr doc, xmlNodePtr cur, int * num, const xmlChar * label);
 int parse_double (xmlDocPtr doc, xmlNodePtr cur, double * num, const xmlChar * label);
 int parse_string (xmlDocPtr doc, xmlNodePtr cur, char ** str, const xmlChar * label);

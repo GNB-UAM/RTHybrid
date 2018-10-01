@@ -12,6 +12,7 @@ extern "C" {
 
 #include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
+//#include "../../../common/includes/xml_parser_functions.h" 
 #include "../../integration_methods.h"
 
 
@@ -90,6 +91,8 @@ typedef struct {
 void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args);
 
 void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * params, double * ret);
+
+//int parse_sm_golowasch_et_al_1999 (xmlDocPtr doc, xmlNodePtr cur, void * syn_args);
 
 ///@}
 

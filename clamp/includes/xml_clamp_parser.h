@@ -10,6 +10,8 @@ extern "C" {
 #include "../../model_library/neuron/neuron_models_functions.h"
 #include "../../model_library/synapse/synapse_models_functions.h"
 
+#include "../../model_library/xml_models.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

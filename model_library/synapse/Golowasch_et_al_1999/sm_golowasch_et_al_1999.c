@@ -2,7 +2,7 @@
 
 /**
  * @file sm_golowasch_et_al_1999.c
- * @brief Source file with the Electrical synapse model functions.
+ * @brief Source file with the Golowasch et al. synapse model functions.
  */ 
 
 

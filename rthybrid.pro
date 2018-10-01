@@ -108,7 +108,14 @@ SOURCES += \
     model_library/synapse/Empty/sm_empty.c \
     model_library/synapse/synapse_models_functions.c \
     model_library/synapse/Electrical/sm_electrical.c \
-    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c
+    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c \
+    model_library/synapse/Electrical/sm_xml_electrical.c \
+    model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.c \
+    model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c \
+    model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c \
+    model_library/neuron/Wang_1993/nm_xml_wang_1993.c \
+    model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c \
+    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -147,7 +154,15 @@ HEADERS += \
     model_library/synapse/Empty/sm_empty.h \
     model_library/synapse/synapse_models_functions.h \
     model_library/synapse/Electrical/sm_electrical.h \
-    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h
+    model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+    model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h \
+    model_library/synapse/Electrical/sm_xml_electrical.h \
+    model_library/xml_models.h \
+    model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h \
+    model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h \
+    model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
+    model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
+    model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h
 
 FORMS += \
     gui/rthybrid.ui \

@@ -1,10 +1,13 @@
 <clamp>
 	
-	<model type="0">
-	</model>
+	<neuron type="0">
+	</neuron>
 
-	<synapse type="0">
-	</synapse>
+	<synapse_mtol type="0">
+	</synapse_mtol>
+
+	<synapse_ltom type="0">
+	</synapse_ltom>
 
 	<calib type="0"></calib>
 

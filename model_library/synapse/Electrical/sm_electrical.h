@@ -3,6 +3,7 @@
  * @brief Header file for the Electrical synapse model functions.
  */
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,6 +13,7 @@ extern "C" {
 
 #include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
+
 
 
 /* General quizas hay que hacer una funcion de syn general, o un types*/
@@ -59,6 +61,8 @@ typedef struct {
 void sm_electrical_init (synapse_model * sm, void * syn_args);
 
 void sm_electrical (double v_post, double v_pre, synapse_model * sm, double * ret);
+
+//int parse_sm_electrical (xmlDocPtr doc, xmlNodePtr cur, void ** syn_args);
 
 ///@}
 
