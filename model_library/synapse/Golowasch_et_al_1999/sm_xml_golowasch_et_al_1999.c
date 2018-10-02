@@ -5,7 +5,13 @@
  * @brief Source file with the Golowasch et al. synapse model XML parser functions.
  */ 
 
-
+/**
+ * @brief Imports the parameters of the Golowasch et al. 1999 synapse model from an XML file.
+ * @param[in] doc XML pointer to the document
+ * @param[in] cur Cursor to navigate the XML file.
+ * @param[in/out] syn_args Pointer to the synapse arguments structure
+ * @return #OK if it works, #ERR if there is an error
+ */
 
 int parse_sm_golowasch_et_al_1999 (xmlDocPtr doc, xmlNodePtr cur, void ** syn_args) {
 	int ret = OK;

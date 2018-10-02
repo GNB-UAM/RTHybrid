@@ -12,7 +12,6 @@ extern "C" {
 
 #include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
-//#include "../../../common/includes/xml_parser_functions.h" 
 #include "../../integration_methods.h"
 
 

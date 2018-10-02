@@ -3,7 +3,15 @@
 /**
  * @file nm_xml_rulkov_2002.c
  * @brief Source file with the Rulkov neuron model functions.
- */ 
+ */
+
+/**
+ * @brief Imports the parameters of the Rulkov_2002 neuron model from an XML file.
+ * @param[in] doc XML pointer to the document
+ * @param[in] cur Cursor to navigate the XML file.
+ * @param[in/out] args Pointer to the main arguments structure
+ * @return #OK if it works, #ERR if there is an error
+ */
 
 int parse_nm_rulkov_2002 (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 	xmlNodePtr child =  NULL;

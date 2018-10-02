@@ -62,8 +62,6 @@ void sm_electrical_init (synapse_model * sm, void * syn_args);
 
 void sm_electrical (double v_post, double v_pre, synapse_model * sm, double * ret);
 
-//int parse_sm_electrical (xmlDocPtr doc, xmlNodePtr cur, void ** syn_args);
-
 ///@}
 
 #endif // SM_ELECTRICAL_H

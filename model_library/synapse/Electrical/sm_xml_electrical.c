@@ -3,7 +3,15 @@
 /**
  * @file sm_xml_electrical.c
  * @brief Source file with the Electrical synapse model XML parser functions.
- */ 
+ */
+
+/**
+ * @brief Imports the parameters of the Electrical synapse model from an XML file.
+ * @param[in] doc XML pointer to the document
+ * @param[in] cur Cursor to navigate the XML file.
+ * @param[in/out] syn_args Pointer to the synapse arguments structure
+ * @return #OK if it works, #ERR if there is an error
+ */
 
 int parse_sm_electrical (xmlDocPtr doc, xmlNodePtr cur, void ** syn_args) {
 	int ret = OK;
