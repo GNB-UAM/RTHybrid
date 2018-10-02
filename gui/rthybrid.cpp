@@ -6,6 +6,7 @@
 #include <QMovie>
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QEventLoop>
 
 #include "model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h"
 #include "model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h"
@@ -29,6 +30,10 @@ RTHybrid::RTHybrid(QWidget *parent) :
     this->args.syn_args_live_to_model = NULL;
     this->args.syn_args_model_to_live = NULL;
 
+    this->args.model = 0;
+    this->args.synapse_ltom = 0;
+    this->args.synapse_mtol = 0;
+
     /*movie = new QMovie("resources/neuron.gif");
     ui->label_gif->setMovie(movie);
     movie->stop();*/
@@ -40,7 +45,7 @@ RTHybrid::RTHybrid(QWidget *parent) :
     pixmapTarget = pixmapTarget.scaled(261, 147, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_gif->setPixmap(pixmapTarget);*/
 
-    QPixmap pixmapTarget = QPixmap("resources/interaction_living.png");
+    QPixmap pixmapTarget = QPixmap("resources/neuron/living.png");
     pixmapTarget = pixmapTarget.scaled(121, 121, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_living->setPixmap(pixmapTarget);
 }
@@ -116,153 +121,6 @@ void RTHybrid::on_buttonStart_clicked()
     args.output_factor = ui->doubleOutputFactor->value();
 
 
-    /*if (autocalIndex == 0 || autocalIndex == 3){
-        switch (args.synapse) {
-            case EMPTY_SYN:
-                break;
-            case ELECTRIC:
-                {
-                args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-                args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-
-                syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
-                syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
-
-                args_live_to_model_elec->g[ELEC_G] = ui->doubleSynElec_gEtoM->value();
-                args_model_to_live_elec->g[ELEC_G] = ui->doubleSynElec_gMtoE->value();
-
-                if (ui->checkAnti->isChecked()) {
-                    args_model_to_live_elec->anti = -1;
-                    args_live_to_model_elec->anti = -1;
-                } else {
-                    args_model_to_live_elec->anti = 1;
-                    args_live_to_model_elec->anti = 1;
-                }
-
-                break;
-                }
-            case GOLOWASCH:
-                {
-                args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-                args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-
-                syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
-                syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
-
-                args_live_to_model_gl->g[GL_G_FAST] = ui->doubleSpinBox_gl_EtoM_fast_g->value();
-                args_live_to_model_gl->g[GL_G_SLOW] = ui->doubleSpinBox_gl_EtoM_slow_g->value();
-                args_live_to_model_gl->v_fast = ui->spinBox_gl_EtoM_fast_vth->value();
-                args_live_to_model_gl->v_slow = ui->spinBox_gl_EtoM_slow_vth->value();
-                args_live_to_model_gl->k1 = ui->doubleSpinBox_gl_EtoM_slow_k1->value();
-                args_live_to_model_gl->k2 = ui->doubleSpinBox_gl_EtoM_slow_k2->value();
-                args_live_to_model_gl->s_fast = ui->spinBox_gl_EtoM_fast_s->value();
-                args_live_to_model_gl->s_slow = ui->spinBox_gl_EtoM_slow_s->value();
-
-                args_model_to_live_gl->g[GL_G_FAST] = ui->doubleSpinBox_gl_MtoE_fast_g->value();
-                args_model_to_live_gl->g[GL_G_SLOW] = ui->doubleSpinBox_gl_MtoE_slow_g->value();
-                args_model_to_live_gl->v_fast = ui->spinBox_gl_MtoE_fast_vth->value();
-                args_model_to_live_gl->v_slow = ui->spinBox_gl_MtoE_slow_vth->value();
-                args_model_to_live_gl->k1 = ui->doubleSpinBox_gl_MtoE_slow_k1->value();
-                args_model_to_live_gl->k2 = ui->doubleSpinBox_gl_MtoE_slow_k2->value();
-                args_model_to_live_gl->s_fast = ui->spinBox_gl_MtoE_fast_s->value();
-                args_model_to_live_gl->s_slow = ui->spinBox_gl_MtoE_slow_s->value();
-
-                break;
-            }
-            default:
-                break;
-        }
-    }*/
-
-
-    /*switch (autocalIndex) {
-        case 1:
-        {
-            args.synapse = ELECTRIC;
-
-            args.syn_args_live_to_model = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-            args.syn_args_model_to_live = (syn_elec_args *) malloc (sizeof(syn_elec_args));
-
-            syn_elec_args * args_live_to_model_elec = (syn_elec_args *) args.syn_args_live_to_model;
-            syn_elec_args * args_model_to_live_elec = (syn_elec_args *) args.syn_args_model_to_live;
-
-            args_live_to_model_elec->g[ELEC_G] = 0.0;
-            args_model_to_live_elec->g[ELEC_G] = 0.0;
-
-            args_model_to_live_elec->anti = 1;
-            args_live_to_model_elec->anti = 1;
-
-            if (ui->radioButtonMSE_percentagereduction->isChecked()==true){
-
-                args.mode_auto_cal = 1;
-                args.auto_cal_val_1 = ui->doubleMSE_percentagereduction->value();
-
-            } else if (ui->radioButtonMSE_slopereduction->isChecked()==true){
-
-                args.mode_auto_cal = 2;
-                args.auto_cal_val_1 = ui->doubleMSE_slopereduction->value();
-
-            }
-
-
-            break;
-        }
-
-        case 2:
-        {
-            args.mode_auto_cal = 7;
-            args.synapse = GOLOWASCH;
-
-            args.syn_args_live_to_model = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-            args.syn_args_model_to_live = (syn_gl_args *) malloc (sizeof(syn_gl_args));
-
-            syn_gl_args * args_live_to_model_gl = (syn_gl_args *) args.syn_args_live_to_model;
-            syn_gl_args * args_model_to_live_gl = (syn_gl_args *) args.syn_args_model_to_live;
-
-            if (ui->gradualModelToExternalSelect->currentIndex() == GL_G_FAST){
-                args_model_to_live_gl->g[GL_G_FAST] = ui->chemMap_MaxToExternal->value();
-                args_model_to_live_gl->g[GL_G_SLOW] = 0.0;
-            }else{
-                args_model_to_live_gl->g[GL_G_FAST] = 0.0;
-                args_model_to_live_gl->g[GL_G_SLOW] = ui->chemMap_MaxToExternal->value();
-            }
-
-            if (ui->gradualExternalToModelSelect->currentIndex() == GL_G_FAST){
-                args_live_to_model_gl->g[GL_G_FAST] = ui->chemMap_MaxToModel->value();
-                args_live_to_model_gl->g[GL_G_SLOW] = 0.0;
-            }else{
-                args_live_to_model_gl->g[GL_G_FAST] = 0.0;
-                args_live_to_model_gl->g[GL_G_SLOW] = ui->chemMap_MaxToModel->value();
-            }
-
-            args.step_v_to_r = ui->chemMap_StepToExternal->value();
-            args.step_r_to_v = ui->chemMap_StepToModel->value();
-
-
-            args_live_to_model_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
-            args_live_to_model_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
-            args_live_to_model_gl->k1 = ui->doubleSynGrad_k1_map->value();
-            args_live_to_model_gl->k2 = ui->doubleSynGrad_k2_map->value();
-
-            args_model_to_live_gl->v_fast = ui->doubleSynGrad_vfast_map->value();
-            args_model_to_live_gl->v_slow = ui->doubleSynGrad_vslow_map->value();
-            args_model_to_live_gl->k1 = ui->doubleSynGrad_k1_map->value();
-            args_model_to_live_gl->k2 = ui->doubleSynGrad_k2_map->value();
-
-            break;
-        }
-        case 3:
-        {
-            args.auto_cal_val_1 = ui->autocal_reg_per->value();
-            args.mode_auto_cal = 9;
-            break;
-        }
-
-        default:
-            args.mode_auto_cal = 0;
-            break;
-    }*/
-
 
     //movie->start();
     ui->centralWidget->setStyleSheet("#centralWidget{ background-color: rgb(230, 230, 230); }");
@@ -305,68 +163,6 @@ void RTHybrid::on_buttonStop_clicked()
     if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
 }
 
-/*void RTHybrid::on_neuronModelCombo_activated(int index)
-{
-    std::string res = "";
-
-    ui->neuronModelPages->setCurrentIndex(index);
-
-    switch (index) {
-    case IZ:
-    {
-        res = "resources/interaction_model_izhikevich.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Izhikevich_2003 * nm = new NM_GUI_Izhikevich_2003(&(this->args));
-        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nm->show();
-        break;
-    }
-    case HR:
-    {
-        res = "resources/interaction_model_hindmarsh_rose.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Hindmarsh_Rose_1986 * nm = new NM_GUI_Hindmarsh_Rose_1986(&(this->args));
-        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nm->show();
-        break;
-    }
-    case RLK:
-    {
-        res = "resources/interaction_model_rulkov.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Rulkov_2002 * nm = new NM_GUI_Rulkov_2002(&(this->args));
-        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nm->show();
-        break;
-    }
-    case GH:
-    {
-        res = "resources/interaction_model_ghigliazza_holmes.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Ghigliazza_Holmes_2004 * nm = new NM_GUI_Ghigliazza_Holmes_2004(&(this->args));
-        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nm->show();
-        break;
-    }
-    case WANG:
-    {
-        res = "resources/interaction_model_ghigliazza_holmes.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        NM_GUI_Wang_1993 * nm = new NM_GUI_Wang_1993(&(this->args));
-        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        nm->show();
-        break;
-    }
-    default:
-        res = "resources/interaction_none.png";
-        free_pointers(2, &(this->args.vars), &(this->args.params));
-        break;
-    }
-
-    QPixmap pixmapTarget = QPixmap(res.c_str());
-    pixmapTarget = pixmapTarget.scaled(121, 121, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->label_interaction_model->setPixmap(pixmapTarget);
-}*/
 
 /*void RTHybrid::on_synapseModelCombo_activated(int index)
 {
@@ -669,7 +465,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     switch (index) {
     case NM_IZHIKEVICH_2003:
     {
-        res = "resources/interaction_model_izhikevich.png";
+        res = "resources/neuron/izhikevich_2003.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Izhikevich_2003 * nm = new NM_GUI_Izhikevich_2003(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
@@ -678,7 +474,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     }
     case NM_HINDMARSH_ROSE_1986:
     {
-        res = "resources/interaction_model_hindmarsh_rose.png";
+        res = "resources/neuron/hindmarsh_rose_1986.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Hindmarsh_Rose_1986 * nm = new NM_GUI_Hindmarsh_Rose_1986(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
@@ -687,7 +483,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     }
     case NM_RULKOV_2002:
     {
-        res = "resources/interaction_model_rulkov.png";
+        res = "resources/neuron/rulkov_2002.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Rulkov_2002 * nm = new NM_GUI_Rulkov_2002(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
@@ -696,7 +492,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     }
     case NM_GHIGLIAZZA_HOLMES_2004:
     {
-        res = "resources/interaction_model_ghigliazza_holmes.png";
+        res = "resources/neuron/ghigliazza_holmes_2004.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Ghigliazza_Holmes_2004 * nm = new NM_GUI_Ghigliazza_Holmes_2004(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
@@ -705,7 +501,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     }
     case NM_WANG_1993:
     {
-        res = "resources/interaction_model_ghigliazza_holmes.png";
+        res = "resources/neuron/wang_1993.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Wang_1993 * nm = new NM_GUI_Wang_1993(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
@@ -745,7 +541,7 @@ void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int d
         free_pointers(1, syn_args);
         SM_GUI_Electrical * sm = new SM_GUI_Electrical(syn_args, direction);
         sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        sm->show();
+        sm->exec();
         break;
     }
     case SM_GOLOWASCH_ET_AL_1999:
@@ -753,7 +549,7 @@ void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int d
         free_pointers(1, syn_args);
         SM_GUI_Golowasch_et_al_1999 * sm = new SM_GUI_Golowasch_et_al_1999(syn_args, direction);
         sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
-        sm->show();
+        sm->exec();
         break;
     }
     default:
@@ -763,24 +559,202 @@ void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int d
 
 }
 
+void RTHybrid::synapse_models_graphics_ltom(int model_ltom, void * syn_args_ltom, int model_mtol, void * syn_args_mtol) {
+    std::string res = "", legend = "resources/interaction_none.png";
+    QPixmap pixmapTarget;
+    unsigned int elec_mtol = 0;
+
+    if (model_mtol == SM_ELECTRICAL) {
+        syn_elec_args * aux_syn_args_mtol = (syn_elec_args *) syn_args_mtol;
+        if (aux_syn_args_mtol->g[ELEC_G] != 0.0) {
+            elec_mtol = 1;
+        }
+    } else if (model_mtol == SM_GOLOWASCH_ET_AL_1999) {
+        legend = "resources/synapse/golowasch_et_al_1999_legend.png";
+    }
+
+    if (elec_mtol == 0) {
+        res = "resources/interaction_none.png";
+    } else {
+        res = "resources/synapse/electrical_ltom.png";
+    }
+
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
+    res = "resources/interaction_none.png";
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_living_to_model->setPixmap(pixmapTarget);
+
+
+    switch (model_ltom) {
+    case SM_ELECTRICAL:
+    {
+        syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args_ltom;
+
+        if (aux_syn_args->g[ELEC_G] != 0.0) {
+            if (elec_mtol == 1) {
+                res = "resources/synapse/electrical_both.png";
+            } else {
+                res = "resources/synapse/electrical_ltom.png";
+            }
+        } else {
+            if (elec_mtol == 1) {
+                res = "resources/synapse/electrical_mtol.png";
+            } else {
+                res = "resources/interaction_none.png";
+            }
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
+        break;
+    }
+    case SM_GOLOWASCH_ET_AL_1999:
+    {
+        syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args_ltom;
+
+        if (aux_syn_args->g[GL_G_FAST] != 0.0) {
+            if (aux_syn_args->g[GL_G_SLOW] != 0.0) {
+                res = "resources/synapse/golowasch_et_al_1999_ltom_fs.png";
+            } else {
+                res = "resources/synapse/golowasch_et_al_1999_ltom_f.png";
+            }
+        } else if (aux_syn_args->g[GL_G_SLOW] != 0.0) {
+            res = "resources/synapse/golowasch_et_al_1999_ltom_s.png";
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_living_to_model->setPixmap(pixmapTarget);
+        legend = "resources/synapse/golowasch_et_al_1999_legend.png";
+
+        break;
+    }
+    default:
+        break;
+    }
+
+    pixmapTarget = QPixmap(legend.c_str());
+    pixmapTarget = pixmapTarget.scaled(151, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_legend->setPixmap(pixmapTarget);
+}
+
+void RTHybrid::synapse_models_graphics_mtol(int model_mtol, void * syn_args_mtol, int model_ltom, void * syn_args_ltom) {
+    std::string res = "", legend = "resources/interaction_none.png";
+    QPixmap pixmapTarget;
+    unsigned int elec_ltom = 0;
+
+    if (model_ltom == SM_ELECTRICAL) {
+        syn_elec_args * aux_syn_args_ltom = (syn_elec_args *) syn_args_ltom;
+        if (aux_syn_args_ltom->g[ELEC_G] != 0.0) {
+            elec_ltom = 1;
+        }
+    } else if (model_ltom == SM_GOLOWASCH_ET_AL_1999) {
+        legend = "resources/synapse/golowasch_et_al_1999_legend.png";
+    }
+
+    if (elec_ltom == 0) {
+        res = "resources/interaction_none.png";
+    } else {
+        res = "resources/synapse/electrical_ltom.png";
+    }
+
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
+    res = "resources/interaction_none.png";
+    pixmapTarget = QPixmap(res.c_str());
+    pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
+
+
+    switch (model_mtol) {
+    case SM_ELECTRICAL:
+    {
+        syn_elec_args * aux_syn_args = (syn_elec_args *) syn_args_mtol;
+
+        if (aux_syn_args->g[ELEC_G] != 0.0) {
+            if (elec_ltom == 1) {
+                res = "resources/synapse/electrical_both.png";
+            } else {
+                res = "resources/synapse/electrical_mtol.png";
+            }
+        } else {
+            if (elec_ltom == 1) {
+                res = "resources/synapse/electrical_ltom.png";
+            } else {
+                res = "resources/interaction_none.png";
+            }
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(181, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_both->setPixmap(pixmapTarget);
+
+        break;
+    }
+    case SM_GOLOWASCH_ET_AL_1999:
+    {
+        syn_gl_args * aux_syn_args = (syn_gl_args *) syn_args_mtol;
+
+        if (aux_syn_args->g[GL_G_FAST] != 0.0) {
+            if (aux_syn_args->g[GL_G_SLOW] != 0.0) {
+                res = "resources/synapse/golowasch_et_al_1999_mtol_fs.png";
+            } else {
+                res = "resources/synapse/golowasch_et_al_1999_mtol_f.png";
+            }
+        } else if (aux_syn_args->g[GL_G_SLOW] != 0.0) {
+            res = "resources/synapse/golowasch_et_al_1999_mtol_s.png";
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
+        legend = "resources/synapse/golowasch_et_al_1999_legend.png";
+
+        break;
+    }
+    default:
+        break;
+    }
+
+    pixmapTarget = QPixmap(legend.c_str());
+    pixmapTarget = pixmapTarget.scaled(151, 41, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->label_interaction_syn_legend->setPixmap(pixmapTarget);
+}
+
 void RTHybrid::on_combo_synLtoM_activated(int index)
 {
     synapse_models_switch(index, &(this->args.syn_args_live_to_model), 0);
+
+    synapse_models_graphics_ltom(index, this->args.syn_args_live_to_model, ui->combo_synMtoL->currentIndex(), this->args.syn_args_model_to_live);
 }
 
 void RTHybrid::on_combo_synMtoL_activated(int index)
 {
     synapse_models_switch(index, &(this->args.syn_args_model_to_live), 1);
+
+    synapse_models_graphics_mtol(index, this->args.syn_args_model_to_live, ui->combo_synLtoM->currentIndex(), this->args.syn_args_live_to_model);
 }
 
 void RTHybrid::on_pushButton_synLtoM_config_clicked()
 {
     int index = ui->combo_synLtoM->currentIndex();
     synapse_models_switch(index, &(this->args.syn_args_live_to_model), 0);
+
+    synapse_models_graphics_ltom(index, this->args.syn_args_live_to_model, ui->combo_synMtoL->currentIndex(), this->args.syn_args_model_to_live);
 }
 
 void RTHybrid::on_pushButton_synMtoL_config_clicked()
 {
     int index = ui->combo_synMtoL->currentIndex();
     synapse_models_switch(index, &(this->args.syn_args_model_to_live), 1);
+
+    synapse_models_graphics_mtol(index, this->args.syn_args_model_to_live, ui->combo_synLtoM->currentIndex(), this->args.syn_args_live_to_model);
 }

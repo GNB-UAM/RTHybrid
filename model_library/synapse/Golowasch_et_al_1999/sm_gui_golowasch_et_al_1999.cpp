@@ -2,7 +2,7 @@
 #include "ui_sm_gui_golowasch_et_al_1999.h"
 
 SM_GUI_Golowasch_et_al_1999::SM_GUI_Golowasch_et_al_1999(void ** args, unsigned int direction, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::SM_GUI_Golowasch_et_al_1999)
 {
     switch (direction) {

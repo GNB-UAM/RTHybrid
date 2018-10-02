@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>SM_GUI_Golowasch_et_al_1999</class>
- <widget class="QWidget" name="SM_GUI_Golowasch_et_al_1999">
+ <widget class="QDialog" name="SM_GUI_Golowasch_et_al_1999">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>

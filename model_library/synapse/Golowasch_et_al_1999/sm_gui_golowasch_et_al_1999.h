@@ -1,7 +1,7 @@
 #ifndef SM_GUI_GOLOWASCH_ET_AL_1999_H
 #define SM_GUI_GOLOWASCH_ET_AL_1999_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "sm_golowasch_et_al_1999.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class SM_GUI_Golowasch_et_al_1999;
 }
 
-class SM_GUI_Golowasch_et_al_1999 : public QWidget
+class SM_GUI_Golowasch_et_al_1999 : public QDialog
 {
     Q_OBJECT
 

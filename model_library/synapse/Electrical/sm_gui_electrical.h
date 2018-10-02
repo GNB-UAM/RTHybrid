@@ -1,7 +1,7 @@
 #ifndef SM_GUI_ELECTRICAL_H
 #define SM_GUI_ELECTRICAL_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "sm_electrical.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class SM_GUI_Electrical;
 }
 
-class SM_GUI_Electrical : public QWidget
+class SM_GUI_Electrical : public QDialog
 {
     Q_OBJECT
 

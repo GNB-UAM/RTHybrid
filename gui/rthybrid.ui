@@ -470,9 +470,9 @@
     <property name="geometry">
      <rect>
       <x>18</x>
-      <y>537</y>
+      <y>567</y>
       <width>481</width>
-      <height>151</height>
+      <height>121</height>
      </rect>
     </property>
     <property name="palette">
@@ -1208,7 +1208,7 @@
       <x>18</x>
       <y>337</y>
       <width>481</width>
-      <height>191</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="palette">
@@ -1320,6 +1320,9 @@
        <height>121</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -1368,6 +1371,9 @@
        <height>61</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -1383,6 +1389,25 @@
        <width>181</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_interaction_syn_legend">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>160</y>
+       <width>101</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>

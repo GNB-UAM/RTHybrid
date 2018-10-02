@@ -2,7 +2,7 @@
 #include "ui_sm_gui_electrical.h"
 
 SM_GUI_Electrical::SM_GUI_Electrical(void ** args, unsigned int direction, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::SM_GUI_Electrical)
 {
     switch (direction) {

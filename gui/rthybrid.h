@@ -57,6 +57,10 @@ private slots:
 
     void synapse_models_switch(int index, void ** syn_args, unsigned int direction);
 
+    void synapse_models_graphics_ltom(int model_ltom, void * syn_args_ltom, int model_mtol, void * syn_args_mtol);
+
+    void synapse_models_graphics_mtol(int model_mtol, void * syn_args_mtol, int model_ltom, void * syn_args_ltom);
+
     void on_combo_synLtoM_activated(int index);
 
     void on_combo_synMtoL_activated(int index);

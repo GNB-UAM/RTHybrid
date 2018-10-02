@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>SM_GUI_Electrical</class>
- <widget class="QWidget" name="SM_GUI_Electrical">
+ <widget class="QDialog" name="SM_GUI_Electrical">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -40,7 +40,7 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>261</width>
+     <width>91</width>
      <height>21</height>
     </rect>
    </property>
