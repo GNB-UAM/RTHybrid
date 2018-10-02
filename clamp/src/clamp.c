@@ -86,7 +86,7 @@ int clamp (clamp_args * args) {
      * Create and open recording files
      */
 
-    t = time(NULL);
+    /*t = time(NULL);
 	tm = *localtime(&t);
 
     asprintf(&path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
@@ -104,7 +104,9 @@ int clamp (clamp_args * args) {
 
 	asprintf(&hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
 	asprintf(&filename_data, "%s%s_data.txt", path, hour);
-    sprintf(filename, "%s%s", path, hour);
+    sprintf(filename, "%s%s", path, hour);*/
+
+    asprintf(&filename_data, "%s_data.txt", args->filename);
 
     if (init_file_selector() == ERR) {
         syslog(LOG_INFO, "Error starting file selector.");
@@ -121,9 +123,9 @@ int clamp (clamp_args * args) {
         return ERR;
     }
 
-    printf(" - File: %s\n", filename_data);
+    //printf(" - File: %s\n", filename_data);
 
-    free_pointers(4, &path, &hour, &filename_data, &filename_events);
+    //free_pointers(4, &path, &hour, &filename_data, &filename_events);
 
     /* End of opening recording files */
 
@@ -156,14 +158,14 @@ int clamp (clamp_args * args) {
     r_args.observation = args->observation;
     r_args.period =  (1 / args->freq) * NSEC_PER_SEC;
     r_args.freq = args->freq;
-    r_args.filename = filename;
+    r_args.filename = args->filename;
     r_args.calibration = args->mode_auto_cal;
     r_args.sec_per_burst = args->sec_per_burst;
     r_args.check_drift = args->check_drift;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
 
     w_args.path = path;
-    w_args.filename = filename;
+    w_args.filename = args->filename;
     w_args.msqid = msqid_nrt;
     w_args.model = args->model;
     w_args.freq = args->freq;
@@ -205,6 +207,7 @@ int clamp (clamp_args * args) {
     free_neuron_model (&(r_args.nm));
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
+    free_pointers(2, &filename_data, &(args->filename));
     free_pointers(2 , &(args->input_channels), &(args->output_channels)/*, &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live)*/);
     /* vars y params no se liberan al acabar porque si se vuelve a ejecutar el experimento sin cambiar de modelo pues petaria */
 

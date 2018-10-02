@@ -200,6 +200,7 @@ typedef struct {
     void * syn_args_live_to_model;
     double input_factor;			/**< Input scaling factor due to the experimental setup*/
     double output_factor;			/**< Output voltage/current conversion factor due to the experimental setup*/
+    char * filename;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__
