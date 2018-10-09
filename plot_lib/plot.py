@@ -5,7 +5,7 @@ import matplotlib.gridspec as gridspec
 import argparse
 import math
 
-import plot_aux_new as aux
+import plot_aux as aux
 import plot_funcs as funcs
 import plot_autocal as autocal
 
@@ -27,8 +27,9 @@ funcs.plot_voltage_current(data1, data2, args)
 
 #funcs.plot_voltage_current_extra(data1, data2, args)
 
-funcs.plot_lat_dist(data1)
-funcs.plot_lat(data1)
+if args.lat == 1:
+	funcs.plot_lat_dist(data1)
+	funcs.plot_lat(data1)
 
 
 

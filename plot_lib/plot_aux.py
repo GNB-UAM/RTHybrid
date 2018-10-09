@@ -16,7 +16,8 @@ class arguments():
 		ap.add_argument("-s", "--start",  required=False, default=0,        help="First data")
 		ap.add_argument("-e", "--end",    required=False, help="Last data")
 		ap.add_argument("-j", "--jump",   required=False, default=0,        help="Plot less points")
-		ap.add_argument("-d", "--drift",  required=False, default=1,        help="Fix_drift activated")
+		ap.add_argument("-d", "--drift",  required=False, default=0,        help="Fix_drift activated")
+		ap.add_argument("-lat", "--latency",  required=False, default=0,        help="Plot latency")
 		args = vars(ap.parse_args())
 
 		# Parse and save arguments
@@ -24,9 +25,10 @@ class arguments():
 		self.name    = args["name"] 
 		self.title   = args["title"]
 		self.freq    = int(args["freq"])
-		self.jump    = int(args["jump"])
+		self.jump    = int(args["jump"])+1
 		self.drift   = int(args["drift"])
 		self.start   = int(args["start"]) * self.freq
+		self.lat     = int(args["latency"])
 
 		# End is a special case
 		if(args["end"]!=None):
@@ -34,7 +36,7 @@ class arguments():
 			self.end = int(args["end"]) * int(args["freq"])
 		else:
 			# All the file
-			self.end = sum(1 for line in open(self.file+"_data.txt",'r'))
+			self.end = sum(1 for line in open(self.file,'r'))
 
 		# Error control
 		if(self.start >= self.end):
@@ -43,7 +45,7 @@ class arguments():
 class DataStruct1():
 	def __init__(self, args):
 		#FILE
-		filename   = args.file+"_data.txt"
+		filename   = args.file
 		self.name  = args.name
 		self.title = args.title
 
@@ -63,15 +65,15 @@ class DataStruct1():
 		data = dataset.values
 
 		self.data_in = []
-		self.time           = data[:,0] / 1000
-		self.lat            = data[:,1]
-		self.v_model_scaled        = data[:,2]
-		self.c_model        = data[:,4]
-		self.c_viva         = data[:,5]
-		self.data_in.append(data[:,3])
+		self.time           = data[:,0][::args.jump] / 1000
+		self.lat            = data[:,1][::args.jump]
+		self.v_model_scaled = data[:,2][::args.jump]
+		self.c_model        = data[:,4][::args.jump]
+		self.c_viva         = data[:,5][::args.jump]
+		self.data_in.append(data[:,3][::args.jump])
 
 		if (self.n_in_chan > 1):
-			self.extra_rec = data[:,6]
+			self.extra_rec = data[:,6][::args.jump]
 
 
 class DataStruct2():

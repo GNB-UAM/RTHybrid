@@ -1,25 +1,19 @@
 # Nuestro
+
 *.dat
 *.txt
 *.pyc
 *.pro.*
+
 !rtbiomanager.pro
 !about.txt
-figures/*.png
-*.pro.*
-ui_rtbiomanager.h
-moc_rtbiomanager.cpp
-gui/rtbiomanager.ui.autosave
 
-moc_rthybrid.cpp
 ui_rthybrid.h
+moc_rthybrid.cpp
+
+plot_lib/__pycache__
 
 RTHybrid
-main
-clamp-cli_preempt
-rtbiomanager
-stand_alone_clamp
-xml_test
 
 # Prerequisites
 *.d
