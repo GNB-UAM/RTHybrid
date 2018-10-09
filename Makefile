@@ -90,7 +90,13 @@ SOURCES       = clamp/src/comedi_functions.c \
 		model_library/neuron/Wang_1993/nm_xml_wang_1993.c \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c \
 		model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c \
-		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp moc/moc_rthybrid.cpp \
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c \
+		model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp \
+		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c \
+		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c moc/moc_rthybrid.cpp \
 		moc/moc_clamplauncher.cpp \
 		moc/moc_nm_gui_wang_1993.cpp \
 		moc/moc_nm_gui_ghigliazza_holmes_2004.cpp \
@@ -98,7 +104,9 @@ SOURCES       = clamp/src/comedi_functions.c \
 		moc/moc_nm_gui_izhikevich_2003.cpp \
 		moc/moc_nm_gui_rulkov_2002.cpp \
 		moc/moc_sm_gui_electrical.cpp \
-		moc/moc_sm_gui_golowasch_et_al_1999.cpp
+		moc/moc_sm_gui_golowasch_et_al_1999.cpp \
+		moc/moc_sm_gui_destexhe_et_al_1994.cpp \
+		moc/moc_sm_gui_greenberg_manor_2005.cpp
 OBJECTS       = obj/comedi_functions.o \
 		obj/queue_functions.o \
 		obj/aux_functions.o \
@@ -142,6 +150,12 @@ OBJECTS       = obj/comedi_functions.o \
 		obj/nm_xml_hindmarsh_rose_1986.o \
 		obj/nm_xml_rulkov_2002.o \
 		obj/sm_gui_golowasch_et_al_1999.o \
+		obj/sm_destexhe_et_al_1994.o \
+		obj/sm_gui_destexhe_et_al_1994.o \
+		obj/sm_xml_destexhe_et_al_1994.o \
+		obj/sm_gui_greenberg_manor_2005.o \
+		obj/sm_greenberg_manor_2005.o \
+		obj/sm_xml_greenberg_manor_2005.o \
 		obj/moc_rthybrid.o \
 		obj/moc_clamplauncher.o \
 		obj/moc_nm_gui_wang_1993.o \
@@ -150,7 +164,9 @@ OBJECTS       = obj/comedi_functions.o \
 		obj/moc_nm_gui_izhikevich_2003.o \
 		obj/moc_nm_gui_rulkov_2002.o \
 		obj/moc_sm_gui_electrical.o \
-		obj/moc_sm_gui_golowasch_et_al_1999.o
+		obj/moc_sm_gui_golowasch_et_al_1999.o \
+		obj/moc_sm_gui_destexhe_et_al_1994.o \
+		obj/moc_sm_gui_greenberg_manor_2005.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -257,7 +273,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h \
-		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h clamp/src/comedi_functions.c \
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h clamp/src/comedi_functions.c \
 		clamp/src/queue_functions.c \
 		common/src/aux_functions.c \
 		common/src/file_selector_functions.c \
@@ -299,7 +321,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		model_library/neuron/Wang_1993/nm_xml_wang_1993.c \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c \
 		model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c \
-		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c \
+		model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp \
+		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c \
+		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c
 QMAKE_TARGET  = RTHybrid
 DESTDIR       = 
 TARGET        = RTHybrid
@@ -308,7 +336,7 @@ TARGET        = RTHybrid
 first: all
 ####### Build rules
 
-$(TARGET): ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h $(OBJECTS)  
+$(TARGET): ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h ui/ui_sm_gui_destexhe_et_al_1994.h ui/ui_sm_gui_greenberg_manor_2005.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: rthybrid.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -462,9 +490,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/clamp.h clamp/includes/device_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h clamp/includes/types_clamp.h clamp/includes/writer_thread_functions.h clamp/includes/xml_clamp_parser.h moc/moc_predefs.h model_library/integration_methods.h model_library/neuron/Wang_1993/nm_gui_wang_1993.h model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_rulkov_2002.h model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h model_library/neuron/Wang_1993/nm_wang_1993.h model_library/neuron/neuron_models_functions.h model_library/neuron/Empty/nm_empty.h model_library/synapse/Electrical/sm_gui_electrical.h model_library/synapse/Empty/sm_empty.h model_library/synapse/synapse_models_functions.h model_library/synapse/Electrical/sm_electrical.h model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h model_library/synapse/Electrical/sm_xml_electrical.h model_library/xml_models.h model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h model_library/neuron/Wang_1993/nm_xml_wang_1993.h model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/main.cpp clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/calibrate_functions_phase2_a.c clamp/src/clamp.c clamp/src/rt_thread_functions.c clamp/src/time_functions.c clamp/src/writer_thread_functions.c clamp/src/xml_clamp_parser.c model_library/integration_methods.c model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_rulkov_2002.c model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c model_library/neuron/Wang_1993/nm_wang_1993.c model_library/neuron/neuron_models_functions.c model_library/neuron/Empty/nm_empty.c model_library/synapse/Electrical/sm_gui_electrical.cpp model_library/synapse/Empty/sm_empty.c model_library/synapse/synapse_models_functions.c model_library/synapse/Electrical/sm_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c model_library/synapse/Electrical/sm_xml_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.c model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/rthybrid.ui model_library/neuron/Wang_1993/nm_gui_wang_1993.ui model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui model_library/synapse/Electrical/sm_gui_electrical.ui model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui $(DISTDIR)/
+	$(COPY_FILE) --parents common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/clamp.h clamp/includes/device_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h clamp/includes/types_clamp.h clamp/includes/writer_thread_functions.h clamp/includes/xml_clamp_parser.h moc/moc_predefs.h model_library/integration_methods.h model_library/neuron/Wang_1993/nm_gui_wang_1993.h model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_rulkov_2002.h model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h model_library/neuron/Wang_1993/nm_wang_1993.h model_library/neuron/neuron_models_functions.h model_library/neuron/Empty/nm_empty.h model_library/synapse/Electrical/sm_gui_electrical.h model_library/synapse/Empty/sm_empty.h model_library/synapse/synapse_models_functions.h model_library/synapse/Electrical/sm_electrical.h model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h model_library/synapse/Electrical/sm_xml_electrical.h model_library/xml_models.h model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h model_library/neuron/Wang_1993/nm_xml_wang_1993.h model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/main.cpp clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/calibrate_functions_phase2_a.c clamp/src/clamp.c clamp/src/rt_thread_functions.c clamp/src/time_functions.c clamp/src/writer_thread_functions.c clamp/src/xml_clamp_parser.c model_library/integration_methods.c model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_rulkov_2002.c model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c model_library/neuron/Wang_1993/nm_wang_1993.c model_library/neuron/neuron_models_functions.c model_library/neuron/Empty/nm_empty.c model_library/synapse/Electrical/sm_gui_electrical.cpp model_library/synapse/Empty/sm_empty.c model_library/synapse/synapse_models_functions.c model_library/synapse/Electrical/sm_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c model_library/synapse/Electrical/sm_xml_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.c model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c $(DISTDIR)/
+	$(COPY_FILE) --parents gui/rthybrid.ui model_library/neuron/Wang_1993/nm_gui_wang_1993.ui model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui model_library/synapse/Electrical/sm_gui_electrical.ui model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -491,9 +519,9 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp moc/moc_sm_gui_electrical.cpp moc/moc_sm_gui_golowasch_et_al_1999.cpp
+compiler_moc_header_make_all: moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp moc/moc_sm_gui_electrical.cpp moc/moc_sm_gui_golowasch_et_al_1999.cpp moc/moc_sm_gui_destexhe_et_al_1994.cpp moc/moc_sm_gui_greenberg_manor_2005.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp moc/moc_sm_gui_electrical.cpp moc/moc_sm_gui_golowasch_et_al_1999.cpp
+	-$(DEL_FILE) moc/moc_rthybrid.cpp moc/moc_clamplauncher.cpp moc/moc_nm_gui_wang_1993.cpp moc/moc_nm_gui_ghigliazza_holmes_2004.cpp moc/moc_nm_gui_hindmarsh_rose_1986.cpp moc/moc_nm_gui_izhikevich_2003.cpp moc/moc_nm_gui_rulkov_2002.cpp moc/moc_sm_gui_electrical.cpp moc/moc_sm_gui_golowasch_et_al_1999.cpp moc/moc_sm_gui_destexhe_et_al_1994.cpp moc/moc_sm_gui_greenberg_manor_2005.cpp
 moc/moc_rthybrid.cpp: ui/ui_rthybrid.h \
 		gui/clamplauncher.h \
 		clamp/includes/clamp.h \
@@ -514,6 +542,8 @@ moc/moc_rthybrid.cpp: ui/ui_rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -542,6 +572,8 @@ moc/moc_clamplauncher.cpp: clamp/includes/clamp.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -613,11 +645,29 @@ moc/moc_sm_gui_golowasch_et_al_1999.cpp: model_library/synapse/Golowasch_et_al_1
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h -o moc/moc_sm_gui_golowasch_et_al_1999.cpp
 
+moc/moc_sm_gui_destexhe_et_al_1994.cpp: model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h -o moc/moc_sm_gui_destexhe_et_al_1994.cpp
+
+moc/moc_sm_gui_greenberg_manor_2005.cpp: model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h -o moc/moc_sm_gui_greenberg_manor_2005.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h
+compiler_uic_make_all: ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h ui/ui_sm_gui_destexhe_et_al_1994.h ui/ui_sm_gui_greenberg_manor_2005.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h
+	-$(DEL_FILE) ui/ui_rthybrid.h ui/ui_nm_gui_wang_1993.h ui/ui_nm_gui_ghigliazza_holmes_2004.h ui/ui_nm_gui_hindmarsh_rose_1986.h ui/ui_nm_gui_izhikevich_2003.h ui/ui_nm_gui_rulkov_2002.h ui/ui_sm_gui_electrical.h ui/ui_sm_gui_golowasch_et_al_1999.h ui/ui_sm_gui_destexhe_et_al_1994.h ui/ui_sm_gui_greenberg_manor_2005.h
 ui/ui_rthybrid.h: gui/rthybrid.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic gui/rthybrid.ui -o ui/ui_rthybrid.h
@@ -649,6 +699,14 @@ ui/ui_sm_gui_electrical.h: model_library/synapse/Electrical/sm_gui_electrical.ui
 ui/ui_sm_gui_golowasch_et_al_1999.h: model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui -o ui/ui_sm_gui_golowasch_et_al_1999.h
+
+ui/ui_sm_gui_destexhe_et_al_1994.h: model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui -o ui/ui_sm_gui_destexhe_et_al_1994.h
+
+ui/ui_sm_gui_greenberg_manor_2005.h: model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui \
+		/usr/lib/x86_64-linux-gnu/qt5/bin/uic
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui -o ui/ui_sm_gui_greenberg_manor_2005.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -705,6 +763,8 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -717,7 +777,9 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h \
 		model_library/neuron/Wang_1993/nm_gui_wang_1993.h \
 		model_library/synapse/Electrical/sm_gui_electrical.h \
-		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h
+		model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/rthybrid.o gui/rthybrid.cpp
 
 obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
@@ -738,6 +800,8 @@ obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		model_library/xml_models.h \
 		model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
@@ -776,6 +840,8 @@ obj/clamplauncher.o: gui/clamplauncher.cpp gui/clamplauncher.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -805,6 +871,8 @@ obj/main.o: gui/main.cpp gui/rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -837,7 +905,9 @@ obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/i
 		model_library/synapse/synapse_models_functions.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
-		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h
+		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
 
 obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c clamp/includes/calibrate_functions_phase2_a.h \
@@ -857,6 +927,8 @@ obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c cla
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/time_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2_a.o clamp/src/calibrate_functions_phase2_a.c
@@ -879,6 +951,8 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -904,6 +978,8 @@ obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thr
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
 		clamp/includes/calibrate_functions_phase1.h \
 		clamp/includes/device_functions.h \
@@ -939,6 +1015,8 @@ obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_pa
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		model_library/xml_models.h \
 		model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
@@ -1071,7 +1149,9 @@ obj/synapse_models_functions.o: model_library/synapse/synapse_models_functions.c
 		common/includes/file_selector_functions.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
-		model_library/integration_methods.h
+		model_library/integration_methods.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/synapse_models_functions.o model_library/synapse/synapse_models_functions.c
 
 obj/sm_electrical.o: model_library/synapse/Electrical/sm_electrical.c model_library/synapse/Electrical/sm_electrical.h \
@@ -1157,6 +1237,56 @@ obj/sm_gui_golowasch_et_al_1999.o: model_library/synapse/Golowasch_et_al_1999/sm
 		ui/ui_sm_gui_golowasch_et_al_1999.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sm_gui_golowasch_et_al_1999.o model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp
 
+obj/sm_destexhe_et_al_1994.o: model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/sm_destexhe_et_al_1994.o model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c
+
+obj/sm_gui_destexhe_et_al_1994.o: model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
+		ui/ui_sm_gui_destexhe_et_al_1994.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sm_gui_destexhe_et_al_1994.o model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp
+
+obj/sm_xml_destexhe_et_al_1994.o: model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
+		common/includes/xml_parser_functions.h \
+		common/includes/types.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+		clamp/includes/types_clamp.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/sm_xml_destexhe_et_al_1994.o model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c
+
+obj/sm_gui_greenberg_manor_2005.o: model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h \
+		ui/ui_sm_gui_greenberg_manor_2005.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/sm_gui_greenberg_manor_2005.o model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp
+
+obj/sm_greenberg_manor_2005.o: model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/sm_greenberg_manor_2005.o model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c
+
+obj/sm_xml_greenberg_manor_2005.o: model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h \
+		common/includes/xml_parser_functions.h \
+		common/includes/types.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+		clamp/includes/types_clamp.h \
+		common/includes/file_selector_functions.h \
+		model_library/integration_methods.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/sm_xml_greenberg_manor_2005.o model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c
+
 obj/moc_rthybrid.o: moc/moc_rthybrid.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_rthybrid.o moc/moc_rthybrid.cpp
 
@@ -1183,6 +1313,12 @@ obj/moc_sm_gui_electrical.o: moc/moc_sm_gui_electrical.cpp
 
 obj/moc_sm_gui_golowasch_et_al_1999.o: moc/moc_sm_gui_golowasch_et_al_1999.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_sm_gui_golowasch_et_al_1999.o moc/moc_sm_gui_golowasch_et_al_1999.cpp
+
+obj/moc_sm_gui_destexhe_et_al_1994.o: moc/moc_sm_gui_destexhe_et_al_1994.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_sm_gui_destexhe_et_al_1994.o moc/moc_sm_gui_destexhe_et_al_1994.cpp
+
+obj/moc_sm_gui_greenberg_manor_2005.o: moc/moc_sm_gui_greenberg_manor_2005.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_sm_gui_greenberg_manor_2005.o moc/moc_sm_gui_greenberg_manor_2005.cpp
 
 ####### Install
 

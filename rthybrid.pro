@@ -115,7 +115,13 @@ SOURCES += \
     model_library/neuron/Wang_1993/nm_xml_wang_1993.c \
     model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c \
     model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp \
+    model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c \
+    model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp \
+    model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c \
+    model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp \
+    model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c \
+    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -162,7 +168,13 @@ HEADERS += \
     model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
     model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
     model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h \
+    model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
+    model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h \
+    model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
+    model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
+    model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
+    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h
 
 FORMS += \
     gui/rthybrid.ui \
@@ -172,4 +184,6 @@ FORMS += \
     model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui \
     model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui \
     model_library/synapse/Electrical/sm_gui_electrical.ui \
-    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui
+    model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui \
+    model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui \
+    model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui

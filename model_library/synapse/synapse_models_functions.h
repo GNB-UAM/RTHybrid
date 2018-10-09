@@ -13,12 +13,16 @@ extern "C" {
 #include "Empty/sm_empty.h"
 #include "Electrical/sm_electrical.h"
 #include "Golowasch_et_al_1999/sm_golowasch_et_al_1999.h"
+#include "Destexhe_et_al_1994/sm_destexhe_et_al_1994.h"
+#include "Greenberg_Manor_2005/sm_greenberg_manor_2005.h"
 
 /* MACROS */
 
 #define SM_EMPTY 0
 #define SM_ELECTRICAL 1
 #define SM_GOLOWASCH_ET_AL_1999 2
+#define SM_DESTEXHE_ET_AL_1994 3
+#define SM_GREENBERG_MANOR_2005 4
 
 
 

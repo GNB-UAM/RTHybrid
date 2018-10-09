@@ -16,6 +16,8 @@
 
 #include "model_library/synapse/Electrical/sm_gui_electrical.h"
 #include "model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h"
+#include "model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h"
+#include "model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h"
 
 
 RTHybrid::RTHybrid(QWidget *parent) :
@@ -128,7 +130,7 @@ void RTHybrid::on_buttonStart_clicked()
     t = time(NULL);
     tm = *localtime(&t);
 
-    asprintf(&path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    asprintf(&(this->args.data_path), "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
 
     struct stat st = {0};
@@ -137,16 +139,16 @@ void RTHybrid::on_buttonStart_clicked()
         mkdir("data", 0777);
     }
 
-    if (stat(path, &st) == -1) {
-        mkdir(path, 0777);
+    if (stat(this->args.data_path, &st) == -1) {
+        mkdir(this->args.data_path, 0777);
     }
 
     asprintf(&hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
-    asprintf(&(this->args.filename), "%s%s", path, hour);
+    asprintf(&(this->args.filename), "%s%s", this->args.data_path, hour);
 
     ui->plainTextEdit_file->clear();
     ui->plainTextEdit_file->appendPlainText(this->args.filename);
-    free_pointers(2, &path, &hour);
+    free_pointers(1, &hour);
 
 
 
@@ -351,6 +353,22 @@ void RTHybrid::synapse_models_switch(int index, void ** syn_args, unsigned int d
     {
         free_pointers(1, syn_args);
         SM_GUI_Golowasch_et_al_1999 * sm = new SM_GUI_Golowasch_et_al_1999(syn_args, direction);
+        sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        sm->exec();
+        break;
+    }
+    case SM_DESTEXHE_ET_AL_1994:
+    {
+        free_pointers(1, syn_args);
+        SM_GUI_Destexhe_et_al_1994 * sm = new SM_GUI_Destexhe_et_al_1994(syn_args, direction);
+        sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        sm->exec();
+        break;
+    }
+    case SM_GREENBERG_MANOR_2005:
+    {
+        free_pointers(1, syn_args);
+        SM_GUI_Greenberg_Manor_2005 * sm = new SM_GUI_Greenberg_Manor_2005(syn_args, direction);
         sm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
         sm->exec();
         break;

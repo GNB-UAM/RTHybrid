@@ -42,13 +42,8 @@ void parse_channels (char * str, int ** channels, unsigned int * n_chan) {
 int clamp (clamp_args * args) {
 	pthread_attr_t attr_rt, attr_wr;
 
-	time_t t;
-	struct tm tm;
-	char * path = NULL;
-	char * hour = NULL;
-	char filename[50];
     char * filename_data = NULL;
-    char * filename_events = NULL;
+    char * filename_log = NULL;
 
 
 	writer_args w_args;
@@ -107,6 +102,7 @@ int clamp (clamp_args * args) {
     sprintf(filename, "%s%s", path, hour);*/
 
     asprintf(&filename_data, "%s_data.txt", args->filename);
+    asprintf(&filename_log, "%s/log.txt", args->data_path);
 
     if (init_file_selector() == ERR) {
         syslog(LOG_INFO, "Error starting file selector.");
@@ -118,7 +114,7 @@ int clamp (clamp_args * args) {
         return ERR;
     }
 
-    if (add_file("data/log.txt", &(r_args.events_file_id)) == ERR) {
+    if (add_file(filename_log, &(r_args.events_file_id)) == ERR) {
         syslog(LOG_INFO, "Error opening data file.");
         return ERR;
     }
@@ -164,7 +160,6 @@ int clamp (clamp_args * args) {
     r_args.check_drift = args->check_drift;
     r_args.auto_cal_val_1 = args->auto_cal_val_1;
 
-    w_args.path = path;
     w_args.filename = args->filename;
     w_args.msqid = msqid_nrt;
     w_args.model = args->model;
@@ -207,7 +202,7 @@ int clamp (clamp_args * args) {
     free_neuron_model (&(r_args.nm));
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
-    free_pointers(2, &filename_data, &(args->filename));
+    free_pointers(3, &filename_data, &(args->filename), &(args->data_path));
     free_pointers(2 , &(args->input_channels), &(args->output_channels)/*, &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live)*/);
     /* vars y params no se liberan al acabar porque si se vuelve a ejecutar el experimento sin cambiar de modelo pues petaria */
 

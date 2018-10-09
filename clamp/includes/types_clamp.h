@@ -58,6 +58,8 @@ struct synapse_model {
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */
     double offset;											/**< Amplitude offset of the living neuron signal regarding to the neuron model */
+    double min;                                             /**< Minimum amplitude value of the presynaptic neuron signal */
+    double max;                                             /**< Maximum amplitude value of the presynaptic neuron signal */
     unsigned int calibrate;									/**< Indicates the neuron which amplitude will be calibrated to the other one range. It can be the pre-synaptic one (#SYN_CALIB_PRE) or the post-synaptic (#SYN_CALIB_POST)*/
     void * type_params;										/**< Pointer to the structure storing the specific parameters for a type of synapse (defined in synapse_models_functions.h)*/
 };
@@ -201,6 +203,7 @@ typedef struct {
     double input_factor;			/**< Input scaling factor due to the experimental setup*/
     double output_factor;			/**< Output voltage/current conversion factor due to the experimental setup*/
     char * filename;
+    char * data_path;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

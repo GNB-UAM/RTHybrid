@@ -399,6 +399,16 @@
         <string>Golowasch et al, 1999</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>Destexhe et al, 1994</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Greenberg-Manor, 2005</string>
+       </property>
+      </item>
      </widget>
      <widget class="QPushButton" name="pushButton_synLtoM_config">
       <property name="geometry">
@@ -448,6 +458,16 @@
       <item>
        <property name="text">
         <string>Golowasch et al, 1999</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Destexhe et al, 1994</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Greenberg-Manor, 2005</string>
        </property>
       </item>
      </widget>

@@ -28,6 +28,11 @@ void init_synapse_model (synapse_model * sm, int model, void * syn_args) {
         case SM_GOLOWASCH_ET_AL_1999:
             sm_golowasch_et_al_1999_init(sm, syn_args);
             break;
+        case SM_DESTEXHE_ET_AL_1994:
+            sm_destexhe_et_al_1994_init(sm, syn_args);
+            break;
+        case SM_GREENBERG_MANOR_2005:
+            sm_greenberg_manor_2005_init(sm, syn_args);
         default:
             return;
     }

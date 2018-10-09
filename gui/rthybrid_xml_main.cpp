@@ -12,7 +12,6 @@ int rthybrid_xml_main::xml_init(char * file) {
 
     time_t t;
     struct tm tm;
-    char * path = NULL;
     char * hour = NULL;
 
     if (xml_clamp_parser(file, &args) == ERR) {
@@ -23,7 +22,7 @@ int rthybrid_xml_main::xml_init(char * file) {
     t = time(NULL);
     tm = *localtime(&t);
 
-    asprintf(&path, "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    asprintf(&(args.data_path), "data/%dy_%dm_%dd", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 
 
     struct stat st = {0};
@@ -32,17 +31,17 @@ int rthybrid_xml_main::xml_init(char * file) {
         mkdir("data", 0777);
     }
 
-    if (stat(path, &st) == -1) {
-        mkdir(path, 0777);
+    if (stat(args.data_path, &st) == -1) {
+        mkdir(args.data_path, 0777);
     }
 
     asprintf(&hour, "/%dh_%dm_%ds", tm.tm_hour, tm.tm_min, tm.tm_sec);
-    asprintf(&(args.filename), "%s%s", path, hour);
+    asprintf(&(args.filename), "%s%s", args.data_path, hour);
 
     printf("- File: %s\n", args.filename);
     fflush(NULL);
 
-    free_pointers(2, &path, &hour);
+    free_pointers(1, &hour);
 
     return clamp(&args);
     /*clamp_launcher cl;
