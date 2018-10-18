@@ -25,6 +25,8 @@ void sm_greenberg_manor_2005_set_online_params (synapse_model * sm, double scale
     sm->offset = offset;
     sm->min = min;
     sm->max = max;
+
+    printf("min %f max %f scale %f offset %f\n", sm->min, sm->max, sm->scale, sm->offset);
 }
 
 
@@ -54,14 +56,14 @@ void sm_greenberg_manor_2005_state_variable (double * vars, double * ret, double
     ret[SM_GREENBERG_MANOR_2005_X] = (x_inf - vars[SM_GREENBERG_MANOR_2005_X]) / tau_inf;
 }
 
-double sm_greenberg_manor_2005_m (double v_pre, sm_greenberg_manor_2005_params * sm_params) {
+double sm_greenberg_manor_2005_m (double v_pre, double v_range, double min, sm_greenberg_manor_2005_params * sm_params) {
     double vars[1], params[5];
 
     vars[SM_GREENBERG_MANOR_2005_X] = sm_params->m;
 
     params[SM_GREENBERG_MANOR_2005_V] = v_pre;
-    params[SM_GREENBERG_MANOR_2005_V12] = sm_params->v12_m;
-    params[SM_GREENBERG_MANOR_2005_K] = sm_params->k_m;
+    params[SM_GREENBERG_MANOR_2005_V12] = min + v_range * sm_params->v12_m;
+    params[SM_GREENBERG_MANOR_2005_K] = min + v_range * sm_params->k_m;
     params[SM_GREENBERG_MANOR_2005_TAU_HI] = sm_params->tau_hi_m;
     params[SM_GREENBERG_MANOR_2005_TAU_LO] = sm_params->tau_lo_m;
 
@@ -71,14 +73,14 @@ double sm_greenberg_manor_2005_m (double v_pre, sm_greenberg_manor_2005_params *
 }
 
 
-double sm_greenberg_manor_2005_h (double v_pre, sm_greenberg_manor_2005_params * sm_params) {
+double sm_greenberg_manor_2005_h (double v_pre, double v_range, double min, sm_greenberg_manor_2005_params * sm_params) {
     double vars[1], params[5];
 
     vars[SM_GREENBERG_MANOR_2005_X] = sm_params->h;
 
     params[SM_GREENBERG_MANOR_2005_V] = v_pre;
-    params[SM_GREENBERG_MANOR_2005_V12] = sm_params->v12_h;
-    params[SM_GREENBERG_MANOR_2005_K] = sm_params->k_h;
+    params[SM_GREENBERG_MANOR_2005_V12] = min + v_range * sm_params->v12_h;
+    params[SM_GREENBERG_MANOR_2005_K] = min + v_range * sm_params->k_h;
     params[SM_GREENBERG_MANOR_2005_TAU_HI] = sm_params->tau_hi_h;
     params[SM_GREENBERG_MANOR_2005_TAU_LO] = sm_params->tau_lo_h;
 
@@ -103,20 +105,28 @@ void sm_greenberg_manor_2005 (double v_post, double v_pre, synapse_model * sm, d
 	sm_greenberg_manor_2005_params * aux_params = sm->type_params;
 
     if (sm->calibrate == SYN_CALIB_PRE) {
+        printf("PRE scale %f offset %f vpre %f\n", sm->scale, sm->offset, v_pre);
         v_pre = v_pre * sm->scale + sm->offset;
         min = sm->min * sm->scale + sm->offset;
         max = sm->max * sm->scale + sm->offset;
     } else if (sm->calibrate == SYN_CALIB_POST) {
+        printf("POST scale %f offset %f vpost %f\n", sm->scale, sm->offset, v_post);
         v_post = (v_post - sm->offset) / sm->scale;
+        min = sm->min;
+        max = sm->max;
     }
 
     v_range = max - min;
     e_syn = min + v_range * aux_params->e_syn_per;
 
-    aux_params->m = sm_greenberg_manor_2005_m (v_pre, aux_params);
-    aux_params->h = sm_greenberg_manor_2005_h (v_pre, aux_params);
+    printf("min %f max %f range %f e_syn_per %f e_syn %f\n", min, max, v_range, aux_params->e_syn_per, e_syn);
+
+    aux_params->m = sm_greenberg_manor_2005_m (v_pre, v_range, min, aux_params);
+    aux_params->h = sm_greenberg_manor_2005_h (v_pre, v_range, min, aux_params);
 
     *ret = sm->g[SM_GREENBERG_MANOR_2005_G] * pow(aux_params->m, aux_params->p) * pow(aux_params->h, aux_params->q) * (v_post - e_syn);
+
+    printf("ret [%f] = g [%f] * m [%f] ^ p [%f] * h [%f] ^ q [%f] * (vpost [%f] - esyn [%f])\n", *ret, sm->g[SM_GREENBERG_MANOR_2005_G], aux_params->m, aux_params->p, aux_params->h, aux_params->q, v_post, e_syn);
 }
 
 
@@ -155,7 +165,10 @@ void sm_greenberg_manor_2005_init (synapse_model * sm, void * syn_args) {
     sm->func = &sm_greenberg_manor_2005;
     sm->set_online_parameters = &sm_greenberg_manor_2005_set_online_params;
     aux_params->method = integration_method_selector(aux_syn_args->method);
-    aux_syn_args->dt = aux_syn_args->dt;
+    aux_params->dt = aux_syn_args->dt;
+
+    printf("p %f v12m %f km %f tauhim %f taulom %f\n", aux_params->p, aux_params->v12_m, aux_params->k_m, aux_params->tau_hi_m, aux_params->tau_lo_m);
+    printf("q %f v12h %f kh %f tauhih %f tauloh %f\n", aux_params->q, aux_params->v12_h, aux_params->k_h, aux_params->tau_hi_h, aux_params->tau_lo_h);
 }
 
 ///@}

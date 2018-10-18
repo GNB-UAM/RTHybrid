@@ -40,14 +40,14 @@ void SM_GUI_Greenberg_Manor_2005::on_pushButton_accept_clicked()
     aux_args->e_syn_per = (ui->doubleSpinBox_esyn->value() - v_min) / 100.0;
 
     aux_args->p = ui->doubleSpinBox_p->value();
-    aux_args->k_m = ui->doubleSpinBox_k_m->value();
-    aux_args->v12_m = ui->doubleSpinBox_v12_m->value();
+    aux_args->k_m = (ui->doubleSpinBox_k_m->value() - v_min) / 100.0;
+    aux_args->v12_m = (ui->doubleSpinBox_v12_m->value() - v_min) / 100.0;
     aux_args->tau_hi_m = ui->doubleSpinBox_tau_hi_m->value();
     aux_args->tau_lo_m = ui->doubleSpinBox_tau_lo_m->value();
 
     aux_args->q = ui->doubleSpinBox_q->value();
-    aux_args->k_h = ui->doubleSpinBox_k_h->value();
-    aux_args->v12_h = ui->doubleSpinBox_v12_h->value();
+    aux_args->k_h = (ui->doubleSpinBox_k_h->value() - v_min) / 100.0;
+    aux_args->v12_h = (ui->doubleSpinBox_v12_h->value() - v_min) / 100.0;
     aux_args->tau_hi_h = ui->doubleSpinBox_tau_hi_h->value();
     aux_args->tau_lo_h = ui->doubleSpinBox_tau_lo_h->value();
 

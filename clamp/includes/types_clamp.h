@@ -74,6 +74,7 @@ typedef struct {
     neuron_model nm;				/**< Neuron model structure*/
     synapse_model sm_model_to_live;	/**< Synapse model from the model to the living neuron structure*/
     synapse_model sm_live_to_model;	/**< Synapse model from the living neuron to the model structure*/
+    synapse_model sm_live_to_model_scaled; /**< Synapse model from the living neuron to the model structure (to scale to the living neuron range)*/
     
     long time_var;					/**< Duration of the interaction*/
     int before;						/**< Before interaction control time*/
@@ -171,8 +172,9 @@ typedef struct {
     double * min_rel_real;
     double max_abs_model;
     double min_abs_model;
-    synapse_model * sm_live_to_model;
     synapse_model * sm_model_to_live;
+    synapse_model * sm_live_to_model;
+    synapse_model * sm_live_to_model_scaled;
 } fix_drift_args;
 
 

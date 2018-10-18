@@ -75,6 +75,7 @@ int clamp (clamp_args * args) {
     init_neuron_model(&(r_args.nm), args->model, args->vars, args->params);
     init_synapse_model(&(r_args.sm_model_to_live), args->synapse_mtol, args->syn_args_model_to_live);
     init_synapse_model(&(r_args.sm_live_to_model), args->synapse_ltom, args->syn_args_live_to_model);
+    init_synapse_model(&(r_args.sm_live_to_model_scaled), args->synapse_ltom, args->syn_args_live_to_model);
 
 
     /*
@@ -202,6 +203,7 @@ int clamp (clamp_args * args) {
     free_neuron_model (&(r_args.nm));
     free_synapse_model (&(r_args.sm_model_to_live));
     free_synapse_model (&(r_args.sm_live_to_model));
+    free_synapse_model (&(r_args.sm_live_to_model_scaled));
     free_pointers(3, &filename_data, &(args->filename), &(args->data_path));
     free_pointers(2 , &(args->input_channels), &(args->output_channels)/*, &(args->vars), &(args->params), &(args->syn_args_live_to_model), &(args->syn_args_model_to_live)*/);
     /* vars y params no se liberan al acabar porque si se vuelve a ejecutar el experimento sin cambiar de modelo pues petaria */

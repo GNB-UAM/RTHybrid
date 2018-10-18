@@ -292,6 +292,11 @@ void fix_drift (fix_drift_args args) {
     args.sm_live_to_model->min = *(args.min_window);
     args.sm_live_to_model->max = *(args.max_window);
 
+    args.sm_live_to_model_scaled->offset = *(args.offset_real_to_virtual);
+    args.sm_live_to_model_scaled->scale = *(args.scale_real_to_virtual);
+    args.sm_live_to_model_scaled->min = *(args.min_window);
+    args.sm_live_to_model_scaled->max = *(args.max_window);
+
     args.sm_model_to_live->offset = *(args.offset_virtual_to_real);
     args.sm_model_to_live->scale = *(args.scale_virtual_to_real);
 

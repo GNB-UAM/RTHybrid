@@ -359,8 +359,9 @@ void * rt_thread(void * arg) {
     Initialize synapse models
     ****************************************************/
 
-    args->sm_live_to_model.set_online_parameters(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real);
     args->sm_model_to_live.set_online_parameters(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real, min_abs_model, max_abs_model);
+    args->sm_live_to_model.set_online_parameters(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real);
+    args->sm_live_to_model_scaled.set_online_parameters(&(args->sm_live_to_model_scaled), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn struct created");
 
@@ -548,8 +549,9 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                     fx_args.min_rel_real = &min_rel_real;
                     fx_args.max_abs_model = max_abs_model;
                     fx_args.min_abs_model = min_abs_model;
-                    fx_args.sm_live_to_model = &(args->sm_live_to_model);
                     fx_args.sm_model_to_live = &(args->sm_model_to_live);
+                    fx_args.sm_live_to_model = &(args->sm_live_to_model);
+                    fx_args.sm_live_to_model_scaled = &(args->sm_live_to_model_scaled);
 
                     fix_drift(fx_args);
 
@@ -562,8 +564,8 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
             if (lp->interaction == TRUE) {
                 /* Calculate the input synapse (scaled to the external range) */
-                args->sm_live_to_model.calibrate = SYN_CALIB_POST;
-                args->sm_live_to_model.func(args->nm.vars[0], input_values[0], &(args->sm_live_to_model), &c_external_scaled);
+                args->sm_live_to_model_scaled.calibrate = SYN_CALIB_POST;
+                args->sm_live_to_model_scaled.func(args->nm.vars[0], input_values[0], &(args->sm_live_to_model_scaled), &c_external_scaled);
             }
         }
 
