@@ -1,0 +1,129 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+filename = "salida.txt"
+
+dataset = pd.read_csv(filename, delimiter=' ', header=7)
+data = dataset.values
+
+post_p2m = data[:,0]
+post_p3m = data[:,1]
+post_xinfm = data[:,2]
+post_xoldm = data[:,3]
+post_tauinfm = data[:,4]
+post_vpre = data[:,5]
+post_m_v12 = data[:,6]
+post_m_k = data[:,7]
+post_p2h = data[:,8]
+post_p3h = data[:,9]
+post_xinfh = data[:,10]
+post_xoldh = data[:,11]
+post_tauinfh = data[:,12]
+post_h_v12 = data[:,13]
+post_h_k = data[:,14]
+post_i = data[:,15]
+post_min = data[:,16]
+post_max = data[:,17]
+post_m = data[:,18]
+post_h = data[:,19]
+post_esyn = data[:,20]
+post_diff = data[:,21]
+
+pre_p2m = data[:,22]
+pre_p3m = data[:,23]
+pre_xinfm = data[:,24]
+pre_xoldm = data[:,25]
+pre_tauinfm = data[:,26]
+pre_vpre = data[:,27]
+pre_m_v12 = data[:,28]
+pre_m_k = data[:,29]
+pre_p2h = data[:,30]
+pre_p3h = data[:,31]
+pre_xinfh = data[:,32]
+pre_xoldh = data[:,33]
+pre_tauinfh = data[:,34]
+pre_h_v12 = data[:,35]
+pre_h_k = data[:,36]
+pre_i = data[:,37]
+pre_min = data[:,38]
+pre_max = data[:,39]
+pre_m = data[:,40]
+pre_h = data[:,41]
+pre_esyn = data[:,42]
+pre_diff = data[:,43]
+
+
+ret_m = []
+for i in range(len(post_xinfm)):
+	ret_m.append((post_xinfm[i] - post_xoldm[i]) / post_tauinfm[i])
+
+plt.plot(post_i, label="post i")
+plt.plot(post_min, label="post min")
+plt.plot(post_max, label="post max")
+plt.plot(post_m, label="post m")
+plt.plot(post_h, label="post h")
+plt.plot(post_esyn, label="post esyn")
+plt.plot(post_m_v12, label="post m v12")
+plt.plot(post_m_k, label="post m k")
+plt.plot(post_h_v12, label="post h v12")
+plt.plot(post_h_k, label="post h k")
+plt.plot(post_diff, label="post diff")
+
+
+plt.plot(post_vpre, label="post vpre")
+plt.plot(post_i, label="post i")
+plt.plot(post_p2m, label="p2m")
+plt.plot(post_p3m, label="p3m")
+plt.plot(post_xinfm, label="x inf m")
+plt.plot(post_xoldm, label="x old m")
+
+plt.plot(post_m, label="post m")
+plt.plot(ret_m, label="ret m")
+
+plt.plot(pre_i, label="pre i")
+plt.plot(pre_min, label="pre min")
+plt.plot(pre_max, label="pre max")
+plt.plot(pre_m, label="pre m")
+plt.plot(pre_h, label="pre h")
+plt.plot(pre_esyn, label="pre esyn")
+plt.plot(pre_m_v12, label="pre m v12")
+plt.plot(pre_m_k, label="pre m k")
+plt.plot(pre_h_v12, label="pre h v12")
+plt.plot(pre_h_k, label="pre h k")
+plt.plot(pre_diff, label="pre diff")
+plt.plot(pre_vpre, label="pre vpre")
+plt.plot(pre_xinfm, label="pre xinf m")
+
+scale = 2.092609
+offset = 30.240470
+post_back_to_pre_m_v12 = [(x*scale+offset) for x in post_m_v12]
+
+
+p1_post = []
+p1_pre = []
+for i in range(100):
+	p1_post.append((post_vpre[i] - post_m_v12[i]) / post_m_k[i])
+	p1_pre.append((pre_vpre[i] - pre_m_v12[i]) / pre_m_k[i])
+
+
+
+plt.plot(p1_post, label="p1 post")
+plt.plot(p1_pre, label="p1 pre")
+
+syn = []
+for i in range(len(pre_diff)):
+	syn.append(pre_m[i] * pre_h[i] * pre_diff[i])
+
+plt.plot(syn)
+
+plt.legend()
+plt.show()
+
+
+
+def steady(v):
+	p1 = (v - -51.23) / 4.25
+	p2 = 1 + np.exp(-p1)
+
+	return 1 / p2

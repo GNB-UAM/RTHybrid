@@ -13,10 +13,13 @@ extern "C" {
 #include "../common/includes/types.h"
 
 
-#define RK65 0
-#define RK4 1
-#define EULER 2
-#define HEUN 3
+#define EULER 0
+#define HEUN 1
+#define RK4 2
+#define RK65 3
+
+
+
 
 void * integration_method_selector (unsigned int id);
 
