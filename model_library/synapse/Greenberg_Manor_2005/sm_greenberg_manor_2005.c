@@ -175,18 +175,18 @@ void sm_greenberg_manor_2005_init (synapse_model * sm, void * syn_args) {
     sm->g = (double *) malloc (sizeof(SM_GREENBERG_MANOR_2005_N_G));
     copy_1d_array(aux_syn_args->g, sm->g, SM_GREENBERG_MANOR_2005_N_G);
 
-    aux_params->e_syn_per = aux_syn_args->e_syn_per;
+    aux_params->e_syn_per = aux_syn_args->e_syn_per / 100.0;
 
     aux_params->p = aux_syn_args->p;
-    aux_params->v12_m = aux_syn_args->v12_m;
-    aux_params->k_m = aux_syn_args->k_m;
+    aux_params->v12_m = aux_syn_args->v12_m / 100.0;
+    aux_params->k_m = aux_syn_args->k_m / 100.0;
     aux_params->tau_hi_m = aux_syn_args->tau_hi_m;
     aux_params->tau_lo_m = aux_syn_args->tau_lo_m;
     aux_params->m = 0.5;
 
     aux_params->q = aux_syn_args->q;
-    aux_params->v12_h = aux_syn_args->v12_h;
-    aux_params->k_h = aux_syn_args->k_h;
+    aux_params->v12_h = aux_syn_args->v12_h / 100.0;
+    aux_params->k_h = aux_syn_args->k_h / 100.0;
     aux_params->tau_hi_h = aux_syn_args->tau_hi_h;
     aux_params->tau_lo_h = aux_syn_args->tau_lo_h;
     aux_params->h = 0.5;

@@ -810,6 +810,8 @@ obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
 		model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
 		model_library/synapse/Electrical/sm_xml_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h \
 		clamp/includes/clamp.h \
 		clamp/includes/rt_thread_functions.h \
 		clamp/includes/time_functions.h \
@@ -1024,7 +1026,9 @@ obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_pa
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h \
 		model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
 		model_library/synapse/Electrical/sm_xml_electrical.h \
-		model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h
+		model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h \
+		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/xml_clamp_parser.o clamp/src/xml_clamp_parser.c
 
 obj/integration_methods.o: model_library/integration_methods.c model_library/integration_methods.h \

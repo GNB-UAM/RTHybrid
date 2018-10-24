@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>V1/2 (in mV)</string>
+    <string>V1/2 (%)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -91,7 +91,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>k (in mV)</string>
+    <string>k (%)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -136,20 +136,20 @@
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>240</x>
      <y>20</y>
-     <width>91</width>
+     <width>61</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Esyn (in mV)</string>
+    <string>Esyn (%)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>40</x>
      <y>270</y>
      <width>141</width>
      <height>16</height>
@@ -162,7 +162,7 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>270</y>
      <width>111</width>
      <height>16</height>
@@ -210,7 +210,7 @@
     <double>999.990000000000009</double>
    </property>
    <property name="value">
-    <double>-80.000000000000000</double>
+    <double>-5.000000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_p">
@@ -254,7 +254,7 @@
     <double>999.990000000000009</double>
    </property>
    <property name="value">
-    <double>-53.000000000000000</double>
+    <double>22.000000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_k_m">
@@ -276,7 +276,7 @@
     <double>999.990000000000009</double>
    </property>
    <property name="value">
-    <double>1.250000000000000</double>
+    <double>4.000000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_tau_hi_m">
@@ -342,7 +342,7 @@
     <double>999.990000000000009</double>
    </property>
    <property name="value">
-    <double>-57.000000000000000</double>
+    <double>18.000000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_q">
@@ -386,7 +386,7 @@
     <double>999.990000000000009</double>
    </property>
    <property name="value">
-    <double>-1.000000000000000</double>
+    <double>2.500000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_tau_lo_h">
@@ -408,7 +408,7 @@
     <double>99999.990000000005239</double>
    </property>
    <property name="value">
-    <double>1900.000000000000000</double>
+    <double>300.000000000000000</double>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_tau_hi_h">
@@ -430,13 +430,13 @@
     <double>99999.990000000005239</double>
    </property>
    <property name="value">
-    <double>300.000000000000000</double>
+    <double>1900.000000000000000</double>
    </property>
   </widget>
   <widget class="QComboBox" name="comboBoxIntegration">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>40</x>
      <y>300</y>
      <width>141</width>
      <height>23</height>
@@ -469,7 +469,7 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_dt">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>260</x>
      <y>297</y>
      <width>91</width>
      <height>24</height>

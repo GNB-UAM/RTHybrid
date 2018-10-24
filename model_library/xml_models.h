@@ -17,6 +17,8 @@
 // Synapse
 #include "synapse/Electrical/sm_xml_electrical.h"
 #include "synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h"
+#include "synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h"
+#include "synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h"
 
 
 #endif // XML_MODELS_H

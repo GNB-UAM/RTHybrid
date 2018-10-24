@@ -406,7 +406,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Greenberg-Manor, 2005</string>
+        <string>Greenberg and Manor, 2005</string>
        </property>
       </item>
      </widget>
@@ -467,7 +467,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Greenberg-Manor, 2005</string>
+        <string>Greenberg and Manor, 2005</string>
        </property>
       </item>
      </widget>
@@ -886,7 +886,7 @@
       <double>9999.000000000000000</double>
      </property>
      <property name="value">
-      <double>1000.000000000000000</double>
+      <double>100.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="doubleOutputFactor">
@@ -905,7 +905,7 @@
       <double>9999.000000000000000</double>
      </property>
      <property name="value">
-      <double>1.000000000000000</double>
+      <double>10.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_94">

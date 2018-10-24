@@ -192,6 +192,9 @@ static int parse_clamp_synapse_mtol (xmlDocPtr doc, xmlNodePtr cur, clamp_args *
         case SM_GOLOWASCH_ET_AL_1999:
 			ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_model_to_live));
 			break;
+        case SM_GREENBERG_MANOR_2005:
+            ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_model_to_live));
+            break;
 		default:
 			return ERR;
 	}
@@ -217,6 +220,9 @@ static int parse_clamp_synapse_ltom (xmlDocPtr doc, xmlNodePtr cur, clamp_args *
         case SM_GOLOWASCH_ET_AL_1999:
 			ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_live_to_model));
 			break;
+        case SM_GREENBERG_MANOR_2005:
+            ret = parse_sm_greenberg_manor_2005(doc, cur->xmlChildrenNode, &(args->syn_args_live_to_model));
+            break;
 		default:
 			return ERR;
 	}
@@ -264,7 +270,8 @@ static int parse_clamp_sec_per_burst (xmlDocPtr doc, xmlNodePtr cur, clamp_args 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_double(doc, cur, &args->sec_per_burst, (const xmlChar*) VALUE);
-	if (ret == 0) args->sec_per_burst = -1;
+
+    if (ret == -2) args->sec_per_burst = -1;
 
 	return ret;
 }
@@ -276,7 +283,7 @@ static int parse_clamp_drift (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_int(doc, cur, &args->check_drift, (const xmlChar*) VALUE);
-	if (ret == 0) args->check_drift = 1;
+    if (ret == -2) args->check_drift = 1;
 
 	return ret;
 }
@@ -288,7 +295,7 @@ static int parse_clamp_important (xmlDocPtr doc, xmlNodePtr cur, clamp_args * ar
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
 	ret = parse_int(doc, cur, &args->imp, (const xmlChar*) VALUE);
-	if (ret == 0) args->imp = 0;
+    if (ret == -2) args->imp = 0;
 
 	return ret;
 }
