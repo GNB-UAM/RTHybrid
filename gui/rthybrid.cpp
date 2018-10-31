@@ -137,6 +137,8 @@ void RTHybrid::on_buttonStart_clicked()
 
     struct stat st = {0};
 
+    umask(0000);
+
     if (stat("data", &st) == -1) {
         mkdir("data", 0777);
     }
