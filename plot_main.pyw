@@ -57,10 +57,14 @@ class Interface(QtWidgets.QMainWindow):
 		if self.ui.PlotAll.isChecked() == False:
 			s = self.ui.spinBox_from_m.value()*60 + self.ui.spinBox_from_s.value()
 			e = self.ui.spinBox_to_m.value()*60   + self.ui.spinBox_to_s.value()
-			if (s>=e):
+			if e==0:
+				program += ' -s ' + str(s)
+			elif s<e:
+				program += ' -s ' + str(s)
+				program += ' -e ' + str(e)
+			else:
 				error_plot='End time must be greater than start time'
-			program += ' -s ' + str(s)
-			program += ' -e ' + str(e)
+			
 
 		# Latency
 		if self.ui.latency_on.isChecked() == True:
