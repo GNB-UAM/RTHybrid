@@ -20,7 +20,8 @@ connections to build hybrid circuits with living networks. bioRxiv
 419622; doi: https://doi.org/10.1101/419622
 
 ## Install
-Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory: https://github.com/GNB-UAM/RTHybrid/blob/master/docs/RTHybrid_User_Manual.pdf
+Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory: 
+https://github.com/GNB-UAM/RTHybrid/raw/master/docs/RTHybrid_User_Manual.pdf
 
 ## Developed by
 
