@@ -22,6 +22,7 @@
 void nm_ghigliazza_holmes_2004_init (neuron_model * nm, double * vars, double * params) {
     nm->dim = 3;
     nm->vars = (double *) malloc (sizeof(double) * nm->dim);
+
     copy_1d_array(vars, nm->vars, nm->dim);
 
     nm->n_params = 18;

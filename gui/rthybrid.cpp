@@ -68,9 +68,11 @@ void RTHybrid::closeEvent (QCloseEvent *event)
             event->ignore();
         } else {
             if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
+            free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live));
             event->accept();
         }
     } else {
+        free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live));
         event->accept();
     }
 
@@ -191,7 +193,7 @@ void RTHybrid::clampEnd() {
 void RTHybrid::on_buttonStop_clicked()
 {
     if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
-    free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live));
+    //free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live)); //Ya no se libera aqui
 }
 
 
