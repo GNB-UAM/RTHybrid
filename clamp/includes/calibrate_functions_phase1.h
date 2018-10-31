@@ -18,6 +18,7 @@ extern "C" {
 #include <sys/stat.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <float.h>
 #include "device_functions.h"
 #include "time_functions.h"
 
@@ -27,9 +28,7 @@ int signal_convolution (double * lectura, int size_l, double * result, int size_
 
 int signal_average(double * lectura, int size_l, double * result, int size_r);
 
-double signal_period_1(int seg_observacion, double * signal, int size, double th_up, double th_on);
-
-double signal_period_2(int seg_observacion, double * signal, int size, double th_up, double th_on);
+double signal_period(int seg_observacion, double * signal, int size, double th_up, double th_on);
 
 void array_to_file(double * array, int size, char * filename_date, char * tittle);
 

@@ -1,162 +1,123 @@
 #include "../includes/calibrate_functions_phase1.h"
 
 int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_real, double *max_rel_real, double *period_signal, Daq_session * session, int chan, int period, int freq, char* filename, double input_factor, int observation_time){
-    
-    /*TIEMPO OBSERVACION*/
-    int segs_observo = observation_time;
 
-    /*VARIABLES CALCULO DE RANGOS*/
+    /*VARIABLES TO DETERMINATE RANGES*/
     int i=0;
-    double retval=0.0, valor_old=0.0, resta=0.0, pendiente_max=-999999;
-    struct timespec ts_target, ts_iter, ts_result, ts_start;
-    double maxi=-999999;
-    double mini=999999;
-    double miniB=999999;
+    double retval=0.0;
+    struct timespec ts_target, ts_start;
+    double max_abs = DBL_MIN;
+    double min_abs = DBL_MAX;
+    double percentage_min = 0.10;
+    double percentage_max = 0.90;
+    double range;
 
-    /*DAQ*/
+    /*DAQ Config*/
     int n_channels = 1;
     int in_channels [1];
     double ret_values [1];
     in_channels[0] = chan;
 
-    /*RT*/
+    /*RT config*/
     clock_gettime(CLOCK_MONOTONIC, &ts_target);
     ts_assign (&ts_start,  ts_target);
     ts_add_time(&ts_target, 0, period);
 
     /*DECLARACIONES DE ARRAYS Y SUS TAMAÑOS*/
-    int size_lectura = freq*segs_observo;
-    double * lectura = (double*) malloc(sizeof(double) * size_lectura);
-    double * convolution = (double*) malloc(sizeof(double) * size_lectura);
-    int size_media = size_lectura / 10;
-    double * media = (double*) malloc(sizeof(double) * size_lectura);
+    int size_signal = freq*observation_time;
+    double * signal = (double*) malloc(sizeof(double) * size_signal);
 
+    /*
+    double * convolution = (double*) malloc(sizeof(double) * size_signal);
+    int size_media = size_signal / 10;
+    double * media = (double*) malloc(sizeof(double) * size_signal);
+    */
 
-    for (i=0; i<freq*(segs_observo); i++){
+    for (i=0; i<size_signal; i++){
 
-    	/*LECTURA DE DATOS*/
+        /*SLEEP & READ DATA*/
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts_target, NULL);
         if (daq_read(session, n_channels, in_channels, ret_values) != 0) {
             return -1;
         }
         retval = (ret_values[0] * 1000.0) / input_factor;
-        lectura[i] = retval;
+        signal[i] = retval;
         
-        /*COMPROBAR DATOS*/
-        if(retval>maxi){
-            maxi=retval;
-        }else if(retval<mini){
-            mini=retval;
+        /*DETECT MAX/MIN*/
+        if(retval>max_abs){
+            max_abs=retval;
+        }else if(retval<min_abs){
+            min_abs=retval;
         }
         
-        if(i>2){
-            resta=retval-valor_old;
-            if(resta>pendiente_max){
-                pendiente_max=resta;
-                miniB=valor_old;
-            }
-        }
-        
-        if(i%10==0)
-            valor_old=retval;
-
+        /*NEXT PERIOD*/
         ts_add_time(&ts_target, 0, period); 
     }
-
-
+    
     /*RETURN*/
-    *min_abs_real = mini;
-    *max_abs_real = maxi;
+    range = max_abs - min_abs;
+    *min_abs_real = min_abs;
+    *max_abs_real = max_abs;
+    *min_rel_real = percentage_min * range + min_abs;
+    *max_rel_real = percentage_max * range + min_abs;
 
-    double porcentaje_mini = 0.10;
-    double porcentaje_maxi = 0.10;
+    /*SIGNAL PERIOD*/
 
-    //printf("min_abs_real= %f\n", min_abs_real_aux);
-    //printf("MAX_ABS= %f\n", max_abs_real_aux);
+    /*Functions to reduce noise*/
+    //signal_convolution (signal, size_signal, convolution, size_signal);
+    //signal_average     (signal, size_signal, media,       size_media);
 
-    if(mini>0){
-        *min_rel_real = mini + mini*porcentaje_mini;
-    }else{
-        *min_rel_real = mini - mini*porcentaje_mini;
-    }
+    *period_signal = signal_period (observation_time, signal, size_signal, *max_rel_real, *min_rel_real);
 
-    if(maxi>0){
-        *max_rel_real = maxi - maxi*porcentaje_maxi;
-    }else{
-        *max_rel_real = maxi + maxi*porcentaje_maxi;
-    }
-
-    //printf("MIN_RE= %f\n", *min);
-    //printf("MAX_RE= %f\n", *max_rel_real);
-
-    /*GUARDAR DATOS LEIDOS*/
-
-    /*PERIODO DE LA SEÑAL*/
-    signal_convolution (lectura, size_lectura, convolution, size_lectura);
-    signal_average (lectura, size_lectura, media, size_media);
-    *period_signal = signal_period_2 (segs_observo, lectura, size_lectura, *max_rel_real, *min_rel_real);
-    //printf("Perido signal = %f\n", *period_signal);
-    //array_to_file(lectura, size_lectura, filename, "lectura_ini");
-    //array_to_file(convolution, size_lectura, filename, "lectura_ini_filtro");
-
-    //printf("PERIODO= %f\n", *period_signal);
+    /*Save signal to file*/
+    //array_to_file (signal,      size_signal, filename, "lectura_ini");
+    //array_to_file (convolution, size_signal, filename, "lectura_ini_filtro");
 
     return OK;
 }
 
-int signal_convolution (double * lectura, int size_l, double * result, int size_r){
-	if(size_l!=size_r)
-		return ERR;
-	int i;
-	for (i=0; i<size_l; i++){
-	  if(i>3){
-        result[i]= 0.2*lectura[i]  + 0.2*lectura[i-1] + 0.2*lectura[i-2] + 0.2*lectura[i-3] + 0.2*lectura[i-4];
+/***
+Fixed convolution
+***/
+int signal_convolution (double * signal, int size_l, double * result, int size_r){
+    if(size_l!=size_r)
+        return ERR;
+    int i;
+    for (i=0; i<size_l; i++){
+      if(i>3){
+        result[i]= 0.2*signal[i]  + 0.2*signal[i-1] + 0.2*signal[i-2] + 0.2*signal[i-3] + 0.2*signal[i-4];
       }else{
-        result[i]=lectura[i];
+        result[i]=signal[i];
       }
-	}
-	return OK;
+    }
+    return OK;
 }
 
-int signal_average(double * lectura, int size_l, double * result, int size_r){
-	if (size_r>=size_l)
-		return ERR;
-	int saltar = size_l / size_r;
-	int i, j;
-	for (i=0, j=0; i<size_l; i++, j++){
-		int counter = i+saltar;
-		double sum = 0.0;
-		for(; i<counter; i++){
-			sum += lectura[i];
-		}
-		sum = sum / saltar;
-		result[j] = sum;
+/***
+Downsample signal using average value method
+***/
+int signal_average(double * signal, int size_l, double * result, int size_r){
+    if (size_r>=size_l)
+        return ERR;
+    int saltar = size_l / size_r;
+    int i, j;
+    for (i=0, j=0; i<size_l; i++, j++){
+        int counter = i+saltar;
+        double sum = 0.0;
+        for(; i<counter; i++){
+            sum += signal[i];
+        }
+        sum = sum / saltar;
+        result[j] = sum;
 
-	}
-	return OK;
+    }
+    return OK;
 }
 
-double signal_period_1(int seg_observacion, double * signal, int size, double th_up, double th_on){
-    printf("up = %f // on = %f\n", th_up, th_on);
-	int up=FALSE;
-	if (signal[0]>th_on)
-		up=TRUE;
-
-	int changes=0, i=0;
-	for (i=0; i<size; i++){
-		if(up==TRUE && signal[i]<th_on){
-			//Cambio de tendencia
-			changes++;
-			up=FALSE;
-		}else if(up==FALSE && signal[i]>th_on){
-			up=TRUE;
-		}
-	}
-	double period = 1.0 / (changes/seg_observacion);
-	return period;
-}
-
-double signal_period_2(int seg_observacion, double * signal, int size, double th_up, double th_on){
+/***
+Get period using two thresholds
+***/
+double signal_period(int seg_observacion, double * signal, int size, double th_up, double th_on){
     int up=FALSE;
     if (signal[0]>th_up)
         up=TRUE;
@@ -171,13 +132,14 @@ double signal_period_2(int seg_observacion, double * signal, int size, double th
         }else if(up==TRUE && signal[i]<th_on){
             up=FALSE;
         }
-
     }
-    //printf("CHANGES = %f\n", changes);
     double period = 1.0 / (changes/seg_observacion);
     return period;
 }
 
+/***
+Save an array into a file
+***/
 void array_to_file(double * array, int size, char * filename_date, char * tittle){
     FILE * f;
     char filename[100];
