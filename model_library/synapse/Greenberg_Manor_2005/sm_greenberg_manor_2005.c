@@ -172,7 +172,7 @@ void sm_greenberg_manor_2005_init (synapse_model * sm, void * syn_args) {
 
     sm->calibrate = SYN_CALIB_PRE;
 
-    sm->g = (double *) malloc (sizeof(SM_GREENBERG_MANOR_2005_N_G));
+    sm->g = (double *) malloc (sizeof(double) * SM_GREENBERG_MANOR_2005_N_G);
     copy_1d_array(aux_syn_args->g, sm->g, SM_GREENBERG_MANOR_2005_N_G);
 
     aux_params->e_syn_per = aux_syn_args->e_syn_per / 100.0;

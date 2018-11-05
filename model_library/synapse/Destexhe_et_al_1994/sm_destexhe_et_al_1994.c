@@ -126,7 +126,7 @@ void sm_destexhe_et_al_1994_init (synapse_model * sm, void * syn_args) {
 
     sm->calibrate = SYN_CALIB_PRE;
 
-    sm->g = (double *) malloc (sizeof(SM_DESTEXHE_ET_AL_1994_N_G));
+    sm->g = (double *) malloc (sizeof(double) * SM_DESTEXHE_ET_AL_1994_N_G);
     copy_1d_array(aux_syn_args->g, sm->g, SM_DESTEXHE_ET_AL_1994_N_G);
 
     aux_params->alpha = aux_syn_args->alpha;

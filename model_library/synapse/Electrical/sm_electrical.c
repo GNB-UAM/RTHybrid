@@ -68,7 +68,7 @@ void sm_electrical_init (synapse_model * sm, void * syn_args) {
     sm->calibrate = SYN_CALIB_PRE;
     aux_elec_params->anti = aux_syn_args->anti;
 
-    sm->g = (double *) malloc (sizeof(ELEC_N_G));
+    sm->g = (double *) malloc (sizeof(double) * ELEC_N_G);
     copy_1d_array(aux_syn_args->g, sm->g, ELEC_N_G);
 
     sm->func = &sm_electrical;

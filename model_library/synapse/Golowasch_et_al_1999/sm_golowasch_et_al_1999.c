@@ -174,7 +174,7 @@ void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
     aux_gl_params->s_fast = aux_syn_args->s_fast/100.0;
     aux_gl_params->s_slow = aux_syn_args->s_slow/100.0;
 
-    sm->g = (double *) malloc (sizeof(GL_N_G));
+    sm->g = (double *) malloc (sizeof(double) * GL_N_G);
     copy_1d_array(aux_syn_args->g, sm->g, GL_N_G);
 
     sm->func = &sm_golowasch_et_al_1999;
