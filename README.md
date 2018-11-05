@@ -5,7 +5,7 @@
 
 RTHybrid is a real-time neuron and synapse model library designed to build electrophysiological hybrid circuits with living neurons through dynamic-clamp. It has been developed for Linux systems, also supporting Preempt-RT and Xenomai 3 real-time patches.
 
-##### Contact us if you are interested in use RTHybrid!!
+**Contact us if you are interested in use RTHybrid!!**
 
 ## Please, if you use RTHybrid cite the following papers:
 
