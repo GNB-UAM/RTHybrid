@@ -6,6 +6,8 @@
 *.pro.*
 
 Makefile
+.qmake.stash
+.directory
 
 !rtbiomanager.pro
 !about.txt
