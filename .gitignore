@@ -5,6 +5,8 @@
 *.pyc
 *.pro.*
 
+Makefile
+
 !rtbiomanager.pro
 !about.txt
 
