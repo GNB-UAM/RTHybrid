@@ -6,8 +6,8 @@ int ini_recibido (double *min_rel_real, double *min_abs_real, double *max_abs_re
     int i=0;
     double retval=0.0;
     struct timespec ts_target, ts_start;
-    double max_abs = DBL_MIN;
-    double min_abs = DBL_MAX;
+    double max_abs = -DBL_MAX;
+    double min_abs =  DBL_MAX;
     double percentage_min = 0.10;
     double percentage_max = 0.90;
     double range;
