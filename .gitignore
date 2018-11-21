@@ -9,7 +9,7 @@ Makefile
 .qmake.stash
 .directory
 
-!rtbiomanager.pro
+!rthybrid.pro
 !about.txt
 
 ui_rthybrid.h

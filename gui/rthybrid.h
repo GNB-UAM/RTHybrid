@@ -3,6 +3,7 @@
 
 #include "ui_rthybrid.h"
 #include "clamplauncher.h"
+#include <QSettings>
 
 namespace Ui {
 class RTHybrid;
@@ -75,6 +76,10 @@ private:
     ClampLauncher * cl;
     unsigned short isClampRunning = false;
     clamp_args args;
+    QSettings * settings;
+
+    void saveSettings();
+    void loadSettings();
 };
 
 #endif // RTHYBRID_H

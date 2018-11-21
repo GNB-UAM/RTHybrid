@@ -27,6 +27,8 @@ RTHybrid::RTHybrid(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height());
 
+    this->settings = new QSettings("RTHybrid", "RTHybrid");
+
     this->args.vars = NULL;
     this->args.params = NULL;
     this->args.syn_args_live_to_model = NULL;
@@ -50,6 +52,8 @@ RTHybrid::RTHybrid(QWidget *parent) :
     QPixmap pixmapTarget = QPixmap("resources/neuron/living.png");
     pixmapTarget = pixmapTarget.scaled(121, 121, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->label_interaction_living->setPixmap(pixmapTarget);
+
+    loadSettings();
 }
 
 RTHybrid::~RTHybrid()
@@ -69,13 +73,14 @@ void RTHybrid::closeEvent (QCloseEvent *event)
         } else {
             if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
             free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live));
+            saveSettings();
             event->accept();
         }
     } else {
         free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live));
+        saveSettings();
         event->accept();
     }
-
 
 }
 
@@ -87,6 +92,8 @@ void RTHybrid::on_buttonStart_clicked()
     struct tm tm;
     char * path = NULL;
     char * hour = NULL;
+
+    saveSettings();
 
     args.input_channels = NULL;
     args.output_channels = NULL;
@@ -196,6 +203,53 @@ void RTHybrid::on_buttonStop_clicked()
 {
     if (kill(cl->getPid(), SIGINT) < 0) perror("Error killing clamp thread");
     //free_pointers(4, &(this->args.vars), &(this->args.params), &(this->args.syn_args_live_to_model), &(this->args.syn_args_model_to_live)); //Ya no se libera aqui
+}
+
+
+void RTHybrid::saveSettings() {
+    settings->setValue("frequency", ui->intFreq->value());
+    settings->setValue("observation_time", ui->intTimeObservation->value());
+    settings->setValue("duration_time", ui->intTime->value());
+    settings->setValue("before_time", ui->intTimeBefore->value());
+    settings->setValue("after_time", ui->intTimeBefore->value());
+
+    settings->setValue("input_channels", ui->textChannelInput->toPlainText());
+    settings->setValue("output_channels", ui->textChannelOutput->toPlainText());
+
+    settings->setValue("input_factor", ui->doubleInputFactor->value());
+    settings->setValue("output_factor", ui->doubleOutputFactor->value());
+
+    settings->setValue("drift", ui->checkDrift->isChecked());
+    settings->setValue("sec_per_burst", ui->doubleSecPerBurst->value());
+    settings->setValue("auto_detect", ui->autoDetect->isChecked());
+    settings->setValue("end_sound", ui->checksound->isChecked());
+
+    /* Los modelos tendrían que abrir sus ventanas para inicializarse al cargar
+     *
+     * settings->setValue("neuron_model", ui->combo_neuron->currentIndex());
+    settings->setValue("synapse_model_ltom", ui->combo_synLtoM->currentIndex());
+    settings->setValue("synapse_model_mtol", ui->combo_synMtoL->currentIndex());*/
+}
+
+void RTHybrid::loadSettings() {
+    if (settings->value("frequency", -1).toInt() == -1) return; //No settings saved yet
+
+    ui->intFreq->setValue(settings->value("frequency").toInt());
+    ui->intTimeObservation->setValue(settings->value("observation_time").toInt());
+    ui->intTime->setValue(settings->value("duration_time").toInt());
+    ui->intTimeBefore->setValue(settings->value("before_time").toInt());
+    ui->intTimeAfter->setValue(settings->value("after_time").toInt());
+
+    ui->textChannelInput->setPlainText(settings->value("input_channels").toString());
+    ui->textChannelOutput->setPlainText(settings->value("output_channels").toString());
+
+    ui->doubleInputFactor->setValue(settings->value("input_factor").toDouble());
+    ui->doubleOutputFactor->setValue(settings->value("output_factor").toDouble());
+
+    ui->checkDrift->setChecked(settings->value("drift").toBool());
+    ui->doubleSecPerBurst->setValue(settings->value("sec_per_burst").toDouble());
+    ui->autoDetect->setChecked(settings->value("auto_detect").toBool());
+    ui->checksound->setChecked(settings->value("end_sound").toBool());
 }
 
 
