@@ -66,6 +66,7 @@ SOURCES       = clamp/src/comedi_functions.c \
 		clamp/src/writer_thread_functions.c \
 		clamp/src/xml_clamp_parser.c \
 		model_library/integration_methods.c \
+		model_library/neuron/neuron_models_aux_functions.c \
 		model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
@@ -125,6 +126,7 @@ OBJECTS       = obj/comedi_functions.o \
 		obj/writer_thread_functions.o \
 		obj/xml_clamp_parser.o \
 		obj/integration_methods.o \
+		obj/neuron_models_aux_functions.o \
 		obj/nm_gui_wang_1993.o \
 		obj/nm_gui_ghigliazza_holmes_2004.o \
 		obj/nm_gui_hindmarsh_rose_1986.o \
@@ -279,7 +281,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
-		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h clamp/src/comedi_functions.c \
+		model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h \
+		model_library/neuron/neuron_models_aux_functions.h clamp/src/comedi_functions.c \
 		clamp/src/queue_functions.c \
 		common/src/aux_functions.c \
 		common/src/file_selector_functions.c \
@@ -297,6 +300,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		clamp/src/writer_thread_functions.c \
 		clamp/src/xml_clamp_parser.c \
 		model_library/integration_methods.c \
+		model_library/neuron/neuron_models_aux_functions.c \
 		model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
@@ -490,8 +494,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/clamp.h clamp/includes/device_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h clamp/includes/types_clamp.h clamp/includes/writer_thread_functions.h clamp/includes/xml_clamp_parser.h moc/moc_predefs.h model_library/integration_methods.h model_library/neuron/Wang_1993/nm_gui_wang_1993.h model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_rulkov_2002.h model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h model_library/neuron/Wang_1993/nm_wang_1993.h model_library/neuron/neuron_models_functions.h model_library/neuron/Empty/nm_empty.h model_library/synapse/Electrical/sm_gui_electrical.h model_library/synapse/Empty/sm_empty.h model_library/synapse/synapse_models_functions.h model_library/synapse/Electrical/sm_electrical.h model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h model_library/synapse/Electrical/sm_xml_electrical.h model_library/xml_models.h model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h model_library/neuron/Wang_1993/nm_xml_wang_1993.h model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h $(DISTDIR)/
-	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/main.cpp clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/calibrate_functions_phase2_a.c clamp/src/clamp.c clamp/src/rt_thread_functions.c clamp/src/time_functions.c clamp/src/writer_thread_functions.c clamp/src/xml_clamp_parser.c model_library/integration_methods.c model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_rulkov_2002.c model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c model_library/neuron/Wang_1993/nm_wang_1993.c model_library/neuron/neuron_models_functions.c model_library/neuron/Empty/nm_empty.c model_library/synapse/Electrical/sm_gui_electrical.cpp model_library/synapse/Empty/sm_empty.c model_library/synapse/synapse_models_functions.c model_library/synapse/Electrical/sm_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c model_library/synapse/Electrical/sm_xml_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.c model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c $(DISTDIR)/
+	$(COPY_FILE) --parents common/includes/file_selector_functions.h common/includes/xml_parser_functions.h common/includes/types.h gui/rthybrid.h gui/rthybrid_xml_main.h gui/clamplauncher.h clamp/includes/calibrate_functions_phase1.h clamp/includes/calibrate_functions_phase2.h clamp/includes/calibrate_functions_phase2_a.h clamp/includes/clamp.h clamp/includes/device_functions.h clamp/includes/queue_functions.h clamp/includes/rt_thread_functions.h clamp/includes/time_functions.h clamp/includes/types_clamp.h clamp/includes/writer_thread_functions.h clamp/includes/xml_clamp_parser.h moc/moc_predefs.h model_library/integration_methods.h model_library/neuron/Wang_1993/nm_gui_wang_1993.h model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.h model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_rulkov_2002.h model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h model_library/neuron/Wang_1993/nm_wang_1993.h model_library/neuron/neuron_models_functions.h model_library/neuron/Empty/nm_empty.h model_library/synapse/Electrical/sm_gui_electrical.h model_library/synapse/Empty/sm_empty.h model_library/synapse/synapse_models_functions.h model_library/synapse/Electrical/sm_electrical.h model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.h model_library/synapse/Electrical/sm_xml_electrical.h model_library/xml_models.h model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h model_library/neuron/Wang_1993/nm_xml_wang_1993.h model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.h model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h model_library/neuron/neuron_models_aux_functions.h $(DISTDIR)/
+	$(COPY_FILE) --parents clamp/src/comedi_functions.c clamp/src/queue_functions.c common/src/aux_functions.c common/src/file_selector_functions.c common/src/xml_parser_functions.c gui/rthybrid.cpp gui/rthybrid_xml_main.cpp gui/clamplauncher.cpp gui/main.cpp clamp/src/calibrate_functions_phase1.c clamp/src/calibrate_functions_phase2.c clamp/src/calibrate_functions_phase2_a.c clamp/src/clamp.c clamp/src/rt_thread_functions.c clamp/src/time_functions.c clamp/src/writer_thread_functions.c clamp/src/xml_clamp_parser.c model_library/integration_methods.c model_library/neuron/neuron_models_aux_functions.c model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.cpp model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_rulkov_2002.c model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c model_library/neuron/Wang_1993/nm_wang_1993.c model_library/neuron/neuron_models_functions.c model_library/neuron/Empty/nm_empty.c model_library/synapse/Electrical/sm_gui_electrical.cpp model_library/synapse/Empty/sm_empty.c model_library/synapse/synapse_models_functions.c model_library/synapse/Electrical/sm_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.c model_library/synapse/Electrical/sm_xml_electrical.c model_library/synapse/Golowasch_et_al_1999/sm_xml_golowasch_et_al_1999.c model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.cpp model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.c model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.cpp model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c $(DISTDIR)/
 	$(COPY_FILE) --parents gui/rthybrid.ui model_library/neuron/Wang_1993/nm_gui_wang_1993.ui model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.ui model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.ui model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.ui model_library/neuron/Rulkov_2002/nm_gui_rulkov_2002.ui model_library/synapse/Electrical/sm_gui_electrical.ui model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui $(DISTDIR)/
 
 
@@ -533,7 +537,6 @@ moc/moc_rthybrid.cpp: ui/ui_rthybrid.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -542,6 +545,7 @@ moc/moc_rthybrid.cpp: ui/ui_rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -563,7 +567,6 @@ moc/moc_clamplauncher.cpp: clamp/includes/clamp.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -572,6 +575,7 @@ moc/moc_clamplauncher.cpp: clamp/includes/clamp.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -588,7 +592,6 @@ moc/moc_nm_gui_wang_1993.cpp: model_library/neuron/Wang_1993/nm_wang_1993.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Wang_1993/nm_gui_wang_1993.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/neuron/Wang_1993/nm_gui_wang_1993.h -o moc/moc_nm_gui_wang_1993.cpp
@@ -597,7 +600,6 @@ moc/moc_nm_gui_ghigliazza_holmes_2004.cpp: model_library/neuron/Ghigliazza_Holme
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h -o moc/moc_nm_gui_ghigliazza_holmes_2004.cpp
@@ -606,7 +608,6 @@ moc/moc_nm_gui_hindmarsh_rose_1986.cpp: model_library/neuron/Hindmarsh_Rose_1986
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.h -o moc/moc_nm_gui_hindmarsh_rose_1986.cpp
@@ -615,7 +616,6 @@ moc/moc_nm_gui_izhikevich_2003.cpp: model_library/neuron/Izhikevich_2003/nm_izhi
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h \
 		/usr/lib/x86_64-linux-gnu/qt5/bin/moc
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/skynet/workspace/RTHybrid -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.h -o moc/moc_nm_gui_izhikevich_2003.cpp
@@ -754,7 +754,6 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -763,6 +762,7 @@ obj/rthybrid.o: gui/rthybrid.cpp gui/rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -791,7 +791,6 @@ obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
 		model_library/neuron/neuron_models_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -800,6 +799,7 @@ obj/rthybrid_xml_main.o: gui/rthybrid_xml_main.cpp gui/rthybrid_xml_main.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		model_library/xml_models.h \
@@ -833,7 +833,6 @@ obj/clamplauncher.o: gui/clamplauncher.cpp gui/clamplauncher.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -842,6 +841,7 @@ obj/clamplauncher.o: gui/clamplauncher.cpp gui/clamplauncher.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -864,7 +864,6 @@ obj/main.o: gui/main.cpp gui/rthybrid.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -873,6 +872,7 @@ obj/main.o: gui/main.cpp gui/rthybrid.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -899,7 +899,6 @@ obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/i
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -908,6 +907,7 @@ obj/calibrate_functions_phase2.o: clamp/src/calibrate_functions_phase2.c clamp/i
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/calibrate_functions_phase2.o clamp/src/calibrate_functions_phase2.c
@@ -920,7 +920,6 @@ obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c cla
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -929,6 +928,7 @@ obj/calibrate_functions_phase2_a.o: clamp/src/calibrate_functions_phase2_a.c cla
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -944,7 +944,6 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -953,6 +952,7 @@ obj/clamp.o: clamp/src/clamp.c clamp/includes/clamp.h \
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -971,7 +971,6 @@ obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thr
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -980,6 +979,7 @@ obj/rt_thread_functions.o: clamp/src/rt_thread_functions.c clamp/includes/rt_thr
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		clamp/includes/queue_functions.h \
@@ -1008,7 +1008,6 @@ obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_pa
 		model_library/neuron/neuron_models_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -1017,6 +1016,7 @@ obj/xml_clamp_parser.o: clamp/src/xml_clamp_parser.c clamp/includes/xml_clamp_pa
 		model_library/synapse/Empty/sm_empty.h \
 		model_library/synapse/Electrical/sm_electrical.h \
 		model_library/synapse/Golowasch_et_al_1999/sm_golowasch_et_al_1999.h \
+		model_library/integration_methods.h \
 		model_library/synapse/Destexhe_et_al_1994/sm_destexhe_et_al_1994.h \
 		model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
 		model_library/xml_models.h \
@@ -1035,12 +1035,17 @@ obj/integration_methods.o: model_library/integration_methods.c model_library/int
 		common/includes/types.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/integration_methods.o model_library/integration_methods.c
 
+obj/neuron_models_aux_functions.o: model_library/neuron/neuron_models_aux_functions.c model_library/neuron/neuron_models_aux_functions.h \
+		clamp/includes/types_clamp.h \
+		common/includes/types.h \
+		common/includes/file_selector_functions.h
+	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/neuron_models_aux_functions.o model_library/neuron/neuron_models_aux_functions.c
+
 obj/nm_gui_wang_1993.o: model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp model_library/neuron/Wang_1993/nm_gui_wang_1993.h \
 		model_library/neuron/Wang_1993/nm_wang_1993.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		ui/ui_nm_gui_wang_1993.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_wang_1993.o model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp
 
@@ -1049,7 +1054,6 @@ obj/nm_gui_ghigliazza_holmes_2004.o: model_library/neuron/Ghigliazza_Holmes_2004
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		ui/ui_nm_gui_ghigliazza_holmes_2004.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_ghigliazza_holmes_2004.o model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp
 
@@ -1058,7 +1062,6 @@ obj/nm_gui_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_gu
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		ui/ui_nm_gui_hindmarsh_rose_1986.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_hindmarsh_rose_1986.o model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp
 
@@ -1067,7 +1070,6 @@ obj/nm_gui_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_gui_izhike
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h \
 		ui/ui_nm_gui_izhikevich_2003.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/nm_gui_izhikevich_2003.o model_library/neuron/Izhikevich_2003/nm_gui_izhikevich_2003.cpp
 
@@ -1083,14 +1085,16 @@ obj/nm_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_izhikevich_200
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		model_library/integration_methods.h \
+		model_library/neuron/neuron_models_aux_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_izhikevich_2003.o model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.c
 
 obj/nm_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		model_library/integration_methods.h \
+		model_library/neuron/neuron_models_aux_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_hindmarsh_rose_1986.o model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.c
 
 obj/nm_rulkov_2002.o: model_library/neuron/Rulkov_2002/nm_rulkov_2002.c model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
@@ -1103,14 +1107,16 @@ obj/nm_ghigliazza_holmes_2004.o: model_library/neuron/Ghigliazza_Holmes_2004/nm_
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		model_library/integration_methods.h \
+		model_library/neuron/neuron_models_aux_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_ghigliazza_holmes_2004.o model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.c
 
 obj/nm_wang_1993.o: model_library/neuron/Wang_1993/nm_wang_1993.c model_library/neuron/Wang_1993/nm_wang_1993.h \
 		clamp/includes/types_clamp.h \
 		common/includes/types.h \
 		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		model_library/integration_methods.h \
+		model_library/neuron/neuron_models_aux_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_wang_1993.o model_library/neuron/Wang_1993/nm_wang_1993.c
 
 obj/neuron_models_functions.o: model_library/neuron/neuron_models_functions.c model_library/neuron/neuron_models_functions.h \
@@ -1119,7 +1125,6 @@ obj/neuron_models_functions.o: model_library/neuron/neuron_models_functions.c mo
 		common/includes/file_selector_functions.h \
 		model_library/neuron/Empty/nm_empty.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
-		model_library/integration_methods.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		model_library/neuron/Rulkov_2002/nm_rulkov_2002.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
@@ -1193,8 +1198,7 @@ obj/nm_xml_ghigliazza_holmes_2004.o: model_library/neuron/Ghigliazza_Holmes_2004
 		common/includes/types.h \
 		model_library/neuron/Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h \
 		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_xml_ghigliazza_holmes_2004.o model_library/neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.c
 
 obj/nm_xml_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.h \
@@ -1202,8 +1206,7 @@ obj/nm_xml_izhikevich_2003.o: model_library/neuron/Izhikevich_2003/nm_xml_izhike
 		common/includes/types.h \
 		model_library/neuron/Izhikevich_2003/nm_izhikevich_2003.h \
 		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_xml_izhikevich_2003.o model_library/neuron/Izhikevich_2003/nm_xml_izhikevich_2003.c
 
 obj/nm_xml_wang_1993.o: model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_library/neuron/Wang_1993/nm_xml_wang_1993.h \
@@ -1211,8 +1214,7 @@ obj/nm_xml_wang_1993.o: model_library/neuron/Wang_1993/nm_xml_wang_1993.c model_
 		common/includes/types.h \
 		model_library/neuron/Wang_1993/nm_wang_1993.h \
 		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_xml_wang_1993.o model_library/neuron/Wang_1993/nm_xml_wang_1993.c
 
 obj/nm_xml_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.h \
@@ -1220,8 +1222,7 @@ obj/nm_xml_hindmarsh_rose_1986.o: model_library/neuron/Hindmarsh_Rose_1986/nm_xm
 		common/includes/types.h \
 		model_library/neuron/Hindmarsh_Rose_1986/nm_hindmarsh_rose_1986.h \
 		clamp/includes/types_clamp.h \
-		common/includes/file_selector_functions.h \
-		model_library/integration_methods.h
+		common/includes/file_selector_functions.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o obj/nm_xml_hindmarsh_rose_1986.o model_library/neuron/Hindmarsh_Rose_1986/nm_xml_hindmarsh_rose_1986.c
 
 obj/nm_xml_rulkov_2002.o: model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.c model_library/neuron/Rulkov_2002/nm_xml_rulkov_2002.h \

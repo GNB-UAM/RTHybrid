@@ -325,8 +325,8 @@ void * rt_thread(void * arg) {
 
 
     msg.id = args->events_file_id;
-    sprintf(msg.data, "\n******* RTHybrid experiment %s ******* \nModel = %d \nSynapse = %d \nFiring rate = %.3f \n*************",
-                        args->filename, args->nm.type, args->sm_live_to_model.type, external_firing_rate);
+    sprintf(msg.data, "\n******* RTHybrid experiment %s ******* \nModel = %d \nSynapse = %d \nFiring rate = %.3f\nModel pts per burst = %.3f\n*************",
+                        args->filename, args->nm.type, args->sm_live_to_model.type, external_firing_rate, args->nm.pts_burst);
     send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg);
 
 

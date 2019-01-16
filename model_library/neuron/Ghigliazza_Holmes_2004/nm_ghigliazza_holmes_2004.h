@@ -10,9 +10,7 @@ extern "C" {
 #ifndef NM_GHIGLIAZZA_HOLMES_2004_H
 #define NM_GHIGLIAZZA_HOLMES_2004_H
 
-#include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
-#include "../../integration_methods.h"
 
 
 /** @name Ghigliazza-Holmes

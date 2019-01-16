@@ -1,4 +1,5 @@
 #include "nm_rulkov_2002.h"
+#include <math.h>
 
 /**
  * @file nm_rulkov_2002.h

@@ -240,7 +240,7 @@ void RTHybrid::loadSettings() {
     ui->intTimeBefore->setValue(settings->value("before_time").toInt());
     ui->intTimeAfter->setValue(settings->value("after_time").toInt());
 
-    ui->textChannelInput->setPlainText(settings->value("input_channels").toString());
+    ui->textChannelInput->setPlainText(settings->value("input_channels").toString()); // No hace falta al parecer comprobar si hay texto para que se inhabiliten/habiliten los campos y check boxes
     ui->textChannelOutput->setPlainText(settings->value("output_channels").toString());
 
     ui->doubleInputFactor->setValue(settings->value("input_factor").toDouble());
@@ -250,6 +250,12 @@ void RTHybrid::loadSettings() {
     ui->doubleSecPerBurst->setValue(settings->value("sec_per_burst").toDouble());
     ui->autoDetect->setChecked(settings->value("auto_detect").toBool());
     ui->checksound->setChecked(settings->value("end_sound").toBool());
+
+    if (ui->autoDetect->isChecked()) {
+        ui->doubleSecPerBurst->setEnabled(false);
+    } else {
+        ui->doubleSecPerBurst->setEnabled(true);
+    }
 }
 
 

@@ -91,6 +91,7 @@ SOURCES += \
     clamp/src/writer_thread_functions.c \
     clamp/src/xml_clamp_parser.c \
     model_library/integration_methods.c \
+    model_library/neuron/neuron_models_aux_functions.c \
     model_library/neuron/Wang_1993/nm_gui_wang_1993.cpp \
     model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.cpp \
     model_library/neuron/Hindmarsh_Rose_1986/nm_gui_hindmarsh_rose_1986.cpp \
@@ -174,7 +175,8 @@ HEADERS += \
     model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.h \
     model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
     model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
-    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h
+    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h \
+    model_library/neuron/neuron_models_aux_functions.h
 
 FORMS += \
     gui/rthybrid.ui \

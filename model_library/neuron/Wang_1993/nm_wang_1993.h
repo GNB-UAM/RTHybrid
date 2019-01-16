@@ -10,9 +10,7 @@ extern "C" {
 #ifndef NM_WANG_1993_H
 #define NM_WANG_1993_H
 
-#include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
-#include "../../integration_methods.h"
 
 
 /** @name Wang

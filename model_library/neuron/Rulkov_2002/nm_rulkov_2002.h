@@ -10,7 +10,6 @@ extern "C" {
 #ifndef NM_RULKOV_2002_H
 #define NM_RULKOV_2002_H
 
-#include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
 
 

@@ -50,7 +50,7 @@ void NM_GUI_Rulkov_2002::saveSettings() {
 }
 
 void NM_GUI_Rulkov_2002::loadSettings() {
-    if (settings->value("X", -9999).toInt() == -1) return; //No settings saved yet
+    if (settings->value("X", -9999).toInt() == -9999) return; //No settings saved yet
 
     ui->doubleRlkXIni->setValue(settings->value("X").toDouble());
     ui->doubleRlkYIni->setValue(settings->value("Y").toDouble());

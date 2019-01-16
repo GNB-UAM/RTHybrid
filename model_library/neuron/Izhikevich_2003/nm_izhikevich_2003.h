@@ -10,9 +10,7 @@ extern "C" {
 #ifndef NM_IZHIKEVICH_2003_H
 #define NM_IZHIKEVICH_2003_H
 
-#include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
-#include "../../integration_methods.h"
 
 
 /** @name Izhikevich

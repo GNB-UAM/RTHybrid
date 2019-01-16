@@ -59,7 +59,6 @@ void free_pointers (int n, ...);
 
 void copy_1d_array (double * src, double * dst, int n_elems);
 
-
 #endif // TYPES_H__
 
 #ifdef __cplusplus

@@ -10,9 +10,7 @@ extern "C" {
 #ifndef NM_HINDMARSH_ROSE_1986_H
 #define NM_HINDMARSH_ROSE_1986_H
 
-#include <math.h>
 #include "../../../clamp/includes/types_clamp.h"
-#include "../../integration_methods.h"
 
 
 /** @name Hindmarsh-Rose
