@@ -98,13 +98,16 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
 	runge_kutta_65(&sm_destexhe_et_al_1994_r_f, 1, dt, vars, params_r, 0);
 	aux_params->r = vars[SM_DESTEXHE_ET_AL_1994_R];
 
-	/* t is only updated once per iteration */
-    if (sm->calibrate == SYN_CALIB_PRE) {
-		aux_params->t++;
-		aux_params->old_vpre = new_vpre;
-	}
+    //if (sm->calibrate == SYN_CALIB_POST) printf("post t %d min %f max %f esyn %f threshold %f v_pre %f old %f r %f\n", aux_params->t, sm->min, sm->max, e_syn, threshold, v_pre, aux_params->old_vpre, aux_params->r);
+    //if (sm->calibrate == SYN_CALIB_PRE) printf("pre t %d min %f max %f esyn %f threshold %f v_pre %f old %f r %f\n\n", aux_params->t, sm->min, sm->max, e_syn, threshold, v_pre, aux_params->old_vpre, aux_params->r);
+
+	aux_params->t++;
+
+    aux_params->old_vpre = new_vpre;
 
     *ret = sm->g[SM_DESTEXHE_ET_AL_1994_G] * aux_params->r * (v_post - e_syn);
+
+
 
     //printf("Isyn [%f]= g[%f] * r[%f] * (post[%f] - esyn[%f])\n", *ret ,sm->g[SM_DESTEXHE_ET_AL_1994_G],aux_params->r ,v_post,e_syn);
 

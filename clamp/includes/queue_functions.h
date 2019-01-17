@@ -20,7 +20,7 @@ extern "C" {
 
 typedef struct {
     short id;
-    char data[200];
+    char data[128];
 } message;
 
 

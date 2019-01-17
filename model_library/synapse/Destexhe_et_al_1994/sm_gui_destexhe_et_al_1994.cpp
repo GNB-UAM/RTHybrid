@@ -34,12 +34,13 @@ void SM_GUI_Destexhe_et_al_1994::on_pushButton_accept_clicked()
     destexhe_et_al_1994_args * aux_args = (destexhe_et_al_1994_args *) (*args);
     double v_min = -65.0;
 
-    aux_args->alpha = ui->doubleSpinBox_alpha->value();
-    aux_args->beta = ui->doubleSpinBox_beta->value();
+    aux_args->alpha = (ui->doubleSpinBox_alpha->value() / 1000.0) * ui->doubleSpinBox_freq->value();
+    aux_args->beta = (ui->doubleSpinBox_beta->value()  / 1000.0) * ui->doubleSpinBox_freq->value();
     aux_args->g[SM_DESTEXHE_ET_AL_1994_G] = ui->doubleSpinBox_g->value();
     aux_args->tmax = ui->doubleSpinBox_tmax->value();
     aux_args->pulse_duration = ui->doubleSpinBox_pulse_duration->value() * ui->doubleSpinBox_freq->value();
-    aux_args->e_syn_per = (ui->doubleSpinBox_esyn->value() - v_min) / 100.0;
+    //aux_args->e_syn_per = (ui->doubleSpinBox_esyn->value() - v_min) / 100.0;
+    aux_args->e_syn_per = ui->doubleSpinBox_esyn->value() / 100.0;
 
     saveSettings();
 
