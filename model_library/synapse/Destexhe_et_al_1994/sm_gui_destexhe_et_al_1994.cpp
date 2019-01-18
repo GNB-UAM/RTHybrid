@@ -30,8 +30,8 @@ SM_GUI_Destexhe_et_al_1994::~SM_GUI_Destexhe_et_al_1994()
 
 void SM_GUI_Destexhe_et_al_1994::on_pushButton_accept_clicked()
 {
-    (*args) = (destexhe_et_al_1994_args *) malloc (sizeof(destexhe_et_al_1994_args));
-    destexhe_et_al_1994_args * aux_args = (destexhe_et_al_1994_args *) (*args);
+    (*args) = (sm_destexhe_et_al_1994_args *) malloc (sizeof(sm_destexhe_et_al_1994_args));
+    sm_destexhe_et_al_1994_args * aux_args = (sm_destexhe_et_al_1994_args *) (*args);
     double v_min = -65.0;
 
     aux_args->alpha = (ui->doubleSpinBox_alpha->value() / 1000.0) * ui->doubleSpinBox_freq->value();

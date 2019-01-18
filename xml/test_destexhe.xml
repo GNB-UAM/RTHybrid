@@ -1,0 +1,83 @@
+<clamp>
+
+	<neuron type="4">
+		<vars>
+			<v val="30.24"/>
+		</vars>
+		<params>
+			<gca val="4.4"/>
+			<eca val="120"/>
+			<vthca val="-1.2"/>
+			<kca val="0.11"/>
+
+			<gk val="9"/>
+			<ek val="-80"/>
+			<vthk val="2.0"/>
+			<kk val="0.2"/>
+
+			<gks val="0.25"/>
+			<vthks val="-27"/>
+			<kks val="0.8"/>
+
+			<gl val="2.0"/>
+			<el val="-60"/>
+
+			<c val="1.2"/>
+			<epsilon val="4.9"/>
+			<delta val="0.052"/>
+			<i val="35.6"/>
+
+			<method val="3"/>
+		</params>
+	</neuron>
+
+	<synapse_ltom type="3">
+		<g val="1.5"/>
+		<e_syn val="-15.0"/>
+
+		<alpha val="2.0"/>
+		<beta val="1.0"/>
+
+		<tmax val="1.0"/>
+		<pulse_duration val="0.001"/>
+		<freq val="10000.0"/>
+	</synapse_ltom>
+
+	<synapse_mtol type="3">
+		<g val="1.5"/>
+		<e_syn val="-15.0"/>
+
+		<alpha val="2.0"/>
+		<beta val="1.0"/>
+
+		<tmax val="1.0"/>
+		<pulse_duration val="0.001"/>
+		<freq val="10000.0"/>
+	</synapse_mtol>
+
+	<calib type="0"></calib>
+
+	<freq val="10000"/>
+
+	<times>
+		<before val="5"/>
+		<duration val="10"/>
+		<after val="5"/>
+		<observation val="10"/>
+	</times>
+
+	<output_channels val="0"/>
+
+	<input_channels val="0"/>
+
+	<input_factor val="1000"/>
+
+	<output_factor val="1"/>
+
+	<imp val="0"/>
+
+	<drift val="1"/>
+
+	<sec_per_burst val="-1"/>
+
+</clamp> 

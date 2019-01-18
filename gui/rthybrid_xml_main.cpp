@@ -15,6 +15,7 @@ int rthybrid_xml_main::xml_init(char * file) {
     char * hour = NULL;
 
     if (xml_clamp_parser(file, &args) == ERR) {
+        printf("Error when parsing file %s\n", file);
         return ERR;
     }
 

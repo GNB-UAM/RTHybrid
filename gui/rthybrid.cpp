@@ -520,6 +520,20 @@ void RTHybrid::synapse_models_graphics_ltom(int model_ltom, void * syn_args_ltom
 
         break;
     }
+    case SM_DESTEXHE_ET_AL_1994:
+    {
+        sm_destexhe_et_al_1994_args * aux_syn_args = (sm_destexhe_et_al_1994_args *) syn_args_ltom;
+
+        if (aux_syn_args->g[SM_DESTEXHE_ET_AL_1994_G] != 0.0) {
+            res = "resources/synapse/destexhe_et_al_1994_ltom.png";
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_living_to_model->setPixmap(pixmapTarget);
+
+        break;
+    }
     case SM_GREENBERG_MANOR_2005:
     {
         sm_greenberg_manor_2005_args * aux_syn_args = (sm_greenberg_manor_2005_args *) syn_args_ltom;
@@ -616,6 +630,20 @@ void RTHybrid::synapse_models_graphics_mtol(int model_mtol, void * syn_args_mtol
         pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
         legend = "resources/synapse/golowasch_et_al_1999_legend.png";
+
+        break;
+    }
+    case SM_DESTEXHE_ET_AL_1994:
+    {
+        sm_destexhe_et_al_1994_args * aux_syn_args = (sm_destexhe_et_al_1994_args *) syn_args_mtol;
+
+        if (aux_syn_args->g[SM_DESTEXHE_ET_AL_1994_G] != 0.0) {
+            res = "resources/synapse/destexhe_et_al_1994_mtol.png";
+        }
+
+        pixmapTarget = QPixmap(res.c_str());
+        pixmapTarget = pixmapTarget.scaled(261, 61, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui->label_interaction_syn_model_to_living->setPixmap(pixmapTarget);
 
         break;
     }

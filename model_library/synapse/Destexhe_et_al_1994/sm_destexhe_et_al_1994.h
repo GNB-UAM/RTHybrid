@@ -57,7 +57,7 @@ typedef struct {
 	double e_syn_per;
 	unsigned int pulse_duration;
 	double tmax;
-} destexhe_et_al_1994_args;
+} sm_destexhe_et_al_1994_args;
 
 
 /**
@@ -76,7 +76,7 @@ typedef struct {
 	unsigned int t;
 	unsigned int pulse_duration;
 	double tmax;
-} destexhe_et_al_1994_params;
+} sm_destexhe_et_al_1994_params;
 
 
 

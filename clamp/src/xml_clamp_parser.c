@@ -88,42 +88,55 @@ int xml_clamp_parser (char * file, clamp_args * args) {
     while(cur != NULL) {
         if (xmlStrcmp(cur->name, (const xmlChar*) NEURON) == 0) {
             ret = parse_clamp_nm(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing neuron model\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) SYNAPSE_MTOL) == 0) {
         	ret = parse_clamp_synapse_mtol(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing model to living synapse model\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) SYNAPSE_LTOM) == 0) {
         	ret = parse_clamp_synapse_ltom(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing living to model synapse model\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) FREQ) == 0) {
         	ret = parse_clamp_freq(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing the frequency\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) TIMES) == 0) {
             ret = parse_clamp_time(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing times\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) DRIFT) == 0) {
             ret = parse_clamp_drift(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing drift compensation\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) IMP) == 0) {
             ret = parse_clamp_important(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing important\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) CALIB) == 0) {
             ret = parse_clamp_calibration(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing calibration\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) INPUT_CHANNELS) == 0) {
             ret = parse_clamp_input_channels(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing input channels\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT_CHANNELS) == 0) {
             ret = parse_clamp_output_channels(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing output channels\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) INPUT_FACTOR) == 0) {
             ret = parse_clamp_input_factor(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing input factor\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) OUTPUT_FACTOR) == 0) {
             ret = parse_clamp_output_factor(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing output factor\n");
         }
         else if (xmlStrcmp(cur->name, (const xmlChar*) FIRING) == 0) {
             ret = parse_clamp_sec_per_burst(doc, cur, args);
+            if (ret == ERR) fprintf(stderr, "Error when parsing firing rate\n");
         }
 
         if (ret == ERR) break;
@@ -192,6 +205,9 @@ static int parse_clamp_synapse_mtol (xmlDocPtr doc, xmlNodePtr cur, clamp_args *
         case SM_GOLOWASCH_ET_AL_1999:
 			ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_model_to_live));
 			break;
+        case SM_DESTEXHE_ET_AL_1994:
+            ret = parse_sm_destexhe_et_al_1994(doc, cur->xmlChildrenNode, &(args->syn_args_model_to_live));
+            break;
         case SM_GREENBERG_MANOR_2005:
             ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_model_to_live));
             break;
@@ -220,6 +236,9 @@ static int parse_clamp_synapse_ltom (xmlDocPtr doc, xmlNodePtr cur, clamp_args *
         case SM_GOLOWASCH_ET_AL_1999:
 			ret = parse_sm_golowasch_et_al_1999(doc, cur->xmlChildrenNode, &(args->syn_args_live_to_model));
 			break;
+        case SM_DESTEXHE_ET_AL_1994:
+            ret = parse_sm_destexhe_et_al_1994(doc, cur->xmlChildrenNode, &(args->syn_args_live_to_model));
+            break;
         case SM_GREENBERG_MANOR_2005:
             ret = parse_sm_greenberg_manor_2005(doc, cur->xmlChildrenNode, &(args->syn_args_live_to_model));
             break;

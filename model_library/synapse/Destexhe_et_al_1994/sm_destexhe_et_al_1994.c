@@ -21,7 +21,7 @@
  */
 
 void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
-	destexhe_et_al_1994_params * aux_params = sm->type_params;
+	sm_destexhe_et_al_1994_params * aux_params = sm->type_params;
 
     sm->scale = scale;
     sm->offset = offset;
@@ -62,7 +62,7 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
 	double params_r[5];
     double min, max, v_range, threshold, e_syn;
 	double new_vpre = v_pre;
-    destexhe_et_al_1994_params * aux_params = sm->type_params;
+    sm_destexhe_et_al_1994_params * aux_params = sm->type_params;
     double vars[1] = {aux_params->r};
 
     min = sm->min;
@@ -79,7 +79,7 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
 
     v_range = sm->max - sm->min;
     e_syn = sm->min + v_range * aux_params->e_syn_per;
-    threshold = sm->max - v_range * 0.1;
+    threshold = sm->max - v_range * 0.15;
 
     //printf("1threshold %f v_pre %f old %f\n", threshold, v_pre, aux_params->old_vpre);
 
@@ -123,9 +123,9 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
  */
 
 void sm_destexhe_et_al_1994_init (synapse_model * sm, void * syn_args) {
-    destexhe_et_al_1994_args * aux_syn_args = (destexhe_et_al_1994_args *) syn_args;
-    sm->type_params = (destexhe_et_al_1994_params *) malloc (sizeof(destexhe_et_al_1994_params));
-    destexhe_et_al_1994_params * aux_params = sm->type_params;
+    sm_destexhe_et_al_1994_args * aux_syn_args = (sm_destexhe_et_al_1994_args *) syn_args;
+    sm->type_params = (sm_destexhe_et_al_1994_params *) malloc (sizeof(sm_destexhe_et_al_1994_params));
+    sm_destexhe_et_al_1994_params * aux_params = sm->type_params;
 
     sm->calibrate = SYN_CALIB_PRE;
 
