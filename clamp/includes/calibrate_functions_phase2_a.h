@@ -20,8 +20,8 @@ extern "C" {
 #include <getopt.h>
 #include "calibrate_functions_phase2.h"
 #include "queue_functions.h"
-#include "neuron_models_functions.h"
-#include "synapse_models_functions.h"
+#include "../../model_library/neuron/neuron_models_functions.h"
+#include "../../model_library/synapse/synapse_models_functions.h"
 
 void cal_struct_init (void ** cal_struct, unsigned int mode_auto_cal, ...);
 

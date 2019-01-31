@@ -27,7 +27,8 @@ int daq_open_device (void ** device) {
 	dsc = *device;*/
 
 	if (READ_FROM_FILE == 1) {
-		f = fopen("data/2018y_2m_6d/19h_48m_45s_1.txt", "r");
+        //f = fopen("data/2018y_10m_8d/18h_33m_12s_data.txt", "r");
+        f = fopen("data/19h_18m_46s_1.txt", "r");
 		char buf[999];
 		fgets(buf, sizeof(char) * 200, f);
 	}
@@ -161,22 +162,17 @@ int read_single_data_comedi (Daq_session * session, comedi_range * range_info, l
 		elemento = strtok(buf, " ");
 		//printf("%p %p\n", elemento, buf);
 		int i;
-		for (i=0; i<8; i++){
+        for (i=1; i<=8; i++){
 			elemento = strtok(NULL, " ");
 			//printf("%p\n", elemento);
 			fflush(NULL);
 		}
 		*ret = atof(elemento);
-		//printf("\n%f\n", *ret);
 
 		while (elemento != NULL) {
 			elemento = strtok(NULL, " ");
 		}
 	}
-	
-
-
-	
 
 	return 0;
 }

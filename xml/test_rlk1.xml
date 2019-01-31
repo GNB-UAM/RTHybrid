@@ -1,6 +1,6 @@
 <clamp>
 
-	<model type="3">
+	<neuron type="3">
 		<vars>
 			<x val="-1.701750"/>
 			<y val="-4.919230"/>
@@ -11,17 +11,21 @@
 			<mu val="0.001"/>
 			<i val="1.0"/>
 		</params>
-	</model>
+	</neuron>
 
-	<synapse type="1">
-		<g_real_to_virtual val="0.2"/>
-		<g_virtual_to_real val="0.2"/>
+	<synapse_ltom type="1">
+		<g val="0.2"/>
 		<antiphase val="1"/>
-	</synapse>
+	</synapse_ltom>
+
+	<synapse_mtol type="1">
+		<g val="0.2"/>
+		<antiphase val="1"/>
+	</synapse_mtol>
 
 	<calib type="0"></calib>
 
-	<freq val="20000"/>
+	<freq val="10000"/>
 
 	<times>
 		<before val="5"/>
@@ -34,7 +38,7 @@
 
 	<input_channels val="0"/>
 
-	<input_factor val="1"/>
+	<input_factor val="1000"/>
 
 	<output_factor val="1"/>
 

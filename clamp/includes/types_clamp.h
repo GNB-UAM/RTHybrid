@@ -26,6 +26,10 @@ typedef struct neuron_model neuron_model;
 struct neuron_model {
     void (*func)(neuron_model nm, double);				/**< Pointer to the main function of the model (defined in neuron_models_functions.h) */ 
     void (*set_pts_burst)(double, neuron_model * nm);	/**< Pointer to the function that sets the number of points per burst of the model (defined in neuron_models_functions.h) */
+    void (*method)
+        (void (*f) (double *, double *, double *, double), 
+        int dim, double dt, double * vars, 
+        double * params, double aux);                   /**< Pointer to the function with the integration method. */ 
     unsigned int type;									/**< Integer that identifies the model (using the macros defined in neuron_models_functions.h) */
     unsigned int dim;									/**< Dimension (number of variables) of the model */
     unsigned int n_params;								/**< Number of parameters of the model */
@@ -47,10 +51,15 @@ typedef struct synapse_model synapse_model;
  */ 
 struct synapse_model {
     void (*func)(double, double, synapse_model*, double*);	/**< Pointer to the main function of the model (defined in synapse_models_functions.h) */
+    void (*set_online_parameters)
+        (synapse_model * sm, double scale, double offset,
+         double min, double max);                           /**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
     unsigned int type;										/**< Integer that identifies the model (using the macros defined in synapse_models_functions.h) */
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */
     double offset;											/**< Amplitude offset of the living neuron signal regarding to the neuron model */
+    double min;                                             /**< Minimum amplitude value of the presynaptic neuron signal */
+    double max;                                             /**< Maximum amplitude value of the presynaptic neuron signal */
     unsigned int calibrate;									/**< Indicates the neuron which amplitude will be calibrated to the other one range. It can be the pre-synaptic one (#SYN_CALIB_PRE) or the post-synaptic (#SYN_CALIB_POST)*/
     void * type_params;										/**< Pointer to the structure storing the specific parameters for a type of synapse (defined in synapse_models_functions.h)*/
 };
@@ -65,6 +74,7 @@ typedef struct {
     neuron_model nm;				/**< Neuron model structure*/
     synapse_model sm_model_to_live;	/**< Synapse model from the model to the living neuron structure*/
     synapse_model sm_live_to_model;	/**< Synapse model from the living neuron to the model structure*/
+    synapse_model sm_live_to_model_scaled; /**< Synapse model from the living neuron to the model structure (to scale to the living neuron range)*/
     
     long time_var;					/**< Duration of the interaction*/
     int before;						/**< Before interaction control time*/
@@ -162,8 +172,9 @@ typedef struct {
     double * min_rel_real;
     double max_abs_model;
     double min_abs_model;
-    synapse_model * sm_live_to_model;
     synapse_model * sm_model_to_live;
+    synapse_model * sm_live_to_model;
+    synapse_model * sm_live_to_model_scaled;
 } fix_drift_args;
 
 
@@ -174,7 +185,8 @@ typedef struct {
     int time_var;
     int before;
     int model;
-    int synapse;
+    int synapse_mtol;
+    int synapse_ltom;
     int mode_auto_cal;
     int imp;
     char * input_channels;
@@ -192,6 +204,8 @@ typedef struct {
     void * syn_args_live_to_model;
     double input_factor;			/**< Input scaling factor due to the experimental setup*/
     double output_factor;			/**< Output voltage/current conversion factor due to the experimental setup*/
+    char * filename;
+    char * data_path;
 } clamp_args;
 
 #endif // TYPES_CLAMP_H__

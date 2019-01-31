@@ -59,9 +59,6 @@ void free_pointers (int n, ...);
 
 void copy_1d_array (double * src, double * dst, int n_elems);
 
-void runge_kutta_6 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux);
-
-
 #endif // TYPES_H__
 
 #ifdef __cplusplus

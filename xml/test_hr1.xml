@@ -1,6 +1,6 @@
 <clamp>
 
-	<model type="2">
+	<neuron type="2">
 		<vars>
 			<x val="-0.712841"/>
 			<y val="-1.936880"/>
@@ -10,30 +10,38 @@
 			<r val="0.0021"/>
 			<s val="4.0"/>
 			<i val="3.0"/>
+
+			<method val="3"/>
 		</params>
-	</model>
+	</neuron>
 
-	<synapse type="2">
-		<g_real_to_virtual_fast val="0.8"/>
-		<vfast_real_to_virtual val="25.0"/>
+	<synapse_ltom type="2">
+		<g_fast val="0.8"/>
+		<vth_fast val="25.0"/>
+		<s_fast val="5.0"/>
 		
-		<g_real_to_virtual_slow val="0.0"/>
-		<vslow_real_to_virtual val="0.0"/>
-		<k1_real_to_virtual val="14.0"/>
-		<k2_real_to_virtual val="4.0"/>
+		<g_slow val="0.0"/>
+		<vth_slow val="0.0"/>
+		<s_slow val="0.0"/>
+		<k1_slow val="14.0"/>
+		<k2_slow val="4.0"/>
+	</synapse_ltom>
 
-		<g_virtual_to_real_fast val="0.0"/>
-		<vfast_virtual_to_real val="0.0"/>
+	<synapse_mtol type="2">
+		<g_fast val="0.0"/>
+		<vth_fast val="0.0"/>
+		<s_fast val="0.0"/>
 
-		<g_virtual_to_real_slow val="0.08"/>
-		<vslow_virtual_to_real val="15.0"/>
-		<k1_virtual_to_real val="14.0"/>
-		<k2_virtual_to_real val="4.0"/>
-	</synapse>
+		<g_slow val="0.08"/>
+		<vth_slow val="15.0"/>
+		<s_slow val="1.0"/>
+		<k1_slow val="14.0"/>
+		<k2_slow val="8.0"/>
+	</synapse_mtol>
 
 	<calib type="0"></calib>
 
-	<freq val="20000"/>
+	<freq val="10000"/>
 
 	<times>
 		<before val="5"/>
@@ -46,7 +54,7 @@
 
 	<input_channels val="0"/>
 
-	<input_factor val="1"/>
+	<input_factor val="1000"/>
 
 	<output_factor val="1"/>
 

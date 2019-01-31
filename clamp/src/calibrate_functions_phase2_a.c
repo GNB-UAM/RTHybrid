@@ -289,16 +289,25 @@ void fix_drift (fix_drift_args args) {
 
     args.sm_live_to_model->offset = *(args.offset_real_to_virtual);
     args.sm_live_to_model->scale = *(args.scale_real_to_virtual);
+    args.sm_live_to_model->min = *(args.min_window);
+    args.sm_live_to_model->max = *(args.max_window);
+
+    args.sm_live_to_model_scaled->offset = *(args.offset_real_to_virtual);
+    args.sm_live_to_model_scaled->scale = *(args.scale_real_to_virtual);
+    args.sm_live_to_model_scaled->min = *(args.min_window);
+    args.sm_live_to_model_scaled->max = *(args.max_window);
 
     args.sm_model_to_live->offset = *(args.offset_virtual_to_real);
     args.sm_model_to_live->scale = *(args.scale_virtual_to_real);
 
-    if (args.sm_live_to_model->type == GOLOWASCH) {
+
+
+    /*if (args.sm_live_to_model->type == SM_GOLOWASCH_ET_AL_1999) {
         syn_gl_params * aux_gl_drift = args.sm_live_to_model->type_params;
 
         aux_gl_drift->min = *(args.min_window);
         aux_gl_drift->max = *(args.max_window);
-    }
+    }*/
 
     if(*(args.min_window) > 0){
         *(args.min_rel_real) = *(args.min_window) + (*(args.min_window) * per_min);
@@ -336,9 +345,9 @@ int first_spike_detection (regularity_control_args * args) {
 }
 
 void change_conductance (synapse_model * sm, double per) {
-    if (sm->type == ELECTRIC) {
+    if (sm->type == SM_ELECTRICAL) {
         sm->g[ELEC_G] += sm->g[ELEC_G] * per;
-    } else if (sm->type == GOLOWASCH) {
+    } else if (sm->type == SM_GOLOWASCH_ET_AL_1999) {
         if (sm->g[GL_G_SLOW] != 0.0) sm->g[GL_G_SLOW] += sm->g[GL_G_SLOW] * per;
         if (sm->g[GL_G_FAST] != 0.0) sm->g[GL_G_FAST] += sm->g[GL_G_FAST] * per;
     }

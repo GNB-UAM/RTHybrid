@@ -1,0 +1,79 @@
+<clamp>
+
+	<neuron type="5">
+		<vars>
+			<v val="-66.5"/>
+		</vars>
+		<params>
+			<g_na val="52.0"/>
+            <v_na val="55.0"/>
+            <g_nap val="0.1"/>
+
+            <g_k val="20.0"/>
+            <v_k val="-90.0"/>
+            <g_ks val="14.0"/>
+
+            <g_l val="0.1"/>
+            <v_l val="-60.0"/>
+
+            <cm val="1.0"/>
+            <sigma val="0.0"/>
+            <rho val="0.6"/>
+            <phi val="28.57"/>
+            <taum val="6.0"/>
+            <i val="2.5"/>
+
+            <method val="3"/>
+		</params>
+	</neuron>
+
+	<synapse_ltom type="2">
+		<g_fast val="0.8"/>
+		<vth_fast val="25.0"/>
+		<s_fast val="5.0"/>
+		
+		<g_slow val="0.0"/>
+		<vth_slow val="0.0"/>
+		<s_slow val="0.0"/>
+		<k1_slow val="14.0"/>
+		<k2_slow val="4.0"/>
+	</synapse_ltom>
+
+	<synapse_mtol type="2">
+		<g_fast val="0.0"/>
+		<vth_fast val="0.0"/>
+		<s_fast val="0.0"/>
+
+		<g_slow val="0.08"/>
+		<vth_slow val="15.0"/>
+		<s_slow val="1.0"/>
+		<k1_slow val="14.0"/>
+		<k2_slow val="8.0"/>
+	</synapse_mtol>
+
+	<calib type="0"></calib>
+
+	<freq val="10000"/>
+
+	<times>
+		<before val="5"/>
+		<duration val="10"/>
+		<after val="5"/>
+		<observation val="10"/>
+	</times>
+
+	<output_channels val="0,1"/>
+
+	<input_channels val="0"/>
+
+	<input_factor val="1000"/>
+
+	<output_factor val="1"/>
+
+	<imp val="0"/>
+
+	<drift val="1"/>
+
+	<sec_per_burst val="-1"/>
+
+</clamp>

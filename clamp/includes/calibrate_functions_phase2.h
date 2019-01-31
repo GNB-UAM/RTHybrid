@@ -5,8 +5,8 @@ extern "C" {
 #ifndef CALIBRATE_FUNCTIONS_PHASE2_H__
 #define CALIBRATE_FUNCTIONS_PHASE2_H__
 
-#include "neuron_models_functions.h"
-#include "synapse_models_functions.h"
+#include "../../model_library/neuron/neuron_models_functions.h"
+#include "../../model_library/synapse/synapse_models_functions.h"
 
 int calc_ecm (double v_a, double v_b, int life_burst_points, double *ecm_result);
 
