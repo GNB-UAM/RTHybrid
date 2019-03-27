@@ -46,6 +46,10 @@ void init_neuron_model (neuron_model * nm, int model, double * vars, double * pa
             nm_wang_1993_init(nm, vars, params);
 
             break;
+        case NM_KOMENDANTOV_KONONENKO_1996:
+            nm_komendantov_kononenko_1996_init(nm, vars, params);
+
+            break;
         default:
             return;
     }

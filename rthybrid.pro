@@ -17,8 +17,8 @@ UI_DIR = ui/
 QMAKE_CLEAN += $$TARGET
 
 QMAKE_LIBS += -lpthread -lrt -lm -lxml2
-QMAKE_CFLAGS += -D_GNU_SOURCE -I/usr/include/libxml2
-QMAKE_CXXFLAGS += -I/usr/include/libxml2
+QMAKE_CFLAGS += -D_GNU_SOURCE -I/usr/include/libxml2 -g
+QMAKE_CXXFLAGS += -I/usr/include/libxml2 -g
 
 #QMAKE_LIBS += -lpthread -lrt -lm $(shell xml2-config --libs)
 #QMAKE_CFLAGS += -D_GNU_SOURCE $(shell xml2-config --cflags)
@@ -122,7 +122,10 @@ SOURCES += \
     model_library/synapse/Destexhe_et_al_1994/sm_xml_destexhe_et_al_1994.c \
     model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.cpp \
     model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.c \
-    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c
+    model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_komendantov_kononenko_1996.c \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_xml_komendantov_kononenko_1996.c \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.cpp
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -176,7 +179,10 @@ HEADERS += \
     model_library/synapse/Greenberg_Manor_2005/sm_greenberg_manor_2005.h \
     model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.h \
     model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.h \
-    model_library/neuron/neuron_models_aux_functions.h
+    model_library/neuron/neuron_models_aux_functions.h \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_komendantov_kononenko_1996.h \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_xml_komendantov_kononenko_1996.h \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.h
 
 FORMS += \
     gui/rthybrid.ui \
@@ -188,4 +194,5 @@ FORMS += \
     model_library/synapse/Electrical/sm_gui_electrical.ui \
     model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui \
     model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui \
-    model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui
+    model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui \
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.ui

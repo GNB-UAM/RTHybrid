@@ -2,7 +2,7 @@
 #include "ui_nm_gui_hindmarsh_rose_1986.h"
 
 NM_GUI_Hindmarsh_Rose_1986::NM_GUI_Hindmarsh_Rose_1986(clamp_args * args, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::NM_GUI_Hindmarsh_Rose_1986)
 {
     this->settings = new QSettings("RTHybrid", "NM_Hindmarsh_Rose_1986");

@@ -1,7 +1,7 @@
 #ifndef NM_GUI_HINDMARSH_ROSE_1986_H
 #define NM_GUI_HINDMARSH_ROSE_1986_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "nm_hindmarsh_rose_1986.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class NM_GUI_Hindmarsh_Rose_1986;
 }
 
-class NM_GUI_Hindmarsh_Rose_1986 : public QWidget
+class NM_GUI_Hindmarsh_Rose_1986 : public QDialog
 {
     Q_OBJECT
 

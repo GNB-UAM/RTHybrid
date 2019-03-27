@@ -1,7 +1,7 @@
 #ifndef NM_GUI_GHIGLIAZZA_HOLMES_2004_H
 #define NM_GUI_GHIGLIAZZA_HOLMES_2004_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "nm_ghigliazza_holmes_2004.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class NM_GUI_Ghigliazza_Holmes_2004;
 }
 
-class NM_GUI_Ghigliazza_Holmes_2004 : public QWidget
+class NM_GUI_Ghigliazza_Holmes_2004 : public QDialog
 {
     Q_OBJECT
 

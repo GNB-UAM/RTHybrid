@@ -2,7 +2,7 @@
 #include "ui_nm_gui_rulkov_2002.h"
 
 NM_GUI_Rulkov_2002::NM_GUI_Rulkov_2002(clamp_args * args, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::NM_GUI_Rulkov_2002)
 {
     this->settings = new QSettings("RTHybrid", "NM_Rulkov_2002");

@@ -19,6 +19,7 @@ extern "C" {
 #include "Rulkov_2002/nm_rulkov_2002.h"
 #include "Ghigliazza_Holmes_2004/nm_ghigliazza_holmes_2004.h"
 #include "Wang_1993/nm_wang_1993.h"
+#include "Komendantov_Kononenko_1996/nm_komendantov_kononenko_1996.h"
 
 /* Macros */
 
@@ -28,6 +29,7 @@ extern "C" {
 #define NM_RULKOV_2002 3
 #define NM_GHIGLIAZZA_HOLMES_2004 4
 #define NM_WANG_1993 5
+#define NM_KOMENDANTOV_KONONENKO_1996 6
 
 
 /* General functions */

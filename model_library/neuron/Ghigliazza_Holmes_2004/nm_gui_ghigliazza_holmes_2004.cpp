@@ -2,7 +2,7 @@
 #include "ui_nm_gui_ghigliazza_holmes_2004.h"
 
 NM_GUI_Ghigliazza_Holmes_2004::NM_GUI_Ghigliazza_Holmes_2004(clamp_args * args, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::NM_GUI_Ghigliazza_Holmes_2004)
 {
     this->settings = new QSettings("RTHybrid", "NM_Ghigliazza_Holmes_2004");

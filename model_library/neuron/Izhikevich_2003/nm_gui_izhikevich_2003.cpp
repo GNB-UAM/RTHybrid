@@ -2,7 +2,7 @@
 #include "ui_nm_gui_izhikevich_2003.h"
 
 NM_GUI_Izhikevich_2003::NM_GUI_Izhikevich_2003(clamp_args * args, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::NM_GUI_Izhikevich_2003)
 {
     this->settings = new QSettings("RTHybrid", "NM_Izhikevich_2003");

@@ -2,7 +2,7 @@
 #include "ui_nm_gui_wang_1993.h"
 
 NM_GUI_Wang_1993::NM_GUI_Wang_1993(clamp_args * args, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::NM_GUI_Wang_1993)
 {
     this->settings = new QSettings("RTHybrid", "NM_Wang_1993");

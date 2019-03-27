@@ -216,6 +216,11 @@
        <string>Wang, 1993</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Komendantov and Kononenko, 1996</string>
+      </property>
+     </item>
     </widget>
     <widget class="QPushButton" name="pushButton_neuron_config">
      <property name="geometry">

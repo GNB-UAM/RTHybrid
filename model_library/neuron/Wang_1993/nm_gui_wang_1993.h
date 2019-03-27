@@ -1,7 +1,7 @@
 #ifndef NM_GUI_WANG_1993_H
 #define NM_GUI_WANG_1993_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "nm_wang_1993.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class NM_GUI_Wang_1993;
 }
 
-class NM_GUI_Wang_1993 : public QWidget
+class NM_GUI_Wang_1993 : public QDialog
 {
     Q_OBJECT
 

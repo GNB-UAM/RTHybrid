@@ -1,7 +1,7 @@
 #ifndef NM_GUI_RULKOV_2002_H
 #define NM_GUI_RULKOV_2002_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "nm_rulkov_2002.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class NM_GUI_Rulkov_2002;
 }
 
-class NM_GUI_Rulkov_2002 : public QWidget
+class NM_GUI_Rulkov_2002 : public QDialog
 {
     Q_OBJECT
 

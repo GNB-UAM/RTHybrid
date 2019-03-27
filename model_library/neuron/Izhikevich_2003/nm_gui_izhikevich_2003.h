@@ -1,7 +1,7 @@
 #ifndef NM_GUI_IZHIKEVICH_2003_H
 #define NM_GUI_IZHIKEVICH_2003_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QSettings>
 #include "nm_izhikevich_2003.h"
 
@@ -9,7 +9,7 @@ namespace Ui {
 class NM_GUI_Izhikevich_2003;
 }
 
-class NM_GUI_Izhikevich_2003 : public QWidget
+class NM_GUI_Izhikevich_2003 : public QDialog
 {
     Q_OBJECT
 
