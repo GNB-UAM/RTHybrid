@@ -118,12 +118,14 @@ void nm_rulkov_2002 (neuron_model nm, double syn) {
  * The number of points per burst of the model is equalized to the number of points per burst of the living neuron.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
+ * @return Integration step, if none -1
  */
 
-void nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm) {
+double nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
     nm->params[RLK_J] = ((nm->pts_burst - 334) / 334) + 1;
-    return;
+    
+    return -1;
 }
 
 ///@} 

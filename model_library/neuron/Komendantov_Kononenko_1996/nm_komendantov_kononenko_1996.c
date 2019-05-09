@@ -28,7 +28,7 @@ double nm_komendantov_kononenko_1996_h (double * vars, double * params);
 double nm_komendantov_kononenko_1996_n (double * vars, double * params);
 double nm_komendantov_kononenko_1996_m_ca (double * vars, double * params);
 double nm_komendantov_kononenko_1996_Ca (double * vars, double * params);
-void nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm);
 
 
 double nm_komendantov_kononenko_1996_V (double * vars, double * params) {
@@ -177,9 +177,10 @@ void nm_komendantov_kononenko_1996_init (neuron_model * nm, double * vars, doubl
  * If not previously specified by the user, the number of points per burst of the model and its integration step is set according to the living neuron number of points per burst.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
+ * @return Integration step, default -1
  */
 
-void nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm) {
+double nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm) {
 	int length = 0;
 	int method = nm->params[NM_KOMENDANTOV_KONONENKO_1996_DT];
 
@@ -222,7 +223,10 @@ void nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model 
 		}
 	}
 
-	return;
+	/*nm->params[NM_KOMENDANTOV_KONONENKO_1996_DT] = 0.000200;
+	nm->pts_burst = 26996.527778;*/
+
+	return nm->params[NM_KOMENDANTOV_KONONENKO_1996_DT];
 }
 
 ///@}

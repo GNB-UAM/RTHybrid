@@ -18,13 +18,19 @@
  * @param[in] sm Pointer to synapse neuron model
  * @param[in] scale Amplitude scale of the living neuron signal regarding to the neuron model
  * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
+ * @param[in] min Minimum value of the living neuron signal voltage
+ * @param[in] max Maximum value of the living neuron signal voltage
+ * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_greenberg_manor_2005_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_greenberg_manor_2005_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
+    sm_greenberg_manor_2005_params * aux_params = sm->type_params;
     sm->scale = scale;
     sm->offset = offset;
     sm->min = min;
     sm->max = max;
+
+    if (dt != -1) aux_params->dt = dt;
 
     //printf("min %f max %f scale %f offset %f\n", sm->min, sm->max, sm->scale, sm->offset);
 }
@@ -194,7 +200,7 @@ void sm_greenberg_manor_2005_init (synapse_model * sm, void * syn_args) {
     sm->func = &sm_greenberg_manor_2005;
     sm->set_online_parameters = &sm_greenberg_manor_2005_set_online_params;
     aux_params->method = integration_method_selector(aux_syn_args->method);
-    aux_params->dt = aux_syn_args->dt;
+    aux_params->dt = 0.001;
 
     //printf("p %f v12m %f km %f tauhim %f taulom %f\n", aux_params->p, aux_params->v12_m, aux_params->k_m, aux_params->tau_hi_m, aux_params->tau_lo_m);
     //printf("q %f v12h %f kh %f tauhih %f tauloh %f\n", aux_params->q, aux_params->v12_h, aux_params->k_h, aux_params->tau_hi_h, aux_params->tau_lo_h);

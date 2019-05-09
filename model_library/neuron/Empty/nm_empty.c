@@ -51,10 +51,11 @@ void nm_empty (neuron_model nm, double syn) {
  * The number of points per burst of the model is equalized to the number of points per burst of the living neuron.
  * @param[in] pts_live Number of points in a living neuron burst
  * @param[in] nm Pointer to the neuron model structure
+ * @return Integration step, default -1
  */
-void nm_empty_set_pts_burst (double pts_live, neuron_model * nm) {
+double nm_empty_set_pts_burst (double pts_live, neuron_model * nm) {
     nm->pts_burst = pts_live;
-    return;
+    return -1;
 }
 
 ///@} 

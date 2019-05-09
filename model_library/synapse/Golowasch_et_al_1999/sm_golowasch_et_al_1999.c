@@ -20,15 +20,20 @@
  * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
  * @param[in] min Minimum value of the living neuron signal voltage
  * @param[in] max Maximum value of the living neuron signal voltage
+ * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
     syn_gl_params * aux_gl_params = sm->type_params;
 
     sm->scale = scale;
     sm->offset = offset;
     aux_gl_params->min = min;
     aux_gl_params->max = max;
+
+    if (dt != -1) aux_gl_params->dt = dt;
+
+    printf("s dt %f\n", aux_gl_params->dt);
 
     return;
 }

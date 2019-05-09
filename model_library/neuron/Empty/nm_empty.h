@@ -22,7 +22,7 @@ void nm_empty_init (neuron_model * nm, double * vars, double * params);
 
 void nm_empty (neuron_model nm, double syn);
 
-void nm_empty_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_empty_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

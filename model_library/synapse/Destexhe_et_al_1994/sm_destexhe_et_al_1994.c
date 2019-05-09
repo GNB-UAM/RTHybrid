@@ -18,9 +18,12 @@
  * @param[in] sm Pointer to synapse neuron model
  * @param[in] scale Amplitude scale of the living neuron signal regarding to the neuron model
  * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
+ * @param[in] min Minimum value of the living neuron signal voltage
+ * @param[in] max Maximum value of the living neuron signal voltage
+ * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
 	sm_destexhe_et_al_1994_params * aux_params = sm->type_params;
 
     sm->scale = scale;
@@ -28,6 +31,8 @@ void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale,
     sm->min = min;
     sm->max = max;
     aux_params->old_vpre = sm->min + (sm->max - sm->min) * 0.5;
+    
+    if (dt != -1) aux_params->dt = dt;
 
     return;
 }
@@ -58,7 +63,6 @@ void sm_destexhe_et_al_1994_r_f (double * vars, double * ret, double * params, d
  */
 
 void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, double * ret) {
-	double dt = 0.001;
 	double params_r[5];
     double min, max, v_range, threshold, e_syn;
 	double new_vpre = v_pre;
@@ -95,7 +99,7 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
 	params_r[SM_DESTEXHE_ET_AL_1994_PULSE_DURATION] = aux_params->pulse_duration;
 	params_r[SM_DESTEXHE_ET_AL_1994_TMAX] = aux_params->tmax;
 
-	runge_kutta_65(&sm_destexhe_et_al_1994_r_f, 1, dt, vars, params_r, 0);
+	runge_kutta_65(&sm_destexhe_et_al_1994_r_f, 1, aux_params->dt, vars, params_r, 0);
 	aux_params->r = vars[SM_DESTEXHE_ET_AL_1994_R];
 
     //if (sm->calibrate == SYN_CALIB_POST) printf("post t %d min %f max %f esyn %f threshold %f v_pre %f old %f r %f\n", aux_params->t, sm->min, sm->max, e_syn, threshold, v_pre, aux_params->old_vpre, aux_params->r);
@@ -141,6 +145,7 @@ void sm_destexhe_et_al_1994_init (synapse_model * sm, void * syn_args) {
     //aux_params->r = (aux_params->alpha * aux_params->tmax) / (aux_params->alpha * aux_params->tmax + aux_params->beta); //Steady state
     aux_params->r = 0.0;
 
+    aux_params->dt = 0.001;
     //printf("alpha %f beta %f esyn %f pulse %u tmax %f r %f\n", aux_params->alpha, aux_params->beta, aux_params->e_syn_per, aux_params->pulse_duration, aux_params->tmax, aux_params->r);
 
     sm->func = &sm_destexhe_et_al_1994;

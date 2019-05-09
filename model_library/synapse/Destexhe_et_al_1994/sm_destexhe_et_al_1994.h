@@ -76,6 +76,7 @@ typedef struct {
 	unsigned int t;
 	unsigned int pulse_duration;
 	double tmax;
+	double dt;
 } sm_destexhe_et_al_1994_params;
 
 

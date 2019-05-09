@@ -36,7 +36,7 @@ void nm_rulkov_2002_init (neuron_model * nm, double * vars, double * params);
 
 void nm_rulkov_2002 (neuron_model nm, double syn);
 
-void nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_rulkov_2002_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

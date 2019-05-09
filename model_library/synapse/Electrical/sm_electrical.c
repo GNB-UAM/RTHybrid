@@ -18,9 +18,12 @@
  * @param[in] sm Pointer to synapse neuron model
  * @param[in] scale Amplitude scale of the living neuron signal regarding to the neuron model
  * @param[in] offset Amplitude offset of the living neuron signal regarding to the neuron model
+ * @param[in] min Minimum value of the living neuron signal voltage
+ * @param[in] max Maximum value of the living neuron signal voltage
+ * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_electrical_set_online_params (synapse_model * sm, double scale, double offset, double min, double max) {
+void sm_electrical_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
     sm->scale = scale;
     sm->offset = offset;
 

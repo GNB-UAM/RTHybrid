@@ -25,7 +25,7 @@ typedef struct neuron_model neuron_model;
  */ 
 struct neuron_model {
     void (*func)(neuron_model nm, double);				/**< Pointer to the main function of the model (defined in neuron_models_functions.h) */ 
-    void (*set_pts_burst)(double, neuron_model * nm);	/**< Pointer to the function that sets the number of points per burst of the model (defined in neuron_models_functions.h) */
+    double (*set_pts_burst)(double, neuron_model * nm);	/**< Pointer to the function that sets the number of points per burst of the model (defined in neuron_models_functions.h) */
     void (*method)
         (void (*f) (double *, double *, double *, double), 
         int dim, double dt, double * vars, 
@@ -53,7 +53,7 @@ struct synapse_model {
     void (*func)(double, double, synapse_model*, double*);	/**< Pointer to the main function of the model (defined in synapse_models_functions.h) */
     void (*set_online_parameters)
         (synapse_model * sm, double scale, double offset,
-         double min, double max);                           /**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
+         double min, double max, double dt);                /**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
     unsigned int type;										/**< Integer that identifies the model (using the macros defined in synapse_models_functions.h) */
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */

@@ -55,7 +55,7 @@ extern "C" {
 
 void nm_komendantov_kononenko_1996_init (neuron_model * nm, double * vars, double * params);
 void nm_komendantov_kononenko_1996_ (neuron_model nm, double syn);
-void nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 

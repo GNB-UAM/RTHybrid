@@ -50,7 +50,7 @@ double nm_ghigliazza_holmes_2004_inf (double v, double vth, double k);
 
 void nm_ghigliazza_holmes_2004 (neuron_model nm, double syn);
 
-void nm_ghigliazza_holmes_2004_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_ghigliazza_holmes_2004_set_pts_burst (double pts_live, neuron_model * nm);
 
 ///@}
 
