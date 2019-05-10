@@ -105,8 +105,8 @@ double sm_golowasch_et_al_1999_slow (double v_post, double v_pre, double g, syn_
     e_syn = params->min - v_range * 0.153846;
     params_ms[GL_MS_VS] = params->min + v_range * params->v_slow;
 
-    params_ms[GL_MS_K1] = params->k1;
-    params_ms[GL_MS_K2] = params->k2;
+    params_ms[GL_MS_K1] = params->k1 * 0.0014 / params->dt;
+    params_ms[GL_MS_K2] = params->k2 * 0.13 / params->dt;
     params_ms[GL_MS_SS] = 1.0 / (v_range * params->s_slow);
 
     ret = g * params->ms_old * (v_post - e_syn);
