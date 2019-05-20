@@ -179,8 +179,11 @@ static int parse_clamp_nm (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
         case NM_WANG_1993:
             ret = parse_nm_wang_1993(doc, cur->xmlChildrenNode, args);
             break;
-		default:
-			return ERR;
+	case NM_KOMENDANTOV_KONONENKO_1996:
+            ret = parse_nm_komendantov_kononenko_1996(doc, cur->xmlChildrenNode, args);
+            break;
+	default:
+	    return ERR;
 	}
 
 	return ret;
