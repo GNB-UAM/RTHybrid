@@ -35,8 +35,8 @@
 		<g_slow val="0.0"/>
 		<vth_slow val="0.0"/>
 		<s_slow val="0.0"/>
-		<k1_slow val="14.0"/>
-		<k2_slow val="4.0"/>
+		<k1_slow val="0.0"/>
+		<k2_slow val="0.0"/>
 	</synapse_ltom>
 
 	<synapse_mtol type="2">
@@ -47,8 +47,8 @@
 		<g_slow val="0.08"/>
 		<vth_slow val="15.0"/>
 		<s_slow val="1.0"/>
-		<k1_slow val="14.0"/>
-		<k2_slow val="8.0"/>
+		<k1_slow val="1.0"/>
+		<k2_slow val="0.03"/>
 	</synapse_mtol>
 
 	<calib type="0"></calib>

@@ -15,6 +15,20 @@ extern "C" {
 #include "../../common/includes/file_selector_functions.h"
 
 
+/**
+ * @brief Structure that stores the parameters regarding the integration.
+ *
+ * It will be initialized with the information of an specific model in #init_synapse_model.
+ */
+typedef struct {
+    void (*method)
+        (void (*f) (double *, double *, double *, double),
+        int dim, double dt, double * vars,
+        double * params, double aux);                   /**< Pointer to the function with the integration method. */
+    double dt;                                          /**< Integration step. */
+} integration_params;
+
+
 /* Neuron model struct */
 typedef struct neuron_model neuron_model;
 
@@ -52,8 +66,12 @@ typedef struct synapse_model synapse_model;
 struct synapse_model {
     void (*func)(double, double, synapse_model*, double*);	/**< Pointer to the main function of the model (defined in synapse_models_functions.h) */
     void (*set_online_parameters)
-        (synapse_model * sm, double scale, double offset,
-         double min, double max, double dt);                /**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
+        (synapse_model * sm,                                /**< Pointer to the function that sets the amplitude scale and offset parameters synapse model. (defined in synapse_models_functions.h) */
+         double scale,
+         double offset,
+         double min,
+         double max,
+         integration_params int_params);
     unsigned int type;										/**< Integer that identifies the model (using the macros defined in synapse_models_functions.h) */
     double * g;												/**< Array with the conductances of the synapse */
     double scale;											/**< Amplitude scale of the living neuron signal regarding to the neuron model */

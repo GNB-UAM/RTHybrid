@@ -165,7 +165,7 @@ void * rt_thread(void * arg) {
     /* Calibration variables */
     double external_firing_rate;
     int s_points;
-    double dt = -1;
+    integration_params int_params;
 
     int calib_chan = 0;
 
@@ -318,8 +318,12 @@ void * rt_thread(void * arg) {
     }
 
     external_pts_per_burst = args->freq * external_firing_rate;
-    dt = args->nm.set_pts_burst(external_pts_per_burst, &(args->nm));
-    printf("dt %f\n", dt);
+    int_params.dt = args->nm.set_pts_burst(external_pts_per_burst, &(args->nm));
+    if (int_params.dt != -1) {
+        int_params.method = args->nm.method;
+    } else {
+        int_params.method = NULL;
+    }
 
     s_points = args->nm.pts_burst / external_pts_per_burst;
 
@@ -360,9 +364,9 @@ void * rt_thread(void * arg) {
     Initialize synapse models
     ****************************************************/
 
-    args->sm_model_to_live.set_online_parameters(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real, min_abs_model, max_abs_model, dt);
-    args->sm_live_to_model.set_online_parameters(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real, dt);
-    args->sm_live_to_model_scaled.set_online_parameters(&(args->sm_live_to_model_scaled), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real, dt);
+    args->sm_model_to_live.set_online_parameters(&(args->sm_model_to_live), scale_virtual_to_real, offset_virtual_to_real, min_abs_model, max_abs_model, int_params);
+    args->sm_live_to_model.set_online_parameters(&(args->sm_live_to_model), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real, int_params);
+    args->sm_live_to_model_scaled.set_online_parameters(&(args->sm_live_to_model_scaled), scale_real_to_virtual, offset_real_to_virtual, min_abs_real, max_abs_real, int_params);
 
     if (DEBUG == 1) syslog(LOG_INFO, "RT_THREAD: Syn struct created");
 
@@ -423,13 +427,6 @@ void * rt_thread(void * arg) {
 
     pthread_exit(NULL);
 }
-
-
-
-
-
-
-
 
 
 

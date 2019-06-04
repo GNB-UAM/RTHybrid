@@ -33,8 +33,6 @@ void SM_GUI_Greenberg_Manor_2005::on_pushButton_accept_clicked()
     (*args) = (sm_greenberg_manor_2005_args *) malloc (sizeof(sm_greenberg_manor_2005_args));
     sm_greenberg_manor_2005_args * aux_args = (sm_greenberg_manor_2005_args *) (*args);
 
-    aux_args->dt = ui->doubleSpinBox_dt->value();
-    aux_args->method = ui->comboBoxIntegration->currentIndex();
     aux_args->g[SM_GREENBERG_MANOR_2005_G] = ui->doubleSpinBox_g->value();
     aux_args->e_syn_per = ui->doubleSpinBox_esyn->value();
 
@@ -56,8 +54,6 @@ void SM_GUI_Greenberg_Manor_2005::on_pushButton_accept_clicked()
 }
 
 void SM_GUI_Greenberg_Manor_2005::saveSettings() {
-    settings->setValue("dt", ui->doubleSpinBox_dt->value());
-    settings->setValue("method", ui->comboBoxIntegration->currentIndex());
     settings->setValue("g", ui->doubleSpinBox_g->value());
     settings->setValue("e_syn_per", ui->doubleSpinBox_esyn->value());
 
@@ -75,10 +71,8 @@ void SM_GUI_Greenberg_Manor_2005::saveSettings() {
 }
 
 void SM_GUI_Greenberg_Manor_2005::loadSettings() {
-    if (settings->value("dt", -1).toDouble() == -1) return; // No settings saved yet
+    if (settings->value("tau_lo_h", -1.0).toDouble() == -1.0) return; // No settings saved yet
 
-    ui->doubleSpinBox_dt->setValue(settings->value("dt").toDouble());
-    ui->comboBoxIntegration->setCurrentIndex(settings->value("method").toInt());
     ui->doubleSpinBox_g->setValue(settings->value("g").toDouble());
     ui->doubleSpinBox_esyn->setValue(settings->value("e_syn_per").toDouble());
 

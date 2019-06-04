@@ -38,9 +38,6 @@ int parse_sm_greenberg_manor_2005 (xmlDocPtr doc, xmlNodePtr cur, void ** syn_ar
 		if (xmlStrcmp(cur->name, (const xmlChar *) "tau_hi_h") == 0) ret = parse_double(doc, cur, &(aux_args->tau_hi_h), (const xmlChar*) VALUE);
 		if (xmlStrcmp(cur->name, (const xmlChar *) "tau_lo_h") == 0) ret = parse_double(doc, cur, &(aux_args->tau_lo_h), (const xmlChar*) VALUE);
 
-		if (xmlStrcmp(cur->name, (const xmlChar *) "dt") == 0) ret = parse_double(doc, cur, &(aux_args->dt), (const xmlChar*) VALUE);
-		if (xmlStrcmp(cur->name, (const xmlChar *) "method") == 0) ret = parse_int(doc, cur, &(aux_args->method), (const xmlChar*) VALUE);
-
 		if (ret != OK) return ret;
 
 		cur = cur->next;

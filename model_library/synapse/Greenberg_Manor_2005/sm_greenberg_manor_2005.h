@@ -80,10 +80,7 @@ typedef struct {
  */ 
 typedef struct {
 	double dt;
-	void (*method)
-        (void (*f) (double *, double *, double *, double), 
-        int dim, double dt, double * vars, 
-        double * params, double aux);
+    void (*method) (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux);
 	
 	double e_syn_per;
 	

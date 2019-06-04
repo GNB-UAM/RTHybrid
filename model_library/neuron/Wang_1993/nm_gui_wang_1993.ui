@@ -674,6 +674,9 @@
     <string>Integration method</string>
    </property>
    <widget class="QComboBox" name="comboBoxIntegration">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>

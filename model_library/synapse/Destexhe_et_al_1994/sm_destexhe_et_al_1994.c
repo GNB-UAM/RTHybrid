@@ -23,7 +23,7 @@
  * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
+void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, integration_params int_params) {
 	sm_destexhe_et_al_1994_params * aux_params = sm->type_params;
 
     sm->scale = scale;
@@ -32,7 +32,10 @@ void sm_destexhe_et_al_1994_set_online_params (synapse_model * sm, double scale,
     sm->max = max;
     aux_params->old_vpre = sm->min + (sm->max - sm->min) * 0.5;
     
-    if (dt != -1) aux_params->dt = dt;
+    if (int_params.method != NULL) {
+        aux_params->dt = int_params.dt;
+        aux_params->method = int_params.method;
+    }
 
     return;
 }
@@ -99,7 +102,7 @@ void sm_destexhe_et_al_1994 (double v_post, double v_pre, synapse_model * sm, do
 	params_r[SM_DESTEXHE_ET_AL_1994_PULSE_DURATION] = aux_params->pulse_duration;
 	params_r[SM_DESTEXHE_ET_AL_1994_TMAX] = aux_params->tmax;
 
-	runge_kutta_65(&sm_destexhe_et_al_1994_r_f, 1, aux_params->dt, vars, params_r, 0);
+    aux_params->method(&sm_destexhe_et_al_1994_r_f, 1, aux_params->dt, vars, params_r, 0);
 	aux_params->r = vars[SM_DESTEXHE_ET_AL_1994_R];
 
     //if (sm->calibrate == SYN_CALIB_POST) printf("post t %d min %f max %f esyn %f threshold %f v_pre %f old %f r %f\n", aux_params->t, sm->min, sm->max, e_syn, threshold, v_pre, aux_params->old_vpre, aux_params->r);
@@ -146,6 +149,7 @@ void sm_destexhe_et_al_1994_init (synapse_model * sm, void * syn_args) {
     aux_params->r = 0.0;
 
     aux_params->dt = 0.001;
+    aux_params->method = runge_kutta_65;
     //printf("alpha %f beta %f esyn %f pulse %u tmax %f r %f\n", aux_params->alpha, aux_params->beta, aux_params->e_syn_per, aux_params->pulse_duration, aux_params->tmax, aux_params->r);
 
     sm->func = &sm_destexhe_et_al_1994;

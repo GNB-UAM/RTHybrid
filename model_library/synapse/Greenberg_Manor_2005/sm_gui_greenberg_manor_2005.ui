@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>383</height>
+    <height>305</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>350</y>
+     <y>270</y>
      <width>82</width>
      <height>23</height>
     </rect>
@@ -144,32 +144,6 @@
    </property>
    <property name="text">
     <string>Esyn (%)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>270</y>
-     <width>141</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Integration method</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>270</y>
-     <width>111</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Integration step</string>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox_g">
@@ -431,61 +405,6 @@
    </property>
    <property name="value">
     <double>1900.000000000000000</double>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBoxIntegration">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>300</y>
-     <width>141</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>3</number>
-   </property>
-   <item>
-    <property name="text">
-     <string>Euler</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Heun</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Runge-Kutta 4</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Runge-Kutta (6)5</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_dt">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>297</y>
-     <width>91</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="decimals">
-    <number>5</number>
-   </property>
-   <property name="minimum">
-    <double>0.000000000000000</double>
-   </property>
-   <property name="maximum">
-    <double>99999.990000000005239</double>
-   </property>
-   <property name="value">
-    <double>0.001000000000000</double>
    </property>
   </widget>
  </widget>

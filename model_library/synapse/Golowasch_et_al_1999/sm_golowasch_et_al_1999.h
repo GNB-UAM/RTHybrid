@@ -84,6 +84,7 @@ typedef struct {
     double s_slow;  /**< Sigmoid scaling for the slow synapse*/
     double ms_old;  /**< Last value of m_slow*/
     double dt;      /**< Integration step*/
+    void (*method) (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux); /**< Integration method*/
 } syn_gl_params;
 
 

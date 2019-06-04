@@ -23,14 +23,17 @@
  * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_greenberg_manor_2005_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
+void sm_greenberg_manor_2005_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, integration_params int_params) {
     sm_greenberg_manor_2005_params * aux_params = sm->type_params;
     sm->scale = scale;
     sm->offset = offset;
     sm->min = min;
     sm->max = max;
 
-    if (dt != -1) aux_params->dt = dt;
+    if (int_params.method != NULL) {
+        aux_params->dt = int_params.dt;
+        aux_params->method = int_params.method;
+    }
 
     //printf("min %f max %f scale %f offset %f\n", sm->min, sm->max, sm->scale, sm->offset);
 }
@@ -199,7 +202,7 @@ void sm_greenberg_manor_2005_init (synapse_model * sm, void * syn_args) {
 
     sm->func = &sm_greenberg_manor_2005;
     sm->set_online_parameters = &sm_greenberg_manor_2005_set_online_params;
-    aux_params->method = integration_method_selector(aux_syn_args->method);
+    aux_params->method = runge_kutta_65;
     aux_params->dt = 0.001;
 
     //printf("p %f v12m %f km %f tauhim %f taulom %f\n", aux_params->p, aux_params->v12_m, aux_params->k_m, aux_params->tau_hi_m, aux_params->tau_lo_m);

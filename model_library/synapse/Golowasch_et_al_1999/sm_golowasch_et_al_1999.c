@@ -23,7 +23,7 @@
  * @param[in] dt Integration step of the neuron model (-1 if it is not a differential model)
  */
 
-void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
+void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, integration_params int_params) {
     syn_gl_params * aux_gl_params = sm->type_params;
 
     sm->scale = scale;
@@ -31,9 +31,10 @@ void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale
     aux_gl_params->min = min;
     aux_gl_params->max = max;
 
-    if (dt != -1) aux_gl_params->dt = dt;
-
-    printf("s dt %f\n", aux_gl_params->dt);
+    if (int_params.method != NULL) {
+        aux_gl_params->dt = int_params.dt;
+        aux_gl_params->method = int_params.method;
+    }
 
     return;
 }
@@ -111,7 +112,7 @@ double sm_golowasch_et_al_1999_slow (double v_post, double v_pre, double g, syn_
 
     ret = g * params->ms_old * (v_post - e_syn);
 
-    runge_kutta_65(&sm_golowasch_et_al_1999_ms_f, 1, params->dt, vars, params_ms, v_pre);
+    params->method(&sm_golowasch_et_al_1999_ms_f, 1, params->dt, vars, params_ms, v_pre);
     params->ms_old = vars[0];
 
     return ret;
@@ -171,6 +172,7 @@ void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
 
     sm->calibrate = SYN_CALIB_PRE;
     aux_gl_params->dt = 0.001;
+    aux_gl_params->method = runge_kutta_65;
     aux_gl_params->k1 = aux_syn_args->k1;
     aux_gl_params->k2 = aux_syn_args->k2;
     aux_gl_params->v_fast = aux_syn_args->v_fast/100.0;
@@ -187,4 +189,4 @@ void sm_golowasch_et_al_1999_init (synapse_model * sm, void * syn_args) {
 }
 
 
-///@} 
+///@}
