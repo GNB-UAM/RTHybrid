@@ -74,6 +74,8 @@ class DataStruct1():
 
 		if (self.n_in_chan > 1):
 			self.extra_rec = data[:,6][::args.jump]
+		else:
+			self.v_model_scaled2 = data[:,6][::args.jump]
 
 
 class DataStruct2():

@@ -148,6 +148,8 @@ void nm_komendantov_kononenko_1996_init (neuron_model * nm, double * vars, doubl
 	nm->vars = (double *) malloc (sizeof(double) * nm->dim);
 	copy_1d_array(vars, nm->vars, nm->dim);
 
+	
+
 	nm->n_params = 20;
 	nm->params = (double *) malloc (sizeof(double) * nm->n_params);
 	copy_1d_array(params, nm->params, nm->n_params);

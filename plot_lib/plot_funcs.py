@@ -136,6 +136,7 @@ def save_events(data1, data2, args):
 ###########################
 def plot_line_voltage(data1, data2, args):
 	plt.plot(data1.time, data1.v_model_scaled, label="Model neuron", linewidth=0.8)
+	plt.plot(data1.time, data1.v_model_scaled2, label="Model neuron2", linewidth=0.8)
 	plt.plot(data1.time, data1.data_in[0], label="Living neuron", linewidth=0.8)
 	if args.drift==1:
 		plt.plot(data1.time, data1.min_window, "g", linewidth=0.8)

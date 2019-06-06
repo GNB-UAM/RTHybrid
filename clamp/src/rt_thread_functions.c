@@ -475,6 +475,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
             /* Send the model current and voltage (scaled) to the DAQ */
             v_model_scaled = args->nm.vars[0] * scale_virtual_to_real + offset_virtual_to_real;
+            double v_model_scaled2 = args->nm.vars[1] * scale_virtual_to_real + offset_virtual_to_real;
             if (args->n_out_chan >= 1) output_values[0] = -c_model / args->output_factor;
             if (args->n_out_chan >= 2) output_values[1] = v_model_scaled;
 
@@ -489,7 +490,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
             if (args->n_in_chan > 1) {
                 sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled, input_values[1]);
             } else {
-                sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled);
+                sprintf(msg.data, "%.3f %ld %.3f %.3f %.3f %.3f %.3f", t_elapsed, lat, v_model_scaled, input_values[0], -c_model, -c_external_scaled, v_model_scaled2);
             }
 
             if (send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg) == ERR) lost_msg++;
