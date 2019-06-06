@@ -20,6 +20,8 @@ void NM_GUI_CPG_Model::on_pushButton_accept_clicked() {
 	args->params = (double *) malloc (sizeof(double) * 20);
 
 	args->vars[NM_KOMENDANTOV_KONONENKO_1996_V] = ui->doubleSpinBox_V->value();
+    args->vars[1] = ui->doubleSpinBox_g_fast->value();
+    args->vars[2] = ui->doubleSpinBox_v_fast->value();
 
 	args->params[NM_KOMENDANTOV_KONONENKO_1996_I] = ui->doubleSpinBox_i->value();
 	args->params[NM_KOMENDANTOV_KONONENKO_1996_CM] = ui->doubleSpinBox_Cm->value();

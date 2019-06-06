@@ -30,6 +30,9 @@ int parse_nm_cpg_model (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 
 				if (xmlStrcmp(child->name, (const xmlChar *) "V") == 0) ret = parse_double(doc, child, &args->vars[NM_KOMENDANTOV_KONONENKO_1996_V], (const xmlChar*) VALUE);
 
+				if (xmlStrcmp(child->name, (const xmlChar *) "g_fast") == 0) ret = parse_double(doc, child, &args->vars[1], (const xmlChar*) VALUE);
+				if (xmlStrcmp(child->name, (const xmlChar *) "v_fast") == 0) ret = parse_double(doc, child, &args->vars[2], (const xmlChar*) VALUE);
+
 				if (ret != OK) return ret;
 
 				child = child->next;

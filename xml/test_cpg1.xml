@@ -3,6 +3,8 @@
 	<neuron type="7">
 	    <vars>
 	        <V val="-55.0"/>
+	        <g_fast val="0.2"/>
+	        <v_fast val="30.0"/>
 	    </vars>
 	    
 	    <params>
@@ -30,9 +32,9 @@
 	    </params>
 	</neuron>
 
-	<synapse_ltom type="0">
-		<g_fast val="0.02"/>
-		<vth_fast val="25.0"/>
+	<synapse_ltom type="2">
+		<g_fast val="0.2"/>
+		<vth_fast val="30.0"/>
 		<s_fast val="5.0"/>
 		
 		<g_slow val="0.0"/>
@@ -69,14 +71,14 @@
 
 	<input_channels val="0"/>
 
-	<input_factor val="1000"/>
+	<input_factor val="100"/>
 
-	<output_factor val="1"/>
+	<output_factor val="10"/>
 
 	<imp val="0"/>
 
 	<drift val="1"/>
 
-	<sec_per_burst val="0.25"/>
+	<sec_per_burst val="-1"/>
 
 </clamp>

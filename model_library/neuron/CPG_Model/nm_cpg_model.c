@@ -56,6 +56,11 @@ void nm_cpg_model (neuron_model nm, double syn) {
  */
 
 void nm_cpg_model_init (neuron_model * nm, double * vars, double * params) {
+    double g_fast = vars[1];
+    double v_fast = vars[2];
+    /*double g_slow = vars[3];
+    double v_slow = vars[4];*/
+
     /* Se usa el array de los parametros de neuron_model para guardar punteros a las estructuras de las neuronas del CPG, en vez de doubles */
     nm->params = /*(double *)*/ malloc (sizeof(neuron_model*) * 2);
 
@@ -87,7 +92,7 @@ void nm_cpg_model_init (neuron_model * nm, double * vars, double * params) {
     sm.calibrate = SYN_CALIB_PRE;
     aux_gl_params->k1 = 1;
     aux_gl_params->k2 = 0.03;
-    aux_gl_params->v_fast = 30.0/100.0;
+    aux_gl_params->v_fast = v_fast/100.0;
     aux_gl_params->v_slow = 15.0/100.0;
     aux_gl_params->ms_old = 0.0;
     aux_gl_params->s_fast = 5.0/100.0;
@@ -101,7 +106,7 @@ void nm_cpg_model_init (neuron_model * nm, double * vars, double * params) {
     aux_gl_params->method = (*neuron_1)->method;
 
     sm.g = (double *) malloc (sizeof(double) * GL_N_G);
-    sm.g[GL_G_FAST] = 0.2;
+    sm.g[GL_G_FAST] = g_fast;
     sm.g[GL_G_SLOW] = 0.2;
 
     sm.func = &sm_golowasch_et_al_1999;
