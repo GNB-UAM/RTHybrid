@@ -105,7 +105,7 @@ upper_th_lp = 0.8
 lower_th_pd = 0.1
 lower_th_lp = 0.1
 
-filename = "data/2019y_6m_6d/16h_20m_58s_data.txt"
+filename = "data/2019y_6m_7d/18h_9m_21s_data.txt"
 dataset = pd.read_csv(filename, delimiter=' ', header=1)
 data = dataset.values
 v_pd = data[start:-end,pdn]

@@ -9,20 +9,20 @@
 	        <i         val="0.0"/>
 	        <Cm        val="0.02"/>
 	        
-	        <g_na      val="0.0231"/>
+	        <g_na      val="0.02"/>
 	        <g_k       val="0.25"/>
-	        <g_b       val="0.165"/>
-	        <g_na_v    val="0.11"/>
+	        <g_b       val="0.18"/>
+	        <g_na_v    val="0.13"/>
 	        <V_k       val="-70.0"/>
 	        <V_b       val="-58.0"/>
 	        <V_na      val="40.0"/>
 	        <g_na_ttx  val="400.0"/>
-	        <g_ca      val="1.5"/>
+	        <g_ca      val="1.0"/>
 	        <k_beta    val="15000.0"/>
 	        <g_k_tea   val="10.0"/>
 	        <V_ca      val="150.0"/>
 	        <beta      val="0.00004"/>
-	        <g_ca_ca   val="0.02"/>
+	        <g_ca_ca   val="0.01"/>
 	        <k_s       val="50.0"/>
 	        <rho       val="0.002"/>
 	        
@@ -60,7 +60,7 @@
 
 	<times>
 		<before val="5"/>
-		<duration val="10"/>
+		<duration val="180"/>
 		<after val="5"/>
 		<observation val="10"/>
 	</times>
@@ -77,6 +77,6 @@
 
 	<drift val="1"/>
 
-	<sec_per_burst val="-1"/>
+	<sec_per_burst val="0.25"/>
 
 </clamp>
