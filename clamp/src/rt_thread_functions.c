@@ -317,6 +317,9 @@ void * rt_thread(void * arg) {
 
     }
 
+    args->nm.min = min_abs_real;
+    args->nm.max = max_abs_real;
+
     external_pts_per_burst = args->freq * external_firing_rate;
     int_params.dt = args->nm.set_pts_burst(external_pts_per_burst, &(args->nm));
     if (int_params.dt != -1) {
@@ -452,7 +455,6 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
 
 	for (i = 0; i < loop_points || lp->infinite == TRUE; i++) {
 
-
         if (i % s_points == 0) {
             
             /* Sleep */
@@ -526,6 +528,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                 pthread_exit(NULL);
             }
 
+            //if (args->n_in_chan > 0) input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
             if (args->n_in_chan > 0) input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
 
 
@@ -550,6 +553,9 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
                     fx_args.sm_model_to_live = &(args->sm_model_to_live);
                     fx_args.sm_live_to_model = &(args->sm_live_to_model);
                     fx_args.sm_live_to_model_scaled = &(args->sm_live_to_model_scaled);
+
+                    args->nm.min = min_window;
+                    args->nm.max = max_window;
 
                     fix_drift(fx_args);
 
@@ -576,7 +582,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
         }
 
         /* Calculate neuron model */
-        args->nm.func(args->nm, c_external);
+        args->nm.func(args->nm, input_values[0]);
 
         if (lp->interaction == TRUE) {
             /* Calculate synapse from the model to the external neuron (scaled to external range) */

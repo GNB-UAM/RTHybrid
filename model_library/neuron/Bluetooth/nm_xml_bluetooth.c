@@ -19,8 +19,8 @@ int parse_nm_bluetooth (xmlDocPtr doc, xmlNodePtr cur, clamp_args * args) {
 
 	if ((!doc) || (!cur) || (!args)) return ERR;
 
-	args->vars = (double*) malloc (sizeof(double) * 2);
-	args->params = (double *) malloc (sizeof(double) * 1);
+	args->vars = (double*) malloc (sizeof(double) * NM_BLUETOOTH_N_VARS);
+	args->params = (double *) malloc (sizeof(double) * NM_BLUETOOTH_N_PARAMS);
 
 	while (cur != NULL) {
 		if (xmlStrcmp(cur->name, (const xmlChar *) "vars") == 0) {

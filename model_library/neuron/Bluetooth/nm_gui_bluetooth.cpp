@@ -16,13 +16,16 @@ NM_GUI_Bluetooth::~NM_GUI_Bluetooth(){
 }
 
 void NM_GUI_Bluetooth::on_pushButton_accept_clicked() {
-	args->vars = (double*) malloc (sizeof(double) * 2);
-	args->params = (double *) malloc (sizeof(double) * 1);
+	args->vars = (double*) malloc (sizeof(double) * NM_BLUETOOTH_N_VARS);
+	args->params = (double *) malloc (sizeof(double) * NM_BLUETOOTH_N_PARAMS);
 
     /*args->vars[NM_BLUETOOTH_N1] = ui->doubleSpinBox_n1->value();
 	args->vars[NM_BLUETOOTH_N2] = ui->doubleSpinBox_n2->value();
 
     args->params[NM_BLUETOOTH_DT] = ui->comboBoxIntegrationMethod->currentIndex();*/
+
+    args->params[NM_BLUETOOTH_PER] = ui->doubleSpinBox_per->value() / 100.0;
+    args->params[NM_BLUETOOTH_MAX] = ui->doubleSpinBox_max->value();
 
 	saveSettings();
 	this->close();
@@ -33,6 +36,9 @@ void NM_GUI_Bluetooth::saveSettings() {
 	settings->setValue("NM_BLUETOOTH_N2", ui->doubleSpinBox_n2->value());
 
     settings->setValue("NM_BLUETOOTH_DT", ui->comboBoxIntegrationMethod->currentIndex());*/
+
+    settings->setValue("NM_BLUETOOTH_PER", ui->doubleSpinBox_per->value());
+    settings->setValue("NM_BLUETOOTH_MAX", ui->doubleSpinBox_max->value());
 }
 
 void NM_GUI_Bluetooth::loadSettings() {
@@ -42,4 +48,7 @@ void NM_GUI_Bluetooth::loadSettings() {
 	ui->doubleSpinBox_n2->setValue(settings->value("NM_BLUETOOTH_N2").toDouble());
 
     ui->comboBoxIntegrationMethod->setCurrentIndex(settings->value("NM_BLUETOOTH_DT").toInt());*/
+
+    ui->doubleSpinBox_per->setValue(settings->value("NM_BLUETOOTH_PER").toDouble());
+    ui->doubleSpinBox_max->setValue(settings->value("NM_BLUETOOTH_MAX").toDouble());
 }

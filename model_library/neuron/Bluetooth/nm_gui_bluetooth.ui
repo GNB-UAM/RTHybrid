@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>511</width>
-    <height>152</height>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,67 @@
    </property>
    <property name="text">
     <string>Accept</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_per">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>30</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>4</number>
+   </property>
+   <property name="maximum">
+    <double>999.990000000000009</double>
+   </property>
+   <property name="value">
+    <double>80.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_max">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>70</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>4</number>
+   </property>
+   <property name="value">
+    <double>5.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>33</x>
+     <y>33</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>percentage</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>76</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>max</string>
    </property>
   </widget>
  </widget>
