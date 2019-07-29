@@ -144,13 +144,13 @@ int auto_calibration(
 
         aux_counter++;
         if(aux_counter == 10000*3){
-            args->nm.params[HR_R]+=0.0006;
-            printf("%f\n", args->nm.params[HR_R]);
+            args->nm.params[NM_HINDMARSH_ROSE_1986_R]+=0.0006;
+            printf("%f\n", args->nm.params[NM_HINDMARSH_ROSE_1986_R]);
             aux_counter=0;
         }
         calc_ecm(args->nm.vars[0] * cs->scale_virtual_to_real + cs->offset_virtual_to_real, ret_values[0], rafaga_viva_pts, ecm_result);
         //msg->ecm = *ecm_result;
-        //msg->extra = args->nm.params[HR_R];
+        //msg->extra = args->nm.params[NM_HINDMARSH_ROSE_1986_R];
         
     }else if(args->calibration==7){
         calibration_args * cs = cal_args;

@@ -1,14 +1,12 @@
 /**
  * @file nm_xml_hindmarsh_rose_1986.h
- * @brief Header file for the Hindmarsh and Rose neuron model functions XML parser functions.
+ * @brief Header file for the Hindmarsh_Rose_1986 neuron model functions XML parser functions.
  */
-
 
 #ifndef NM_XML_HINDMARSH_ROSE_1986_H
 #define NM_XML_HINDMARSH_ROSE_1986_H
 
-
-#include "../../../common/includes/xml_parser_functions.h" 
+#include "../../../common/includes/xml_parser_functions.h"
 
 #ifdef __cplusplus
 extern "C" {

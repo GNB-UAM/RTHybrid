@@ -11,22 +11,22 @@ class NM_GUI_Hindmarsh_Rose_1986;
 
 class NM_GUI_Hindmarsh_Rose_1986 : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit NM_GUI_Hindmarsh_Rose_1986(clamp_args * args = NULL, QWidget *parent = 0);
-    ~NM_GUI_Hindmarsh_Rose_1986();
+	explicit NM_GUI_Hindmarsh_Rose_1986(clamp_args * args = NULL, QWidget *parent = 0);
+	~NM_GUI_Hindmarsh_Rose_1986();
 
 private slots:
-    void on_pushButton_accept_clicked();
+	void on_pushButton_accept_clicked();
 
 private:
-    Ui::NM_GUI_Hindmarsh_Rose_1986 *ui;
-    clamp_args * args;
-    QSettings * settings;
+	Ui::NM_GUI_Hindmarsh_Rose_1986 *ui;
+	clamp_args * args;
+	QSettings * settings;
 
-    void saveSettings();
-    void loadSettings();
+	void saveSettings();
+	void loadSettings();
 };
 
 #endif // NM_GUI_HINDMARSH_ROSE_1986_H
