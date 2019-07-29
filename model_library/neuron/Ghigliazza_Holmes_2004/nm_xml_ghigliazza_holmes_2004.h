@@ -1,14 +1,12 @@
 /**
  * @file nm_xml_ghigliazza_holmes_2004.h
- * @brief Header file for the Ghigliazza and Holmes model functions XML parser functions.
+ * @brief Header file for the Ghigliazza_Holmes_2004 neuron model functions XML parser functions.
  */
-
 
 #ifndef NM_XML_GHIGLIAZZA_HOLMES_2004_H
 #define NM_XML_GHIGLIAZZA_HOLMES_2004_H
 
-
-#include "../../../common/includes/xml_parser_functions.h" 
+#include "../../../common/includes/xml_parser_functions.h"
 
 #ifdef __cplusplus
 extern "C" {

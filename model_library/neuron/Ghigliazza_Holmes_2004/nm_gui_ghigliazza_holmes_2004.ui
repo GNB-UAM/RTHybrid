@@ -42,7 +42,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhX0">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_v">
    <property name="geometry">
     <rect>
      <x>600</x>
@@ -64,7 +64,7 @@
     <double>-35.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhEk">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ek">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -125,7 +125,7 @@
     <string>Delta</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhGks">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gks">
    <property name="geometry">
     <rect>
      <x>266</x>
@@ -157,7 +157,7 @@
     <string>k0_Ca</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhGl">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gl">
    <property name="geometry">
     <rect>
      <x>82</x>
@@ -176,7 +176,7 @@
     <double>2.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhGk">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gk">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -221,7 +221,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhIext">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_i">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -295,7 +295,7 @@
     <string>Epsilon</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhEl">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_el">
    <property name="geometry">
     <rect>
      <x>82</x>
@@ -395,7 +395,7 @@
     <string>Vth_Ca</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhVthks">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_vthks">
    <property name="geometry">
     <rect>
      <x>263</x>
@@ -417,7 +417,7 @@
     <double>-27.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhEca">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_eca">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -439,7 +439,7 @@
     <double>120.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhEpsilon">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_epsilon">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -461,7 +461,7 @@
     <double>4.900000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhVthk">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_vthk">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -483,7 +483,7 @@
     <double>2.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhVthca">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_vthca">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -531,7 +531,7 @@
     <string>Iext</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhGca">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gca">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -550,7 +550,7 @@
     <double>4.400000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhC">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Cm">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -572,7 +572,7 @@
     <double>1.200000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhKk">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kk">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -591,7 +591,7 @@
     <double>0.200000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhKks">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kks">
    <property name="geometry">
     <rect>
      <x>263</x>
@@ -613,7 +613,7 @@
     <double>0.800000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhDelta">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_delta">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -635,7 +635,7 @@
     <double>0.052000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleGhKca">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kca">
    <property name="geometry">
     <rect>
      <x>87</x>
@@ -810,9 +810,9 @@
     <string>Accept</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBoxIntegration">
+  <widget class="QComboBox" name="comboBoxIntegrationMethod">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
