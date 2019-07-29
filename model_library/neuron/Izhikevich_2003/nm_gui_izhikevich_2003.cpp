@@ -2,63 +2,59 @@
 #include "ui_nm_gui_izhikevich_2003.h"
 
 NM_GUI_Izhikevich_2003::NM_GUI_Izhikevich_2003(clamp_args * args, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::NM_GUI_Izhikevich_2003)
+	QDialog(parent),
+	ui(new Ui::NM_GUI_Izhikevich_2003)
 {
-    this->settings = new QSettings("RTHybrid", "NM_Izhikevich_2003");
-
-    this->args = args;
-    ui->setupUi(this);
-
-    loadSettings();
+	this->settings = new QSettings("RTHybrid", "NM_Izhikevich_2003");
+	this->args = args;
+	ui->setupUi(this);
+	loadSettings();
 }
 
-NM_GUI_Izhikevich_2003::~NM_GUI_Izhikevich_2003()
-{
-    delete ui;
+NM_GUI_Izhikevich_2003::~NM_GUI_Izhikevich_2003(){
+	 delete ui;
 }
 
-void NM_GUI_Izhikevich_2003::on_pushButton_accept_clicked()
-{
-    args->vars = (double*) malloc (sizeof(double) * 2);
-    args->params = (double *) malloc (sizeof(double) * 6);
+void NM_GUI_Izhikevich_2003::on_pushButton_accept_clicked() {
+	args->vars = (double*) malloc (sizeof(double) * 2);
+	args->params = (double *) malloc (sizeof(double) * 7);
 
-    args->vars[IZ_V] = ui->doubleIzVIni->value();
-    args->vars[IZ_U] = ui->doubleIzUIni->value();
+	args->vars[NM_IZHIKEVICH_2003_V] = ui->doubleSpinBox_v->value();
+	args->vars[NM_IZHIKEVICH_2003_U] = ui->doubleSpinBox_u->value();
 
-    args->params[IZ_A] = ui->doubleIzA->value();
-    args->params[IZ_B] = ui->doubleIzB->value();
-    args->params[IZ_C] = ui->doubleIzC->value();
-    args->params[IZ_D] = ui->doubleIzD->value();
-    args->params[IZ_I] = ui->doubleIzI->value();
-    args->params[IZ_DT] = ui->comboBoxIntegration->currentIndex();
+    args->params[NM_IZHIKEVICH_2003_I] = ui->doubleSpinBox_i->value();
+	args->params[NM_IZHIKEVICH_2003_A] = ui->doubleSpinBox_a->value();
+	args->params[NM_IZHIKEVICH_2003_B] = ui->doubleSpinBox_b->value();
+	args->params[NM_IZHIKEVICH_2003_D] = ui->doubleSpinBox_d->value();
+	args->params[NM_IZHIKEVICH_2003_C] = ui->doubleSpinBox_c->value();
+	args->params[NM_IZHIKEVICH_2003_DT] = ui->comboBoxIntegrationMethod->currentIndex();
 
-    saveSettings();
-
-    this->close();
+	saveSettings();
+	this->close();
 }
-
 
 void NM_GUI_Izhikevich_2003::saveSettings() {
-    settings->setValue("VIni", ui->doubleIzVIni->value());
-    settings->setValue("UIni", ui->doubleIzUIni->value());
-    settings->setValue("A", ui->doubleIzA->value());
-    settings->setValue("B", ui->doubleIzB->value());
-    settings->setValue("C", ui->doubleIzC->value());
-    settings->setValue("D", ui->doubleIzD->value());
-    settings->setValue("I", ui->doubleIzI->value());
-    settings->setValue("DT", ui->comboBoxIntegration->currentIndex());
+	settings->setValue("NM_IZHIKEVICH_2003_V", ui->doubleSpinBox_v->value());
+	settings->setValue("NM_IZHIKEVICH_2003_U", ui->doubleSpinBox_u->value());
+
+    settings->setValue("NM_IZHIKEVICH_2003_I", ui->doubleSpinBox_i->value());
+	settings->setValue("NM_IZHIKEVICH_2003_A", ui->doubleSpinBox_a->value());
+	settings->setValue("NM_IZHIKEVICH_2003_B", ui->doubleSpinBox_b->value());
+	settings->setValue("NM_IZHIKEVICH_2003_D", ui->doubleSpinBox_d->value());
+	settings->setValue("NM_IZHIKEVICH_2003_C", ui->doubleSpinBox_c->value());
+	settings->setValue("NM_IZHIKEVICH_2003_DT", ui->comboBoxIntegrationMethod->currentIndex());
 }
 
 void NM_GUI_Izhikevich_2003::loadSettings() {
-    if (settings->value("DT", -1).toInt() == -1) return; //No settings saved yet
+	if (settings->value("NM_IZHIKEVICH_2003_DT", -1).toInt() == -1) return; //No settings saved yet
 
-    ui->doubleIzVIni->setValue(settings->value("VIni").toDouble());
-    ui->doubleIzUIni->setValue(settings->value("UIni").toDouble());
-    ui->doubleIzA->setValue(settings->value("A").toDouble());
-    ui->doubleIzB->setValue(settings->value("B").toDouble());
-    ui->doubleIzC->setValue(settings->value("C").toDouble());
-    ui->doubleIzD->setValue(settings->value("D").toDouble());
-    ui->doubleIzI->setValue(settings->value("I").toDouble());
-    ui->comboBoxIntegration->setCurrentIndex(settings->value("DT").toInt());
+	ui->doubleSpinBox_v->setValue(settings->value("NM_IZHIKEVICH_2003_V").toDouble());
+	ui->doubleSpinBox_u->setValue(settings->value("NM_IZHIKEVICH_2003_U").toDouble());
+
+    ui->doubleSpinBox_i->setValue(settings->value("NM_IZHIKEVICH_2003_I").toDouble());
+	ui->doubleSpinBox_a->setValue(settings->value("NM_IZHIKEVICH_2003_A").toDouble());
+	ui->doubleSpinBox_b->setValue(settings->value("NM_IZHIKEVICH_2003_B").toDouble());
+	ui->doubleSpinBox_d->setValue(settings->value("NM_IZHIKEVICH_2003_D").toDouble());
+	ui->doubleSpinBox_c->setValue(settings->value("NM_IZHIKEVICH_2003_C").toDouble());
+	ui->comboBoxIntegrationMethod->setCurrentIndex(settings->value("NM_IZHIKEVICH_2003_DT").toInt());
 }

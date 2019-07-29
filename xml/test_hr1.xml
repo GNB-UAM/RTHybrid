@@ -10,6 +10,12 @@
 			<r val="0.0021"/>
 			<s val="4.0"/>
 			<i val="3.0"/>
+			<xr val="-1.6"/>
+
+			<a val="1"/>
+			<b val="3"/>
+			<c val="1"/>
+			<d val="5"/>
 
 			<method val="3"/>
 		</params>

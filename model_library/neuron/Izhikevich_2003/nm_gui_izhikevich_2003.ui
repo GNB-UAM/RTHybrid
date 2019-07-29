@@ -133,7 +133,7 @@
     <string>U</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzA">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_a">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -155,7 +155,7 @@
     <double>0.020000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzB">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_b">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -177,7 +177,7 @@
     <double>0.200000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzC">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_c">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -199,7 +199,7 @@
     <double>-50.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzD">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_d">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -221,7 +221,7 @@
     <double>2.000000000000000</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzVIni">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_v">
    <property name="geometry">
     <rect>
      <x>270</x>
@@ -243,7 +243,7 @@
     <double>30.240300000000001</double>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzUIni">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_u">
    <property name="geometry">
     <rect>
      <x>270</x>
@@ -265,9 +265,9 @@
     <double>-5.544590000000000</double>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBoxIntegration">
+  <widget class="QComboBox" name="comboBoxIntegrationMethod">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -314,7 +314,7 @@
     <string>Accept</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleIzI">
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_i">
    <property name="geometry">
     <rect>
      <x>50</x>

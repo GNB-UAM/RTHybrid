@@ -188,8 +188,8 @@ double nm_komendantov_kononenko_1996_set_pts_burst (double pts_live, neuron_mode
 		case EULER:
 		{
 			length = 8.000000;
-			double dts[] = {0.000010, 0.000020, 0.000030, 0.000040, 0.000500, 0.000600, 0.000700, 0.000900};
-			double pts[] = {490286.000000, 251225.666667, 172740.600000, 131698.714286, 117196.666667, 18725.962264, 6668.409396, 3685.418519};
+			double dts[] = {0.000010, 0.000020, 0.000030, 0.000040, 0.000050, 0.000060, 0.000070, 0.000080};
+			double pts[] = {490286.000000, 251225.666667, 172740.600000, 131698.714286, 106465.0, 89462.818181, 77211.916666, 68601.14285714286};
 
 			select_dt_neuron_model(dts, pts, length, pts_live, &(nm->params[NM_KOMENDANTOV_KONONENKO_1996_DT]), &(nm->pts_burst));
 			break;
