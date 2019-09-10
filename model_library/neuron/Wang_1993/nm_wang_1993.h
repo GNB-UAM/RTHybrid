@@ -43,11 +43,11 @@ extern "C" {
 #define WANG_H1_KS 4
 #define WANG_H2_KS 5
 
-void wang_1993 (neuron_model nm, double syn);
+void nm_wang_1993 (neuron_model nm, double syn);
 
-double wang_set_pts_burst (double pts_live, neuron_model * nm);
+double nm_wang_1993_set_pts_burst (double pts_live, neuron_model * nm);
 
-void wang_init (neuron_model * nm, double * vars, double * params);
+void nm_wang_1993_init (neuron_model * nm, double * vars, double * params);
 
 ///@}
 

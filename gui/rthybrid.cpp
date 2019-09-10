@@ -14,6 +14,7 @@
 #include "model_library/neuron/Ghigliazza_Holmes_2004/nm_gui_ghigliazza_holmes_2004.h"
 #include "model_library/neuron/Wang_1993/nm_gui_wang_1993.h"
 #include "model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.h"
+#include "model_library/neuron/Nowotny_et_al_2008/nm_gui_nowotny_et_al_2008.h"
 
 #include "model_library/synapse/Electrical/sm_gui_electrical.h"
 #include "model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.h"
@@ -383,6 +384,15 @@ std::string RTHybrid::neuron_models_switch(int index) {
         res = "resources/neuron/komendantov_kononenko_1996.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Komendantov_Kononenko_1996 * nm = new NM_GUI_Komendantov_Kononenko_1996(&(this->args));
+        nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
+        nm->show();
+        break;
+    }
+    case NM_NOWOTNY_ET_AL_2008:
+    {
+        res = "resources/neuron/komendantov_kononenko_1996.png";
+        free_pointers(2, &(this->args.vars), &(this->args.params));
+        NM_GUI_Nowotny_et_al_2008 * nm = new NM_GUI_Nowotny_et_al_2008(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);
         nm->show();
         break;

@@ -125,7 +125,10 @@ SOURCES += \
     model_library/synapse/Greenberg_Manor_2005/sm_xml_greenberg_manor_2005.c \
     model_library/neuron/Komendantov_Kononenko_1996/nm_komendantov_kononenko_1996.c \
     model_library/neuron/Komendantov_Kononenko_1996/nm_xml_komendantov_kononenko_1996.c \
-    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.cpp
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.cpp \
+    model_library/neuron/Nowotny_et_al_2008/nm_nowotny_et_al_2008.c \
+    model_library/neuron/Nowotny_et_al_2008/nm_xml_nowotny_et_al_2008.c \
+    model_library/neuron/Nowotny_et_al_2008/nm_gui_nowotny_et_al_2008.cpp
 
 HEADERS += \
     common/includes/file_selector_functions.h \
@@ -182,7 +185,10 @@ HEADERS += \
     model_library/neuron/neuron_models_aux_functions.h \
     model_library/neuron/Komendantov_Kononenko_1996/nm_komendantov_kononenko_1996.h \
     model_library/neuron/Komendantov_Kononenko_1996/nm_xml_komendantov_kononenko_1996.h \
-    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.h
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.h \
+    model_library/neuron/Nowotny_et_al_2008/nm_nowotny_et_al_2008.h \
+    model_library/neuron/Nowotny_et_al_2008/nm_xml_nowotny_et_al_2008.h \
+    model_library/neuron/Nowotny_et_al_2008/nm_gui_nowotny_et_al_2008.h
 
 FORMS += \
     gui/rthybrid.ui \
@@ -195,4 +201,5 @@ FORMS += \
     model_library/synapse/Golowasch_et_al_1999/sm_gui_golowasch_et_al_1999.ui \
     model_library/synapse/Destexhe_et_al_1994/sm_gui_destexhe_et_al_1994.ui \
     model_library/synapse/Greenberg_Manor_2005/sm_gui_greenberg_manor_2005.ui \
-    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.ui
+    model_library/neuron/Komendantov_Kononenko_1996/nm_gui_komendantov_kononenko_1996.ui \
+    model_library/neuron/Nowotny_et_al_2008/nm_gui_nowotny_et_al_2008.ui
