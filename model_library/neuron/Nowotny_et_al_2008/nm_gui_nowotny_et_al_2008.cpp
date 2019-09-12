@@ -19,7 +19,7 @@ void NM_GUI_Nowotny_et_al_2008::on_pushButton_accept_clicked() {
     args->vars = (double*) malloc (sizeof(double) * 16);
     args->params = (double *) malloc (sizeof(double) * 75);
 
-    /*args->vars[NM_NOWOTNY_ET_AL_2008_MNA] = ui->doubleSpinBox_mna->value();
+    args->vars[NM_NOWOTNY_ET_AL_2008_MNA] = ui->doubleSpinBox_mna->value();
     args->vars[NM_NOWOTNY_ET_AL_2008_HNA] = ui->doubleSpinBox_hna->value();
     args->vars[NM_NOWOTNY_ET_AL_2008_MKD] = ui->doubleSpinBox_mkd->value();
     args->vars[NM_NOWOTNY_ET_AL_2008_MM] = ui->doubleSpinBox_mm->value();
@@ -107,17 +107,16 @@ void NM_GUI_Nowotny_et_al_2008::on_pushButton_accept_clicked() {
     args->params[NM_NOWOTNY_ET_AL_2008_GLS] = ui->doubleSpinBox_gls->value();
     args->params[NM_NOWOTNY_ET_AL_2008_I] = ui->doubleSpinBox_i->value();
     args->params[NM_NOWOTNY_ET_AL_2008_IOFFSET] = ui->doubleSpinBox_ioffset->value();
-    args->params[NM_NOWOTNY_ET_AL_2008_SYN] = ui->doubleSpinBox_syn->value();
     args->params[NM_NOWOTNY_ET_AL_2008_ISCALE] = ui->doubleSpinBox_iscale->value();
     args->params[NM_NOWOTNY_ET_AL_2008_CMS] = ui->doubleSpinBox_Cms->value();
-    args->params[NM_NOWOTNY_ET_AL_2008_DT] = ui->comboBoxIntegrationMethod->currentIndex();*/
+    args->params[NM_NOWOTNY_ET_AL_2008_DT] = ui->comboBoxIntegrationMethod->currentIndex();
 
     saveSettings();
     this->close();
 }
 
 void NM_GUI_Nowotny_et_al_2008::saveSettings() {
-    /*settings->setValue("NM_NOWOTNY_ET_AL_2008_MNA", ui->doubleSpinBox_mna->value());
+    settings->setValue("NM_NOWOTNY_ET_AL_2008_MNA", ui->doubleSpinBox_mna->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_HNA", ui->doubleSpinBox_hna->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_MKD", ui->doubleSpinBox_mkd->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_MM", ui->doubleSpinBox_mm->value());
@@ -205,14 +204,13 @@ void NM_GUI_Nowotny_et_al_2008::saveSettings() {
     settings->setValue("NM_NOWOTNY_ET_AL_2008_GLS", ui->doubleSpinBox_gls->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_I", ui->doubleSpinBox_i->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_IOFFSET", ui->doubleSpinBox_ioffset->value());
-    settings->setValue("NM_NOWOTNY_ET_AL_2008_SYN", ui->doubleSpinBox_syn->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_ISCALE", ui->doubleSpinBox_iscale->value());
     settings->setValue("NM_NOWOTNY_ET_AL_2008_CMS", ui->doubleSpinBox_Cms->value());
-    settings->setValue("NM_NOWOTNY_ET_AL_2008_DT", ui->comboBoxIntegrationMethod->currentIndex());*/
+    settings->setValue("NM_NOWOTNY_ET_AL_2008_DT", ui->comboBoxIntegrationMethod->currentIndex());
 }
 
 void NM_GUI_Nowotny_et_al_2008::loadSettings() {
-    /*if (settings->value("NM_NOWOTNY_ET_AL_2008_DT", -1).toInt() == -1) return; //No settings saved yet
+    if (settings->value("NM_NOWOTNY_ET_AL_2008_DT", -1).toInt() == -1) return; //No settings saved yet
 
     ui->doubleSpinBox_mna->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_MNA").toDouble());
     ui->doubleSpinBox_hna->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_HNA").toDouble());
@@ -302,8 +300,7 @@ void NM_GUI_Nowotny_et_al_2008::loadSettings() {
     ui->doubleSpinBox_gls->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_GLS").toDouble());
     ui->doubleSpinBox_i->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_I").toDouble());
     ui->doubleSpinBox_ioffset->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_IOFFSET").toDouble());
-    ui->doubleSpinBox_syn->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_SYN").toDouble());
     ui->doubleSpinBox_iscale->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_ISCALE").toDouble());
     ui->doubleSpinBox_Cms->setValue(settings->value("NM_NOWOTNY_ET_AL_2008_CMS").toDouble());
-    ui->comboBoxIntegrationMethod->setCurrentIndex(settings->value("NM_NOWOTNY_ET_AL_2008_DT").toInt());*/
+    ui->comboBoxIntegrationMethod->setCurrentIndex(settings->value("NM_NOWOTNY_ET_AL_2008_DT").toInt());
 }

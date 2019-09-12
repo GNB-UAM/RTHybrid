@@ -390,7 +390,7 @@ std::string RTHybrid::neuron_models_switch(int index) {
     }
     case NM_NOWOTNY_ET_AL_2008:
     {
-        res = "resources/neuron/komendantov_kononenko_1996.png";
+        res = "resources/neuron/nowotny_et_al_2008.png";
         free_pointers(2, &(this->args.vars), &(this->args.params));
         NM_GUI_Nowotny_et_al_2008 * nm = new NM_GUI_Nowotny_et_al_2008(&(this->args));
         nm->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint);

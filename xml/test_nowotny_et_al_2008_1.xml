@@ -2,64 +2,62 @@
 
 	<neuron type="7">
 	    <vars>
-	        <V val="-56.0"/>
-			<Vaxon val="-56.0"/>
-			<mna val="0.0"/>
-			<hna val="0.2"/>
-			<mcat val="0.0"/>
-			<hcat val="1.0"/>
+	        <V val="-65.675307"/>
+			<Vaxon val="-70.600978"/>
+			<mna val="0.004480"/>
+			<hna val="0.999018"/>
+			<mcat val="0.000299"/>
+			<hcat val="0.497247"/>
 			<mcas val="0.0"/>
 			<mkca val="0.0"/>
-			<hkca val="1.0"/>
-			<mkd val="0.0"/>
-			<ma val="0.0"/>
-			<ha1 val="1.0"/>
-			<ha2 val="1.0"/>
-			<mh val="0.0"/>
-			<ca val="0.04"/>
-			<mm val="0.01"/>
+			<hkca val="0.891752"/>
+			<mkd val="0.014577"/>
+			<ma val="0.113476"/>
+			<ha1 val="0.614612"/>
+			<ha2 val="0.133255"/>
+			<mh val="0.156078"/>
+			<Ca val="0.04"/>
+			<mm val="0.017216"/>
 	    </vars>
 	    
 	    <params>
 	    	<i val="-6"/>
 			<ioffset val="-2"/>
+			<iscale val="0.01222505828"/>
+
+			<Cma val="0.1148312178"/>
+			<Cms val="0.0543909161"/>
+			<AreaAxon val="1"/>
+			<AreaSoma val="0.9"/>
+			<gvv val="0.004017089073"/>
 
 			<gna val="7.15"/>
 			<Vna val="50"/>
-			<gcat val="0.1247796343"/>
-			<gcas val="0.07142141077"/>
-			<gkca val="1.663612026"/>
-			<Vkca val="-72"/>
-			<Vkd val="-72"/>
-			<Va val="-72"/>
-			<gkd val="1.43"/>
-			<ga val="0.8008791415"/>
-			<gh val="0.0126874385"/>
-			<Vh val="-20"/>
-			<gla val="0.001004288227"/>
-			<Vl val="-50"/>
-			<Cma val="0.1148312178"/>
+
 			<cica val="0.05049639866"/>
-			<kca val="0.01729930764"/>
-			<gvv val="0.004017089073"/>
-			<Cms val="0.0543909161"/>
-			<gls val="0.0006901584324"/>
 			<RTF val="11.4866"/>
-			<AreaAxon val="1"/>
-			<AreaSoma val="0.9"/>
-			<kmcat val="0.045"/>
-			<khcat val="0.02"/>
-			<kmcas val="0.0608644"/>
-			<Vmcat val="15"/>
-			<Vhcat val="-40"/>
-			<Vmcas val="29.1336"/>
-			<Smcat val="-9.8"/>
-			<Shcat val="3.2"/>
-			<Smcas val="-4.43083"/>
 			<Pca val="0.00155982"/>
 			<Caout val="15123.5"/>
+			<Ca0 val="0.02"/>
+			<kca val="0.01729930764"/>
+
+			<gcat val="0.1247796343"/>
+			<kmcat val="0.045"/>
+			<khcat val="0.02"/>
+			<Vmcat val="15"/>
+			<Vhcat val="-40"/>
+			<Smcat val="-9.8"/>
+			<Shcat val="3.2"/>
 			<Vkhcat val="-15"/>
 			<Skhcat val="-10"/>
+
+			<gcas val="0.07142141077"/>
+			<kmcas val="0.0608644"/>
+			<Vmcas val="29.1336"/>
+			<Smcas val="-4.43083"/>
+
+			<gkca val="1.663612026"/>
+			<Vkca val="-72"/>
 			<kmkca val="0.6"/>
 			<khkca val="0.035"/>
 			<Vmkca1 val="0"/>
@@ -70,7 +68,12 @@
 			<cmkca val="2.5"/>
 			<chkca1 val="0.7"/>
 			<chkca2 val="0.6"/>
-			<Ca0 val="0.02"/>
+
+			<Vkd val="-72"/>
+			<gkd val="1.43"/>
+
+			<Va val="-72"/>
+			<ga val="0.8008791415"/>
 			<kma val="0.14"/>
 			<kha1 val="0.05"/>
 			<kha2 val="0.0036"/>
@@ -82,12 +85,19 @@
 			<Sha val="6"/>
 			<Skha2 val="-12"/>
 			<Saa val="-15"/>
+
+			<gh val="0.0126874385"/>
+			<Vh val="-20"/>
 			<kmh val="0.00033"/>
 			<Vmh val="-70"/>
 			<Vkmh val="-110"/>
 			<Smh val="8"/>
 			<Skmh val="-21.6"/>
-			<iscale val="0.01222505828"/>
+
+			<gls val="0.0006901584324"/>
+			<gla val="0.001004288227"/>
+			<Vl val="-50"/>
+			
 			<Vm val="-80"/>
 			<gm val="0.2613041227"/>
 			<kmm val="0.0001386796618"/>
@@ -101,7 +111,7 @@
 	</neuron>
 
 	<synapse_ltom type="2">
-		<g_fast val="0.00"/>
+		<g_fast val="0.0001"/>
 		<vth_fast val="50.0"/>
 		<s_fast val="5.0"/>
 		
@@ -117,7 +127,7 @@
 		<vth_fast val="0.0"/>
 		<s_fast val="0.0"/>
 
-		<g_slow val="0.0"/>
+		<g_slow val="0.0001"/>
 		<vth_slow val="15.0"/>
 		<s_slow val="1.0"/>
 		<k1_slow val="1.0"/>
