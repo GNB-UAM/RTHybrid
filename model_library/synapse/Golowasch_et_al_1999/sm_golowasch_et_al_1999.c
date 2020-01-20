@@ -28,8 +28,8 @@ void sm_golowasch_et_al_1999_set_online_params (synapse_model * sm, double scale
 
     sm->scale = scale;
     sm->offset = offset;
-    aux_gl_params->min = min;
-    aux_gl_params->max = max;
+    sm->min = min;
+    sm->max = max;
 
     if (int_params.method != NULL) {
         aux_gl_params->dt = int_params.dt;
@@ -130,17 +130,16 @@ double sm_golowasch_et_al_1999_slow (double v_post, double v_pre, double g, syn_
  */
 
 void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * sm, double * ret) {
-    double min, max;
     syn_gl_params * aux_gl_params = sm->type_params;
 
-    min = aux_gl_params->min;
-    max = aux_gl_params->max;
+    aux_gl_params->min = sm->min;
+    aux_gl_params->max = sm->max;
     *ret = 0.0;
 
     if (sm->calibrate == SYN_CALIB_PRE) {
         v_pre = v_pre * sm->scale + sm->offset;
-        aux_gl_params->min = aux_gl_params->min * sm->scale + sm->offset;
-        aux_gl_params->max = aux_gl_params->max * sm->scale + sm->offset;
+        aux_gl_params->min = sm->min * sm->scale + sm->offset;
+        aux_gl_params->max = sm->max * sm->scale + sm->offset;
     } else if (sm->calibrate == SYN_CALIB_POST) {
         v_post = (v_post - sm->offset) / sm->scale;
     }
@@ -152,9 +151,6 @@ void sm_golowasch_et_al_1999 (double v_post, double v_pre, synapse_model * sm, d
     if (sm->g[GL_G_SLOW] != 0.0) {
         *ret += sm_golowasch_et_al_1999_slow(v_post, v_pre, sm->g[GL_G_SLOW], aux_gl_params);
     }
-
-    aux_gl_params->min = min;
-    aux_gl_params->max = max;
 
     return;
 }
