@@ -1,7 +1,7 @@
 #include "../includes/device_functions.h"
 #include <comedilib.h>
 
-#define READ_FROM_FILE 1
+#define READ_FROM_FILE 0
 
 struct _Daq_session{
 	comedi_t * device;
@@ -28,7 +28,7 @@ int daq_open_device (void ** device) {
 
 	if (READ_FROM_FILE == 1) {
         //f = fopen("data/2018y_10m_8d/18h_33m_12s_data.txt", "r");
-        f = fopen("16h44m42s-06-Feb-2018_robot.txt", "r");
+        f = fopen("data/19h_18m_46s_1.txt", "r");
 		char buf[999];
 		fgets(buf, sizeof(char) * 200, f);
 	}
@@ -162,7 +162,7 @@ int read_single_data_comedi (Daq_session * session, comedi_range * range_info, l
 		elemento = strtok(buf, " ");
 		//printf("%p %p\n", elemento, buf);
 		int i;
-        for (i=1; i<=2; i++){
+        for (i=1; i<=8; i++){
 			elemento = strtok(NULL, " ");
 			//printf("%p\n", elemento);
 			fflush(NULL);
