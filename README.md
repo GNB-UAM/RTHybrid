@@ -9,13 +9,9 @@ RTHybrid is a real-time neuron and synapse model library designed to build elect
 
 ## Please, if you use RTHybrid cite the following papers:
 
-Rodrigo Amaducci, Manuel Reyes-Sanchez, Irene Elices, Francisco B 
-Rodriguez, Pablo Varona (2019). RTHybrid: A Standardized and Open-Source Real-Time Software Model Library for Experimental Neuroscience. Front. Neuroinform. 13:11. doi: https://doi.org/10.3389/fninf.2019.00011
+Amaducci, R., Reyes-Sanchez, M., Elices, I., Rodriguez, F.B., & Varona, P. (2019). RTHybrid: a standardized and open-source real-time software model library for experimental neuroscience. Frontiers in Neuroinformatics, 13, 11. https://doi.org/10.3389/fninf.2019.00011
 
-Manuel Reyes-Sanchez, Rodrigo Amaducci, Irene Elices, Francisco B. 
-Rodriguez, Pablo Varona (2018). Automatic adaptation of model neurons and 
-connections to build hybrid circuits with living networks. bioRxiv 
-419622; doi: https://doi.org/10.1101/419622
+Reyes-Sanchez, M., Amaducci, R., Elices, I., Rodriguez, F. B., & Varona, P. (2020). Automatic adaptation of model neurons and connections to build hybrid circuits with living networks. Neuroinformatics. https://doi.org/10.1007/s12021-019-09440-z
 
 ## Install
 Detailed installation and usage instructions can be found in RTHybrid User Manual, at the docs/ directory:
