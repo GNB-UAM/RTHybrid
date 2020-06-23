@@ -1,0 +1,3450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NM_GUI_Nowotny_et_al_2008</class>
+ <widget class="QWidget" name="NM_GUI_Nowotny_et_al_2008">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1003</width>
+    <height>664</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Nowotny et al (2008) neuron model</string>
+  </property>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_i">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>34</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-6.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>44</x>
+     <y>38</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>I</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>70</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IOffset</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ioffset">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>66</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-2.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>31</x>
+     <y>100</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IScale</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_iscale">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>96</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.012225000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>14</x>
+     <y>154</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cm Soma</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Cms">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>151</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.054390000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>16</x>
+     <y>185</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cm Axon</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Cma">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>181</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.114831000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>213</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Area Soma</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_AreaSoma">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>211</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.900000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>275</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gvv</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gvv">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>271</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.004017000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>242</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Area Axon</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_AreaAxon">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>241</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>1.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>332</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gna</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gna">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>328</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>7.150000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>362</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vna</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vna">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>358</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>50.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gkd">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>418</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>1.430000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkd">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>448</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-72.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>452</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkd</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>422</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gkd</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>238</x>
+     <y>97</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>127</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Caout</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Pca">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>93</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.001560000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Caout">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>123</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-99999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>99999.990000000005239</double>
+   </property>
+   <property name="value">
+    <double>15123.500000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_15">
+   <property name="geometry">
+    <rect>
+     <x>238</x>
+     <y>67</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RTF</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_16">
+   <property name="geometry">
+    <rect>
+     <x>238</x>
+     <y>157</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ca0</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_RTF">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>63</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>11.486599999999999</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Ca0">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>153</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.020000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>238</x>
+     <y>37</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>cica</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_cica">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>33</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.050496000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_18">
+   <property name="geometry">
+    <rect>
+     <x>234</x>
+     <y>302</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>khcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>332</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmcat</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_khcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>298</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.020000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>328</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>15.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>272</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kmcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>234</x>
+     <y>362</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vhcat</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kmcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>268</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.045000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vhcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>358</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-40.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>237</x>
+     <y>242</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gcat</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>238</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.124780000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>233</x>
+     <y>482</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Skhcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>233</x>
+     <y>422</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Shcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>392</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>452</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkhcat</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Shcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>418</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>3.200000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>388</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-9.800000000000001</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkhcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>448</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-15.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Skhcat">
+   <property name="geometry">
+    <rect>
+     <x>286</x>
+     <y>478</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-10.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>566</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kmcas</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>596</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmcas</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smcas">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>622</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-4.430830000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kmcas">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>562</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.060864000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_29">
+   <property name="geometry">
+    <rect>
+     <x>236</x>
+     <y>536</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gcas</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gcas">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>532</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.071421000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmcas">
+   <property name="geometry">
+    <rect>
+     <x>285</x>
+     <y>592</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>29.133600000000001</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_30">
+   <property name="geometry">
+    <rect>
+     <x>232</x>
+     <y>626</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smcas</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_31">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>DC current</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_32">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Membrane potential</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_33">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_Na</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_34">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>400</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_Kd</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_35">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_Ca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_36">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>220</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_CaT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_37">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>512</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_CaS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_38">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>216</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smkca1</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmkca1">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>152</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smkca2">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>242</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-5.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_39">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>156</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmkca1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_40">
+   <property name="geometry">
+    <rect>
+     <x>429</x>
+     <y>96</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kmkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_41">
+   <property name="geometry">
+    <rect>
+     <x>432</x>
+     <y>36</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_42">
+   <property name="geometry">
+    <rect>
+     <x>432</x>
+     <y>66</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_43">
+   <property name="geometry">
+    <rect>
+     <x>442</x>
+     <y>276</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>f</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_khkca">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>122</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.035000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_44">
+   <property name="geometry">
+    <rect>
+     <x>429</x>
+     <y>126</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>khkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_45">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>246</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smkca2</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkca">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>62</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-72.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kmkca">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>92</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.600000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gkca">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>32</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>1.663612000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_f">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>272</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.600000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_46">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>186</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmkca2</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smkca1">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>212</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-23.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_47">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>10</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_KCa</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmkca2">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>182</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-16.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kca">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>182</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.017299000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_48">
+   <property name="geometry">
+    <rect>
+     <x>238</x>
+     <y>186</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kca</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_chkca2">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>362</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.600000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_49">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>306</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>cmkca</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_cmkca">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>302</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>2.500000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_chkca1">
+   <property name="geometry">
+    <rect>
+     <x>486</x>
+     <y>332</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.700000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_50">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>366</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>chkca2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_51">
+   <property name="geometry">
+    <rect>
+     <x>422</x>
+     <y>336</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>chkca1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_52">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>186</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vma</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kha2">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>152</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.003600000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kma">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>92</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.140000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_53">
+   <property name="geometry">
+    <rect>
+     <x>637</x>
+     <y>36</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ga</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkha2">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>242</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-40.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Va">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>62</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-72.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_54">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>156</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kha2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_55">
+   <property name="geometry">
+    <rect>
+     <x>636</x>
+     <y>66</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Va</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vma">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>182</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-12.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ga">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>32</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.800879000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Sma">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>302</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-26.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Sha">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>332</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>6.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_56">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>216</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vha</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_57">
+   <property name="geometry">
+    <rect>
+     <x>628</x>
+     <y>246</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkha2</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Skha2">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>362</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-12.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_58">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>96</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kma</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_59">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>126</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kha1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_60">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>276</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vaa</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kha1">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>122</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.050000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_61">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>336</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sha</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_62">
+   <property name="geometry">
+    <rect>
+     <x>628</x>
+     <y>366</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Skha2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_63">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>10</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_A</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vaa">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>272</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>7.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vha">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>212</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-62.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_64">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>306</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sma</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Saa">
+   <property name="geometry">
+    <rect>
+     <x>687</x>
+     <y>391</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-15.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_65">
+   <property name="geometry">
+    <rect>
+     <x>632</x>
+     <y>395</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Saa</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vl">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>571</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-50.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_66">
+   <property name="geometry">
+    <rect>
+     <x>43</x>
+     <y>575</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vl</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_67">
+   <property name="geometry">
+    <rect>
+     <x>23</x>
+     <y>515</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gl Soma</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_68">
+   <property name="geometry">
+    <rect>
+     <x>27</x>
+     <y>545</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gl Axon</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gla">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>541</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.001004000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_69">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>489</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_Leak</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gls">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>511</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.000690000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Skmh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>628</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-21.600000000000001</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_70">
+   <property name="geometry">
+    <rect>
+     <x>432</x>
+     <y>452</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gh</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_71">
+   <property name="geometry">
+    <rect>
+     <x>427</x>
+     <y>512</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kmh</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>448</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.012687000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_72">
+   <property name="geometry">
+    <rect>
+     <x>424</x>
+     <y>572</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkmh</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>538</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-70.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_73">
+   <property name="geometry">
+    <rect>
+     <x>432</x>
+     <y>482</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vh</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_74">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>426</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_h</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_75">
+   <property name="geometry">
+    <rect>
+     <x>427</x>
+     <y>602</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smh</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>478</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-20.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>598</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>8.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kmh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>508</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.000330000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_76">
+   <property name="geometry">
+    <rect>
+     <x>425</x>
+     <y>632</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Skmh</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkmh">
+   <property name="geometry">
+    <rect>
+     <x>484</x>
+     <y>568</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-110.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_77">
+   <property name="geometry">
+    <rect>
+     <x>427</x>
+     <y>542</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmh</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Skmm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>627</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-13.256747000000001</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_78">
+   <property name="geometry">
+    <rect>
+     <x>634</x>
+     <y>451</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>gm</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_79">
+   <property name="geometry">
+    <rect>
+     <x>631</x>
+     <y>511</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>kmm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_gm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>447</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.261304000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_80">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>571</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Smm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vmm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>537</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-26.991622000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_81">
+   <property name="geometry">
+    <rect>
+     <x>634</x>
+     <y>481</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vm</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_82">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>425</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>I_M</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_83">
+   <property name="geometry">
+    <rect>
+     <x>627</x>
+     <y>601</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vkmm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>477</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-80.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vkmm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>597</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-60.578757000000003</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_kmm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>507</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.000139000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_84">
+   <property name="geometry">
+    <rect>
+     <x>628</x>
+     <y>631</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Skmm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Smm">
+   <property name="geometry">
+    <rect>
+     <x>688</x>
+     <y>567</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-5.957442000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_85">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>541</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vmm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_V">
+   <property name="geometry">
+    <rect>
+     <x>886</x>
+     <y>31</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-65.675307000000004</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_86">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>35</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>V</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Vaxon">
+   <property name="geometry">
+    <rect>
+     <x>886</x>
+     <y>62</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>-70.600977999999998</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_87">
+   <property name="geometry">
+    <rect>
+     <x>838</x>
+     <y>66</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Vaxon</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_hna">
+   <property name="geometry">
+    <rect>
+     <x>885</x>
+     <y>123</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.999018000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mna">
+   <property name="geometry">
+    <rect>
+     <x>885</x>
+     <y>92</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.004480000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_88">
+   <property name="geometry">
+    <rect>
+     <x>842</x>
+     <y>96</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mna</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_89">
+   <property name="geometry">
+    <rect>
+     <x>845</x>
+     <y>127</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>hna</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_hcat">
+   <property name="geometry">
+    <rect>
+     <x>885</x>
+     <y>183</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.497247000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mcat">
+   <property name="geometry">
+    <rect>
+     <x>885</x>
+     <y>152</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.000299000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mkca">
+   <property name="geometry">
+    <rect>
+     <x>884</x>
+     <y>244</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mcas">
+   <property name="geometry">
+    <rect>
+     <x>884</x>
+     <y>213</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_90">
+   <property name="geometry">
+    <rect>
+     <x>838</x>
+     <y>248</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_91">
+   <property name="geometry">
+    <rect>
+     <x>841</x>
+     <y>156</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_92">
+   <property name="geometry">
+    <rect>
+     <x>843</x>
+     <y>187</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>hcat</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_93">
+   <property name="geometry">
+    <rect>
+     <x>839</x>
+     <y>217</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mcas</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mkd">
+   <property name="geometry">
+    <rect>
+     <x>883</x>
+     <y>303</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.014577000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_hkca">
+   <property name="geometry">
+    <rect>
+     <x>883</x>
+     <y>272</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.891752000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_Ca">
+   <property name="geometry">
+    <rect>
+     <x>881</x>
+     <y>454</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.040000000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ha1">
+   <property name="geometry">
+    <rect>
+     <x>882</x>
+     <y>364</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.614612000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mm">
+   <property name="geometry">
+    <rect>
+     <x>881</x>
+     <y>485</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.017216000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_94">
+   <property name="geometry">
+    <rect>
+     <x>841</x>
+     <y>489</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mm</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ma">
+   <property name="geometry">
+    <rect>
+     <x>882</x>
+     <y>333</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.113476000000000</double>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_ha2">
+   <property name="geometry">
+    <rect>
+     <x>882</x>
+     <y>393</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.133255000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_95">
+   <property name="geometry">
+    <rect>
+     <x>843</x>
+     <y>368</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ha1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_96">
+   <property name="geometry">
+    <rect>
+     <x>843</x>
+     <y>397</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ha2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_97">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>276</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>hkca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_98">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>307</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mkd</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_99">
+   <property name="geometry">
+    <rect>
+     <x>846</x>
+     <y>458</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ca</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_100">
+   <property name="geometry">
+    <rect>
+     <x>845</x>
+     <y>428</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>mh</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_101">
+   <property name="geometry">
+    <rect>
+     <x>844</x>
+     <y>337</y>
+     <width>61</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ma</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="doubleSpinBox_mh">
+   <property name="geometry">
+    <rect>
+     <x>882</x>
+     <y>424</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="decimals">
+    <number>6</number>
+   </property>
+   <property name="minimum">
+    <double>-9999.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>9999.989999999999782</double>
+   </property>
+   <property name="value">
+    <double>0.156078000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_102">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>12</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>DejaVu Sans Mono</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Initial variables</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_IntegrationMethod">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>538</y>
+     <width>181</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Integration method</string>
+   </property>
+   <widget class="QComboBox" name="comboBoxIntegrationMethod">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>161</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>Euler</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Heun</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Runge-Kutta 4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Runge-Kutta (6)5</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_accept">
+   <property name="geometry">
+    <rect>
+     <x>860</x>
+     <y>618</y>
+     <width>82</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Accept</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

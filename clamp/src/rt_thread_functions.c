@@ -330,7 +330,7 @@ void * rt_thread(void * arg) {
     if (s_points == 0) s_points = 1;
 
     msg.id = args->events_file_id;
-    sprintf(msg.data, "\n%s\nModel=%d\nSynapse=%d\nFiring rate=%.3f\npts/burst=%.3f\n",
+    sprintf(msg.data, "\n%s\nNeuron=%d\nSynapse=%d\nFiring rate=%.3f\npts/burst=%.3f\n",
                         args->filename, args->nm.type, args->sm_live_to_model.type, external_firing_rate, args->nm.pts_burst);
     send_to_queue(args->msqid, RT_QUEUE, NO_BLOCK_QUEUE, &msg);
 
@@ -439,6 +439,7 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
     //int end_loop = FALSE;
 
     fix_drift_args fx_args;
+    double drift_aux_range;
 
     double c_model = 0.0, c_external = 0.0;
     double c_external_scaled = 0.0, v_model_scaled = 0.0;   /* Scaled to the other side range */
@@ -529,12 +530,14 @@ void experiment_loop (struct Loop_params * lp, int s_points) {
             if (args->n_in_chan > 0) input_values[0] = (input_values[0] * 1000.0) / args->input_factor;
 
 
-            /* Recalculate the minimum and maximum thresholds and fix drift */
-            if (args->check_drift == TRUE) {
-                if (min_window > input_values[0]) min_window = input_values[0];
-                if (max_window < input_values[0]) max_window = input_values[0];
+            /* Recalculate the minimum and maximum thresholds and fix drift (only when there is synapse to the model)*/
+            if (args->check_drift == TRUE && args->sm_live_to_model.type != SM_EMPTY) {
+                // The second condition is to avoid artifacts
+                drift_aux_range = args->sm_live_to_model.max - args->sm_live_to_model.min;
+                if ((min_window > input_values[0]) && (input_values[0] > (args->sm_live_to_model.min - drift_aux_range))) min_window = input_values[0];
+                if ((max_window < input_values[0]) && (input_values[0] < (args->sm_live_to_model.max + drift_aux_range))) max_window = input_values[0];
 
-                if (drift_counter >= (drift_n_burst * external_pts_per_burst)) {
+                if (drift_counter >= (drift_n_burst * external_pts_per_burst) && max_window != -999999 && min_window != 999999) {
                     drift_counter = 0;
 
                     fx_args.scale_virtual_to_real = &scale_virtual_to_real;

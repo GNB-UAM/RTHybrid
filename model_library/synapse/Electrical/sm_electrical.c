@@ -26,6 +26,8 @@
 void sm_electrical_set_online_params (synapse_model * sm, double scale, double offset, double min, double max, double dt) {
     sm->scale = scale;
     sm->offset = offset;
+    sm->min = min;
+    sm->max = max;
 
     return;
 }

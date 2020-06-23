@@ -14,6 +14,7 @@
 #include "neuron/Ghigliazza_Holmes_2004/nm_xml_ghigliazza_holmes_2004.h"
 #include "neuron/Wang_1993/nm_xml_wang_1993.h"
 #include "neuron/Komendantov_Kononenko_1996/nm_xml_komendantov_kononenko_1996.h"
+#include "neuron/Nowotny_et_al_2008/nm_xml_nowotny_et_al_2008.h"
 
 // Synapse
 #include "synapse/Electrical/sm_xml_electrical.h"
